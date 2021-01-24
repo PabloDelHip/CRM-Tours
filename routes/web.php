@@ -14,3 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', ['as' => '/', 'uses' => 'HomeController@index']);
+
+///Login///
+Route::get('login', ['as' => 'login', 'uses' => 'LoginController@index']);
