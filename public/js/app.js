@@ -1994,6 +1994,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: "login-component",
   mounted: function mounted() {
     console.log('Component mounted.');
   }
