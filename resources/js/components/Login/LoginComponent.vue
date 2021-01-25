@@ -40,7 +40,9 @@
             </form>
         
             <p class="mb-1 text-center mt-2">
-                <a href="forgot-password.html">Recuperar contraseña</a>
+                <router-link :to="{ name:'restablecer_contrasena'}">
+                    Recuperar contraseña
+                </router-link>
             </p>
             </div>
             <!-- /.card-body -->
