@@ -19,8 +19,9 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+import loginComponent from './components/Login/LoginComponent.vue'; 
+
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('login-component', require('./components/Login/LoginComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -30,4 +31,5 @@ Vue.component('login-component', require('./components/Login/LoginComponent.vue'
 
 const app = new Vue({
     el: '#app',
+    components: {loginComponent}
 });

@@ -51,7 +51,9 @@
 </template>
 
 <script>
+    
     export default {
+        name:"login-component",
         mounted() {
             console.log('Component mounted.')
         }
