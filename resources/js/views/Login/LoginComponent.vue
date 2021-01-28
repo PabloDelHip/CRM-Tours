@@ -40,7 +40,7 @@
             </form>
         
             <p class="mb-1 text-center mt-2">
-                <router-link :to="{ name:'restablecer_contrasena'}">
+                <router-link :to="{ name:'RestablecerContrasena'}">
                     Recuperar contraseña
                 </router-link>
             </p>

@@ -26,7 +26,7 @@
             </form>
 
             <p class="mt-3 mb-1">
-                <router-link :to="{ name:'login'}">
+                <router-link :to="{ name:'Login'}">
                     Login
                 </router-link>
             </p>
