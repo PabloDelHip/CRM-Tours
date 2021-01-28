@@ -3,22 +3,39 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+// Login section
+import Login from './views/Login/LoginComponent.vue'
+import RestablecerContrasena from './views/Login/RestorePassword.vue'
+import NuevaContrasena from './views/Login/NewPassword.vue'
+
+//Dashboard section
+import Overview from './views/Dashboard/OverviewComponent.vue'
+
 export default new Router({
     routes: [
         {
+            path: '*',
+            redirect: { name: 'Overview' }
+        },
+        {
             path: '/login',
-            name: 'login',
-            component: require('./components/Login/LoginComponent.vue').default
+            name: 'Login',
+            component: Login
         },
         {
             path: '/restablecer-contrasena',
-            name: 'restablecer_contrasena',
-            component: require('./components/Login/RestorePassword.vue').default
+            name: 'RestablecerContrasena',
+            component: RestablecerContrasena
         },
         {
             path: '/nueva-contrasena',
-            name: 'nueva_contrasena',
-            component: require('./components/Login/NewPassword.vue').default
+            name: 'NuevaContrasena',
+            component: NuevaContrasena
+        },
+        {
+            path: '/overview',
+            name: 'Overview',
+            component: Overview
         },
         
     ],

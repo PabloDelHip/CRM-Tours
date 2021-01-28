@@ -19,3 +19,6 @@ Route::get('/', ['as' => '/', 'uses' => 'HomeController@index']);
 Route::get('login', ['as' => 'login', 'uses' => 'LoginController@index']);
 Route::get('/restablecer-contrasena', ['as' => '/restablecer-contrasena', 'uses' => 'LoginController@index']);
 Route::get('/nueva-contrasena', ['as' => '/nueva-contrasena', 'uses' => 'LoginController@index']);
+
+//Dashboard
+Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);
