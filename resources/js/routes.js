@@ -18,17 +18,17 @@ export default new Router({
             redirect: { name: 'Overview' }
         },
         {
-            path: '/login',
+            path: '/user/login',
             name: 'Login',
             component: Login
         },
         {
-            path: '/restablecer-contrasena',
+            path: '/user/restablecer-contrasena',
             name: 'RestablecerContrasena',
             component: RestablecerContrasena
         },
         {
-            path: '/nueva-contrasena',
+            path: '/user/nueva-contrasena',
             name: 'NuevaContrasena',
             component: NuevaContrasena
         },

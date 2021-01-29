@@ -6849,7 +6849,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0;\n}\n\n\n", ""]);
+exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\r\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\r\n  opacity: 0;\n}\r\n\r\n\r\n", ""]);
 
 // exports
 
@@ -6868,7 +6868,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0;\n}\n\n\n", ""]);
+exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\r\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\r\n  opacity: 0;\n}\r\n\r\n\r\n", ""]);
 
 // exports
 
@@ -58193,15 +58193,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
       name: 'Overview'
     }
   }, {
-    path: '/login',
+    path: '/user/login',
     name: 'Login',
     component: _views_Login_LoginComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   }, {
-    path: '/restablecer-contrasena',
+    path: '/user/restablecer-contrasena',
     name: 'RestablecerContrasena',
     component: _views_Login_RestorePassword_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   }, {
-    path: '/nueva-contrasena',
+    path: '/user/nueva-contrasena',
     name: 'NuevaContrasena',
     component: _views_Login_NewPassword_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   }, {
@@ -58683,8 +58683,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/pablo/CRM-Tours/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/pablo/CRM-Tours/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\CRM-Tours\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\CRM-Tours\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
