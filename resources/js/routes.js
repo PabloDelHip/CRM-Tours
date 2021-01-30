@@ -7,6 +7,7 @@ Vue.use(Router)
 import Login from './views/Login/LoginComponent.vue'
 import RestablecerContrasena from './views/Login/RestorePassword.vue'
 import NuevaContrasena from './views/Login/NewPassword.vue'
+import CreateUser from './views/User/CreateUserComponent.vue'
 
 //Dashboard section
 import Overview from './views/Dashboard/OverviewComponent.vue'
@@ -31,6 +32,11 @@ export default new Router({
             path: '/user/nueva-contrasena',
             name: 'NuevaContrasena',
             component: NuevaContrasena
+        },
+        {
+            path: '/user/create',
+            name: 'CreateUser',
+            component: CreateUser
         },
         {
             path: '/overview',
