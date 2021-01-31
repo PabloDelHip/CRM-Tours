@@ -7,6 +7,8 @@
 require('./bootstrap');
 import router from './routes';
 import store from './store/index';
+import './interceptors';
+import  './middlewares';
 
 window.Vue = require('vue');
 
