@@ -22,4 +22,3 @@ Route::get('/nueva-contrasena', ['as' => '/nueva-contrasena', 'uses' => 'LoginCo
 
 //Dashboard
 Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);
-

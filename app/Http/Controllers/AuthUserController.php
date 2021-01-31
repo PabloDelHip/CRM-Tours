@@ -39,8 +39,6 @@ class AuthUserController extends Controller
         $token = JWTAuth::attempt($credentials);
         
         if($token) {
-            User::where('email', $credentials['email'])
-            ->update(['remember_token' => $token]);
             return response()->json([
                 'succes' => true,
                 'token' => $token,
@@ -104,10 +102,5 @@ class AuthUserController extends Controller
                 'message' => 'Error al invalidar el Token'
             ], 422);
         }
-    }
-
-    public function me() {
-        $token = JWTAuth::getToken();
-        return $token;
     }
 }
