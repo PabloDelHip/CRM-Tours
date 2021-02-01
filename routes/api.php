@@ -25,12 +25,14 @@ Route::group([
 
 ], function () {
 
-    Route::post('/auth/logout', 'AuthController@logout');
+    //AUTH
+    Route::post('/auth/logout', 'AuthUserController@logout');
     Route::post('/auth/refresh', 'AuthUserController@refreshToken');
     Route::get('/auth/logout', 'AuthUserController@logout');
-    Route::get('/auth/expire', 'AuthController@expireToken');
-    Route::post('me', 'AuthController@me');
+    Route::get('/me', 'AuthUserController@me');
 
+    //USER
+    Route::get('/users/current', 'UsersController@getCurrentUser');
 });
 
 Route::group([
