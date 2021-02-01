@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', ['as' => '/', 'uses' => 'HomeController@index']);
 
 ///Login///
-Route::get('/user/login', ['as' => 'login', 'uses' => 'LoginController@index']);
-Route::get('/user/restablecer-contrasena', ['as' => '/restablecer-contrasena', 'uses' => 'LoginController@index']);
-Route::get('/user/nueva-contrasena', ['as' => '/nueva-contrasena', 'uses' => 'LoginController@index']);
+Route::get('/login', ['as' => 'login', 'uses' => 'LoginController@index']);
+Route::get('/restablecer-contrasena', ['as' => '/restablecer-contrasena', 'uses' => 'LoginController@index']);
+Route::get('/nueva-contrasena', ['as' => '/nueva-contrasena', 'uses' => 'LoginController@index']);
 
 Route::get('/user/create', ['as' => '/create', 'uses' => 'HomeController@index']);
 
