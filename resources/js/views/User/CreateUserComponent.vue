@@ -8,6 +8,11 @@
                     </div>
                     <form method="POST" action="/user/saveUser">
                         <div class="card-body">
+                            <transition name="fade">
+                                <div class="alert alert-danger alert-dismissible text-center" v-if="showError">
+                                    {{ message }}
+                                </div>
+                            </transition>
                             <div class="form-group">
                                 <label for="name">Nombre</label>
                                 <input type="text" class="form-control" v-model="name"  placeholder="John Doe">
@@ -61,11 +66,11 @@
         },
         methods: {
             saveUser() {
-                if (this.email != this.emailConfirm){
-                    this.message = "mal contraseña";
+                this.showError = false;
+                if (!this.isValidForm()){
                     this.showError = true;
+                    return;
                 }
-
 
                 let formData = {
                     name: this.name,
@@ -73,9 +78,23 @@
                     password: this.password,
                 }
 
+            },
+            isValidForm() {
+                if (this.name == '') {
+                    this.message = "Nombre no puede estar vacio.";
+                    return false;
+                }
+                if (this.email != this.emailConfirm) {
+                    this.message = "Correos no coinciden";
+                    return false;
+                }
+                if (this.name == '') {
+                    this.message = "Contraseña no puede estar vacio.";
+                    return false;
+                }
 
-                console.log(formData)
-            }
+                return true;
+            },
         },
     }
 
