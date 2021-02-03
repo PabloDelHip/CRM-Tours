@@ -10917,3 +10917,7 @@ body {
   opacity: 0;
 }
 
+.ver {
+  display: block !important;
+}
+

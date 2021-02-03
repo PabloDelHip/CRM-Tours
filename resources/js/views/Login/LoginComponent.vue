@@ -12,36 +12,46 @@
                     {{ message }}
                 </div>
             </transition>
-            <form action="../../index3.html" method="post">
-                <div class="input-group mb-3">
-                <input v-model="email" type="email" class="form-control" placeholder="Email">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                    <span class="fas fa-envelope"></span>
+            <ValidationObserver v-slot="{validate }" ref="observer">
+                <form method="post">
+                    <ValidationProvider name="email" rules="required|email" v-slot="{ errors }">
+                    <div class="input-group mb-3">
+                        <input v-model="email" type="email" class="form-control" placeholder="Email">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                        <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
                     </div>
-                </div>
-                </div>
-                <div class="input-group mb-3">
-                <input type="password" v-model="password" class="form-control" placeholder="Password">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                    <span class="fas fa-lock"></span>
+                    </ValidationProvider>
+                    <!-- VALIDATOR EMAIL-->
+
+                    <ValidationProvider name="password" rules="required" v-slot="{ errors }">
+                        <div class="input-group mb-3">
+                            <input type="password" v-model="password" class="form-control" placeholder="Password">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                            <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
+                        </div>
+                    </ValidationProvider>
+                    <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                        <input type="checkbox" id="remember">
+                        </div>
                     </div>
-                </div>
-                </div>
-                <div class="row">
-                <div class="col-8">
-                    <div class="icheck-primary">
-                    <input type="checkbox" id="remember">
+                    <!-- /.col -->
+                    <div class="col-12">
+                        <button type="button" @click="validate().then(login)" class="btn btn-primary btn-block">Ingresar</button>
                     </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-12">
-                    <button type="button" @click="login()" class="btn btn-primary btn-block">Ingresar</button>
-                </div>
-                <!-- /.col -->
-                </div>
-            </form>
+                    <!-- /.col -->
+                    </div>
+                </form>
+            </ValidationObserver>
         
             <p class="mb-1 text-center mt-2">
                 <router-link :to="{ name:'RestablecerContrasena'}">
@@ -57,6 +67,7 @@
 </template>
 
 <script>
+    import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full';
     
     import Auth from '../../providers/Auth';
 
@@ -64,6 +75,10 @@
 
     export default {
         name:"login-component",
+        components: {
+            ValidationObserver,
+            ValidationProvider
+        },
         data () {
             return {
                 email: null,
@@ -74,24 +89,30 @@
             }
         },
         methods: { 
-            login() {
-                let formData = {
+            async login() {
+                const isValid = await this.$refs.observer.validate();
+                if (!isValid) {
+                    alert("Verifique que el formulario fue llenado de forma correcta");  
+                }
+                else {
+                    let formData = {
                     email: this.email,
                     password: this.password
+                    }
+                    //let data_user = AuthResourse.login(formData)
+                    AuthResourse.login(formData).then((response) => {
+                        //localStorage.setItem('user', JSON.stringify(miObjeto));
+                        this.show_error = false
+                        localStorage.setItem('data_user', JSON.stringify(response.data))
+                        window.location.href = '/overview';
+                        //this.$router.push({name: 'Overview'})
+                    }).catch(err => {
+                        console.log(err)
+                        let error = err.response;
+                        this.message = this.statusCode(error.status)
+                        this.show_error = true
+                    })
                 }
-                //let data_user = AuthResourse.login(formData)
-                AuthResourse.login(formData).then((response) => {
-                    //localStorage.setItem('user', JSON.stringify(miObjeto));
-                    this.show_error = false
-                    localStorage.setItem('data_user', JSON.stringify(response.data))
-                    window.location.href = '/overview';
-                    //this.$router.push({name: 'Overview'})
-                }).catch(err => {
-                    console.log(err)
-                    let error = err.response;
-                    this.message = this.statusCode(error.status)
-                    this.show_error = true
-                })
             },
             statusCode(status) {
                 switch (status) {

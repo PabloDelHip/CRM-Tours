@@ -846,12 +846,11 @@
         methods: { 
             async logout() {
                 try {
-                  await AuthResourse.logout();
+                  this.user = await AuthResourse.logout();
                   localStorage.removeItem('data_user');
                   window.location.href = '/login';
                 } catch (error) {
                   console.log(error)
-                  alert('Error al cerrar sesion')
                 }
                 let formData = {
                     email: this.email,
