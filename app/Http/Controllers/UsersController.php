@@ -15,12 +15,16 @@ class UsersController extends Controller
 
     public function post(Request $request){
         $content = $request->all();
-        $content['password'] = Crypt::encryptString($content['password']);
+        $content['password'] = bcrypt($content['password']);
 
         $user = new User();
+        $user->name = $content['name'];
+        $user->password = $content['password'];
+        $user->email = $content['email'];
+        $user->token_password = '';
         // $user = fill($content);
-        // $content->save();
-        return $content;
+        $user->save();
+        return $user;
     }
 
     public function getCurrentUser() {
