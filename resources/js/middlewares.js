@@ -25,8 +25,7 @@ router.beforeEach(async (to, from, next) => {
     } else {
         if(to.path === '/login' && jwt === true) {
             window.location.href = '/overview';
-        }
-        else{
+        } else {
             next();
         }
     }
