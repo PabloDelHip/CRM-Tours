@@ -9,4 +9,7 @@ export default class User {
         return axios.get(`/api/v1/users/current`)
     }
 
+    post(formData) {
+        return axios.post(`/api/v1/users`, formData);
+    }
 }

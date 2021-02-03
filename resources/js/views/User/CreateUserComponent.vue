@@ -60,6 +60,7 @@
                 email: null,
                 emailConfirm: null,
                 password: null,
+                statusUser: 0,
                 message: null,
                 showError: null,
             }
@@ -76,8 +77,16 @@
                     name: this.name,
                     email: this.email,
                     password: this.password,
+                    status: this.statusUser,
                 }
 
+                UserResource.post(formData).then((response) => {
+                    console.log(response.data);
+                }).catch(err =>{
+                    console.log(err);
+                });
+
+                console.log(formData);
             },
             isValidForm() {
                 if (this.name == '') {
