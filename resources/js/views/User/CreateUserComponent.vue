@@ -31,9 +31,9 @@
                             </div>
                             <div class="form-group">
                                 <label>Estatus del usuario</label>
-                                <select class="custom-select">
-                                    <option>Inactivo</option>
-                                    <option selected>Activo</option>
+                                <select class="custom-select" v-model="statusUser">
+                                    <option value="0">Inactivo</option>
+                                    <option value="1" selected="selected">Activo</option>
                                 </select>
                             </div>
                         </div>
