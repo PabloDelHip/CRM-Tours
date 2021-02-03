@@ -89,7 +89,7 @@
                 console.log(formData);
             },
             isValidForm() {
-                if (this.name == '') {
+                if (this.name == null || this.name == '') {
                     this.message = "Nombre no puede estar vacio.";
                     return false;
                 }
