@@ -21,8 +21,7 @@ class UsersController extends Controller
         $user->name = $content['name'];
         $user->password = $content['password'];
         $user->email = $content['email'];
-        $user->token_password = '';
-        // $user = fill($content);
+        $user->status = $content['status'];
         $user->save();
         return $user;
     }
