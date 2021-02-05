@@ -42,4 +42,7 @@ Route::group([
 
 ], function () {
     Route::post('/auth/login', 'AuthUserController@login');
+    Route::post('/users/restore-password', 'UsersController@restorePassword');
+    Route::get('/users/get-token-password/{token?}', 'UsersController@getTokenPassword');
+    Route::put('/users/update-password/{token?}', 'UsersController@updatePassword');
 });

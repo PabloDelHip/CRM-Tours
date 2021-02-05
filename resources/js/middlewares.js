@@ -19,7 +19,9 @@ async function existToken() {
 
 router.beforeEach(async (to, from, next) => {
     let jwt = await existToken();
-    if ( jwt === false && to.path !== '/login' && to.path !== '/restablecer-contrasena' && to.path !== '/nueva-contrasena') {
+    let url = to.path.split('/')
+    url = '/'+url[1];
+    if ( jwt === false && to.path !== '/login' && to.path !== '/restablecer-contrasena' && url !== '/nueva-contrasena') {
         localStorage.removeItem('data_user');
         window.location.href = '/login';
     } else {

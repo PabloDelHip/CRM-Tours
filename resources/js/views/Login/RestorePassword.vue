@@ -6,24 +6,35 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-            <p class="login-box-msg">¿Olvidaste tu contraseña? Aquí puede recuperar fácilmente una nueva contraseña.</p>
-
-            <form action="recover-password.html" method="post">
-                <div class="input-group mb-3">
-                <input type="email" class="form-control" placeholder="Email">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                    <span class="fas fa-envelope"></span>
-                    </div>
-                </div>
-                </div>
-                <div class="row">
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary btn-block">Solicitar nueva contraseña</button>
-                </div>
-                <!-- /.col -->
-                </div>
-            </form>
+            
+            <div v-if="show_confirmation">
+                <p class="login-box-msg">Revise su correo electrónico para encontrar un enlace para restablecer su contraseña. Si no aparece en unos minutos, revise su carpeta de spam.</p>    
+            </div>
+            
+            <div v-else>
+                <p class="login-box-msg">¿Olvidaste tu contraseña? Aquí puede recuperar fácilmente una nueva contraseña.</p>
+                <ValidationObserver v-slot="{ invalid }" ref="observer">
+                    <form method="post">
+                        <ValidationProvider name="email" rules="required|email" v-slot="{ errors }">
+                            <div class="input-group mb-3">
+                                <input type="email" v-model="formData.email" class="form-control" placeholder="Email">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                    </div>
+                                </div>
+                                <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
+                            </div>
+                        </ValidationProvider>
+                        <div class="row">
+                        <div class="col-12">
+                            <button type="button" :disabled="invalid" @click="restorePassword()" class="btn btn-primary btn-block">Solicitar nueva contraseña</button>
+                        </div>
+                        <!-- /.col -->
+                        </div>
+                    </form>
+                </ValidationObserver>
+            </div>
 
             <p class="mt-3 mb-1">
                 <router-link :to="{ name:'Login'}">
@@ -38,9 +49,67 @@
 </template>
 
 <script>
+    import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full';
+
+    import User from '../../providers/User';
+
+    const UserResourse = new User();
     export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
+        data () {
+            return {
+                formData : {
+                    email: null,
+                },
+                message_error: '',
+                show_confirmation: false
+            }
+        },
+        components: {
+            ValidationObserver,
+            ValidationProvider
+        },
+        methods: { 
+            async restorePassword() {
+
+                try {
+                    await UserResourse.restorePassword(this.formData)
+                    this.show_confirmation = true;
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Bien',
+                        toast: true,
+                        position: 'top',
+                        timer: 3000,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                        text: 'Contraseña solicitada correctamente',
+                    })
+                } catch (err) {
+                    let error = err.response;
+                    this.message_error = this.statusCode(error.status)
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        toast: true,
+                        position: 'top',
+                        timer: 3000,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                        text: this.message_error,
+                    })
+                }  
+            },
+            statusCode(status) {
+                switch (status) {
+                    case 422:
+                        return 'El email ingresado no tiene cuenta'
+                        break;
+                    case 500:
+                        return 'Error al enviar email'
+                        break;
+                    
+                }
+            }
+        },
     }
 </script>
