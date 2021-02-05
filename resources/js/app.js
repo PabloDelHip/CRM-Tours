@@ -10,6 +10,12 @@ import store from './store/index';
 import './interceptors';
 import  './middlewares';
 
+import { localize,extend } from 'vee-validate';
+import es from 'vee-validate/dist/locale/es.json';
+
+// Install and Activate the Arabic locale.
+localize('es', es);
+
 window.Vue = require('vue');
 
 /**
