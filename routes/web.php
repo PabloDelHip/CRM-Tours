@@ -23,3 +23,6 @@ Route::get('/nueva-contrasena', ['as' => '/nueva-contrasena', 'uses' => 'LoginCo
 //Dashboard
 Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);
 
+//Users
+Route::get('/obtener-usuarios', ['as' => '/obtener-usuarios', 'uses' => 'HomeController@index']);
+

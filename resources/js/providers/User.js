@@ -1,4 +1,3 @@
-import axios from 'axios'
 export default class User {
 
     /**
@@ -8,5 +7,13 @@ export default class User {
     getCurrentUser () {
         return axios.get(`api/v1/users/current`)
     }
-
+    getUsers () {
+        return axios.get(`api/v1/users/get`)
+    }
+    deleteUsers (id) {
+        return axios.get(`api/v1/users/delete/${id}`)
+    }
+    showUsers () {
+        return axios.get(`api/v1/users/show`)
+    } 
 }

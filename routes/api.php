@@ -42,4 +42,6 @@ Route::group([
 
 ], function () {
     Route::post('/auth/login', 'AuthUserController@login');
+    Route::get('users/get', 'UsersController@getUsers');
+    Route::get('users/delete/{id}', 'UsersController@deleteUsers');
 });
