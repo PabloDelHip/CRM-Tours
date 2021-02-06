@@ -25,6 +25,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "datatables": "^1.10.18",
         "v-select2-component": "^0.4.3",
         "vue-sweetalert2": "^3.0.6",
         "vue-router": "^3.4.9",

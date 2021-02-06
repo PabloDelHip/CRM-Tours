@@ -25,3 +25,5 @@ Route::get('/user/create', ['as' => '/create', 'uses' => 'HomeController@index']
 //Dashboard
 Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);
 
+//Users
+Route::get('/obtener-usuarios', ['as' => '/obtener-usuarios', 'uses' => 'HomeController@index']);
