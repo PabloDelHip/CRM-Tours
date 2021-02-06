@@ -9,7 +9,8 @@ import router from './routes';
 import store from './store/index';
 import './interceptors';
 import  './middlewares';
-
+import Select2 from 'v-select2-component';
+import VueSweetalert2 from 'vue-sweetalert2';
 import { localize,extend } from 'vee-validate';
 import es from 'vee-validate/dist/locale/es.json';
 
@@ -17,6 +18,8 @@ import es from 'vee-validate/dist/locale/es.json';
 localize('es', es);
 
 window.Vue = require('vue');
+Vue.use(Select2);
+Vue.use(VueSweetalert2);
 
 /**
  * The following block of code may be used to automatically register your

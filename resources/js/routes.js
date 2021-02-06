@@ -28,9 +28,10 @@ export default new Router({
             component: RestablecerContrasena
         },
         {
-            path: '/nueva-contrasena',
+            path: '/nueva-contrasena/:token',
             name: 'NuevaContrasena',
-            component: NuevaContrasena
+            component: NuevaContrasena,
+            props: true
         },
         {
             path: '/user/create',

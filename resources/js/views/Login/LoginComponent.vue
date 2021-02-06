@@ -107,7 +107,6 @@
                         window.location.href = '/overview';
                         //this.$router.push({name: 'Overview'})
                     }).catch(err => {
-                        console.log(err)
                         let error = err.response;
                         this.message = this.statusCode(error.status)
                         this.show_error = true
