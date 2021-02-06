@@ -6,15 +6,15 @@ export default class Auth {
      * @return Promise
      */
     logout () {
-        return axios.get(`api/v1/auth/logout`)
+        return axios.get(`/api/v1/auth/logout`)
     }
 
     me () {
-        return axios.get(`api/v1/me`)
+        return axios.get(`/api/v1/me`)
     }
 
     login(formData) {
-        return axios.post(`api/v1/auth/login`, formData);
+        return axios.post(`/api/v1/auth/login`, formData);
     }
 
 }

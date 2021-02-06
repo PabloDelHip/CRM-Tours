@@ -33,4 +33,7 @@ export default class User {
         return axios.put(`/api/v1/users/update-password/${token}`, formData)
     }
 
+    post(formData) {
+        return axios.post(`/api/v1/users`, formData);
+    }
 }

@@ -11,24 +11,24 @@ let validate_jwt
 async function existToken() {
     await AuthResourse.me().then(() => {
         validate_jwt = true
-    }).catch( () => {
+    }).catch(() => {
         validate_jwt = false
     })
     return validate_jwt
 }
 
-router.beforeEach(async (to, from, next) => {
-    let jwt = await existToken();
+router.beforeEach(async(to, from, next) => {
+    let jwt = await existToken(); 
     let url = to.path.split('/')
     url = '/'+url[1];
     if ( jwt === false && to.path !== '/login' && to.path !== '/restablecer-contrasena' && url !== '/nueva-contrasena') {
+
         localStorage.removeItem('data_user');
         window.location.href = '/login';
     } else {
-        if(to.path === '/login' && jwt === true) {
+        if (to.path === '/login' && jwt === true) {
             window.location.href = '/overview';
-        }
-        else{
+        } else {
             next();
         }
     }

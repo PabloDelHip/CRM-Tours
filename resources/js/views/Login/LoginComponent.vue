@@ -117,10 +117,8 @@
                 switch (status) {
                     case 401:
                         return 'Usuario o contraseña incorrectos'
-                        break;
                     case 422:
                         return 'Favor de llenar todos los campos'
-                        break;
                 }
             }
         },
