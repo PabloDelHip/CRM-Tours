@@ -13,6 +13,11 @@ class UsersController extends Controller
 
     }
 
+    public function getByUserId($userId){
+        $user = User::find($userId);
+        return $user;
+    }
+
     public function post(Request $request){
         $content = $request->all();
         $content['password'] = bcrypt($content['password']);

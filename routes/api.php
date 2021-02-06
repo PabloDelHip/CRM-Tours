@@ -33,6 +33,7 @@ Route::group([
 
     //USER
     Route::get('/users/current', 'UsersController@getCurrentUser');
+    Route::post('/users', 'UsersController@post');
 });
 
 Route::group([
@@ -42,5 +43,5 @@ Route::group([
 
 ], function () {
     Route::post('/auth/login', 'AuthUserController@login');
-    Route::post('/users', 'UsersController@post');
+    Route::get('/users/getUserId/{userId}', 'UsersController@getByUserId');
 });

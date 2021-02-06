@@ -1,4 +1,4 @@
-import Vue    from 'vue'
+import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router)
@@ -7,14 +7,13 @@ Vue.use(Router)
 import Login from './views/Login/LoginComponent.vue'
 import RestablecerContrasena from './views/Login/RestorePassword.vue'
 import NuevaContrasena from './views/Login/NewPassword.vue'
-import CreateUser from './views/User/CreateUserComponent.vue'
+import UserComponent from './views/User/UserComponent.vue'
 
 //Dashboard section
 import Overview from './views/Dashboard/OverviewComponent.vue'
 
 export default new Router({
-    routes: [
-        {
+    routes: [{
             path: '*',
             redirect: { name: 'Overview' }
         },
@@ -36,14 +35,19 @@ export default new Router({
         {
             path: '/user/create',
             name: 'CreateUser',
-            component: CreateUser
+            component: UserComponent
+        },
+        {
+            path: '/user/edit',
+            name: 'EditUser',
+            component: UserComponent
         },
         {
             path: '/overview',
             name: 'Overview',
             component: Overview
         },
-        
+
     ],
     mode: "history"
 })
