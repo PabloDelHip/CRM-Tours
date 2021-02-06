@@ -33,6 +33,8 @@ Route::group([
 
     //USER
     Route::get('/users/current', 'UsersController@getCurrentUser');
+    Route::get('users/get', 'UsersController@getUsers');
+    Route::get('users/delete/{id}', 'UsersController@deleteUsers');
 });
 
 Route::group([
