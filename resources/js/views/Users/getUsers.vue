@@ -7,7 +7,7 @@
             <h3 class="card-title">Usuarios</h3>
           </div>
           <div class="card-header">
-            <button class="btn btn-warning" v-on:click="onClickNewUser()">Nuevo Usuario</button>
+            <button  class=" fas fa-user btn btn-warning" v-on:click="onClickNewUser()"> Nuevo Usuario</button>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -69,21 +69,23 @@ export default {
       try {
         this.users = await userResource.getUsers();
         this.users = this.users.data.data;
+        $("#example1").DataTable().destroy();
         this.tableusers();
       } catch (error) {
         alert("No se pudo obtener usuarios");
       }
     },
-    onClickDelete($id) {
+    async onClickDelete($id) {
       if (confirm("¿Esta seguro que desea eliminarlo?")) {
         try {
-          this.users = userResource.deleteUsers($id);
+          this.users = await userResource.deleteUsers($id);
           alert("El Usuario se ha eliminado correctamente");
+          this.obtenerUsuarios();
         } catch (error) {
           alert("No se pudo eliminar el usuario");
         }
       }
-      this.obtenerUsuarios();
+
     },
     onClickShow($id) {
       alert("ver usuario");
@@ -93,33 +95,31 @@ export default {
         alert("redirecciona a la ventana de nuevo usuario");
       }
     },
-    tableusers() {
-      $(document).ready(function () {
+    tableusers(){
+      this.$nextTick(() => {
         $("#example1").DataTable({
-          responsive: true,
-          lengthChange: false,
-          autoWidth: false,
-          buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
-          oLanguage: {"sSearch": "Busqueda",
-                      "oPaginate": { "sNext": "Siguiente", "sFirst": "Primero", "sLast": "Ultimo","sPrevious": "Anterior"},
-                      "sEmptyTable": "No hay Registros",
-                      "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
-                      "sInfoEmpty": "No entries to show"}
-        })
-        .buttons()
-        .container()
-        .appendTo("#example1_wrapper .col-md-6:eq(0)");
-      $("#example2").DataTable({
-        paging: true,
-        lengthChange: false,
-        searching: false,
-        ordering: true,
-        info: true,
-        autoWidth: false,
-        responsive: true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        "buttons": [
+          {"extend": "copyHtml5", "text": "<i class='fas fa-copy'></i> Copiar", "titleAttr": "Copiar", "ClassName": "btn btn-secundary"},
+          {"extend": "excelHtml5", "text": "<i class='fas fa-file-excel'></i> Excel", "titleAttr": "Exportar a Excel", "ClassName": "btn btn-success"},
+          {"extend": "pdfHtml5", "text": "<i class='fas fa-file-pdf'></i> PDF", "titleAttr": "Exportar a PDF", "ClassName": "btn btn-danger"},
+          {"extend": "csvHtml5", "text": "<i class='fas fa-file-csv'> CSV</i>", "titleAttr": "Exportar a CSV", "ClassName": "btn btn-info"},
+          {"extend": "print", "text": "<i class='fas fa-print'></i> Imprimir", "titleAttr": "Imprimir", "ClassName": "btn btn-secondary"},
+          {"extend": "colvis", "text": "Columnas Visibles", "titleAttr": "Columnas visibles", "ClassName": "btn btn-info"}
+          ],
+        oLanguage: {"sSearch": "Busqueda",
+          "oPaginate": { "sNext": "Siguiente", "sFirst": "Primero", "sLast": "Ultimo","sPrevious": "Anterior"},
+          "sEmptyTable": "No hay Registros",
+          "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+          "sInfoEmpty": "No hay entradas que mostrar"}
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       });
-      });
-    },
+    }
   },
 };
 </script>
