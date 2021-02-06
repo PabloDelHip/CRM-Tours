@@ -11,6 +11,9 @@ import NuevaContrasena from './views/Login/NewPassword.vue'
 //Dashboard section
 import Overview from './views/Dashboard/OverviewComponent.vue'
 
+//User section
+import UserProfile from './views/Users/profileView.vue'
+
 export default new Router({
     routes: [
         {
@@ -28,7 +31,7 @@ export default new Router({
             component: RestablecerContrasena
         },
         {
-            path: '/nueva-contrasena/:token',
+            path: '/nueva-contrasena/:token?',
             name: 'NuevaContrasena',
             component: NuevaContrasena,
             props: true
@@ -37,6 +40,11 @@ export default new Router({
             path: '/overview',
             name: 'Overview',
             component: Overview
+        },
+        {
+            path: '/perfil-usuario/:id?',
+            name: 'perfilUsuario',
+            component: UserProfile
         },
         
     ],

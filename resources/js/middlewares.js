@@ -25,7 +25,7 @@ router.beforeEach(async (to, from, next) => {
         localStorage.removeItem('data_user');
         window.location.href = '/login';
     } else {
-        if(to.path === '/login' && jwt === true) {
+        if( jwt === true && to.path === '/login' || to.path === '/restablecer-contrasena' || url === '/nueva-contrasena' ) {
             window.location.href = '/overview';
         }
         else{

@@ -16,14 +16,21 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ url('dist/css/adminlte.min.css') }}">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{{ url('/plugins/summernote/summernote-bs4.min.css') }}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ url('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ url('/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ url('/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
-  
+
     <div>
 		  @yield('contenido')
     </div>
     <!-- REQUIRED SCRIPTS -->
-
+    <!--Script-->
+    <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
     <!-- jQuery -->
     <script src="{{url('plugins/jquery/jquery.min.js')}}"></script>
       <!-- Bootstrap -->
@@ -37,6 +44,21 @@
     <script src="{{url('dist/js/demo.js')}}"></script>
       <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{url('dist/js/pages/dashboard3.js')}}"></script>
-    <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
+    
+    <!-- Summernote -->
+    <script src="{{ url('/plugins/summernote/summernote-bs4.min.js') }}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{url('/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{url('/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{url('/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{url('/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{url('/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{url('/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{url('/plugins/jszip/jszip.min.js')}}"></script>
+    <script src="{{url('/plugins/pdfmake/pdfmake.min.js')}}"></script>
+    <script src="{{url('/plugins/pdfmake/vfs_fonts.js')}}"></script>
+    <script src="{{url('/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+    <script src="{{url('/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+    <script src="{{url('/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 </body>
 </html>

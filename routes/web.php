@@ -23,3 +23,6 @@ Route::get('/nueva-contrasena/{token?}', ['as' => '/nueva-contrasena', 'uses' =>
 //Dashboard
 Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);
 
+//User
+Route::get('/perfil-usuario/{id?}', ['as' => 'perfilUsuario', 'uses' => 'HomeController@index']);
+
