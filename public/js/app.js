@@ -3715,7 +3715,16 @@ var UserResourse = new _providers_User__WEBPACK_IMPORTED_MODULE_2__["default"]()
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _providers_User__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../providers/User */ "./resources/js/providers/User.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _providers_User__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../providers/User */ "./resources/js/providers/User.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
 //
 //
 //
@@ -3766,9 +3775,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-var UserResource = new _providers_User__WEBPACK_IMPORTED_MODULE_0__["default"]();
+var UserResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]();
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "create-user-component",
+  props: {
+    id: {
+      // Revisar como convertirlo en número
+      required: false
+    }
+  },
   data: function data() {
     return {
       name: null,
@@ -3777,10 +3792,82 @@ var UserResource = new _providers_User__WEBPACK_IMPORTED_MODULE_0__["default"]()
       password: null,
       statusUser: 0,
       message: null,
-      showError: null
+      showError: null,
+      user: null,
+      newUser: false
     };
   },
+  created: function created() {
+    this.newUser = this.id == undefined;
+
+    if (!this.newUser) {
+      this.getUser();
+      return;
+    }
+
+    this.status = 1;
+  },
   methods: {
+    chechIdUser: function chechIdUser() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this.id == undefined || _this.user == null)) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
+
+              case 2:
+                return _context.abrupt("return", true);
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    getUser: function getUser() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return UserResource.getUser(_this2.id);
+
+              case 2:
+                _this2.user = _context2.sent.data;
+                _this2.name = _this2.user.name;
+                _this2.email = _this2.user.email;
+                _this2.emailConfirm = _this2.user.email;
+                _this2.statusUser = _this2.user.status;
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    getUserForm: function getUserForm() {
+      return {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        status: this.statusUser
+      };
+    },
     saveUser: function saveUser() {
       this.showError = false;
 
@@ -3789,19 +3876,22 @@ var UserResource = new _providers_User__WEBPACK_IMPORTED_MODULE_0__["default"]()
         return;
       }
 
-      var formData = {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        status: this.statusUser
-      };
-      UserResource.post(formData).then(function (response) {
-        console.log(response.data);
+      var formData = this.getUserForm();
+
+      if (this.newUser) {
+        this.saveNewUser(formData);
+      } else {
+        this.saveEditUser(formData);
+      }
+    },
+    saveNewUser: function saveNewUser(userForm) {
+      UserResource.post(userForm).then(function (response) {
+        window.location.href = '/users';
       })["catch"](function (err) {
         console.log(err);
       });
-      console.log(formData);
     },
+    saveEditUser: function saveEditUser(userForm) {},
     isValidForm: function isValidForm() {
       if (this.name == null || this.name == '') {
         this.message = "Nombre no puede estar vacio.";
@@ -3934,7 +4024,7 @@ var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
               case 3:
                 _this.users = _context.sent;
                 _this.users = _this.users.data.data;
-                $("#example1").DataTable().destroy();
+                $("#usersTable").DataTable().destroy();
 
                 _this.tableusers();
 
@@ -3995,7 +4085,7 @@ var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
     },
     tableusers: function tableusers() {
       this.$nextTick(function () {
-        $("#example1").DataTable({
+        $("#usersTable").DataTable({
           "lengthChange": false,
           "searching": true,
           "ordering": true,
@@ -4019,7 +4109,7 @@ var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
             "ClassName": "btn btn-danger"
           }, {
             "extend": "csvHtml5",
-            "text": "<i class='fas fa-file-csv'> CSV</i>",
+            "text": "<i class='fas fa-file-csv'></i> CSV",
             "titleAttr": "Exportar a CSV",
             "ClassName": "btn btn-info"
           }, {
@@ -4045,7 +4135,7 @@ var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
             "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
             "sInfoEmpty": "No hay entradas que mostrar"
           }
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        }).buttons().container().appendTo('#usersTable_wrapper .col-md-6:eq(0)');
       });
     }
   }
@@ -71307,7 +71397,7 @@ var staticRenderFns = [
             _c("div", { staticClass: "col-sm-6" }, [
               _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
                 _c("li", { staticClass: "breadcrumb-item" }, [
-                  _c("a", { attrs: { href: "#" } }, [_vm._v("Home")])
+                  _c("a", { attrs: { href: "/users" } }, [_vm._v("Usuarios")])
                 ]),
                 _vm._v(" "),
                 _c("li", { staticClass: "breadcrumb-item active" }, [
@@ -71903,11 +71993,9 @@ var staticRenderFns = [
           ]),
           _vm._v(" "),
           _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
-            _c(
-              "a",
-              { staticClass: "nav-link", attrs: { href: "index3.html" } },
-              [_vm._v("Home")]
-            )
+            _c("a", { staticClass: "nav-link", attrs: { href: "/users" } }, [
+              _vm._v("Usuarios")
+            ])
           ]),
           _vm._v(" "),
           _c("li", { staticClass: "nav-item d-none d-sm-inline-block" }, [
@@ -74518,7 +74606,19 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-6" }, [
         _c("div", { staticClass: "card card-primary" }, [
-          _vm._m(0),
+          _c("div", { staticClass: "card-header" }, [
+            _vm.newUser
+              ? _c("h3", { staticClass: "card-title" }, [
+                  _vm._v("Agregar nuevo usuario")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.newUser
+              ? _c("h3", { staticClass: "card-title" }, [
+                  _vm._v("Editar usuario")
+                ])
+              : _vm._e()
+          ]),
           _vm._v(" "),
           _c("form", { attrs: { method: "POST", action: "/user/saveUser" } }, [
             _c(
@@ -74587,6 +74687,7 @@ var render = function() {
                     staticClass: "form-control",
                     attrs: {
                       type: "email",
+                      disabled: !_vm.newUser,
                       placeholder: "ejemplo.fulanito@ejemplo.com"
                     },
                     domProps: { value: _vm.email },
@@ -74601,64 +74702,68 @@ var render = function() {
                   })
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "emailConfirm" } }, [
-                    _vm._v("Confirmar correo electrónico")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.emailConfirm,
-                        expression: "emailConfirm"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "email",
-                      placeholder: "ejemplo.fulanito@ejemplo.com"
-                    },
-                    domProps: { value: _vm.emailConfirm },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                this.user == null
+                  ? _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "emailConfirm" } }, [
+                        _vm._v("Confirmar correo electrónico")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.emailConfirm,
+                            expression: "emailConfirm"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "email",
+                          placeholder: "ejemplo.fulanito@ejemplo.com"
+                        },
+                        domProps: { value: _vm.emailConfirm },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.emailConfirm = $event.target.value
+                          }
                         }
-                        _vm.emailConfirm = $event.target.value
-                      }
-                    }
-                  })
-                ]),
+                      })
+                    ])
+                  : _vm._e(),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "password" } }, [
-                    _vm._v("Contraseña")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.password,
-                        expression: "password"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "password", placeholder: "Contraseña" },
-                    domProps: { value: _vm.password },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                this.user == null
+                  ? _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "password" } }, [
+                        _vm._v("Contraseña")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.password,
+                            expression: "password"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "password", placeholder: "Contraseña" },
+                        domProps: { value: _vm.password },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.password = $event.target.value
+                          }
                         }
-                        _vm.password = $event.target.value
-                      }
-                    }
-                  })
-                ]),
+                      })
+                    ])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", [_vm._v("Estatus del usuario")]),
@@ -74696,11 +74801,9 @@ var render = function() {
                         _vm._v("Inactivo")
                       ]),
                       _vm._v(" "),
-                      _c(
-                        "option",
-                        { attrs: { value: "1", selected: "selected" } },
-                        [_vm._v("Activo")]
-                      )
+                      _c("option", { attrs: { value: "1" } }, [
+                        _vm._v("Activo")
+                      ])
                     ]
                   )
                 ])
@@ -74729,16 +74832,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [_vm._v("Agregar nuevo usuario")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -74789,7 +74883,7 @@ var render = function() {
               "table",
               {
                 staticClass: "table table-bordered table-striped",
-                attrs: { id: "example1" }
+                attrs: { id: "usersTable" }
               },
               [
                 _vm._m(1),
@@ -91931,19 +92025,24 @@ var User = /*#__PURE__*/function () {
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/current");
     }
   }, {
+    key: "getUser",
+    value: function getUser(id) {
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/get/".concat(id));
+    }
+  }, {
     key: "getUsers",
     value: function getUsers() {
-      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/v1/users/get");
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/get");
     }
   }, {
     key: "deleteUsers",
     value: function deleteUsers(id) {
-      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/v1/users/delete/".concat(id));
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/delete/".concat(id));
     }
   }, {
     key: "showUsers",
     value: function showUsers() {
-      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/v1/users/show");
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/show");
     }
     /**
      * Function to Restore Password
@@ -91966,9 +92065,9 @@ var User = /*#__PURE__*/function () {
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/get-token-password/".concat($token));
     }
     /**
-    * Function to Update Password
-    * @return Promise
-    */
+     * Function to Update Password
+     * @return Promise
+     */
 
   }, {
     key: "updatePassword",
@@ -91978,7 +92077,7 @@ var User = /*#__PURE__*/function () {
   }, {
     key: "post",
     value: function post(formData) {
-      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/v1/users", formData);
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/v1/users/create", formData);
     }
   }]);
 
@@ -92049,7 +92148,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   }, {
     path: '/users/edit/:id',
     name: 'EditUser',
-    component: _views_Users_UserComponent_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
+    component: _views_Users_UserComponent_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
+    props: true
   }, {
     path: '/overview',
     name: 'Overview',
