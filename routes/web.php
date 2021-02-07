@@ -20,11 +20,10 @@ Route::get('/login', ['as' => 'login', 'uses' => 'LoginController@index']);
 Route::get('/restablecer-contrasena', ['as' => 'restablecer-contrasena', 'uses' => 'LoginController@index']);
 Route::get('/nueva-contrasena/{token?}', ['as' => '/nueva-contrasena', 'uses' => 'LoginController@index']);
 
-Route::get('/user/create', ['as' => '/user/create', 'uses' => 'HomeController@index']);
-Route::get('/user/edit', ['as' => '/user/edit', 'uses' => 'HomeController@index']);
+//Users
+Route::get('/users', ['as' => '/users', 'uses' => 'HomeController@index']);
+Route::get('/users/create', ['as' => '/users/create', 'uses' => 'HomeController@index']);
+Route::get('/users/edit/{id}', ['as' => '/users/edit', 'uses' => 'HomeController@index']);
 
 //Dashboard
 Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);
-
-//Users
-Route::get('/obtener-usuarios', ['as' => '/obtener-usuarios', 'uses' => 'HomeController@index']);

@@ -7,7 +7,10 @@
             <h3 class="card-title">Usuarios</h3>
           </div>
           <div class="card-header">
-            <button  class=" fas fa-user btn btn-warning" v-on:click="onClickNewUser()"> Nuevo Usuario</button>
+            <a class="btn btn-warning" @click="newUser()">
+              <i class="fas fa-user"></i> 
+              Nuevo Usuario
+            </a>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -28,12 +31,12 @@
                 <tr v-for="user in users" :key="user.id">
                   <td>{{user.name}}</td>
                   <td>{{user.email}}</td>
-                  <td v-if="user.active = 1">Activo</td>
-                  <td v-if="user.active = 0">Inactivo</td>
+                  <td v-if="user.status = 1">Activo</td>
+                  <td v-if="user.status = 0">Inactivo</td>
                   <td>{{user.created_at}}</td>
                   <td>{{user.updated_at}}</td>
-                  <td><button class="btn btn-primary" v-on:click="onClickShow(user.id)">Ver</button></td>
-                  <td><button class="btn btn-danger" v-on:click="onClickDelete(user.id)">Eliminar</button></td>
+                  <td><button class="btn btn-primary" @click="editUser(user.id)">Ver</button></td>
+                  <td><button class="btn btn-danger" @click="deleteUser(user.id)">Eliminar</button></td>
                 </tr>
               </tbody>
             </table>
@@ -65,6 +68,12 @@ export default {
     this.obtenerUsuarios();
   },
   methods: {
+    newUser(){
+      window.location.href = '/users/create';
+    },
+    editUser($id){
+      window.location.href = '/users/edit/'+ $id;
+    },
     async obtenerUsuarios() {
       try {
         this.users = await userResource.getUsers();
@@ -75,7 +84,7 @@ export default {
         alert("No se pudo obtener usuarios");
       }
     },
-    async onClickDelete($id) {
+    async deleteUser($id) {
       if (confirm("¿Esta seguro que desea eliminarlo?")) {
         try {
           this.users = await userResource.deleteUsers($id);
@@ -84,15 +93,6 @@ export default {
         } catch (error) {
           alert("No se pudo eliminar el usuario");
         }
-      }
-
-    },
-    onClickShow($id) {
-      alert("ver usuario");
-    },
-    onClickNewUser() {
-      if (confirm("¿Desea agregar un nuevo usuario?")) {
-        alert("redirecciona a la ventana de nuevo usuario");
       }
     },
     tableusers(){

@@ -14,11 +14,7 @@ use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
-    public function get(Request $request){
-
-    }
-
-    public function getByUserId($userId){
+    public function getByUserId(Request $request, $userId){
         $user = User::find($userId);
         return $user;
     }
@@ -74,7 +70,7 @@ class UsersController extends Controller
     public function getUsers()
     {
         try {
-            $users = User::where('active', 1)->orderBy('name', 'asc')->get();
+            $users = User::where('status', 1)->orderBy('name', 'asc')->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Usuarios obtenidos correctamente',
@@ -89,18 +85,12 @@ class UsersController extends Controller
         }
     }
 
-    /*     public function showUsers($id){
-            $users = User::find($id);
-            return view('usuarios', $users);
-    } */
-
     public function deleteUsers(Request $request, $id)
     {
         try {
             $users = User::find($id);
-            $users->active = 0;
+            $users->status = 0;
             $users->save();
-            //$users = User::table('users')->where('id', $request->id)->update(['active' => 0]);
             return response()->json([
                 'success' => true,
                 'message' => 'El Usuario se ha eliminado correctamente',
@@ -152,5 +142,4 @@ class UsersController extends Controller
             ], 500);
         }
     }
-
 }

@@ -7,13 +7,13 @@ Vue.use(Router)
 import Login from './views/Login/LoginComponent.vue'
 import RestablecerContrasena from './views/Login/RestorePassword.vue'
 import NuevaContrasena from './views/Login/NewPassword.vue'
-import UserComponent from './views/User/UserComponent.vue'
 
 //Dashboard section
 import Overview from './views/Dashboard/OverviewComponent.vue'
 
 //Users section
-import Users from './views/Users/getUsers.vue'
+import Users from './views/Users/Users.vue'
+import UserComponent from './views/Users/UserComponent.vue'
 
 export default new Router({
     routes: [{
@@ -47,7 +47,7 @@ export default new Router({
             component: UserComponent
         },
         {
-            path: '/users/edit',
+            path: '/users/edit/:id',
             name: 'EditUser',
             component: UserComponent
         },
