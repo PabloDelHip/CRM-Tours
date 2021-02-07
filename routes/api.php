@@ -33,8 +33,9 @@ Route::group([
 
     //USER
     Route::get('/users/current', 'UsersController@getCurrentUser');
-    Route::post('/users', 'UsersController@post');
-    Route::get('/users/get', 'UsersController@getUsers');
+    Route::get('/users/get/', 'UsersController@getUsers');
+    Route::get('/users/get/{userId}', 'UsersController@get');
+    Route::post('/users/create', 'UsersController@post');
     Route::get('/users/delete/{id}', 'UsersController@deleteUsers');
 });
 
@@ -45,7 +46,6 @@ Route::group([
 
 ], function () {
     Route::post('/auth/login', 'AuthUserController@login');
-    Route::get('/users/getUserId/{userId}', 'UsersController@getByUserId');
     Route::post('/users/restore-password', 'UsersController@restorePassword');
     Route::get('/users/get-token-password/{token?}', 'UsersController@getTokenPassword');
     Route::put('/users/update-password/{token?}', 'UsersController@updatePassword');

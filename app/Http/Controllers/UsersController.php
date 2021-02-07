@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
-    public function getByUserId(Request $request, $userId){
+    public function get(Request $request, $userId){
         $user = User::find($userId);
         return $user;
     }
@@ -70,7 +70,7 @@ class UsersController extends Controller
     public function getUsers()
     {
         try {
-            $users = User::where('status', 1)->orderBy('name', 'asc')->get();
+            $users = User::orderBy('name', 'asc')->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Usuarios obtenidos correctamente',

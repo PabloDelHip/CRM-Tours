@@ -49,7 +49,8 @@ export default new Router({
         {
             path: '/users/edit/:id',
             name: 'EditUser',
-            component: UserComponent
+            component: UserComponent,
+            props: true
         },
         {
             path: '/overview',

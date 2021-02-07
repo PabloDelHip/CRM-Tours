@@ -54,6 +54,12 @@
 
     export default{
         name: "create-user-component",
+        props: {
+            id: {
+                type: Number,
+                required: false,
+            },
+        },
         data () {
             return {
                 name: null,
@@ -65,7 +71,13 @@
                 showError: null,
             }
         },
+        mounted() {
+            this.printUser();
+        },
         methods: {
+            async printUser(){
+                console.log(this.id);
+            },
             saveUser() {
                 this.showError = false;
                 if (!this.isValidForm()){
