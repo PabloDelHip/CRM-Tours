@@ -12,6 +12,9 @@ import UserComponent from './views/User/UserComponent.vue'
 //Dashboard section
 import Overview from './views/Dashboard/OverviewComponent.vue'
 
+//Users section
+import Users from './views/Users/getUsers.vue'
+
 export default new Router({
     routes: [{
             path: '*',
@@ -34,12 +37,17 @@ export default new Router({
             props: true
         },
         {
-            path: '/user/create',
+            path: '/users',
+            name: 'getUsers',
+            component: Users
+        },
+        {
+            path: '/users/create',
             name: 'CreateUser',
             component: UserComponent
         },
         {
-            path: '/user/edit',
+            path: '/users/edit',
             name: 'EditUser',
             component: UserComponent
         },
@@ -48,7 +56,6 @@ export default new Router({
             name: 'Overview',
             component: Overview
         },
-
     ],
     mode: "history"
 })

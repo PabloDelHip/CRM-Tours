@@ -34,6 +34,8 @@ Route::group([
     //USER
     Route::get('/users/current', 'UsersController@getCurrentUser');
     Route::post('/users', 'UsersController@post');
+    Route::get('/users/get', 'UsersController@getUsers');
+    Route::get('/users/delete/{id}', 'UsersController@deleteUsers');
 });
 
 Route::group([
@@ -47,5 +49,4 @@ Route::group([
     Route::post('/users/restore-password', 'UsersController@restorePassword');
     Route::get('/users/get-token-password/{token?}', 'UsersController@getTokenPassword');
     Route::put('/users/update-password/{token?}', 'UsersController@updatePassword');
-    Route::post('/users', 'UsersController@post');
 });
