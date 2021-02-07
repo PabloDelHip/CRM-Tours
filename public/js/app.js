@@ -77210,12 +77210,12 @@ var Auth = /*#__PURE__*/function () {
 
   _createClass(Auth, [{
     key: "logout",
-    value:
+
     /**
      * Function to logout
      * @return Promise
      */
-    function logout() {
+    value: function logout() {
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/auth/logout");
     }
   }, {
@@ -77264,12 +77264,12 @@ var User = /*#__PURE__*/function () {
 
   _createClass(User, [{
     key: "getCurrentUser",
-    value:
+
     /**
      * Function to Get current user
      * @return Promise
      */
-    function getCurrentUser() {
+    value: function getCurrentUser() {
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/current");
     }
     /**
