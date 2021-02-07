@@ -76987,15 +76987,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************************************************************!*\
   !*** ./resources/js/components/Users/Profile/infoUserComponent.vue ***!
   \*********************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _infoUserComponent_vue_vue_type_template_id_6d809408___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./infoUserComponent.vue?vue&type=template&id=6d809408& */ "./resources/js/components/Users/Profile/infoUserComponent.vue?vue&type=template&id=6d809408&");
 /* harmony import */ var _infoUserComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./infoUserComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/Users/Profile/infoUserComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _infoUserComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _infoUserComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -77025,7 +77024,7 @@ component.options.__file = "resources/js/components/Users/Profile/infoUserCompon
 /*!**********************************************************************************************!*\
   !*** ./resources/js/components/Users/Profile/infoUserComponent.vue?vue&type=script&lang=js& ***!
   \**********************************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -77211,12 +77210,12 @@ var Auth = /*#__PURE__*/function () {
 
   _createClass(Auth, [{
     key: "logout",
-
+    value:
     /**
      * Function to logout
      * @return Promise
      */
-    value: function logout() {
+    function logout() {
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/auth/logout");
     }
   }, {
@@ -77265,12 +77264,12 @@ var User = /*#__PURE__*/function () {
 
   _createClass(User, [{
     key: "getCurrentUser",
-
+    value:
     /**
      * Function to Get current user
      * @return Promise
      */
-    value: function getCurrentUser() {
+    function getCurrentUser() {
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/current");
     }
     /**
@@ -77364,7 +77363,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     name: 'Overview',
     component: _views_Dashboard_OverviewComponent_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   }, {
-    path: '/perfil-usuario/:id?',
+    path: '/perfil-usuario/:id',
     name: 'perfilUsuario',
     component: _views_Users_profileView_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
   }],

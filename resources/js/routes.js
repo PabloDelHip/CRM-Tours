@@ -42,7 +42,7 @@ export default new Router({
             component: Overview
         },
         {
-            path: '/perfil-usuario/:id?',
+            path: '/perfil-usuario/:id',
             name: 'perfilUsuario',
             component: UserProfile
         },
