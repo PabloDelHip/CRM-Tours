@@ -13,6 +13,10 @@ export default class User {
         return axios.get(`/api/v1/users/get/${id}`)
     }
 
+    updateUser(id, formData) {
+        return axios.put(`/api/v1/users/put/${id}`, formData);
+    }
+
     getUsers() {
         return axios.get(`/api/v1/users/get`)
     }

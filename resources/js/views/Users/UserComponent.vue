@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Estatus del usuario</label>
-                                <select class="custom-select" v-model="statusUser">
+                                <select class="custom-select" v-model.number="statusUser">
                                     <option value="0">Inactivo</option>
                                     <option value="1">Activo</option>
                                 </select>
@@ -63,13 +63,13 @@
         },
         data () {
             return {
+                message: null,
+                showError: null,
                 name: null,
                 email: null,
                 emailConfirm: null,
                 password: null,
                 statusUser: 0,
-                message: null,
-                showError: null,
                 user:  null,
                 newUser: false,
             }
@@ -127,7 +127,11 @@
                 });
             },
             saveEditUser(userForm) {
-
+                UserResource.updateUser(this.id, userForm).then((response) => {
+                    window.location.href = '/users';
+                }).catch(err =>{
+                    console.log(err);
+                });
             },
             isValidForm() {
                 if (this.name == null || this.name == '') {

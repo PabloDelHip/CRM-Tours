@@ -32,6 +32,19 @@ class UsersController extends Controller
         return $user;
     }
 
+    public function put(Request $request, $userId){
+        $content = $request->all();
+        $content['password'] = bcrypt($content['password']);
+
+        $user = User::find($userId);
+        $user->name = $content['name'];
+        $user->password = $content['password'];
+        $user->email = $content['email'];
+        $user->status = $content['status'];
+        $user->save();
+        return $user;
+    }
+
     public function getCurrentUser() {
         $token = JWTAuth::getToken();
         return User::where('remember_token', $token)->get()->first();

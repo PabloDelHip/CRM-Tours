@@ -36,6 +36,7 @@ Route::group([
     Route::get('/users/get/', 'UsersController@getUsers');
     Route::get('/users/get/{userId}', 'UsersController@get');
     Route::post('/users/create', 'UsersController@post');
+    Route::put('/users/put/{userId}', 'UsersController@put');
     Route::get('/users/delete/{id}', 'UsersController@deleteUsers');
 });
 

@@ -3786,13 +3786,13 @@ var UserResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
   },
   data: function data() {
     return {
+      message: null,
+      showError: null,
       name: null,
       email: null,
       emailConfirm: null,
       password: null,
       statusUser: 0,
-      message: null,
-      showError: null,
       user: null,
       newUser: false
     };
@@ -3891,7 +3891,13 @@ var UserResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
         console.log(err);
       });
     },
-    saveEditUser: function saveEditUser(userForm) {},
+    saveEditUser: function saveEditUser(userForm) {
+      UserResource.updateUser(this.id, userForm).then(function (response) {
+        window.location.href = '/users';
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
     isValidForm: function isValidForm() {
       if (this.name == null || this.name == '') {
         this.message = "Nombre no puede estar vacio.";
@@ -3989,6 +3995,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]();
@@ -3996,7 +4011,11 @@ var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
   name: "users-get",
   data: function data() {
     return {
-      users: ""
+      users: "",
+      message: null,
+      showError: null,
+      showSuccess: null,
+      showWarning: null
     };
   },
   mounted: function mounted() {
@@ -4013,6 +4032,7 @@ var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -4022,32 +4042,40 @@ var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
                 return userResource.getUsers();
 
               case 3:
-                _this.users = _context.sent;
-                _this.users = _this.users.data.data;
-                $("#usersTable").DataTable().destroy();
+                response = _context.sent.data;
 
-                _this.tableusers();
+                if (response.success) {
+                  _this.users = response.data;
+                  $("#usersTable").DataTable().destroy();
 
-                _context.next = 12;
+                  _this.tableusers();
+                } else {
+                  _this.message = "Lista de usuarios vacia";
+                  _this.showWarning = true;
+                }
+
+                _context.next = 11;
                 break;
 
-              case 9:
-                _context.prev = 9;
+              case 7:
+                _context.prev = 7;
                 _context.t0 = _context["catch"](0);
-                alert("No se pudo obtener usuarios");
+                _this.message = "No se pudo obtener usuarios";
+                _this.showError = true;
 
-              case 12:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 9]]);
+        }, _callee, null, [[0, 7]]);
       }))();
     },
     deleteUser: function deleteUser($id) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -4062,25 +4090,32 @@ var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
                 return userResource.deleteUsers($id);
 
               case 4:
-                _this2.users = _context2.sent;
-                alert("El Usuario se ha eliminado correctamente");
+                response = _context2.sent.data;
 
-                _this2.obtenerUsuarios();
+                if (response.success) {
+                  _this2.message = "El usuario se ha eliminado correctamente", _this2.showSuccess = true;
+
+                  _this2.obtenerUsuarios();
+                } else {
+                  _this2.message = "No se pudo eliminar el usuario";
+                  _this2.showError = true;
+                }
 
                 _context2.next = 12;
                 break;
 
-              case 9:
-                _context2.prev = 9;
+              case 8:
+                _context2.prev = 8;
                 _context2.t0 = _context2["catch"](1);
-                alert("No se pudo eliminar el usuario");
+                _this2.message = "No se pudo eliminar el usuario";
+                _this2.showError = true;
 
               case 12:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[1, 9]]);
+        }, _callee2, null, [[1, 8]]);
       }))();
     },
     tableusers: function tableusers() {
@@ -74774,9 +74809,10 @@ var render = function() {
                       directives: [
                         {
                           name: "model",
-                          rawName: "v-model",
+                          rawName: "v-model.number",
                           value: _vm.statusUser,
-                          expression: "statusUser"
+                          expression: "statusUser",
+                          modifiers: { number: true }
                         }
                       ],
                       staticClass: "custom-select",
@@ -74788,7 +74824,7 @@ var render = function() {
                             })
                             .map(function(o) {
                               var val = "_value" in o ? o._value : o.value
-                              return val
+                              return _vm._n(val)
                             })
                           _vm.statusUser = $event.target.multiple
                             ? $$selectedVal
@@ -74878,72 +74914,100 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c(
-              "table",
-              {
-                staticClass: "table table-bordered table-striped",
-                attrs: { id: "usersTable" }
-              },
-              [
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.users, function(user) {
-                    return _c("tr", { key: user.id }, [
-                      _c("td", [_vm._v(_vm._s(user.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.email))]),
-                      _vm._v(" "),
-                      (user.status = 1)
-                        ? _c("td", [_vm._v("Activo")])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      (user.status = 0)
-                        ? _c("td", [_vm._v("Inactivo")])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.created_at))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.updated_at))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-primary",
-                            on: {
-                              click: function($event) {
-                                return _vm.editUser(user.id)
-                              }
-                            }
-                          },
-                          [_vm._v("Ver")]
+          _c(
+            "div",
+            { staticClass: "card-body" },
+            [
+              _c("transition", { attrs: { name: "fade" } }, [
+                _vm.showError || _vm.showSuccess || _vm.showWarning
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "alert alert-dismissible text-center",
+                        class: {
+                          "alert-danger": _vm.showError,
+                          "alert-warning": _vm.showWarning,
+                          "alert-success": _vm.showSuccess
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                  " +
+                            _vm._s(_vm.message) +
+                            "\n              "
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger",
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteUser(user.id)
+                      ]
+                    )
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c(
+                "table",
+                {
+                  staticClass: "table table-bordered table-striped",
+                  attrs: { id: "usersTable" }
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.users, function(user) {
+                      return _c("tr", { key: user.id }, [
+                        _c("td", [_vm._v(_vm._s(user.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.email))]),
+                        _vm._v(" "),
+                        user.status == 1
+                          ? _c("td", [_vm._v("Activo")])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        user.status == 0
+                          ? _c("td", [_vm._v("Inactivo")])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.created_at))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.updated_at))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary",
+                              on: {
+                                click: function($event) {
+                                  return _vm.editUser(user.id)
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("Eliminar")]
-                        )
+                            },
+                            [_vm._v("Ver")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger",
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteUser(user.id)
+                                }
+                              }
+                            },
+                            [_vm._v("Eliminar")]
+                          )
+                        ])
                       ])
-                    ])
-                  }),
-                  0
-                )
-              ]
-            )
-          ])
+                    }),
+                    0
+                  )
+                ]
+              )
+            ],
+            1
+          )
         ])
       ])
     ])
@@ -92028,6 +92092,11 @@ var User = /*#__PURE__*/function () {
     key: "getUser",
     value: function getUser(id) {
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/get/".concat(id));
+    }
+  }, {
+    key: "updateUser",
+    value: function updateUser(id, formData) {
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/v1/users/put/".concat(id), formData);
     }
   }, {
     key: "getUsers",

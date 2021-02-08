@@ -14,6 +14,15 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body">
+            <transition name="fade">
+                <div class="alert alert-dismissible text-center" :class="{
+                    'alert-danger': showError,
+                    'alert-warning': showWarning,
+                    'alert-success': showSuccess,
+                  }"  v-if="showError || showSuccess || showWarning">
+                    {{ message }}
+                </div>
+            </transition>
             <table id="usersTable" class="table table-bordered table-striped">
               <thead>
                 <tr>
@@ -31,8 +40,8 @@
                 <tr v-for="user in users" :key="user.id">
                   <td>{{user.name}}</td>
                   <td>{{user.email}}</td>
-                  <td v-if="user.status = 1">Activo</td>
-                  <td v-if="user.status = 0">Inactivo</td>
+                  <td v-if="user.status == 1">Activo</td>
+                  <td v-if="user.status == 0">Inactivo</td>
                   <td>{{user.created_at}}</td>
                   <td>{{user.updated_at}}</td>
                   <td><button class="btn btn-primary" @click="editUser(user.id)">Ver</button></td>
@@ -62,6 +71,10 @@ export default {
   data() {
     return {
       users: "",
+      message: null,
+      showError: null,
+      showSuccess: null,
+      showWarning: null,
     };
   },
   mounted() {
@@ -76,22 +89,37 @@ export default {
     },
     async obtenerUsuarios() {
       try {
-        this.users = await userResource.getUsers();
-        this.users = this.users.data.data;
-        $("#usersTable").DataTable().destroy();
-        this.tableusers();
+        var response = (await userResource.getUsers()).data;
+        if (response.success){
+          this.users = response.data;
+          $("#usersTable").DataTable().destroy();
+          this.tableusers();
+        }
+        else{
+          this.message = "Lista de usuarios vacia";
+          this.showWarning = true;
+        }
       } catch (error) {
-        alert("No se pudo obtener usuarios");
+        this.message = "No se pudo obtener usuarios";
+        this.showError = true;
       }
     },
     async deleteUser($id) {
       if (confirm("¿Esta seguro que desea eliminarlo?")) {
         try {
-          this.users = await userResource.deleteUsers($id);
-          alert("El Usuario se ha eliminado correctamente");
-          this.obtenerUsuarios();
+          var response = (await userResource.deleteUsers($id)).data;
+          if (response.success){
+            this.message = "El usuario se ha eliminado correctamente",
+            this.showSuccess = true;
+            this.obtenerUsuarios();
+          }
+          else{
+            this.message = "No se pudo eliminar el usuario";
+            this.showError = true;
+          }
         } catch (error) {
-          alert("No se pudo eliminar el usuario");
+          this.message = "No se pudo eliminar el usuario";
+          this.showError = true;
         }
       }
     },
