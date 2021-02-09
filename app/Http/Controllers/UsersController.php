@@ -34,11 +34,9 @@ class UsersController extends Controller
 
     public function put(Request $request, $userId){
         $content = $request->all();
-        $content['password'] = bcrypt($content['password']);
 
         $user = User::find($userId);
         $user->name = $content['name'];
-        $user->password = $content['password'];
         $user->email = $content['email'];
         $user->status = $content['status'];
         $user->save();
