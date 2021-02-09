@@ -44,7 +44,7 @@
     <script src="{{url('dist/js/demo.js')}}"></script>
       <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{url('dist/js/pages/dashboard3.js')}}"></script>
-    
+  
     <!-- Summernote -->
     <script src="{{ url('/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <!-- DataTables  & Plugins -->
@@ -60,5 +60,7 @@
     <script src="{{url('/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
     <script src="{{url('/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
     <script src="{{url('/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
-</body>
+    <!-- AdminLTE App -->
+    <script src="{{ url('/dist/js/adminlte.min.js')}}"></script>
+  </body>
 </html>

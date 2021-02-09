@@ -9,6 +9,17 @@ export default class User {
         return axios.get(`/api/v1/users/current`)
     }
 
+    getUsers () {
+        return axios.get(`api/v1/users/get`)
+    }
+
+    deleteUsers (id) {
+        return axios.get(`api/v1/users/delete/${id}`)
+    }
+    
+    showUsers () {
+        return axios.get(`api/v1/users/show`)
+    } 
     /**
      * Function to Restore Password
      * @return Promise
@@ -33,4 +44,7 @@ export default class User {
         return axios.put(`/api/v1/users/update-password/${token}`, formData)
     }
 
+    post(formData) {
+        return axios.post(`/api/v1/users`, formData);
+    }
 }

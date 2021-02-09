@@ -9,27 +9,32 @@ const AuthResourse = new Auth();
 let validate_jwt
 
 async function existToken() {
-    await AuthResourse.me().then(() => {
+   
+    if(localStorage.getItem('data_user'))
+    {
         validate_jwt = true
-    }).catch( () => {
+    }
+    else {
         validate_jwt = false
-    })
+    }
+
     return validate_jwt
 }
 
-router.beforeEach(async (to, from, next) => {
-    let jwt = await existToken();
+router.beforeEach(async(to, from, next) => {
+    let jwt = await existToken(); 
     let url = to.path.split('/')
     url = '/'+url[1];
+
     if ( jwt === false && to.path !== '/login' && to.path !== '/restablecer-contrasena' && url !== '/nueva-contrasena') {
         localStorage.removeItem('data_user');
         window.location.href = '/login';
     } else {
-        if( jwt === true && to.path === '/login' || to.path === '/restablecer-contrasena' || url === '/nueva-contrasena' ) {
+        console.log('aqui')
+        if( jwt === true && to.path === '/login' && to.path === '/restablecer-contrasena' && url === '/nueva-contrasena' ) {
             window.location.href = '/overview';
-        }
-        else{
-            next();
+        } else {
+           next();
         }
     }
 });

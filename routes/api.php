@@ -33,6 +33,13 @@ Route::group([
 
     //USER
     Route::get('/users/current', 'UsersController@getCurrentUser');
+    Route::get('users/get', 'UsersController@getUsers');
+    Route::get('users/delete/{id}', 'UsersController@deleteUsers');
+    Route::get('/users/get-profile/{id}', 'UsersController@getUserProfile');
+
+    //Notes
+    Route::get('/notes/user/get/{id_user}', 'NotesController@getNotesUser');
+    Route::post('/notes/user/save', 'NotesController@saveNotesUser');
 });
 
 Route::group([
@@ -45,4 +52,6 @@ Route::group([
     Route::post('/users/restore-password', 'UsersController@restorePassword');
     Route::get('/users/get-token-password/{token?}', 'UsersController@getTokenPassword');
     Route::put('/users/update-password/{token?}', 'UsersController@updatePassword');
+    Route::post('/users', 'UsersController@post');
+    
 });

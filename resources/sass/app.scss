@@ -7,6 +7,9 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// DataTables
+@import '~datatables/media/css/jquery.dataTables.min.css';
+
 body {
     background-color: rgb(29, 87, 196);
 }
@@ -19,4 +22,8 @@ opacity: 0;
 }
 .ver{
     display: block !important;
+}
+div.contenedor-notas {
+    max-height: 500px;
+    overflow: auto;
 }

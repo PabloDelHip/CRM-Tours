@@ -21,7 +21,9 @@
             <div class="container-fluid">
                 <div class="row">
                     <data-user-component></data-user-component>
-                    <info-user-component></info-user-component>
+                    <info-user-component
+                        :id_user = this.id
+                    ></info-user-component>
                 </div>
             </div>
         </section>
@@ -39,6 +41,7 @@
     const AuthResourse = new Auth();
 
     export default {
+        props: ['id'],
         name:"login-component",
         components: {
             ValidationObserver,
@@ -66,7 +69,6 @@
                     email: this.email,
                     password: this.password
                     }
-                    //let data_user = AuthResourse.login(formData)
                     AuthResourse.login(formData).then((response) => {
                         //localStorage.setItem('user', JSON.stringify(miObjeto));
                         this.show_error = false

@@ -99,9 +99,7 @@
                     email: this.email,
                     password: this.password
                     }
-                    //let data_user = AuthResourse.login(formData)
                     AuthResourse.login(formData).then((response) => {
-                        //localStorage.setItem('user', JSON.stringify(miObjeto));
                         this.show_error = false
                         localStorage.setItem('data_user', JSON.stringify(response.data))
                         window.location.href = '/overview';
@@ -117,10 +115,8 @@
                 switch (status) {
                     case 401:
                         return 'Usuario o contraseña incorrectos'
-                        break;
                     case 422:
                         return 'Favor de llenar todos los campos'
-                        break;
                 }
             }
         },

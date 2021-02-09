@@ -4,15 +4,55 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Crypt;
 use App\User;
+use Exception;
+use GuzzleHttp\Psr7\Message;
+use PhpParser\Node\Stmt\TryCatch;
 use App\Mail\RestorePassword;
 use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
+    public function get(Request $request){
+
+    }
+
+    public function post(Request $request){
+        $content = $request->all();
+        $content['password'] = bcrypt($content['password']);
+
+        $user = new User();
+        $user->name = $content['name'];
+        $user->password = $content['password'];
+        $user->email = $content['email'];
+        $user->token_password = '';
+        // $user = fill($content);
+        $user->save();
+        return $user;
+    }
+
     public function getCurrentUser() {
         $token = JWTAuth::getToken();
         return User::where('remember_token', $token)->get()->first();
+    }
+
+    public function getUserProfile($id_user)
+    {
+        $user = User::where('id', $id_user)
+                    ->where('active', true)->get()->first();
+        if(!$user)
+        {
+            return response()->json([
+                'succes' => false,
+                'message' => 'El usuario ingresado no fue encontrado',
+            ], 422);
+        }
+        return response()->json([
+            'succes' => true,
+            'message' => 'Email enviado de forma correcta',
+            'user' => $user
+        ], 200);
     }
 
     public function restorePassword (Request $request) {
@@ -41,6 +81,50 @@ class UsersController extends Controller
                 'succes' => false,
                 'message' => 'Error al enviar el email',
                 'errors' => $th
+            ], 500);
+        }
+    }
+
+    public function getUsers()
+    {
+        try {
+            $users = User::where('active', 1)->orderBy('name', 'asc')->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuarios obtenidos correctamente',
+                'data' => $users
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se pudo obtener a los usuarios',
+                'err' => $e
+            ], 500);
+        }
+    }
+
+    /*     public function showUsers($id){
+            $users = User::find($id);
+            return view('usuarios', $users);
+    } */
+
+    public function deleteUsers(Request $request, $id)
+    {
+        try {
+            $users = User::find($id);
+            $users->active = 0;
+            $users->save();
+            //$users = User::table('users')->where('id', $request->id)->update(['active' => 0]);
+            return response()->json([
+                'success' => true,
+                'message' => 'El Usuario se ha eliminado correctamente',
+                'data' => $users
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se pudo eliminar el usuario',
+                'err' => $e
             ], 500);
         }
     }

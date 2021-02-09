@@ -14,7 +14,7 @@
                         <div class="tab-content">
                         <div class="active tab-pane" id="activity">
                             <div class="col-md-12">
-                                <textarea id="editor">
+                                <textarea id="editor" v-model="note">
                                         
                                 </textarea>
                                 <div class="col-3">
@@ -22,110 +22,42 @@
                                 </div>
                             </div>
                             <div class="col-12 text-right">
-                                <button type="submit" class="btn btn-outline-primary btn-sm">Añadir comentario</button>
+                                <button type="submit" @click="saveNote()" class="btn btn-outline-primary btn-sm">Añadir nota</button>
                             </div>
                             <!-- /.col-->
                             <hr>
                             <!-- /.hr-->
-                            <!-- Post -->
-                            <div class="post">
-                                <div class="user-block">
-                                    <img class="img-circle img-bordered-sm" src="/dist/img/user1-128x128.jpg" alt="user image">
-                                    <span class="username">
-                                    <a href="#">Jonathan Burke Jr.</a>
-                                    <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                    </span>
-                                    <span class="description">Shared publicly - 7:30 PM today</span>
-                                </div>
-                                <!-- /.user-block -->
-                                <p>
-                                    Lorem ipsum represents a long-held tradition for designers,
-                                    typographers and the like. Some people hate it and argue for
-                                    its demise, but others ignore the hate as they create awesome
-                                    tools to help create filler text for everyone from bacon lovers
-                                    to Charlie Sheen fans.
-                                </p>
-                            </div>
-                            <!-- /.post -->
+                            <div class="ticontenedor-notas">
+                                <transition-group  name="fade">
+                                    <div v-for="note in notes" :key="note.id" class="post">
+                                        <!-- Post -->
+                                        <div class="post clearfix">
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm" src="/dist/img/user7-128x128.jpg" alt="User Image">
+                                                <span class="username">
+                                                <a href="#">{{ note.user.name }}</a>
+                                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                                                </span>
+                                                <span class="description">Escribio la nota - 3 days ago</span>
+                                            </div>
+                                            <!-- /.user-block -->
+                                            <span v-html="note.note">
 
-                            <!-- Post -->
-                            <div class="post clearfix">
-                            <div class="user-block">
-                                <img class="img-circle img-bordered-sm" src="/dist/img/user7-128x128.jpg" alt="User Image">
-                                <span class="username">
-                                <a href="#">Sarah Ross</a>
-                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                </span>
-                                <span class="description">Sent you a message - 3 days ago</span>
-                            </div>
-                            <!-- /.user-block -->
-                            <p>
-                                Lorem ipsum represents a long-held tradition for designers,
-                                typographers and the like. Some people hate it and argue for
-                                its demise, but others ignore the hate as they create awesome
-                                tools to help create filler text for everyone from bacon lovers
-                                to Charlie Sheen fans.
-                            </p>
+                                            </span>
 
-                            <form class="form-horizontal">
-                                <div class="input-group input-group-sm mb-0">
-                                <input class="form-control form-control-sm" placeholder="Response">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-danger">Send</button>
-                                </div>
-                                </div>
-                            </form>
-                            </div>
-                            <!-- /.post -->
-
-                            <!-- Post -->
-                            <div class="post">
-                            <div class="user-block">
-                                <img class="img-circle img-bordered-sm" src="/dist/img/user6-128x128.jpg" alt="User Image">
-                                <span class="username">
-                                <a href="#">Adam Jones</a>
-                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                </span>
-                                <span class="description">Posted 5 photos - 5 days ago</span>
-                            </div>
-                            <!-- /.user-block -->
-                            <div class="row mb-3">
-                                <div class="col-sm-6">
-                                <img class="img-fluid" src="/dist/img/photo1.png" alt="Photo">
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-6">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                    <img class="img-fluid mb-3" src="/dist/img/photo2.png" alt="Photo">
-                                    <img class="img-fluid" src="/dist/img/photo3.jpg" alt="Photo">
+                                            <!--<form class="form-horizontal">
+                                                <div class="input-group input-group-sm mb-0">
+                                                <input class="form-control form-control-sm" placeholder="Response">
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-danger">Send</button>
+                                                </div>
+                                                </div>
+                                            </form> -->
+                                        </div>
+                                        <!-- /.post -->
                                     </div>
-                                    <!-- /.col -->
-                                    <div class="col-sm-6">
-                                    <img class="img-fluid mb-3" src="/dist/img/photo4.jpg" alt="Photo">
-                                    <img class="img-fluid" src="/dist/img/photo1.png" alt="Photo">
-                                    </div>
-                                    <!-- /.col -->
-                                </div>
-                                <!-- /.row -->
-                                </div>
-                                <!-- /.col -->
+                                </transition-group>
                             </div>
-                            <!-- /.row -->
-
-                            <p>
-                                <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                                <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                                <span class="float-right">
-                                <a href="#" class="link-black text-sm">
-                                    <i class="far fa-comments mr-1"></i> Comments (5)
-                                </a>
-                                </span>
-                            </p>
-
-                            <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
-                            </div>
-                            <!-- /.post -->
                         </div>
                         <!-- /.tab-pane -->
                         <div class="tab-pane" id="timeline">
@@ -267,11 +199,80 @@
 </template>
 
 <script>
+    import Note from '../../../providers/Note';
+
+    const NoteResourse = new Note();
     export default {
+        props: ['id_user'],
+        data () {
+            return {
+                note: null,
+                notes: []
+            }
+        },
+        computed: {
+          user: function () {
+            return this.$store.state.user
+          }
+        },
+        methods: {
+            async saveNote() {
+                this.note = $("#editor").val()
+                if(this.note === null || this.note === '') {
+                    this.$swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            toast: true,
+                            position: 'top',
+                            timer: 3000,
+                            showConfirmButton: false,
+                            timerProgressBar: true,
+                            text: 'El campo de notas esta vacio',
+                        })
+                }
+                else {
+                    let formData = {
+                        note: this.note,
+                        user_profile_id: Number(this.id_user),
+                        user_id: this.user.id
+                    };
+                    try {
+                        await NoteResourse.saveNoteUser(formData)
+                        this.getNote();
+                        $("#editor").val('');
+                        $('#editor').summernote('code', '')
+                        console.log('el valor es', $("#editor").val() )
+                    } catch (error) {
+                        this.$swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            toast: true,
+                            position: 'top',
+                            timer: 3000,
+                            showConfirmButton: false,
+                            timerProgressBar: true,
+                            text: 'Ocurrio un problema al guardar la nota',
+                        })
+                        console.log(error)
+                    }
+                }
+            },
+            async getNote () {
+                try {
+                    this.notes = await NoteResourse.getNotesUser(this.id_user)
+                    this.notes = this.notes.data.notes
+                    console.log(this.notes)
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+        },
         mounted() {
-            console.log('Component mounted.')
+            this.getNote()
             $(function () {
+                //SUMMERNOTE
                 $('#editor').summernote()
+                //DATA-TABLE
                 $("#example1").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
