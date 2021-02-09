@@ -14,6 +14,7 @@ import Overview from './views/Dashboard/OverviewComponent.vue'
 //Users section
 import Users from './views/Users/Users.vue'
 import UserComponent from './views/Users/UserComponent.vue'
+import UserProfile from './views/Users/profileView.vue'
 
 export default new Router({
     routes: [{
@@ -31,7 +32,7 @@ export default new Router({
             component: RestablecerContrasena
         },
         {
-            path: '/nueva-contrasena/:token',
+            path: '/nueva-contrasena/:token?',
             name: 'NuevaContrasena',
             component: NuevaContrasena,
             props: true
@@ -50,6 +51,12 @@ export default new Router({
             path: '/users/edit/:id',
             name: 'EditUser',
             component: UserComponent,
+            props: true
+        },
+        {
+            path: '/users/profile/:id',
+            name: 'perfilUsuario',
+            component: UserProfile,
             props: true
         },
         {

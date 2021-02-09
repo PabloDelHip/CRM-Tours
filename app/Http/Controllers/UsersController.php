@@ -48,6 +48,24 @@ class UsersController extends Controller
         return User::where('remember_token', $token)->get()->first();
     }
 
+    public function getUserProfile($id_user)
+    {
+        $user = User::where('id', $id_user)
+                    ->where('active', true)->get()->first();
+        if(!$user)
+        {
+            return response()->json([
+                'succes' => false,
+                'message' => 'El usuario ingresado no fue encontrado',
+            ], 422);
+        }
+        return response()->json([
+            'succes' => true,
+            'message' => 'Email enviado de forma correcta',
+            'user' => $user
+        ], 200);
+    }
+
     public function restorePassword (Request $request) {
         try {
             $email = $request->email;

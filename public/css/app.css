@@ -10963,3 +10963,8 @@ body {
   display: block !important;
 }
 
+div.contenedor-notas {
+  max-height: 500px;
+  overflow: auto;
+}
+

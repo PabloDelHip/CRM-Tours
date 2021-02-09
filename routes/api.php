@@ -31,13 +31,20 @@ Route::group([
     Route::get('/auth/logout', 'AuthUserController@logout');
     Route::get('/me', 'AuthUserController@me');
 
-    //USER
+    // User
     Route::get('/users/current', 'UsersController@getCurrentUser');
     Route::get('/users/get/', 'UsersController@getUsers');
     Route::get('/users/get/{userId}', 'UsersController@get');
     Route::post('/users/create', 'UsersController@post');
     Route::put('/users/put/{userId}', 'UsersController@put');
     Route::get('/users/delete/{id}', 'UsersController@deleteUsers');
+
+    // Profile
+    Route::get('/users/get-profile/{id}', 'UsersController@getUserProfile');
+
+    // Notes
+    Route::get('/notes/user/get/{id_user}', 'NotesController@getNotesUser');
+    Route::post('/notes/user/save', 'NotesController@saveNotesUser');
 });
 
 Route::group([
