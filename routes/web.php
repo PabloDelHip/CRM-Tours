@@ -26,7 +26,7 @@ Route::get('/users/create', ['as' => '/users/create', 'uses' => 'HomeController@
 Route::get('/users/edit/{id}', ['as' => '/users/edit', 'uses' => 'HomeController@index']);
 
 // Profile
-Route::get('/user/profile/{id?}', ['as' => 'perfilUsuario', 'uses' => 'HomeController@index']);
+Route::get('/users/profile/{id?}', ['as' => 'perfilUsuario', 'uses' => 'HomeController@index']);
 
 //Dashboard
 Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);
