@@ -27,3 +27,5 @@ Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index'])
 
 //Users
 Route::get('/obtener-usuarios', ['as' => '/obtener-usuarios', 'uses' => 'HomeController@index']);
+Route::get('/permisos-usuarios/{id_user}', ['as' => '/permisos-usuarios', 'uses' => 'HomeController@index']);
+

@@ -85,11 +85,6 @@ class UsersController extends Controller
         }
     }
 
-    /*     public function showUsers($id){
-            $users = User::find($id);
-            return view('usuarios', $users);
-    } */
-
     public function deleteUsers(Request $request, $id)
     {
         try {

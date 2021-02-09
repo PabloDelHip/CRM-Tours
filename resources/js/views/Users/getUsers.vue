@@ -7,11 +7,11 @@
             <h3 class="card-title">Usuarios</h3>
           </div>
           <div class="card-header">
-            <button  class=" fas fa-user btn btn-warning" v-on:click="onClickNewUser()"> Nuevo Usuario</button>
+            <button  class="fas fa-user btn btn-warning" v-on:click="onClickNewUser()"> Nuevo Usuario</button>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <table id="example1" class="table table-bordered table-striped">
+            <table id="example1" class="table table-bordered table-striped" style="width:100%">
               <thead>
                 <tr>
                   <th>Nombre</th>
@@ -19,9 +19,9 @@
                   <th>Estatus</th>
                   <th>Fecha de Creacion</th>
                   <th>Ultima Actualización</th>
-                  <!-- <th colspan="2"></th> -->
-                  <th></th>
-                  <th></th>
+                  <th>Ver</th>
+                  <th>Eliminar</th> 
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -29,11 +29,12 @@
                   <td>{{user.name}}</td>
                   <td>{{user.email}}</td>
                   <td v-if="user.active = 1">Activo</td>
-                  <td v-if="user.active = 0">Inactivo</td>
+                  <td v-else>Inactivo</td>
                   <td>{{user.created_at}}</td>
                   <td>{{user.updated_at}}</td>
                   <td><button class="btn btn-primary" v-on:click="onClickShow(user.id)">Ver</button></td>
                   <td><button class="btn btn-danger" v-on:click="onClickDelete(user.id)">Eliminar</button></td>
+                  <td><button class="btn btn-secondary"><router-link :to="{ name:'permisos', params: { id: user.id }}">Permisos</router-link></button></td>
                 </tr>
               </tbody>
             </table>
@@ -85,7 +86,6 @@ export default {
           alert("No se pudo eliminar el usuario");
         }
       }
-
     },
     onClickShow($id) {
       alert("ver usuario");
@@ -102,7 +102,7 @@ export default {
         "searching": true,
         "ordering": true,
         "info": true,
-        "autoWidth": false,
+        "autoWidth": true,
         "responsive": true,
         "buttons": [
           {"extend": "copyHtml5", "text": "<i class='fas fa-copy'></i> Copiar", "titleAttr": "Copiar", "ClassName": "btn btn-secundary"},

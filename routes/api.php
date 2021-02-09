@@ -35,6 +35,7 @@ Route::group([
     Route::get('/users/current', 'UsersController@getCurrentUser');
     Route::get('users/get', 'UsersController@getUsers');
     Route::get('users/delete/{id}', 'UsersController@deleteUsers');
+    // Route::get('/users/permits/{id_user}', 'UsersPermitsController@permitsUsers');
 });
 
 Route::group([
@@ -48,4 +49,5 @@ Route::group([
     Route::get('/users/get-token-password/{token?}', 'UsersController@getTokenPassword');
     Route::put('/users/update-password/{token?}', 'UsersController@updatePassword');
     Route::post('/users', 'UsersController@post');
+    Route::get('/users/permits/{id_user}', 'UsersPermitsController@permitsUsers');
 });
