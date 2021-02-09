@@ -14,6 +14,7 @@ import Overview from './views/Dashboard/OverviewComponent.vue'
 
 //Users section
 import Users from './views/Users/getUsers.vue'
+import permitsUsers from './views/Users/permitsUsers.vue'
 
 export default new Router({
     routes: [
@@ -51,6 +52,12 @@ export default new Router({
             path: '/obtener-usuarios',
             name: 'getUsers',
             component: Users
+        }, 
+        {
+            path: '/permisos-usuarios/:id',
+            name: 'permisos',
+            component: permitsUsers,
+            props: true
         }, 
     ],
     mode: "history"
