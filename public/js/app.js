@@ -4481,6 +4481,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]();
@@ -4602,7 +4603,7 @@ var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
           "searching": true,
           "ordering": true,
           "info": true,
-          "autoWidth": false,
+          "autoWidth": true,
           "responsive": true,
           "buttons": [{
             "extend": "copyHtml5",
@@ -4648,6 +4649,203 @@ var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
             "sInfoEmpty": "No hay entradas que mostrar"
           }
         }).buttons().container().appendTo('#usersTable_wrapper .col-md-6:eq(0)');
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/permitsUsers.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/permitsUsers.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _providers_Permits__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../providers/Permits */ "./resources/js/providers/Permits.js");
+/* harmony import */ var datatables__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! datatables */ "./node_modules/datatables/media/js/jquery.dataTables.js");
+/* harmony import */ var datatables__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(datatables__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_1__["default"]();
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "users-permits",
+  props: ['id'],
+  data: function data() {
+    return {
+      permits: "" // CBoxWatch: false,
+      // watchs: false,
+      // adds: false,
+      // edits: false,
+      // deletes: false,
+
+    };
+  },
+  mounted: function mounted() {
+    this.obtenerPermisos();
+    console.log(this.permits);
+  },
+
+  /*   computed : {
+      checkedComputed () {
+      return this.checked
+      }
+    }, */
+  methods: {
+    obtenerPermisos: function obtenerPermisos() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return permitsResource.permitsUsers(_this.id);
+
+              case 3:
+                _this.permits = _context.sent;
+                _this.permits = _this.permits.data.data;
+                $("#example1").DataTable().destroy();
+
+                _this.tablePermits();
+
+                _context.next = 13;
+                break;
+
+              case 9:
+                _context.prev = 9;
+                _context.t0 = _context["catch"](0);
+                console.log(_context.t0);
+                alert("No se pudo obtener permisos de usuarios");
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 9]]);
+      }))();
+    },
+    tablePermits: function tablePermits() {
+      this.$nextTick(function () {
+        $("#example1").DataTable({
+          "lengthChange": false,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": true,
+          "responsive": true,
+          "buttons": [{
+            "extend": "copyHtml5",
+            "text": "<i class='fas fa-copy'></i> Copiar",
+            "titleAttr": "Copiar",
+            "ClassName": "btn btn-secundary"
+          }, {
+            "extend": "excelHtml5",
+            "text": "<i class='fas fa-file-excel'></i> Excel",
+            "titleAttr": "Exportar a Excel",
+            "ClassName": "btn btn-success"
+          }, {
+            "extend": "pdfHtml5",
+            "text": "<i class='fas fa-file-pdf'></i> PDF",
+            "titleAttr": "Exportar a PDF",
+            "ClassName": "btn btn-danger"
+          }, {
+            "extend": "csvHtml5",
+            "text": "<i class='fas fa-file-csv'> CSV</i>",
+            "titleAttr": "Exportar a CSV",
+            "ClassName": "btn btn-info"
+          }, {
+            "extend": "print",
+            "text": "<i class='fas fa-print'></i> Imprimir",
+            "titleAttr": "Imprimir",
+            "ClassName": "btn btn-secondary"
+          }, {
+            "extend": "colvis",
+            "text": "Columnas Visibles",
+            "titleAttr": "Columnas visibles",
+            "ClassName": "btn btn-info"
+          }],
+          oLanguage: {
+            "sSearch": "Busqueda",
+            "oPaginate": {
+              "sNext": "Siguiente",
+              "sFirst": "Primero",
+              "sLast": "Ultimo",
+              "sPrevious": "Anterior"
+            },
+            "sEmptyTable": "No hay Registros",
+            "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+            "sInfoEmpty": "No hay entradas que mostrar"
+          }
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       });
     }
   }
@@ -76108,6 +76306,7 @@ var render = function() {
                 "table",
                 {
                   staticClass: "table table-bordered table-striped",
+                  staticStyle: { width: "100%" },
                   attrs: { id: "usersTable" }
                 },
                 [
@@ -76161,6 +76360,28 @@ var render = function() {
                             },
                             [_vm._v("Eliminar")]
                           )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            { staticClass: "btn btn-secondary" },
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  attrs: {
+                                    to: {
+                                      name: "permisos",
+                                      params: { id: user.id }
+                                    }
+                                  }
+                                },
+                                [_vm._v("Permisos")]
+                              )
+                            ],
+                            1
+                          )
                         ])
                       ])
                     }),
@@ -76201,9 +76422,458 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Ultima Actualización")]),
         _vm._v(" "),
-        _c("th"),
+        _c("th", [_vm._v("Ver")]),
         _vm._v(" "),
-        _c("th")
+        _c("th", [_vm._v("Eliminar")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/permitsUsers.vue?vue&type=template&id=756ca5b6&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/permitsUsers.vue?vue&type=template&id=756ca5b6& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-12" }, [
+        _c("div", { staticClass: "card" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "table",
+              {
+                staticClass: "table table-bordered table-striped",
+                staticStyle: { width: "100%" },
+                attrs: { id: "example1" }
+              },
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.permits, function(permit) {
+                    return _c("tr", { key: permit.id }, [
+                      _c("td", [_vm._v(_vm._s(permit.module))]),
+                      _vm._v(" "),
+                      permit.watch == 1
+                        ? _c("td", { attrs: { align: "center" } }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.checked,
+                                  expression: "checked"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                id: "CBoxWatch",
+                                value: "permit.nombre",
+                                checked: ""
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.checked)
+                                  ? _vm._i(_vm.checked, "permit.nombre") > -1
+                                  : _vm.checked
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.checked,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = "permit.nombre",
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.checked = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.checked = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.checked = $$c
+                                  }
+                                }
+                              }
+                            })
+                          ])
+                        : _c("td", { staticClass: "text-center" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.checked,
+                                  expression: "checked"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                id: "CBoxWatch",
+                                value: "Jack"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.checked)
+                                  ? _vm._i(_vm.checked, "Jack") > -1
+                                  : _vm.checked
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.checked,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = "Jack",
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.checked = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.checked = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.checked = $$c
+                                  }
+                                }
+                              }
+                            })
+                          ]),
+                      _vm._v(" "),
+                      permit.add == 1
+                        ? _c("td", { attrs: { align: "center" } }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.checked,
+                                  expression: "checked"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                id: "CBoxAdd",
+                                value: "permit.watch",
+                                checked: ""
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.checked)
+                                  ? _vm._i(_vm.checked, "permit.watch") > -1
+                                  : _vm.checked
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.checked,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = "permit.watch",
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.checked = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.checked = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.checked = $$c
+                                  }
+                                }
+                              }
+                            })
+                          ])
+                        : _c("td", { staticClass: "text-center" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.checked,
+                                  expression: "checked"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                id: "CBoxAdd",
+                                value: "Jack"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.checked)
+                                  ? _vm._i(_vm.checked, "Jack") > -1
+                                  : _vm.checked
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.checked,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = "Jack",
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.checked = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.checked = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.checked = $$c
+                                  }
+                                }
+                              }
+                            })
+                          ]),
+                      _vm._v(" "),
+                      permit.edit == 1
+                        ? _c("td", { attrs: { align: "center" } }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.checked,
+                                  expression: "checked"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                id: "CBoxEdit",
+                                value: "permit.watch",
+                                checked: ""
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.checked)
+                                  ? _vm._i(_vm.checked, "permit.watch") > -1
+                                  : _vm.checked
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.checked,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = "permit.watch",
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.checked = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.checked = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.checked = $$c
+                                  }
+                                }
+                              }
+                            })
+                          ])
+                        : _c("td", { staticClass: "text-center" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.checked,
+                                  expression: "checked"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                id: "CBoxEdit",
+                                value: "Jack"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.checked)
+                                  ? _vm._i(_vm.checked, "Jack") > -1
+                                  : _vm.checked
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.checked,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = "Jack",
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.checked = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.checked = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.checked = $$c
+                                  }
+                                }
+                              }
+                            })
+                          ]),
+                      _vm._v(" "),
+                      permit.delete == 1
+                        ? _c("td", { attrs: { align: "center" } }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.checked,
+                                  expression: "checked"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                id: "CBoxDelete",
+                                value: "permit.watch",
+                                checked: ""
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.checked)
+                                  ? _vm._i(_vm.checked, "permit.watch") > -1
+                                  : _vm.checked
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.checked,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = "permit.watch",
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.checked = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.checked = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.checked = $$c
+                                  }
+                                }
+                              }
+                            })
+                          ])
+                        : _c("td", { staticClass: "text-center" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.checked,
+                                  expression: "checked"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                id: "CBoxDelete",
+                                value: "Jack"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.checked)
+                                  ? _vm._i(_vm.checked, "Jack") > -1
+                                  : _vm.checked
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.checked,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = "Jack",
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.checked = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.checked = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.checked = $$c
+                                  }
+                                }
+                              }
+                            })
+                          ])
+                    ])
+                  }),
+                  0
+                )
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Permisos Usuarios")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Modulo")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Ver")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Agregar")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Editar")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Eliminar")])
       ])
     ])
   }
@@ -93484,6 +94154,50 @@ var Note = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./resources/js/providers/Permits.js":
+/*!*******************************************!*\
+  !*** ./resources/js/providers/Permits.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Permits; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Permits = /*#__PURE__*/function () {
+  function Permits() {
+    _classCallCheck(this, Permits);
+  }
+
+  _createClass(Permits, [{
+    key: "permitsUsers",
+    value:
+    /**
+     * Function to Get current user
+     * @return Promise
+     */
+    function permitsUsers(id) {
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/permits/".concat(id));
+    }
+  }]);
+
+  return Permits;
+}();
+
+
+
+/***/ }),
+
 /***/ "./resources/js/providers/User.js":
 /*!****************************************!*\
   !*** ./resources/js/providers/User.js ***!
@@ -93607,6 +94321,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Users_Users_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/Users/Users.vue */ "./resources/js/views/Users/Users.vue");
 /* harmony import */ var _views_Users_UserComponent_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/Users/UserComponent.vue */ "./resources/js/views/Users/UserComponent.vue");
 /* harmony import */ var _views_Users_profileView_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/Users/profileView.vue */ "./resources/js/views/Users/profileView.vue");
+/* harmony import */ var _views_Users_permitsUsers_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/Users/permitsUsers.vue */ "./resources/js/views/Users/permitsUsers.vue");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]); // Login section
@@ -93616,6 +94331,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
  //Dashboard section
 
  //Users section
+
 
 
 
@@ -93656,6 +94372,11 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     path: '/users/profile/:id',
     name: 'perfilUsuario',
     component: _views_Users_profileView_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
+    props: true
+  }, {
+    path: 'users/permissions/:id',
+    name: 'permisos',
+    component: _views_Users_permitsUsers_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
     props: true
   }, {
     path: '/overview',
@@ -94299,6 +95020,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_template_id_16441b5c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_template_id_16441b5c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Users/permitsUsers.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/views/Users/permitsUsers.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _permitsUsers_vue_vue_type_template_id_756ca5b6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./permitsUsers.vue?vue&type=template&id=756ca5b6& */ "./resources/js/views/Users/permitsUsers.vue?vue&type=template&id=756ca5b6&");
+/* harmony import */ var _permitsUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./permitsUsers.vue?vue&type=script&lang=js& */ "./resources/js/views/Users/permitsUsers.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _permitsUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _permitsUsers_vue_vue_type_template_id_756ca5b6___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _permitsUsers_vue_vue_type_template_id_756ca5b6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Users/permitsUsers.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Users/permitsUsers.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/views/Users/permitsUsers.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_permitsUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./permitsUsers.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/permitsUsers.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_permitsUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Users/permitsUsers.vue?vue&type=template&id=756ca5b6&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/views/Users/permitsUsers.vue?vue&type=template&id=756ca5b6& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_permitsUsers_vue_vue_type_template_id_756ca5b6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./permitsUsers.vue?vue&type=template&id=756ca5b6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/permitsUsers.vue?vue&type=template&id=756ca5b6&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_permitsUsers_vue_vue_type_template_id_756ca5b6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_permitsUsers_vue_vue_type_template_id_756ca5b6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

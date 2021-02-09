@@ -15,6 +15,7 @@ import Overview from './views/Dashboard/OverviewComponent.vue'
 import Users from './views/Users/Users.vue'
 import UserComponent from './views/Users/UserComponent.vue'
 import UserProfile from './views/Users/profileView.vue'
+import PermitsUsers from './views/Users/permitsUsers.vue'
 
 export default new Router({
     routes: [{
@@ -57,6 +58,12 @@ export default new Router({
             path: '/users/profile/:id',
             name: 'perfilUsuario',
             component: UserProfile,
+            props: true
+        },
+        {
+            path: 'users/permissions/:id',
+            name: 'permisos',
+            component: PermitsUsers,
             props: true
         },
         {

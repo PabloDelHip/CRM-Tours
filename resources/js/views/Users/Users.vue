@@ -23,7 +23,7 @@
                     {{ message }}
                 </div>
             </transition>
-            <table id="usersTable" class="table table-bordered table-striped">
+            <table id="usersTable" class="table table-bordered table-striped" style="width:100%">
               <thead>
                 <tr>
                   <th>Nombre</th>
@@ -31,9 +31,9 @@
                   <th>Estatus</th>
                   <th>Fecha de Creacion</th>
                   <th>Ultima Actualización</th>
-                  <!-- <th colspan="2"></th> -->
-                  <th></th>
-                  <th></th>
+                  <th>Ver</th>
+                  <th>Eliminar</th> 
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,6 +46,7 @@
                   <td>{{user.updated_at}}</td>
                   <td><button class="btn btn-primary" @click="editUser(user.id)">Ver</button></td>
                   <td><button class="btn btn-danger" @click="deleteUser(user.id)">Eliminar</button></td>
+                  <td><button class="btn btn-secondary"><router-link :to="{ name:'permisos', params: { id: user.id }}">Permisos</router-link></button></td>
                 </tr>
               </tbody>
             </table>
@@ -130,7 +131,7 @@ export default {
         "searching": true,
         "ordering": true,
         "info": true,
-        "autoWidth": false,
+        "autoWidth": true,
         "responsive": true,
         "buttons": [
           {"extend": "copyHtml5", "text": "<i class='fas fa-copy'></i> Copiar", "titleAttr": "Copiar", "ClassName": "btn btn-secundary"},

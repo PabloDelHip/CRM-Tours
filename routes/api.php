@@ -42,6 +42,9 @@ Route::group([
     // Profile
     Route::get('/users/get-profile/{id}', 'UsersController@getUserProfile');
 
+    // Permissions
+    Route::get('/users/permits/{id_user}', 'UsersPermitsController@permitsUsers');
+
     // Notes
     Route::get('/notes/user/get/{id_user}', 'NotesController@getNotesUser');
     Route::post('/notes/user/save', 'NotesController@saveNotesUser');

@@ -28,5 +28,8 @@ Route::get('/users/edit/{id}', ['as' => '/users/edit', 'uses' => 'HomeController
 // Profile
 Route::get('/users/profile/{id?}', ['as' => 'perfilUsuario', 'uses' => 'HomeController@index']);
 
+// Permissions
+Route::get('users/permissions/{id}', ['as' => '/users/permissions', 'uses' => 'HomeController@index']);
+
 //Dashboard
 Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);
