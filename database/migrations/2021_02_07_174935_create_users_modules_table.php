@@ -14,9 +14,8 @@ class CreateUsersModulesTable extends Migration
     public function up()
     {
         Schema::create('users_modules', function (Blueprint $table) {
-            $table->id_module();
+            $table->increments('id_module');
             $table->string('name');
-            $table->id_user();
         });
     }
 

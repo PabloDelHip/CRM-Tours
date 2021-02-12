@@ -31,12 +31,6 @@
                   <td v-else class="text-center"><input type="checkbox" id="CBoxEdit" value="Jack" v-model="checked"></td>                  
                   <td v-if="permit.delete == 1" align="center"><input type="checkbox" id="CBoxDelete" value="permit.watch" v-model="checked" checked></td>
                   <td v-else class="text-center"><input type="checkbox" id="CBoxDelete" value="Jack" v-model="checked"></td>
-<!--                   <td v-if="permit.add = 1" class="text-center"><input class="form-check-input" type="checkbox" id="CBoxAdd" checked>{{permit.add}}</td>
-                  <td v-else class="text-center"><input class="form-check-input" type="checkbox" id="CBoxAdd"></td>
-                  <td v-if="permit.edit = 1" class="text-center"><input class="form-check-input" type="checkbox" id="CBoxEdit" checked>{{permit.edit}}</td>
-                  <td v-else class="text-center"><input class="form-check-input" type="checkbox" id="CBoxEdit"></td>
-                  <td v-if="permit.delete = 1" class="text-center"><input class="form-check-input" type="checkbox" id="CBoxDelete" checked>{{permit.delete}}</td>
-                  <td v-else class="text-center"><input class="form-check-input" type="checkbox" id="CBoxDelete"></td> -->
                 </tr>
               </tbody>
             </table>
