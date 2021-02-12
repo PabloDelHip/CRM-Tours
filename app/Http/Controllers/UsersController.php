@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
-    public function get(Request $request){
-
+    public function get(Request $request, $userId){
+        $user = User::find($userId);
+        return $user;
     }
 
     public function post(Request $request){
@@ -26,8 +27,18 @@ class UsersController extends Controller
         $user->name = $content['name'];
         $user->password = $content['password'];
         $user->email = $content['email'];
-        $user->token_password = '';
-        // $user = fill($content);
+        $user->status = $content['status'];
+        $user->save();
+        return $user;
+    }
+
+    public function put(Request $request, $userId){
+        $content = $request->all();
+
+        $user = User::find($userId);
+        $user->name = $content['name'];
+        $user->email = $content['email'];
+        $user->status = $content['status'];
         $user->save();
         return $user;
     }
@@ -35,6 +46,24 @@ class UsersController extends Controller
     public function getCurrentUser() {
         $token = JWTAuth::getToken();
         return User::where('remember_token', $token)->get()->first();
+    }
+
+    public function getUserProfile($id_user)
+    {
+        $user = User::where('id', $id_user)
+                    ->where('active', true)->get()->first();
+        if(!$user)
+        {
+            return response()->json([
+                'succes' => false,
+                'message' => 'El usuario ingresado no fue encontrado',
+            ], 422);
+        }
+        return response()->json([
+            'succes' => true,
+            'message' => 'Email enviado de forma correcta',
+            'user' => $user
+        ], 200);
     }
 
     public function restorePassword (Request $request) {
@@ -70,7 +99,7 @@ class UsersController extends Controller
     public function getUsers()
     {
         try {
-            $users = User::where('active', 1)->orderBy('name', 'asc')->get();
+            $users = User::orderBy('name', 'asc')->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Usuarios obtenidos correctamente',
@@ -85,18 +114,12 @@ class UsersController extends Controller
         }
     }
 
-    /*     public function showUsers($id){
-            $users = User::find($id);
-            return view('usuarios', $users);
-    } */
-
     public function deleteUsers(Request $request, $id)
     {
         try {
             $users = User::find($id);
-            $users->active = 0;
+            $users->status = 0;
             $users->save();
-            //$users = User::table('users')->where('id', $request->id)->update(['active' => 0]);
             return response()->json([
                 'success' => true,
                 'message' => 'El Usuario se ha eliminado correctamente',
@@ -148,5 +171,4 @@ class UsersController extends Controller
             ], 500);
         }
     }
-
 }

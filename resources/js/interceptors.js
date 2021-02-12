@@ -13,3 +13,16 @@ axios.interceptors.request.use(req => {
     req.headers.Authorization = `Bearer ${token}`;
     return req;
   });
+
+axios.interceptors.response.use((response) => {
+    if(response.status === 401) {
+        localStorage.removeItem('data_user');
+        window.location.href = '/login';
+    }
+    return response;
+}, (error) => {
+    if(error.response.status == 401) {
+        localStorage.removeItem('data_user');
+        window.location.href = '/login';
+    }
+});
