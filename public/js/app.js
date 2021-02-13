@@ -3624,55 +3624,46 @@ var UserResourse = new _providers_User__WEBPACK_IMPORTED_MODULE_2__["default"]()
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var error;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.prev = 0;
-                _context.next = 3;
-                return UserResourse.restorePassword(_this.formData);
+                UserResourse.restorePassword(_this.formData).then(function (data) {
+                  _this.show_confirmation = true;
+                  console.log(data);
 
-              case 3:
-                _this.show_confirmation = true;
+                  _this.$swal.fire({
+                    icon: 'success',
+                    title: 'Bien',
+                    toast: true,
+                    position: 'top',
+                    timer: 3000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                    text: 'Contraseña solicitada correctamente'
+                  });
+                })["catch"](function (err) {
+                  var error = err.response;
+                  _this.message_error = _this.statusCode(error.status);
 
-                _this.$swal.fire({
-                  icon: 'success',
-                  title: 'Bien',
-                  toast: true,
-                  position: 'top',
-                  timer: 3000,
-                  showConfirmButton: false,
-                  timerProgressBar: true,
-                  text: 'Contraseña solicitada correctamente'
+                  _this.$swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    toast: true,
+                    position: 'top',
+                    timer: 3000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                    text: _this.message_error
+                  });
                 });
 
-                _context.next = 12;
-                break;
-
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](0);
-                error = _context.t0.response;
-                _this.message_error = _this.statusCode(error.status);
-
-                _this.$swal.fire({
-                  icon: 'error',
-                  title: 'Oops...',
-                  toast: true,
-                  position: 'top',
-                  timer: 3000,
-                  showConfirmButton: false,
-                  timerProgressBar: true,
-                  text: _this.message_error
-                });
-
-              case 12:
+              case 1:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 7]]);
+        }, _callee);
       }))();
     },
     statusCode: function statusCode(status) {
@@ -92482,18 +92473,22 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.interceptors.request.use(function (
   req.headers.Authorization = "Bearer ".concat(token);
   return req;
 });
-axios__WEBPACK_IMPORTED_MODULE_0___default.a.interceptors.response.use(function (response) {
-  if (response.status === 401) {
+
+var responseStatuses = function responseStatuses(err) {
+  if (err.response.status === 401 && err.response.config.url != '/api/v1/auth/login') {
     localStorage.removeItem('data_user');
     window.location.href = '/login';
+  } else {
+    return Promise.reject(err);
   }
 
+  throw err;
+};
+
+axios__WEBPACK_IMPORTED_MODULE_0___default.a.interceptors.response.use(function (response) {
   return response;
-}, function (error) {
-  if (error.response.status == 401) {
-    localStorage.removeItem('data_user');
-    window.location.href = '/login';
-  }
+}, function (err) {
+  return responseStatuses(err);
 });
 
 /***/ }),

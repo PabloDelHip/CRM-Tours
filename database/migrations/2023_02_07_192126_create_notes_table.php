@@ -15,7 +15,7 @@ class CreateNotesTable extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->text('note');
+            $table->longText('note');
             $table->boolean('status')->default('1');
             $table->unsignedBigInteger('user_profile_id');
             $table->unsignedBigInteger('user_id');

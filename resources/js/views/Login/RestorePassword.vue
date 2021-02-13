@@ -70,10 +70,9 @@
         },
         methods: { 
             async restorePassword() {
-
-                try {
-                    await UserResourse.restorePassword(this.formData)
+                UserResourse.restorePassword(this.formData).then((data) => {
                     this.show_confirmation = true;
+                    console.log(data)
                     this.$swal.fire({
                         icon: 'success',
                         title: 'Bien',
@@ -84,7 +83,7 @@
                         timerProgressBar: true,
                         text: 'Contraseña solicitada correctamente',
                     })
-                } catch (err) {
+                }).catch((err) => {
                     let error = err.response;
                     this.message_error = this.statusCode(error.status)
                     this.$swal.fire({
@@ -97,7 +96,7 @@
                         timerProgressBar: true,
                         text: this.message_error,
                     })
-                }  
+                })
             },
             statusCode(status) {
                 switch (status) {

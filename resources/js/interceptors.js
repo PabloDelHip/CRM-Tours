@@ -14,15 +14,19 @@ axios.interceptors.request.use(req => {
     return req;
   });
 
-axios.interceptors.response.use((response) => {
-    if(response.status === 401) {
+  const responseStatuses = (err) => {
+    if (err.response.status === 401 && err.response.config.url != '/api/v1/auth/login') {
         localStorage.removeItem('data_user');
         window.location.href = '/login';
+    } else {
+      return Promise.reject(err)
     }
-    return response;
-}, (error) => {
-    if(error.response.status == 401) {
-        localStorage.removeItem('data_user');
-        window.location.href = '/login';
-    }
-});
+    throw err
+  }
+
+
+  axios.interceptors.response.use((response) => {
+    return response
+  }, (err) => {
+      return responseStatuses(err)
+  })
