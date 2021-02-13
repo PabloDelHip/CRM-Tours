@@ -45,7 +45,7 @@
                   <td>{{user.created_at}}</td>
                   <td>{{user.updated_at}}</td>
                   <td>
-                    <router-link class="btn btn-primary btn-sm" :to="{ name:'EditUser', params: { id: user.id }}">
+                    <router-link class="btn btn-primary btn-sm" :to="{ name:'perfilUsuario', params: { id: user.id }}"> 
                       Ver
                     </router-link>
                   </td>
