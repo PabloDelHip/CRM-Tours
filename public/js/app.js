@@ -74874,14 +74874,14 @@ var render = function() {
                                 staticClass: "btn btn-primary btn-sm",
                                 attrs: {
                                   to: {
-                                    name: "EditUser",
+                                    name: "perfilUsuario",
                                     params: { id: user.id }
                                   }
                                 }
                               },
                               [
                                 _vm._v(
-                                  "\n                    Ver\n                  "
+                                  " \n                    Ver\n                  "
                                 )
                               ]
                             )

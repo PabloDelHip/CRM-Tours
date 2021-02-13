@@ -51,7 +51,7 @@ class UsersController extends Controller
     public function getUserProfile($id_user)
     {
         $user = User::where('id', $id_user)
-                    ->where('active', true)->get()->first();
+                    ->where('status', true)->get()->first();
         if(!$user)
         {
             return response()->json([
@@ -99,7 +99,8 @@ class UsersController extends Controller
     public function getUsers()
     {
         try {
-            $users = User::orderBy('name', 'asc')->get();
+            $users = User::orderBy('id', 'asc')
+                            ->where('status', true)->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Usuarios obtenidos correctamente',
