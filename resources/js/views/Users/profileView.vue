@@ -20,10 +20,8 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <data-user-component></data-user-component>
-                    <info-user-component
-                        :id_user = this.id
-                    ></info-user-component>
+                    <data-user-component :id_user = this.id></data-user-component>
+                    <info-user-component :id_user = this.id></info-user-component>
                 </div>
             </div>
         </section>

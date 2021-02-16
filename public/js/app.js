@@ -1995,7 +1995,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    id_user: {
+      // Revisar como convertirlo en número
+      required: true
+    }
+  },
+  computed: {
+    user: function user() {
+      return this.$store.state.user;
+    }
+  },
   mounted: function mounted() {
     console.log('Component mounted.');
   }
@@ -4380,8 +4394,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
 //
 //
 //
@@ -71731,66 +71743,81 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "col-md-3" }, [
+    _c("div", { staticClass: "col-md-12 p-0 m-0" }, [
+      _c("div", { staticClass: "card card-primary card-outline" }, [
+        _c(
+          "div",
+          { staticClass: "card-body box-profile" },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("h3", { staticClass: "profile-username text-center" }, [
+              _vm._v("Nina Mcintire")
+            ]),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            this.id_user == this.user.id
+              ? _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-primary btn-block",
+                    attrs: {
+                      to: { name: "EditUser", params: { id: this.id_user } }
+                    }
+                  },
+                  [
+                    _c("b", [
+                      _c("i", { staticClass: "fas fa-pen" }),
+                      _vm._v(" Editar")
+                    ])
+                  ]
+                )
+              : _vm._e()
+          ],
+          1
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("div", { staticClass: "col-md-12 p-0 m-0" }, [
-        _c("div", { staticClass: "card card-primary card-outline" }, [
-          _c("div", { staticClass: "card-body box-profile" }, [
-            _c("div", { staticClass: "text-center" }, [
-              _c("img", {
-                staticClass: "profile-user-img img-fluid img-circle",
-                attrs: {
-                  src: "/dist/img/user4-128x128.jpg",
-                  alt: "User profile picture"
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("h3", { staticClass: "profile-username text-center" }, [
-              _vm._v("Nina Mcintire")
-            ]),
-            _vm._v(" "),
-            _c("ul", { staticClass: "list-group list-group-unbordered mb-3" }, [
-              _c("li", { staticClass: "list-group-item" }, [
-                _c("b", [_vm._v("Tours vendidos")]),
-                _vm._v(" "),
-                _c("a", { staticClass: "float-right" }, [_vm._v("543")])
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "list-group-item" }, [
-                _c("b", [_vm._v("Ciudad")]),
-                _vm._v(" "),
-                _c("a", { staticClass: "float-right" }, [_vm._v("Cancún")])
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "list-group-item" }, [
-                _c("b", [_vm._v("Sucursal")]),
-                _vm._v(" "),
-                _c("a", { staticClass: "float-right" }, [_vm._v("Cancún ADO")])
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-primary btn-block",
-                attrs: { href: "#" }
-              },
-              [
-                _c("b", [
-                  _c("i", { staticClass: "fas fa-pen" }),
-                  _vm._v(" Editar")
-                ])
-              ]
-            )
-          ])
-        ])
+    return _c("div", { staticClass: "text-center" }, [
+      _c("img", {
+        staticClass: "profile-user-img img-fluid img-circle",
+        attrs: {
+          src: "/dist/img/user4-128x128.jpg",
+          alt: "User profile picture"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "list-group list-group-unbordered mb-3" }, [
+      _c("li", { staticClass: "list-group-item" }, [
+        _c("b", [_vm._v("Tours vendidos")]),
+        _vm._v(" "),
+        _c("a", { staticClass: "float-right" }, [_vm._v("543")])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "list-group-item" }, [
+        _c("b", [_vm._v("Ciudad")]),
+        _vm._v(" "),
+        _c("a", { staticClass: "float-right" }, [_vm._v("Cancún")])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "list-group-item" }, [
+        _c("b", [_vm._v("Sucursal")]),
+        _vm._v(" "),
+        _c("a", { staticClass: "float-right" }, [_vm._v("Cancún ADO")])
       ])
     ])
   }
@@ -75448,7 +75475,7 @@ var render = function() {
           "div",
           { staticClass: "row" },
           [
-            _c("data-user-component"),
+            _c("data-user-component", { attrs: { id_user: this.id } }),
             _vm._v(" "),
             _c("info-user-component", { attrs: { id_user: this.id } })
           ],
@@ -93725,8 +93752,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/pablo/CRM/CRM-Tours/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/pablo/CRM/CRM-Tours/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Develop\Personal\CRM-Tours\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Develop\Personal\CRM-Tours\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

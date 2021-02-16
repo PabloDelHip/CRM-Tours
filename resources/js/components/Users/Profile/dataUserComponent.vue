@@ -27,8 +27,11 @@
                                 <b>Sucursal</b> <a class="float-right">Cancún ADO</a>
                             </li>
                             </ul>
-
-                            <a href="#" class="btn btn-primary btn-block"><b><i class="fas fa-pen"></i> Editar</b></a>
+                            <router-link class="btn btn-primary btn-block" 
+                                :to="{ name:'EditUser', params: { id: this.id_user }}"
+                                v-if="this.id_user == this.user.id">
+                                <b><i class="fas fa-pen"></i> Editar</b>
+                            </router-link>
                         </div>
                         <!-- /.card-body -->
                         </div>
@@ -42,6 +45,17 @@
 
 <script>
     export default {
+        props: {
+            id_user: {
+                // Revisar como convertirlo en número
+                required: true,
+            },
+        },
+        computed: {
+          user: function () {
+            return this.$store.state.user
+          }
+        },
         mounted() {
             console.log('Component mounted.')
         }
