@@ -4,6 +4,36 @@
             <div class="col-md-6">
                 <div class="card card-primary">
                     <div class="card-header">
+                        <h3 class="card-title" v-if="newUser">Agregar nuevo perfil</h3>
+                        <h3 class="card-title" v-if="!newUser">Editar perfil</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" class="form-control" v-model="name" placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Apellidos</label>
+                            <input type="text" class="form-control" v-model="lastName" placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate">Fecha de nacimiento</label>
+                            <input type="date" class="form-control" v-model="birthDate" placeholder="John Doe">
+                        </div>
+                            <div class="form-group">
+                                <label for="sex">Sexo</label>
+                                <select class="custom-select" v-model.number="sex">
+                                    <option value="1">Masculino</option>
+                                    <option value="2">Femenino</option>
+                                    <option value="3">Otro</option>
+                                </select>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-primary">
+                    <div class="card-header">
                         <h3 class="card-title" v-if="newUser">Agregar nuevo usuario</h3>
                         <h3 class="card-title" v-if="!newUser">Editar usuario</h3>
                     </div>
@@ -15,16 +45,12 @@
                                 </div>
                             </transition>
                             <div class="form-group">
-                                <label for="name">Nombre</label>
-                                <input type="text" class="form-control" v-model="name" placeholder="John Doe">
-                            </div>
-                            <div class="form-group">
                                 <label for="email">Correo electrónico</label>
                                 <input type="email" class="form-control" v-model="email" :disabled="!newUser"  placeholder="ejemplo.fulanito@ejemplo.com">
                             </div>
                             <div class="form-group" v-if="this.user == null">
                                 <label for="emailConfirm">Confirmar correo electrónico</label>
-                                <input type="email" class="form-control" v-model="emailConfirm"  placeholder="ejemplo.fulanito@ejemplo.com">
+                                <input type="email" class="form-control" v-model="emailConfirm" placeholder="ejemplo.fulanito@ejemplo.com">
                             </div>
                             <div class="form-group" v-if="this.user == null">
                                 <label for="password">Contraseña</label>
@@ -39,10 +65,16 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="button" @click="saveUser()" class="btn btn-primary">Guardar</button>
+                            <button type="button" :disabled="showError" @click="saveUser()" class="btn btn-primary">Guardar</button>
                         </div>
                     </form>
                 </div>
+            </div>
+            <div class="col-md-6">
+                <contacts-component></contacts-component>
+            </div>
+            <div class="col-md-6">
+                <address-component></address-component>
             </div>
         </div>
     </div>
@@ -50,6 +82,8 @@
 
 <script>
     import User from '../../providers/User';
+    import ContactsComponent from '../../components/Contacts/contactsComponent.vue';
+    import AddressComponent from '../../components/Address/addressComponent.vue';
 
     const UserResource = new User();
 
@@ -61,25 +95,33 @@
                 required: false,
             },
         },
+        components: {
+            ContactsComponent,
+            AddressComponent,
+        },
         data () {
             return {
                 message: null,
                 showError: null,
-                name: null,
                 email: null,
                 emailConfirm: null,
                 password: null,
-                statusUser: 0,
+                statusUser: 1,
                 user:  null,
                 newUser: false,
+
+                name: null,
+                lastName: null,
+                birthDate: null,
+                sex: 0,
             }
         },
-        created() {
-            this.newUser = this.id == undefined;
-            if (!this.newUser){
-                this.getUser();
+        async created() {
+            if (this.id != undefined){
+                await this.getUser();
                 return;
             }
+            this.newUser = this.id == undefined || this.user == '';
             this.status = 1;
         },
         methods: {
@@ -91,14 +133,19 @@
             },
             async getUser() {
                 this.user = (await UserResource.getUser(this.id)).data;
-                this.name = this.user.name;
+                if (this.user == ''){
+                    this.message = "Usuario no existe.";
+                    this.showError = true;
+                    return;
+                }
+                // this.name = this.user.name;
                 this.email = this.user.email;
                 this.emailConfirm = this.user.email;
                 this.statusUser = this.user.status;
             },
             getUserForm(){
                 return {
-                    name: this.name,
+                    // name: this.name,
                     email: this.email,
                     password: this.password,
                     status: this.statusUser,
@@ -134,15 +181,15 @@
                 });
             },
             isValidForm() {
-                if (this.name == null || this.name == '') {
-                    this.message = "Nombre no puede estar vacio.";
-                    return false;
-                }
+                // if (this.name == null || this.name == '') {
+                //     this.message = "Nombre no puede estar vacio.";
+                //     return false;
+                // }
                 if (this.email != this.emailConfirm) {
                     this.message = "Correos no coinciden";
                     return false;
                 }
-                if (this.name == '') {
+                if (this.password == '') {
                     this.message = "Contraseña no puede estar vacio.";
                     return false;
                 }
