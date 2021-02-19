@@ -28,7 +28,6 @@ router.beforeEach(async(to, from, next) => {
         localStorage.removeItem('data_user');
         window.location.href = '/login';
     } else {
-        console.log('aqui')
         if (jwt === true && to.path === '/login' && to.path === '/restablecer-contrasena' && url === '/nueva-contrasena') {
             window.location.href = '/overview';
         } else {

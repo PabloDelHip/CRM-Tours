@@ -22,7 +22,10 @@
     <link rel="stylesheet" href="{{ url('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ url('/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ url('/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-</head>
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{url('/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{url('/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+  </head>
 <body class="hold-transition sidebar-mini">
 
     <div>
@@ -35,8 +38,6 @@
     <script src="{{url('plugins/jquery/jquery.min.js')}}"></script>
       <!-- Bootstrap -->
     <script src="{{url('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-      <!-- AdminLTE -->
-    <script src="{{url('dist/js/adminlte.js')}}"></script>
 
       <!-- OPTIONAL SCRIPTS -->
     <script src="{{url('plugins/chart.js/Chart.min.js')}}"></script>
@@ -60,6 +61,8 @@
     <script src="{{url('/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
     <script src="{{url('/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
     <script src="{{url('/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+    <!-- Select2 -->
+    <script src="{{url('/plugins/select2/js/select2.full.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{ url('/dist/js/adminlte.min.js')}}"></script>
   </body>
