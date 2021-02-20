@@ -61,5 +61,11 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function moduls()
+    {
+        return $this->belongsToMany(Moduls::class, 'user_modul', 'user_id', 'module_id');
+    }
+    
     protected $primaryKey = 'id';
 }

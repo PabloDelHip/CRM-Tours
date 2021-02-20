@@ -44,7 +44,8 @@ Route::group([
 
     // Permissions
     Route::get('/users/permits/{id_user}', 'UsersPermitsController@permitsUsers');
-
+    Route::put('/users/permits/put', 'UsersPermitsController@updatePermits');
+    
     // Notes
     Route::get('/notes/user/get/{id_user}', 'NotesController@getNotesUser');
     Route::post('/notes/user/save', 'NotesController@saveNotesUser');

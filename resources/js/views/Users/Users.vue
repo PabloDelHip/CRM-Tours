@@ -26,11 +26,10 @@
             <table id="usersTable" class="table table-bordered table-striped" style="width:100%">
               <thead>
                 <tr>
-                  <th>Nombre</th>
+                  <th>Nombre</th> <!--Nombre + apellido-->
                   <th>Correo</th>
-                  <th>Estatus</th>
+                  <th>Tipo de Usuario</th>
                   <th>Fecha de Creacion</th>
-                  <th>Ultima Actualización</th>
                   <th>Ver</th>
                   <th>Eliminar</th> 
                   <th>Acciones</th>
@@ -38,12 +37,10 @@
               </thead>
               <tbody>
                 <tr v-for="user in users" :key="user.id">
-                  <td>{{user.name}}</td>
+                  <td>{{user.name}} {{user.last_name}}</td>
                   <td>{{user.email}}</td>
-                  <td v-if="user.status == 1">Activo</td>
-                  <td v-if="user.status == 0">Inactivo</td>
-                  <td>{{user.created_at}}</td>
-                  <td>{{user.updated_at}}</td>
+                  <td>{{user.type}}</td>
+                  <td>{{fechaFormato(user.created_at)}}</td>
                   <td>
                     <router-link class="btn btn-primary btn-sm" :to="{ name:'perfilUsuario', params: { id: user.id }}"> 
                       Ver
@@ -71,6 +68,7 @@
 <script>
 import user from "../../providers/User";
 import datatables from "datatables";
+import moment from "moment";
 const userResource = new user();
 
 export default {
@@ -129,6 +127,9 @@ export default {
           this.showError = true;
         }
       }
+    },
+    fechaFormato($fecha) {
+      return moment($fecha).format("DD/MM/YYYY");
     },
     tableusers(){
       this.$nextTick(() => {

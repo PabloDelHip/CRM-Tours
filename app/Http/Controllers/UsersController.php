@@ -99,8 +99,12 @@ class UsersController extends Controller
     public function getUsers()
     {
         try {
-            $users = User::orderBy('id', 'asc')
-                            ->where('status', true)->get();
+            $users = User::join('contacts', 'contacts.id', '=', 'users.contact_id')
+            ->join('profiles', 'profiles.id', '=', 'users.profile_id')
+            ->orderBy('users.id', 'asc')
+                ->where('users.status', true)
+                ->where('contacts.type', 1)
+                ->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Usuarios obtenidos correctamente',
