@@ -19,9 +19,7 @@ class NationsController extends Controller
                 'message' => 'Paises obtenidos correctamente',
                 'data' => $countries
             ], 200);
-
         } catch (Exception $e) {
-            
             return response()->json([
                 'success' => false,
                 'message' => 'No se pudo obtener a los paises',
@@ -41,9 +39,7 @@ class NationsController extends Controller
                 'message' => 'Estados obtenidas correctamente',
                 'data' => $states
             ], 200);
-
         } catch (Exception $e) {
-            
             return response()->json([
                 'success' => false,
                 'message' => 'No se pudo obtener a los estados',
@@ -63,9 +59,7 @@ class NationsController extends Controller
                 'message' => 'Ciudades obtenidas correctamente',
                 'data' => $citys
             ], 200);
-
         } catch (Exception $e) {
-            
             return response()->json([
                 'success' => false,
                 'message' => 'No se pudo obtener a los ciudades',
