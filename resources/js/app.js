@@ -13,13 +13,19 @@ import Select2 from 'v-select2-component';
 import VueSweetalert2 from 'vue-sweetalert2';
 import { localize,extend } from 'vee-validate';
 import es from 'vee-validate/dist/locale/es.json';
+import { Settings } from 'luxon'
+import Multiselect from 'vue-multiselect'
+// You need a specific loader for CSS files
+import 'vue-datetime/dist/vue-datetime.css'
 
 // Install and Activate the Arabic locale.
-localize('es', es);
+localize('es', es); 
+Settings.defaultLocale = 'es'
 
 window.Vue = require('vue');
 Vue.use(Select2);
 Vue.use(VueSweetalert2);
+Vue.component('multiselect', Multiselect);
 
 /**
  * The following block of code may be used to automatically register your
@@ -49,3 +55,5 @@ const app = new Vue({
     router,
     store
 });
+
+

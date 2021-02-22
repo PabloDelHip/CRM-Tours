@@ -1,5 +1,4 @@
 <template>
-    <div>
       <div class="wrapper">
           <!-- Navbar -->
           <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -175,6 +174,7 @@
                   <!-- <li class="nav-header">EXAMPLES</li> -->
                   <li class="nav-item">
                     <a href="pages/calendar.html" class="nav-link">
+                      <i class="fas fa-hand-holding-usd"></i>
                       <p>
                         Oportunidades de venta
                         <span class="badge badge-danger right">2</span>
@@ -183,6 +183,7 @@
                   </li>
                   <li class="nav-item">
                     <router-link class="nav-link" :to="{ name:'getUsers'}">
+                      <i class="fas fa-users"></i>
                       <p>
                         Usuarios
                       </p>
@@ -190,6 +191,7 @@
                   </li>
                   <li class="nav-item">
                     <a href="#" class="nav-link">
+                      <i class="fas fa-shopping-cart"></i>
                       <p>
                         Productos
                         <i class="fas fa-angle-left right"></i>
@@ -229,14 +231,16 @@
                     </ul>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link">
+                    <router-link class="nav-link" :to="{ name:'Contacts'}">
+                      <i class="fas fa-address-card"></i>
                       <p>
                         Contactos
                       </p>
-                    </a>
+                    </router-link>
                   </li>
                   <li class="nav-item">
                     <a href="pages/gallery.html" class="nav-link">
+                      <i class="fas fa-store"></i>
                       <p>
                         Agencias
                       </p>
@@ -244,6 +248,7 @@
                   </li>
                   <li class="nav-item">
                     <a href="pages/gallery.html" class="nav-link">
+                      <i class="fas fa-file-alt"></i>
                       <p>
                         Documentos
                       </p>
@@ -278,7 +283,6 @@
         </footer>
       </div>
       <!-- ./wrapper -->
-    </div>
 </template>
 
 <script>
@@ -314,7 +318,7 @@
         }
     }
 </script>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
   .logout {
     color: #fff;

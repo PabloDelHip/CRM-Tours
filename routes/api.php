@@ -48,6 +48,11 @@ Route::group([
     // Notes
     Route::get('/notes/user/get/{id_user}', 'NotesController@getNotesUser');
     Route::post('/notes/user/save', 'NotesController@saveNotesUser');
+
+    //Countries
+    Route::get('/countries/get', 'NationsController@getCountries');
+    Route::get('/states/get/{id_country}', 'NationsController@getStates');
+    Route::get('/citys/get/{id_state}', 'NationsController@getCitys');
 });
 
 Route::group([
