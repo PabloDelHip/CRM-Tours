@@ -82540,7 +82540,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
-      _c("div", { staticClass: "modal-body row" }, [
+      _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "form-group col-12" }, [
           _c("label", { attrs: { for: "street" } }, [_vm._v("Calle")]),
           _vm._v(" "),
@@ -87568,30 +87568,30 @@ var render = function() {
                 ])
               ],
               1
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-footer" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { type: "button", disabled: _vm.showError },
-                  on: {
-                    click: function($event) {
-                      return _vm.saveUser()
-                    }
-                  }
-                },
-                [_vm._v("Guardar")]
-              )
-            ])
+            )
           ])
         ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-6" }, [_c("contacts-component")], 1),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [_c("address-component")], 1)
+      _c("div", { staticClass: "col-md-6" }, [_c("address-component")], 1),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button", disabled: _vm.showError },
+            on: {
+              click: function($event) {
+                return _vm.saveUser()
+              }
+            }
+          },
+          [_vm._v("Guardar")]
+        )
+      ])
     ])
   ])
 }
@@ -106641,7 +106641,8 @@ var SET_CURRENT_USER = function SET_CURRENT_USER(_ref, jwt) {
         user: {
           id: data_user.id,
           name: data_user.name,
-          email: data_user.email
+          email: data_user.email,
+          profileId: data_user.profile_id
         }
       });
       return true;

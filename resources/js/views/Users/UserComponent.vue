@@ -64,9 +64,6 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button type="button" :disabled="showError" @click="saveUser()" class="btn btn-primary">Guardar</button>
-                        </div>
                     </form>
                 </div>
             </div>
@@ -75,6 +72,9 @@
             </div>
             <div class="col-md-6">
                 <address-component></address-component>
+            </div>
+            <div class="col-md-12">
+                <button type="button" :disabled="showError" @click="saveUser()" class="btn btn-primary">Guardar</button>
             </div>
         </div>
     </div>

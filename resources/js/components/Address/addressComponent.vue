@@ -5,7 +5,7 @@
       <h3 class="card-title" v-if="!newAddress">Editar dirección</h3>
     </div>
     <div class="card-body">
-      <div class="modal-body row">
+      <div class="row">
         <div class="form-group col-12">
           <label for="street">Calle</label>
           <input
