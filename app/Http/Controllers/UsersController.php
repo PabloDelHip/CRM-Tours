@@ -24,7 +24,6 @@ class UsersController extends Controller
         $content['password'] = bcrypt($content['password']);
 
         $user = new User();
-        $user->name = $content['name'];
         $user->password = $content['password'];
         $user->email = $content['email'];
         $user->status = $content['status'];

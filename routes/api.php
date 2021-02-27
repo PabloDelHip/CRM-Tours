@@ -56,6 +56,7 @@ Route::group([
     
     // Profiles
     Route::get('/profile/{id}', 'ProfilesController@getProfile');
+    Route::post('/profile/create', 'ProfilesController@post');
 });
 
 Route::group([
