@@ -5,12 +5,11 @@ export default class Note {
      * Function to get notes user
      * @return Promise
      */
-    getNotesUser (id_user) {
+    getNotesUser(id_user) {
         return axios.get(`/api/v1/notes/user/get/${id_user}`)
     }
 
-    saveNoteUser (formData) {
+    saveNoteUser(formData) {
         return axios.post(`/api/v1/notes/user/save`, formData)
     }
-
 }

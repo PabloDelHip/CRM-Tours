@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Profile extends Model
+class Contact extends Model
 {
-    protected $table = "profiles";// <-- El nombre personalizado de la tabla
+    protected $table = "contacts";// <-- El nombre personalizado de la tabla
 
      /**
      * The attributes that are mass assignable.
@@ -14,6 +14,6 @@ class Profile extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'image', 'bitrh_date', 'sex',
+        'type', 'rfc', 'type_person', 'emails', 'moviles', 'phones', 'address_id',
     ];
 }

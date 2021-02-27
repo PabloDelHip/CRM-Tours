@@ -57,6 +57,14 @@ Route::group([
     // Profiles
     Route::get('/profile/{id}', 'ProfilesController@getProfile');
     Route::post('/profile/create', 'ProfilesController@post');
+
+    // Contactos
+    Route::get('/contact/{id}', 'ContactsController@getContact');
+    Route::post('/contact/create', 'ContactsController@post');
+
+    // Dirección
+    Route::get('/address/{id}', 'AddressController@getAddress');
+    Route::post('/address/create', 'AddressController@post');
 });
 
 Route::group([
