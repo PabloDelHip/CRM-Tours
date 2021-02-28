@@ -39,4 +39,25 @@ class AddressController extends Controller
         
         return $address;
     }
+
+    public function put(Request $request, $id){
+        $address = Address::find($id);
+        $content = $request->all();
+
+        $address->postal_code = $content['postal_code'];
+        $address->street = $content['street'];
+        $address->street_one = $content['street_one'];
+        $address->street_two = $content['street_two'];
+        $address->references = $content['references'];
+        $address->suburb = $content['suburb'];
+        $address->interior_num = $content['interior_num'];
+        $address->exterior_num = $content['exterior_num'];
+        $address->country_id = $content['country_id'];
+        $address->state_id = $content['state_id'];
+        $address->city_id = $content['city_id'];
+
+        $address->save();
+        
+        return $address;
+    }
 }

@@ -32,4 +32,18 @@ class ProfilesController extends Controller
         
         return $profile;
     }
+
+    public function put(Request $request, $id){
+        $profile = Profile::find($id);
+        $content = $request->all();
+
+        $profile->name = $content['name'];
+        $profile->last_name = $content['last_name'];
+        $profile->birth_date = $content['birth_date'];
+        $profile->sex = $content['sex'];
+
+        $profile->save();
+        
+        return $profile;
+    }
 }

@@ -11,4 +11,8 @@ export default class Profile {
     createProfile(formData) {
         return axios.post(`/api/v1/profile/create`, formData)
     }
+
+    updateProfile(id, formData) {
+        return axios.put(`/api/v1/profile/update/${id}`, formData);
+    }
 }

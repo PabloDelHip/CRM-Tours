@@ -1,7 +1,7 @@
 import axios from 'axios'
 export default class Address {
     /**
-     * Function to get profile of user
+     * Function to get address of user
      * @return Promise
      */
     getAddress(id) {
@@ -10,5 +10,9 @@ export default class Address {
 
     createAddress(formData) {
         return axios.post(`/api/v1/address/create`, formData)
+    }
+
+    updateAddress(id, formData) {
+        return axios.put(`/api/v1/address/update/${id}`, formData);
     }
 }

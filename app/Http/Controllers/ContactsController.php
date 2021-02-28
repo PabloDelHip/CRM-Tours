@@ -35,4 +35,21 @@ class ContactsController extends Controller
         
         return $contact;
     }
+
+    public function put(Request $request, $id){
+        $contact = Contact::find($id);
+        $content = $request->all();
+
+        $contact->type = $content['type'];
+        $contact->rfc = $content['rfc'];
+        $contact->type_person = $content['type_person'];
+        $contact->emails = $content['emails'];
+        $contact->moviles = $content['moviles'];
+        $contact->phones = $content['phones'];
+        $contact->address_id = $content['address_id'];
+
+        $contact->save();
+        
+        return $contact;
+    }
 }

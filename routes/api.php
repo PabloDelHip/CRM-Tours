@@ -57,14 +57,17 @@ Route::group([
     // Profiles
     Route::get('/profile/{id}', 'ProfilesController@getProfile');
     Route::post('/profile/create', 'ProfilesController@post');
+    Route::put('/profile/update/{id}', 'ProfilesController@put');
 
     // Contactos
     Route::get('/contact/{id}', 'ContactsController@getContact');
     Route::post('/contact/create', 'ContactsController@post');
+    Route::put('/contact/update/{id}', 'ContactsController@put');
 
     // Dirección
     Route::get('/address/{id}', 'AddressController@getAddress');
     Route::post('/address/create', 'AddressController@post');
+    Route::put('/address/update/{id}', 'AddressController@put');
 });
 
 Route::group([
