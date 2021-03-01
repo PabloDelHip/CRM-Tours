@@ -16,7 +16,10 @@ class UsersController extends Controller
 {
     public function get(Request $request, $userId){
         $user = User::find($userId);
-        $user->profile = $user->profile;
+
+        if ($user){
+            $user->profile = $user->profile;
+        }
 
         return response()->json([
             'success' => true,
@@ -123,6 +126,10 @@ class UsersController extends Controller
         try {
             $users = User::orderBy('id', 'asc')
                             ->where('status', true)->get();
+            
+            foreach ($users as $user) {
+                $user->profile = $user->profile;
+            }
             return response()->json([
                 'success' => true,
                 'message' => 'Usuarios obtenidos correctamente',

@@ -1,6 +1,37 @@
 <template>
-  <div class="container-fluid">
-    <!-- <ValidationObserver v-slot="{validate }" ref="observer"> -->
+  <div>
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Usuario</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">
+                <router-link :to="{ path: '/' }">
+                Home
+                </router-link>
+              </li>
+              <li class="breadcrumb-item" v-if="id == null">
+                <router-link :to="{ name: 'getUsers' }">
+                Usuarios
+                </router-link>
+              </li>
+              <li class="breadcrumb-item" v-else>
+                <router-link :to="{ name: 'perfilUsuario', params: { id: +id }}">
+                Perfil de usuario
+                </router-link>
+              </li>
+              <li class="breadcrumb-item active">Usuario</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <div class="container-fluid">
+      <!-- <ValidationObserver v-slot="{validate }" ref="observer"> -->
       <div class="row">
         <div class="col-md-6">
           <div class="card card-primary">
@@ -15,7 +46,9 @@
                   v-if="profileErrors.length > 0"
                 >
                   <ul>
-                    <li v-for="(e, index) in profileErrors" :key="index"> {{ e }}</li>
+                    <li v-for="(e, index) in profileErrors" :key="index">
+                      {{ e }}
+                    </li>
                   </ul>
                 </div>
                 <div
@@ -77,7 +110,9 @@
                     v-if="userErrors.length > 0"
                   >
                     <ul>
-                      <li v-for="(e, index) in userErrors" :key="index"> {{ e }}</li>
+                      <li v-for="(e, index) in userErrors" :key="index">
+                        {{ e }}
+                      </li>
                     </ul>
                   </div>
                   <div
@@ -134,16 +169,13 @@
           ></contacts-component>
         </div>
         <div class="col-md-12">
-          <button
-            type="button"
-            @click="saveContent()"
-            class="btn btn-primary"
-          >
+          <button type="button" @click="saveContent()" class="btn btn-primary">
             Guardar
           </button>
         </div>
       </div>
-    <!-- </ValidationObserver> -->
+      <!-- </ValidationObserver> -->
+    </div>
   </div>
 </template>
 
@@ -151,7 +183,7 @@
 import User from "../../providers/User";
 import Profile from "../../providers/Profile";
 import ContactsComponent from "../../components/Contacts/contactsComponent.vue";
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full';
+import { ValidationProvider, ValidationObserver, } from "vee-validate/dist/vee-validate.full";
 
 const UserResource = new User();
 const ProfileResource = new Profile();
@@ -197,12 +229,11 @@ export default {
   },
   async created() {
     if (this.id != undefined) {
-      if (await this.getUser()){
+      if (await this.getUser()) {
         await this.getProfile();
-      }
-      else{
+      } else {
         setTimeout(() => {
-          this.$router.push('/users');
+          this.$router.push("/users");
         }, 3000);
       }
       return;
@@ -280,16 +311,17 @@ export default {
       const contactResponse = this.$refs.contactComponent.isValidContactForm();
       const profileErrors = this.isValidProfileForm();
       const userErrors = this.isValidUserForm();
-      const allErrors = contactResponse.concat(profileErrors).concat(userErrors);
-      if (allErrors.length > 0){
+      const allErrors = contactResponse
+        .concat(profileErrors)
+        .concat(userErrors);
+      if (allErrors.length > 0) {
         return;
       }
 
       const saveContactResponse = await this.$refs.contactComponent.saveContact();
       if (saveContactResponse.success) {
         this.ContactId = saveContactResponse.data.id;
-      }
-      else{
+      } else {
         return;
       }
 
@@ -297,8 +329,7 @@ export default {
       if (saveProfileResponse.success) {
         this.ProfileId = saveProfileResponse.data.id;
         this.successProfileMessage = "Perfil guardado correctamente.";
-      }
-      else{
+      } else {
         return;
       }
 
@@ -308,9 +339,12 @@ export default {
       }
       this.successUserMessage = "Usuario guardado correctamente.";
 
-      if (this.newUser){
+      if (this.newUser) {
         setTimeout(() => {
-          this.$router.push({ name:'EditUser', params: { id: +saveUserResponse.data.id }});
+          this.$router.push({
+            name: "EditUser",
+            params: { id: +saveUserResponse.data.id },
+          });
         }, 3000);
       }
     },
@@ -324,7 +358,7 @@ export default {
       } else {
         response = await this.saveEditUser(formData);
       }
-      if (!response.success){
+      if (!response.success) {
         this.userErrors.push("Error al guardar el usuario.");
       }
       return response;
@@ -339,7 +373,7 @@ export default {
       } else {
         response = await this.saveEditProfile(formData);
       }
-      if (!response.success){
+      if (!response.success) {
         this.profileErrors.push("Error al guardar el perfil.");
       }
       return response;
@@ -357,7 +391,8 @@ export default {
       return response;
     },
     async saveEditProfile(formData) {
-      var response = (await ProfileResource.updateProfile(this.id, formData)).data;
+      var response = (await ProfileResource.updateProfile(this.id, formData))
+        .data;
       return response;
     },
     isValidUserForm() {

@@ -43,12 +43,12 @@ export default new Router({
             props: true
         },
         {
-            path: '/users',
+            path: '/users/',
             name: 'getUsers',
-            component: Users
+            component: Users,
         },
         {
-            path: '/users/create',
+            path: '/users/create/',
             name: 'CreateUser',
             component: UserComponent
         },
@@ -91,7 +91,7 @@ export default new Router({
                 component: PublicContactsKms
               }
             ] */
-          },
+        },
         {
             path: '/overview',
             name: 'Overview',
