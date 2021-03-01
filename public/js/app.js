@@ -6482,16 +6482,10 @@ var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
       showWarning: null
     };
   },
-  mounted: function mounted() {
+  created: function created() {
     this.obtenerUsuarios();
   },
   methods: {
-    newUser: function newUser() {
-      window.location.href = '/users/create';
-    },
-    editUser: function editUser($id) {
-      window.location.href = '/users/edit/' + $id;
-    },
     obtenerUsuarios: function obtenerUsuarios() {
       var _this = this;
 
