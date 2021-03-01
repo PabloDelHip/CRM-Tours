@@ -2136,7 +2136,7 @@ var AddressResource = new _providers_Address__WEBPACK_IMPORTED_MODULE_2__["defau
                   break;
                 }
 
-                _this.errors.push("Error al obtener contacto.");
+                _this.errors.push("Error al obtener dirección.");
 
                 return _context.abrupt("return");
 
@@ -2148,7 +2148,7 @@ var AddressResource = new _providers_Address__WEBPACK_IMPORTED_MODULE_2__["defau
                   break;
                 }
 
-                _this.errors.push("Contacto no existe.");
+                _this.errors.push("Dirección no existe.");
 
                 return _context.abrupt("return");
 
@@ -2302,20 +2302,43 @@ var AddressResource = new _providers_Address__WEBPACK_IMPORTED_MODULE_2__["defau
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var formData;
+        var formData, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
+                _this5.errors = [];
                 formData = _this5.getAddressForm();
+                response = null;
 
-                if (_this5.newAddress) {
-                  _this5.saveNewAddress(formData);
-                } else {
-                  _this5.saveEditAddress(formData);
+                if (!_this5.newAddress) {
+                  _context5.next = 9;
+                  break;
                 }
 
-              case 2:
+                _context5.next = 6;
+                return _this5.saveNewAddress(formData);
+
+              case 6:
+                response = _context5.sent;
+                _context5.next = 12;
+                break;
+
+              case 9:
+                _context5.next = 11;
+                return _this5.saveEditAddress(formData);
+
+              case 11:
+                response = _context5.sent;
+
+              case 12:
+                if (!response.success) {
+                  _this5.errors.push("Error al guardar la dirección.");
+                }
+
+                return _context5.abrupt("return", response);
+
+              case 14:
               case "end":
                 return _context5.stop();
             }
@@ -2335,7 +2358,7 @@ var AddressResource = new _providers_Address__WEBPACK_IMPORTED_MODULE_2__["defau
 
               case 2:
                 response = _context6.sent.data;
-                console.log(response);
+                return _context6.abrupt("return", response);
 
               case 4:
               case "end":
@@ -2359,7 +2382,7 @@ var AddressResource = new _providers_Address__WEBPACK_IMPORTED_MODULE_2__["defau
 
               case 2:
                 response = _context7.sent.data;
-                console.log(response);
+                return _context7.abrupt("return", response);
 
               case 4:
               case "end":
@@ -2584,23 +2607,27 @@ var ContactResource = new _providers_Contact__WEBPACK_IMPORTED_MODULE_1__["defau
                 response = _context.sent.data;
 
                 if (response.success) {
-                  _context.next = 5;
+                  _context.next = 6;
                   break;
                 }
 
+                _this.errors.push("Error al obtener contacto.");
+
                 return _context.abrupt("return");
 
-              case 5:
+              case 6:
                 _this.contact = response.data;
 
                 if (!(_this.contact == "")) {
-                  _context.next = 8;
+                  _context.next = 10;
                   break;
                 }
 
+                _this.errors.push("Contacto no existe.");
+
                 return _context.abrupt("return");
 
-              case 8:
+              case 10:
                 _this.addressId = _this.contact.address_id;
                 _this.typeContact = _this.contact.type;
                 _this.rfcContact = _this.contact.rfc;
@@ -2609,7 +2636,7 @@ var ContactResource = new _providers_Contact__WEBPACK_IMPORTED_MODULE_1__["defau
                 _this.mobilesContact = _this.contact.moviles;
                 _this.phonesContact = _this.contact.phones;
 
-              case 15:
+              case 17:
               case "end":
                 return _context.stop();
             }
@@ -2617,23 +2644,128 @@ var ContactResource = new _providers_Contact__WEBPACK_IMPORTED_MODULE_1__["defau
         }, _callee);
       }))();
     },
+    getContactForm: function getContactForm() {
+      return {
+        type: this.typeContact,
+        rfc: this.rfcContact,
+        type_person: this.typePerson,
+        emails: this.emailsContact,
+        moviles: this.mobilesContact,
+        phones: this.phonesContact,
+        address_id: this.addressId
+      };
+    },
     saveContact: function saveContact() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var saveAddressResponse;
+        var saveAddressResponse, formData, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                saveAddressResponse = _this2.$refs.addressComponent.saveAddress();
+                _context2.next = 2;
+                return _this2.$refs.addressComponent.saveAddress();
 
-              case 1:
+              case 2:
+                saveAddressResponse = _context2.sent;
+
+                if (!saveAddressResponse.success) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _this2.addressId = saveAddressResponse.data.id;
+                _context2.next = 8;
+                break;
+
+              case 7:
+                return _context2.abrupt("return", saveAddressResponse);
+
+              case 8:
+                _this2.errors = [];
+                formData = _this2.getContactForm();
+                response = null;
+
+                if (!_this2.newContact) {
+                  _context2.next = 17;
+                  break;
+                }
+
+                _context2.next = 14;
+                return _this2.saveNewContact(formData);
+
+              case 14:
+                response = _context2.sent;
+                _context2.next = 20;
+                break;
+
+              case 17:
+                _context2.next = 19;
+                return _this2.saveEditContact(formData);
+
+              case 19:
+                response = _context2.sent;
+
+              case 20:
+                if (!response.success) {
+                  _this2.errors.push("Error al guardar la contacto.");
+                }
+
+                return _context2.abrupt("return", response);
+
+              case 22:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
+      }))();
+    },
+    saveNewContact: function saveNewContact(formData) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return ContactResource.createContact(formData);
+
+              case 2:
+                response = _context3.sent.data;
+                return _context3.abrupt("return", response);
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    saveEditContact: function saveEditContact(formData) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return ContactResource.updateContact(_this3.id, formData);
+
+              case 2:
+                response = _context4.sent.data;
+                return _context4.abrupt("return", response);
+
+              case 4:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
       }))();
     },
     isValidContactForm: function isValidContactForm() {

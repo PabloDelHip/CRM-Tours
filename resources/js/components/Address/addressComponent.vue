@@ -193,12 +193,12 @@ export default {
     async getAddress() {
       var response = (await AddressResource.getAddress(this.id)).data;
       if (!response.success) {
-        this.errors.push("Error al obtener contacto.");
+        this.errors.push("Error al obtener dirección.");
         return;
       }
       this.address = response.data;
       if (this.address == "" || this.address == null) {
-        this.errors.push("Contacto no existe.");
+        this.errors.push("Dirección no existe.");
         return;
       }
 
@@ -266,20 +266,26 @@ export default {
       };
     },
     async saveAddress (){
+      this.errors = [];
       let formData = this.getAddressForm();
+      var response = null;
       if (this.newAddress) {
-        this.saveNewAddress(formData);
+        response = await this.saveNewAddress(formData);
       } else {
-        this.saveEditAddress(formData);
+        response = await this.saveEditAddress(formData);
       }
+      if (!response.success){
+        this.errors.push("Error al guardar la dirección.");
+      }
+      return response;
     },
     async saveNewAddress(formData) {
       var response = (await AddressResource.createAddress(formData)).data;
-      console.log(response);
+      return response;
     },
     async saveEditAddress(formData) {
       var response = (await AddressResource.updateAddress(this.id, formData)).data;
-      console.log(response);
+      return response;
     },
     isValidAddressForm() {
       const errors = [];

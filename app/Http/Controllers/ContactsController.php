@@ -33,7 +33,11 @@ class ContactsController extends Controller
 
         $contact->save();
         
-        return $contact;
+        return response()->json([
+            'success' => true,
+            'message' => 'Contacto insertado',
+            'data' => $contact,
+        ], 200);
     }
 
     public function put(Request $request, $id){
@@ -50,6 +54,10 @@ class ContactsController extends Controller
 
         $contact->save();
         
-        return $contact;
+        return response()->json([
+            'success' => true,
+            'message' => 'Contacto actualizado',
+            'data' => $contact,
+        ], 200);
     }
 }

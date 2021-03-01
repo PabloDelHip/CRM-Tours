@@ -140,14 +140,12 @@ export default {
     async getContact() {
       var response = (await ContactResource.getContact(this.id)).data;
       if (!response.success) {
-        // this.message = "Error al obtener contacto.";
-        // this.showError = true;
+        this.errors.push("Error al obtener contacto.");
         return;
       }
       this.contact = response.data;
       if (this.contact == "") {
-        // this.message = "Contacto no existe.";
-        // this.showError = true;
+        this.errors.push("Contacto no existe.");
         return;
       }
 
@@ -159,8 +157,47 @@ export default {
       this.mobilesContact = this.contact.moviles;
       this.phonesContact = this.contact.phones;
     },
+    getContactForm() {
+      return {
+        type: this.typeContact,
+        rfc: this.rfcContact,
+        type_person: this.typePerson,
+        emails: this.emailsContact,
+        moviles: this.mobilesContact,
+        phones: this.phonesContact,
+        address_id: this.addressId,
+      };
+    },
     async saveContact() {
-      const saveAddressResponse = this.$refs.addressComponent.saveAddress();
+      const saveAddressResponse = await this.$refs.addressComponent.saveAddress();
+      if (saveAddressResponse.success) {
+        this.addressId = saveAddressResponse.data.id;
+      }
+      else{
+        return saveAddressResponse;
+      }
+
+      this.errors = [];
+      let formData = this.getContactForm();
+      var response = null;
+
+      if (this.newContact) {
+        response = await this.saveNewContact(formData);
+      } else {
+        response = await this.saveEditContact(formData);
+      }
+      if (!response.success){
+        this.errors.push("Error al guardar la contacto.");
+      }
+      return response;
+    },
+    async saveNewContact(formData) {
+      var response = (await ContactResource.createContact(formData)).data;
+      return response;
+    },
+    async saveEditContact(formData) {
+      var response = (await ContactResource.updateContact(this.id, formData)).data;
+      return response;
     },
     isValidContactForm() {
       const addressResponse = this.$refs.addressComponent.isValidAddressForm();
