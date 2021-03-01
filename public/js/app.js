@@ -2074,6 +2074,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 var nationResource = new _providers_Nation__WEBPACK_IMPORTED_MODULE_1__["default"]();
@@ -2090,6 +2096,7 @@ var AddressResource = new _providers_Address__WEBPACK_IMPORTED_MODULE_2__["defau
       newAddress: true,
       address: null,
       errors: [],
+      successMessage: "",
       countries: [],
       states: [],
       cities: [],
@@ -2302,14 +2309,14 @@ var AddressResource = new _providers_Address__WEBPACK_IMPORTED_MODULE_2__["defau
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var formData, response;
+        var response, formData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 _this5.errors = [];
-                formData = _this5.getAddressForm();
                 response = null;
+                formData = _this5.getAddressForm();
 
                 if (!_this5.newAddress) {
                   _context5.next = 9;
@@ -2336,9 +2343,10 @@ var AddressResource = new _providers_Address__WEBPACK_IMPORTED_MODULE_2__["defau
                   _this5.errors.push("Error al guardar la dirección.");
                 }
 
+                _this5.successMessage = "Contacto guardado correctamente.";
                 return _context5.abrupt("return", response);
 
-              case 14:
+              case 15:
               case "end":
                 return _context5.stop();
             }
@@ -2551,6 +2559,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 var ContactResource = new _providers_Contact__WEBPACK_IMPORTED_MODULE_1__["default"]();
@@ -2575,6 +2589,7 @@ var ContactResource = new _providers_Contact__WEBPACK_IMPORTED_MODULE_1__["defau
       contact: null,
       addressId: null,
       errors: [],
+      successMessage: "",
       // Contacto
       rfcContact: null,
       typePerson: 0,
@@ -2709,12 +2724,13 @@ var ContactResource = new _providers_Contact__WEBPACK_IMPORTED_MODULE_1__["defau
 
               case 20:
                 if (!response.success) {
-                  _this2.errors.push("Error al guardar la contacto.");
+                  _this2.errors.push("Error al guardar contacto.");
                 }
 
+                _this2.successMessage = "Dirección guardada correctamente.";
                 return _context2.abrupt("return", response);
 
-              case 22:
+              case 23:
               case "end":
                 return _context2.stop();
             }
@@ -2771,10 +2787,6 @@ var ContactResource = new _providers_Contact__WEBPACK_IMPORTED_MODULE_1__["defau
     isValidContactForm: function isValidContactForm() {
       var addressResponse = this.$refs.addressComponent.isValidAddressForm();
       var errors = [];
-
-      if (this.addressId == null || this.addressId == "") {
-        errors.push("Address Id no puede estar vacio.");
-      }
 
       if (this.typeContact == null || this.typeContact == "") {
         errors.push("Tipo de contacto no puede estar vacio.");
@@ -5639,6 +5651,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5662,10 +5686,13 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
     return {
       profileErrors: [],
       userErrors: [],
+      successProfileMessage: "",
+      successUserMessage: "",
       newUser: false,
       user: null,
       profile: null,
       ContactId: null,
+      ProfileId: null,
       // Usuario
       email: null,
       emailConfirm: null,
@@ -5795,9 +5822,10 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
                 _this3.emailConfirm = _this3.user.email;
                 _this3.statusUser = _this3.user.status;
                 _this3.ContactId = _this3.user.contact_id;
+                _this3.ProfileId = _this3.user.profile_id;
                 return _context3.abrupt("return", true);
 
-              case 15:
+              case 16:
               case "end":
                 return _context3.stop();
             }
@@ -5867,22 +5895,25 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
       return {
         email: this.email,
         password: this.password,
-        status: this.statusUser
+        status: +this.statusUser,
+        level: 1,
+        profile_id: this.ProfileId,
+        contact_id: this.ContactId
       };
     },
     getProfileForm: function getProfileForm() {
       return {
         name: this.name,
-        lastName: this.lastName,
-        birthDate: this.birthDate,
-        sex: this.sex
+        last_name: this.lastName,
+        birth_date: this.birthDate,
+        sex: +this.sex
       };
     },
     saveContent: function saveContent() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var contactResponse, profileErrors, userErrors, allErrors, saveContactResponse;
+        var contactResponse, profileErrors, userErrors, allErrors, saveContactResponse, saveProfileResponse, saveUserResponse;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -5900,9 +5931,73 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
                 return _context5.abrupt("return");
 
               case 6:
-                saveContactResponse = _this5.$refs.contactComponent.saveContact();
+                _context5.next = 8;
+                return _this5.$refs.contactComponent.saveContact();
 
-              case 7:
+              case 8:
+                saveContactResponse = _context5.sent;
+
+                if (!saveContactResponse.success) {
+                  _context5.next = 13;
+                  break;
+                }
+
+                _this5.ContactId = saveContactResponse.data.id;
+                _context5.next = 14;
+                break;
+
+              case 13:
+                return _context5.abrupt("return");
+
+              case 14:
+                _context5.next = 16;
+                return _this5.saveProfile();
+
+              case 16:
+                saveProfileResponse = _context5.sent;
+
+                if (!saveProfileResponse.success) {
+                  _context5.next = 22;
+                  break;
+                }
+
+                _this5.ProfileId = saveProfileResponse.data.id;
+                _this5.successProfileMessage = "Perfil guardado correctamente.";
+                _context5.next = 23;
+                break;
+
+              case 22:
+                return _context5.abrupt("return");
+
+              case 23:
+                _context5.next = 25;
+                return _this5.saveUser();
+
+              case 25:
+                saveUserResponse = _context5.sent;
+
+                if (saveUserResponse.success) {
+                  _context5.next = 28;
+                  break;
+                }
+
+                return _context5.abrupt("return");
+
+              case 28:
+                _this5.successUserMessage = "Usuario guardado correctamente.";
+
+                if (_this5.newUser) {
+                  setTimeout(function () {
+                    _this5.$router.push({
+                      name: 'EditUser',
+                      params: {
+                        id: +saveUserResponse.data.id
+                      }
+                    });
+                  }, 3000);
+                }
+
+              case 30:
               case "end":
                 return _context5.stop();
             }
@@ -5911,49 +6006,46 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
       }))();
     },
     saveUser: function saveUser() {
-      this.userErrors = [];
+      var _this6 = this;
 
-      if (!this.isValidUserForm()) {
-        return;
-      }
-
-      var formData = this.getUserForm();
-
-      if (this.newUser) {
-        this.saveNewUser(formData);
-      } else {
-        this.saveEditUser(formData);
-      }
-    },
-    saveProfile: function saveProfile() {
-      this.profileErrors = [];
-
-      if (!this.isValidProfileForm()) {
-        return;
-      }
-
-      var formData = this.getProfileForm();
-
-      if (this.newUser) {
-        this.saveNewProfile(formData);
-      } else {
-        this.saveEditProfile(formData);
-      }
-    },
-    saveNewUser: function saveNewUser(formData) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        var response;
+        var response, formData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                _context6.next = 2;
-                return UserResource.createUser(formData);
+                _this6.userErrors = [];
+                response = null;
+                formData = _this6.getUserForm();
 
-              case 2:
-                response = _context6.sent.data;
+                if (!_this6.newUser) {
+                  _context6.next = 9;
+                  break;
+                }
 
-              case 3:
+                _context6.next = 6;
+                return _this6.saveNewUser(formData);
+
+              case 6:
+                response = _context6.sent;
+                _context6.next = 12;
+                break;
+
+              case 9:
+                _context6.next = 11;
+                return _this6.saveEditUser(formData);
+
+              case 11:
+                response = _context6.sent;
+
+              case 12:
+                if (!response.success) {
+                  _this6.userErrors.push("Error al guardar el usuario.");
+                }
+
+                return _context6.abrupt("return", response);
+
+              case 14:
               case "end":
                 return _context6.stop();
             }
@@ -5961,22 +6053,47 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
         }, _callee6);
       }))();
     },
-    saveEditUser: function saveEditUser(formData) {
-      var _this6 = this;
+    saveProfile: function saveProfile() {
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-        var response;
+        var response, formData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                _context7.next = 2;
-                return UserResource.updateUser(_this6.id, formData);
+                _this7.profileErrors = [];
+                response = null;
+                formData = _this7.getProfileForm();
 
-              case 2:
-                response = _context7.sent.data;
+                if (!_this7.newUser) {
+                  _context7.next = 9;
+                  break;
+                }
 
-              case 3:
+                _context7.next = 6;
+                return _this7.saveNewProfile(formData);
+
+              case 6:
+                response = _context7.sent;
+                _context7.next = 12;
+                break;
+
+              case 9:
+                _context7.next = 11;
+                return _this7.saveEditProfile(formData);
+
+              case 11:
+                response = _context7.sent;
+
+              case 12:
+                if (!response.success) {
+                  _this7.profileErrors.push("Error al guardar el perfil.");
+                }
+
+                return _context7.abrupt("return", response);
+
+              case 14:
               case "end":
                 return _context7.stop();
             }
@@ -5984,7 +6101,7 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
         }, _callee7);
       }))();
     },
-    saveNewProfile: function saveNewProfile(formData) {
+    saveNewUser: function saveNewUser(formData) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
         var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
@@ -5992,12 +6109,13 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
             switch (_context8.prev = _context8.next) {
               case 0:
                 _context8.next = 2;
-                return ProfileResource.createProfile(formData);
+                return UserResource.createUser(formData);
 
               case 2:
                 response = _context8.sent.data;
+                return _context8.abrupt("return", response);
 
-              case 3:
+              case 4:
               case "end":
                 return _context8.stop();
             }
@@ -6005,8 +6123,8 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
         }, _callee8);
       }))();
     },
-    saveEditProfile: function saveEditProfile(formData) {
-      var _this7 = this;
+    saveEditUser: function saveEditUser(formData) {
+      var _this8 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
         var response;
@@ -6015,17 +6133,64 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
             switch (_context9.prev = _context9.next) {
               case 0:
                 _context9.next = 2;
-                return ProfileResource.updateProfile(_this7.id, formData);
+                return UserResource.updateUser(_this8.id, formData);
 
               case 2:
                 response = _context9.sent.data;
+                return _context9.abrupt("return", response);
 
-              case 3:
+              case 4:
               case "end":
                 return _context9.stop();
             }
           }
         }, _callee9);
+      }))();
+    },
+    saveNewProfile: function saveNewProfile(formData) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                _context10.next = 2;
+                return ProfileResource.createProfile(formData);
+
+              case 2:
+                response = _context10.sent.data;
+                return _context10.abrupt("return", response);
+
+              case 4:
+              case "end":
+                return _context10.stop();
+            }
+          }
+        }, _callee10);
+      }))();
+    },
+    saveEditProfile: function saveEditProfile(formData) {
+      var _this9 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                _context11.next = 2;
+                return ProfileResource.updateProfile(_this9.id, formData);
+
+              case 2:
+                response = _context11.sent.data;
+                return _context11.abrupt("return", response);
+
+              case 4:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11);
       }))();
     },
     isValidUserForm: function isValidUserForm() {
@@ -83423,6 +83588,17 @@ var render = function() {
                   )
                 ]
               )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.successMessage.length > 0
+            ? _c(
+                "div",
+                {
+                  staticClass:
+                    "alert alert-success alert-dismissible text-center"
+                },
+                [_vm._v("\n        " + _vm._s(_vm.successMessage) + "\n      ")]
+              )
             : _vm._e()
         ]),
         _vm._v(" "),
@@ -83821,6 +83997,23 @@ var render = function() {
                           ])
                         }),
                         0
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.successMessage.length > 0
+                ? _c(
+                    "div",
+                    {
+                      staticClass:
+                        "alert alert-success alert-dismissible text-center"
+                    },
+                    [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.successMessage) +
+                          "\n          "
                       )
                     ]
                   )
@@ -88314,6 +88507,23 @@ var render = function() {
                         )
                       ]
                     )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.successProfileMessage.length > 0
+                  ? _c(
+                      "div",
+                      {
+                        staticClass:
+                          "alert alert-success alert-dismissible text-center"
+                      },
+                      [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.successProfileMessage) +
+                            "\n              "
+                        )
+                      ]
+                    )
                   : _vm._e()
               ]),
               _vm._v(" "),
@@ -88491,6 +88701,23 @@ var render = function() {
                                 ])
                               }),
                               0
+                            )
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.successUserMessage.length > 0
+                      ? _c(
+                          "div",
+                          {
+                            staticClass:
+                              "alert alert-success alert-dismissible text-center"
+                          },
+                          [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(_vm.successUserMessage) +
+                                "\n                "
                             )
                           ]
                         )

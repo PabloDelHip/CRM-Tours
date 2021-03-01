@@ -32,19 +32,34 @@ class UsersController extends Controller
         $user->password = $content['password'];
         $user->email = $content['email'];
         $user->status = $content['status'];
+        $user->level = $content['level'];
+        $user->profile_id = $content['profile_id'];
+        $user->contact_id = $content['contact_id'];
         $user->save();
-        return $user;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Usuario insertado',
+            'data' => $user,
+        ], 200);
     }
 
     public function put(Request $request, $userId){
         $content = $request->all();
 
         $user = User::find($userId);
-        $user->name = $content['name'];
         $user->email = $content['email'];
         $user->status = $content['status'];
+        $user->level = $content['level'];
+        $user->profile_id = $content['profile_id'];
+        $user->contact_id = $content['contact_id'];
         $user->save();
-        return $user;
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Usuario actualizado',
+            'data' => $user,
+        ], 200);
     }
 
     public function getCurrentUser() {

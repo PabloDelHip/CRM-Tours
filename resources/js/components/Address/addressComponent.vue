@@ -14,6 +14,12 @@
             <li v-for="(e, index) in errors" :key="index"> {{ e }}</li>
           </ul>
         </div>
+        <div
+          class="alert alert-success alert-dismissible text-center"
+          v-if="successMessage.length > 0"
+        >
+          {{ successMessage }}
+        </div>
       </transition>
       <div class="row">
       <div class="form-group col-12">
@@ -162,6 +168,7 @@ export default {
 
       address: null,
       errors: [],
+      successMessage: "",
 
       countries: [],
       states: [],
@@ -267,8 +274,9 @@ export default {
     },
     async saveAddress (){
       this.errors = [];
-      let formData = this.getAddressForm();
       var response = null;
+      
+      let formData = this.getAddressForm();
       if (this.newAddress) {
         response = await this.saveNewAddress(formData);
       } else {
@@ -277,6 +285,8 @@ export default {
       if (!response.success){
         this.errors.push("Error al guardar la dirección.");
       }
+      this.successMessage = "Contacto guardado correctamente.";
+      
       return response;
     },
     async saveNewAddress(formData) {

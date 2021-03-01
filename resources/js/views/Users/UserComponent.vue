@@ -18,6 +18,12 @@
                     <li v-for="(e, index) in profileErrors" :key="index"> {{ e }}</li>
                   </ul>
                 </div>
+                <div
+                  class="alert alert-success alert-dismissible text-center"
+                  v-if="successProfileMessage.length > 0"
+                >
+                  {{ successProfileMessage }}
+                </div>
               </transition>
               <div class="form-group">
                 <label for="name">Nombre</label>
@@ -73,6 +79,12 @@
                     <ul>
                       <li v-for="(e, index) in userErrors" :key="index"> {{ e }}</li>
                     </ul>
+                  </div>
+                  <div
+                    class="alert alert-success alert-dismissible text-center"
+                    v-if="successUserMessage.length > 0"
+                  >
+                    {{ successUserMessage }}
                   </div>
                 </transition>
                 <div class="form-group">
@@ -161,11 +173,14 @@ export default {
     return {
       profileErrors: [],
       userErrors: [],
+      successProfileMessage: "",
+      successUserMessage: "",
 
       newUser: false,
       user: null,
       profile: null,
       ContactId: null,
+      ProfileId: null,
 
       // Usuario
       email: null,
@@ -219,6 +234,7 @@ export default {
       this.statusUser = this.user.status;
 
       this.ContactId = this.user.contact_id;
+      this.ProfileId = this.user.profile_id;
 
       return true;
     },
@@ -246,15 +262,18 @@ export default {
       return {
         email: this.email,
         password: this.password,
-        status: this.statusUser,
+        status: +this.statusUser,
+        level: 1,
+        profile_id: this.ProfileId,
+        contact_id: this.ContactId,
       };
     },
     getProfileForm() {
       return {
         name: this.name,
-        lastName: this.lastName,
-        birthDate: this.birthDate,
-        sex: this.sex,
+        last_name: this.lastName,
+        birth_date: this.birthDate,
+        sex: +this.sex,
       };
     },
     async saveContent() {
@@ -266,45 +285,80 @@ export default {
         return;
       }
 
-      const saveContactResponse = this.$refs.contactComponent.saveContact();
-    },
-    saveUser() {
-      this.userErrors = [];
-      if (!this.isValidUserForm()) {
+      const saveContactResponse = await this.$refs.contactComponent.saveContact();
+      if (saveContactResponse.success) {
+        this.ContactId = saveContactResponse.data.id;
+      }
+      else{
         return;
       }
+
+      var saveProfileResponse = await this.saveProfile();
+      if (saveProfileResponse.success) {
+        this.ProfileId = saveProfileResponse.data.id;
+        this.successProfileMessage = "Perfil guardado correctamente.";
+      }
+      else{
+        return;
+      }
+
+      var saveUserResponse = await this.saveUser();
+      if (!saveUserResponse.success) {
+        return;
+      }
+      this.successUserMessage = "Usuario guardado correctamente.";
+
+      if (this.newUser){
+        setTimeout(() => {
+          this.$router.push({ name:'EditUser', params: { id: +saveUserResponse.data.id }});
+        }, 3000);
+      }
+    },
+    async saveUser() {
+      this.userErrors = [];
+      var response = null;
 
       let formData = this.getUserForm();
       if (this.newUser) {
-        this.saveNewUser(formData);
+        response = await this.saveNewUser(formData);
       } else {
-        this.saveEditUser(formData);
+        response = await this.saveEditUser(formData);
       }
+      if (!response.success){
+        this.userErrors.push("Error al guardar el usuario.");
+      }
+      return response;
     },
-    saveProfile() {
+    async saveProfile() {
       this.profileErrors = [];
-      if (!this.isValidProfileForm()) {
-        return;
-      }
+      var response = null;
 
       let formData = this.getProfileForm();
       if (this.newUser) {
-        this.saveNewProfile(formData);
+        response = await this.saveNewProfile(formData);
       } else {
-        this.saveEditProfile(formData);
+        response = await this.saveEditProfile(formData);
       }
+      if (!response.success){
+        this.profileErrors.push("Error al guardar el perfil.");
+      }
+      return response;
     },
     async saveNewUser(formData) {
       var response = (await UserResource.createUser(formData)).data;
+      return response;
     },
     async saveEditUser(formData) {
       var response = (await UserResource.updateUser(this.id, formData)).data;
+      return response;
     },
     async saveNewProfile(formData) {
       var response = (await ProfileResource.createProfile(formData)).data;
+      return response;
     },
     async saveEditProfile(formData) {
       var response = (await ProfileResource.updateProfile(this.id, formData)).data;
+      return response;
     },
     isValidUserForm() {
       const errors = [];

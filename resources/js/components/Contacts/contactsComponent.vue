@@ -16,6 +16,12 @@
                 <li v-for="(e, index) in errors" :key="index"> {{ e }}</li>
               </ul>
             </div>
+            <div
+              class="alert alert-success alert-dismissible text-center"
+              v-if="successMessage.length > 0"
+            >
+              {{ successMessage }}
+            </div>
           </transition>
           <div class="form-group" v-show="false">
             <label for="typeContact">Tipo de contacto</label>
@@ -120,6 +126,7 @@ export default {
       contact: null,
       addressId: null,
       errors: [],
+      successMessage: "",
 
       // Contacto
       rfcContact: null,
@@ -187,8 +194,10 @@ export default {
         response = await this.saveEditContact(formData);
       }
       if (!response.success){
-        this.errors.push("Error al guardar la contacto.");
+        this.errors.push("Error al guardar contacto.");
       }
+      this.successMessage = "Dirección guardada correctamente.";
+
       return response;
     },
     async saveNewContact(formData) {
@@ -202,9 +211,6 @@ export default {
     isValidContactForm() {
       const addressResponse = this.$refs.addressComponent.isValidAddressForm();
       const errors = [];
-      if (this.addressId == null || this.addressId == "") {
-        errors.push("Address Id no puede estar vacio.");
-      }
       if (this.typeContact == null || this.typeContact == "") {
         errors.push("Tipo de contacto no puede estar vacio.");
       }

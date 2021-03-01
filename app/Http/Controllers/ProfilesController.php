@@ -30,7 +30,11 @@ class ProfilesController extends Controller
 
         $profile->save();
         
-        return $profile;
+        return response()->json([
+            'success' => true,
+            'message' => 'Perfil insertado',
+            'data' => $profile,
+        ], 200);
     }
 
     public function put(Request $request, $id){
@@ -44,6 +48,10 @@ class ProfilesController extends Controller
 
         $profile->save();
         
-        return $profile;
+        return response()->json([
+            'success' => true,
+            'message' => 'Perfil actualizado',
+            'data' => $profile,
+        ], 200);
     }
 }
