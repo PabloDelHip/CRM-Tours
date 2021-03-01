@@ -16,6 +16,7 @@ class UsersController extends Controller
 {
     public function get(Request $request, $userId){
         $user = User::find($userId);
+        $user->profile = $user->profile;
 
         return response()->json([
             'success' => true,
@@ -64,7 +65,9 @@ class UsersController extends Controller
 
     public function getCurrentUser() {
         $token = JWTAuth::getToken();
-        return User::where('remember_token', $token)->get()->first();
+        $user = User::where('remember_token', $token)->get()->first();
+        $user->profile = $user->profile;
+        return $user;
     }
 
     public function getUserProfile($id_user)

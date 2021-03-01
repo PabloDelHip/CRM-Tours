@@ -62,4 +62,9 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
     protected $primaryKey = 'id';
+
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
 }

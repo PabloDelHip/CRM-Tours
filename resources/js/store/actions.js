@@ -9,9 +9,9 @@ export const SET_CURRENT_USER = ({ commit }, jwt) => {
                 commit('SET_CURRENT_USER', {
                     user: {
                         id: data_user.id,
-                        name: data_user.name,
+                        full_name: data_user.profile.name + " " + data_user.profile.last_name,
                         email: data_user.email,
-                        profileId: data_user.profile_id,
+                        profile: data_user.profile,
                     }
                 })
                 return true

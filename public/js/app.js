@@ -4889,6 +4889,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 var AuthResourse = new _providers_Auth__WEBPACK_IMPORTED_MODULE_1__["default"]();
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -86930,38 +86934,75 @@ var render = function() {
       "aside",
       { staticClass: "main-sidebar sidebar-dark-primary elevation-4" },
       [
-        _vm._m(1),
+        _c(
+          "router-link",
+          { staticClass: "brand-link", attrs: { to: { path: "/" } } },
+          [
+            _c("img", {
+              staticClass: "brand-image img-circle elevation-3",
+              staticStyle: { opacity: ".8" },
+              attrs: { src: "/img/LogotipoCRM.png", alt: "AdminLTE Logo" }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "brand-text font-weight-light" }, [
+              _vm._v("CRM TOURS")
+            ])
+          ]
+        ),
         _vm._v(" "),
         _c("div", { staticClass: "sidebar" }, [
           _c("div", { staticClass: "user-panel mt-3 pb-3 mb-3 d-flex" }, [
-            _vm._m(2),
+            _vm._m(1),
             _vm._v(" "),
-            _c("div", { staticClass: "info" }, [
-              _c("a", { staticClass: "d-block", attrs: { href: "#" } }, [
-                _vm._v(_vm._s(_vm.user.name))
-              ]),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass:
-                    "btn btn-outline-danger btn-block btn-sm logout mt-3",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.logout()
+            _c(
+              "div",
+              { staticClass: "info" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "d-block",
+                    attrs: {
+                      to: {
+                        name: "perfilUsuario",
+                        params: { id: +_vm.user.id }
+                      }
                     }
-                  }
-                },
-                [
-                  _c("i", { staticClass: "fas fa-sign-out-alt" }),
-                  _vm._v(" \n                      Cerrar sesión\n            ")
-                ]
-              )
-            ])
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.user.full_name) +
+                        "\n            "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "btn btn-outline-danger btn-block btn-sm logout mt-3",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.logout()
+                      }
+                    }
+                  },
+                  [
+                    _c("i", { staticClass: "fas fa-sign-out-alt" }),
+                    _vm._v(
+                      " \n                      Cerrar sesión\n            "
+                    )
+                  ]
+                )
+              ],
+              1
+            )
           ]),
           _vm._v(" "),
-          _vm._m(3),
+          _vm._m(2),
           _vm._v(" "),
           _c("nav", { staticClass: "mt-2" }, [
             _c(
@@ -86975,7 +87016,7 @@ var render = function() {
                 }
               },
               [
-                _vm._m(4),
+                _vm._m(3),
                 _vm._v(" "),
                 _c(
                   "li",
@@ -87001,7 +87042,7 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
-                _vm._m(5),
+                _vm._m(4),
                 _vm._v(" "),
                 _c(
                   "li",
@@ -87027,14 +87068,15 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
-                _vm._m(6),
+                _vm._m(5),
                 _vm._v(" "),
-                _vm._m(7)
+                _vm._m(6)
               ]
             )
           ])
         ])
-      ]
+      ],
+      1
     ),
     _vm._v(" "),
     _c(
@@ -87361,22 +87403,6 @@ var staticRenderFns = [
         ])
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "brand-link", attrs: { href: "/" } }, [
-      _c("img", {
-        staticClass: "brand-image img-circle elevation-3",
-        staticStyle: { opacity: ".8" },
-        attrs: { src: "/img/LogotipoCRM.png", alt: "AdminLTE Logo" }
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "brand-text font-weight-light" }, [
-        _vm._v("CRM TOURS")
-      ])
-    ])
   },
   function() {
     var _vm = this
@@ -108131,9 +108157,9 @@ var SET_CURRENT_USER = function SET_CURRENT_USER(_ref, jwt) {
       commit('SET_CURRENT_USER', {
         user: {
           id: data_user.id,
-          name: data_user.name,
+          full_name: data_user.profile.name + " " + data_user.profile.last_name,
           email: data_user.email,
-          profileId: data_user.profile_id
+          profile: data_user.profile
         }
       });
       return true;
