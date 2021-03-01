@@ -85,7 +85,7 @@
                     placeholder="ejemplo.fulanito@ejemplo.com"
                   />
                 </div>
-                <div class="form-group" v-if="this.user == null">
+                <div class="form-group" v-show="this.user == null">
                   <label for="emailConfirm">Confirmar correo electrónico</label>
                   <input
                     type="email"
@@ -94,7 +94,7 @@
                     placeholder="ejemplo.fulanito@ejemplo.com"
                   />
                 </div>
-                <div class="form-group" v-if="this.user == null">
+                <div class="form-group" v-show="this.user == null">
                   <label for="password">Contraseña</label>
                   <input
                     type="password"
@@ -244,7 +244,6 @@ export default {
     },
     getUserForm() {
       return {
-        // name: this.name,
         email: this.email,
         password: this.password,
         status: this.statusUser,
@@ -264,9 +263,10 @@ export default {
       const userErrors = this.isValidUserForm();
       const allErrors = contactResponse.concat(profileErrors).concat(userErrors);
       if (allErrors.length > 0){
-        console.log("Formulario invalido");
         return;
       }
+
+      const saveContactResponse = this.$refs.contactComponent.saveContact();
     },
     saveUser() {
       this.userErrors = [];

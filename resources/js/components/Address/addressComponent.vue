@@ -193,14 +193,12 @@ export default {
     async getAddress() {
       var response = (await AddressResource.getAddress(this.id)).data;
       if (!response.success) {
-        // this.message = "Error al obtener contacto.";
-        // this.showError = true;
+        this.errors.push("Error al obtener contacto.");
         return;
       }
       this.address = response.data;
-      if (this.address == "") {
-        // this.message = "Contacto no existe.";
-        // this.showError = true;
+      if (this.address == "" || this.address == null) {
+        this.errors.push("Contacto no existe.");
         return;
       }
 
@@ -252,19 +250,36 @@ export default {
         console.log("error ciudades", error);
       }
     },
-
-
+    getAddressForm() {
+      return {
+        street: this.street,
+        street_one: this.street1,
+        street_two: this.street2,
+        references: this.references,
+        suburb: this.suburb,
+        postal_code: +this.postalCode,
+        interior_num: +this.interiorNumber,
+        exterior_num: +this.exteriorNumber,
+        country_id: this.form.country.id,
+        state_id: this.form.state.id,
+        city_id: this.form.city.id,
+      };
+    },
     async saveAddress (){
-      const errors = this.isValidAddressForm();
-      console.log(errors);
-      if (errors.length > 0){
-        return false;
+      let formData = this.getAddressForm();
+      if (this.newAddress) {
+        this.saveNewAddress(formData);
+      } else {
+        this.saveEditAddress(formData);
       }
-      
-
-
-
-      return true;
+    },
+    async saveNewAddress(formData) {
+      var response = (await AddressResource.createAddress(formData)).data;
+      console.log(response);
+    },
+    async saveEditAddress(formData) {
+      var response = (await AddressResource.updateAddress(this.id, formData)).data;
+      console.log(response);
     },
     isValidAddressForm() {
       const errors = [];

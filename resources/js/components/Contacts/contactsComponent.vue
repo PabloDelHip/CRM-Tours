@@ -160,13 +160,7 @@ export default {
       this.phonesContact = this.contact.phones;
     },
     async saveContact() {
-
-      const errors = this.isValidContactForm();
-      console.log(errors);
-      if (errors.length > 0){
-        return false;
-      }
-      console.log("Contact was saved");
+      const saveAddressResponse = this.$refs.addressComponent.saveAddress();
     },
     isValidContactForm() {
       const addressResponse = this.$refs.addressComponent.isValidAddressForm();

@@ -2132,23 +2132,27 @@ var AddressResource = new _providers_Address__WEBPACK_IMPORTED_MODULE_2__["defau
                 response = _context.sent.data;
 
                 if (response.success) {
-                  _context.next = 5;
+                  _context.next = 6;
                   break;
                 }
 
+                _this.errors.push("Error al obtener contacto.");
+
                 return _context.abrupt("return");
 
-              case 5:
+              case 6:
                 _this.address = response.data;
 
-                if (!(_this.address == "")) {
-                  _context.next = 8;
+                if (!(_this.address == "" || _this.address == null)) {
+                  _context.next = 10;
                   break;
                 }
 
+                _this.errors.push("Contacto no existe.");
+
                 return _context.abrupt("return");
 
-              case 8:
+              case 10:
                 _this.street = _this.address.street;
                 _this.street1 = _this.address.street_one;
                 _this.street2 = _this.address.street_two;
@@ -2160,22 +2164,22 @@ var AddressResource = new _providers_Address__WEBPACK_IMPORTED_MODULE_2__["defau
                 _this.form.country = _this.countries.filter(function (c) {
                   return c.id == _this.address.country_id;
                 })[0];
-                _context.next = 19;
+                _context.next = 21;
                 return _this.getStates();
 
-              case 19:
+              case 21:
                 _this.form.state = _this.states.filter(function (s) {
                   return s.id == _this.address.state_id;
                 })[0];
-                _context.next = 22;
+                _context.next = 24;
                 return _this.getCitys();
 
-              case 22:
+              case 24:
                 _this.form.city = _this.cities.filter(function (c) {
                   return c.id == _this.address.city_id;
                 })[0];
 
-              case 23:
+              case 25:
               case "end":
                 return _context.stop();
             }
@@ -2279,34 +2283,90 @@ var AddressResource = new _providers_Address__WEBPACK_IMPORTED_MODULE_2__["defau
         }, _callee4, null, [[0, 8]]);
       }))();
     },
+    getAddressForm: function getAddressForm() {
+      return {
+        street: this.street,
+        street_one: this.street1,
+        street_two: this.street2,
+        references: this.references,
+        suburb: this.suburb,
+        postal_code: +this.postalCode,
+        interior_num: +this.interiorNumber,
+        exterior_num: +this.exteriorNumber,
+        country_id: this.form.country.id,
+        state_id: this.form.state.id,
+        city_id: this.form.city.id
+      };
+    },
     saveAddress: function saveAddress() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var errors;
+        var formData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                errors = _this5.isValidAddressForm();
-                console.log(errors);
+                formData = _this5.getAddressForm();
 
-                if (!(errors.length > 0)) {
-                  _context5.next = 4;
-                  break;
+                if (_this5.newAddress) {
+                  _this5.saveNewAddress(formData);
+                } else {
+                  _this5.saveEditAddress(formData);
                 }
 
-                return _context5.abrupt("return", false);
-
-              case 4:
-                return _context5.abrupt("return", true);
-
-              case 5:
+              case 2:
               case "end":
                 return _context5.stop();
             }
           }
         }, _callee5);
+      }))();
+    },
+    saveNewAddress: function saveNewAddress(formData) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return AddressResource.createAddress(formData);
+
+              case 2:
+                response = _context6.sent.data;
+                console.log(response);
+
+              case 4:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    saveEditAddress: function saveEditAddress(formData) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return AddressResource.updateAddress(_this6.id, formData);
+
+              case 2:
+                response = _context7.sent.data;
+                console.log(response);
+
+              case 4:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
       }))();
     },
     isValidAddressForm: function isValidAddressForm() {
@@ -2561,25 +2621,14 @@ var ContactResource = new _providers_Contact__WEBPACK_IMPORTED_MODULE_1__["defau
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var errors;
+        var saveAddressResponse;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                errors = _this2.isValidContactForm();
-                console.log(errors);
+                saveAddressResponse = _this2.$refs.addressComponent.saveAddress();
 
-                if (!(errors.length > 0)) {
-                  _context2.next = 4;
-                  break;
-                }
-
-                return _context2.abrupt("return", false);
-
-              case 4:
-                console.log("Contact was saved");
-
-              case 5:
+              case 1:
               case "end":
                 return _context2.stop();
             }
@@ -5684,7 +5733,6 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
     },
     getUserForm: function getUserForm() {
       return {
-        // name: this.name,
         email: this.email,
         password: this.password,
         status: this.statusUser
@@ -5702,7 +5750,7 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var contactResponse, profileErrors, userErrors, allErrors;
+        var contactResponse, profileErrors, userErrors, allErrors, saveContactResponse;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -5713,12 +5761,14 @@ var ProfileResource = new _providers_Profile__WEBPACK_IMPORTED_MODULE_2__["defau
                 allErrors = contactResponse.concat(profileErrors).concat(userErrors);
 
                 if (!(allErrors.length > 0)) {
-                  _context5.next = 7;
+                  _context5.next = 6;
                   break;
                 }
 
-                console.log("Formulario invalido");
                 return _context5.abrupt("return");
+
+              case 6:
+                saveContactResponse = _this5.$refs.contactComponent.saveContact();
 
               case 7:
               case "end":
@@ -88347,71 +88397,92 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  this.user == null
-                    ? _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "emailConfirm" } }, [
-                          _vm._v("Confirmar correo electrónico")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.emailConfirm,
-                              expression: "emailConfirm"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "email",
-                            placeholder: "ejemplo.fulanito@ejemplo.com"
-                          },
-                          domProps: { value: _vm.emailConfirm },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.emailConfirm = $event.target.value
-                            }
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: this.user == null,
+                          expression: "this.user == null"
+                        }
+                      ],
+                      staticClass: "form-group"
+                    },
+                    [
+                      _c("label", { attrs: { for: "emailConfirm" } }, [
+                        _vm._v("Confirmar correo electrónico")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.emailConfirm,
+                            expression: "emailConfirm"
                           }
-                        })
-                      ])
-                    : _vm._e(),
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "email",
+                          placeholder: "ejemplo.fulanito@ejemplo.com"
+                        },
+                        domProps: { value: _vm.emailConfirm },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.emailConfirm = $event.target.value
+                          }
+                        }
+                      })
+                    ]
+                  ),
                   _vm._v(" "),
-                  this.user == null
-                    ? _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "password" } }, [
-                          _vm._v("Contraseña")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.password,
-                              expression: "password"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "password",
-                            placeholder: "Contraseña"
-                          },
-                          domProps: { value: _vm.password },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.password = $event.target.value
-                            }
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: this.user == null,
+                          expression: "this.user == null"
+                        }
+                      ],
+                      staticClass: "form-group"
+                    },
+                    [
+                      _c("label", { attrs: { for: "password" } }, [
+                        _vm._v("Contraseña")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.password,
+                            expression: "password"
                           }
-                        })
-                      ])
-                    : _vm._e(),
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "password", placeholder: "Contraseña" },
+                        domProps: { value: _vm.password },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.password = $event.target.value
+                          }
+                        }
+                      })
+                    ]
+                  ),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", [_vm._v("Estatus del usuario")]),
