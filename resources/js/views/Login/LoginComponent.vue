@@ -100,8 +100,8 @@
                     password: this.password
                     }
                     AuthResourse.login(formData).then((response) => {
-                        this.show_error = false
-                        localStorage.setItem('data_user', JSON.stringify(response.data))
+                        this.show_error = false;
+                        localStorage.setItem('data_user', JSON.stringify(response.data));
                         window.location.href = '/overview';
                         //this.$router.push({name: 'Overview'})
                     }).catch(err => {

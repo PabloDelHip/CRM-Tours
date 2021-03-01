@@ -7,7 +7,7 @@
             <h3 class="card-title">Usuarios</h3>
           </div>
           <div class="card-header">
-            <router-link style="color: #fff;" class="btn btn-warning" :to="{ name:'CreateUser'}">
+            <router-link style="color: #fff;" class="btn btn-warning" :to="{ name:'CreateUser' }">
               <i class="fas fa-user"></i> 
               Nuevo Usuario
             </router-link>
@@ -38,7 +38,7 @@
               </thead>
               <tbody>
                 <tr v-for="user in users" :key="user.id">
-                  <td>{{user.name}}</td>
+                  <td>{{user.profile.name}}</td>
                   <td>{{user.email}}</td>
                   <td v-if="user.status == 1">Activo</td>
                   <td v-if="user.status == 0">Inactivo</td>
@@ -84,16 +84,10 @@ export default {
       showWarning: null,
     };
   },
-  mounted() {
+  created() {
     this.obtenerUsuarios();
   },
   methods: {
-    newUser(){
-      window.location.href = '/users/create';
-    },
-    editUser($id){
-      window.location.href = '/users/edit/'+ $id;
-    },
     async obtenerUsuarios() {
       try {
         var response = (await userResource.getUsers()).data;

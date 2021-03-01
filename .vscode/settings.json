@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        "**/node_modules": true,
+        "**/public": true
+    },
+    "search.exclude": {
+        "**/public": true,
+        "**/vendor": true
+    }
+}
