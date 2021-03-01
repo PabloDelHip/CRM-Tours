@@ -10,7 +10,7 @@ class ProfilesController extends Controller
 {
     public function getProfile($id)
     {
-        $profile = Profile::where('id', $id)->get();
+        $profile = Profile::find($id);
 
         return response()->json([
             'success' => true,

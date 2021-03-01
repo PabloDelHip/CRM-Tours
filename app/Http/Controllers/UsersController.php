@@ -16,7 +16,12 @@ class UsersController extends Controller
 {
     public function get(Request $request, $userId){
         $user = User::find($userId);
-        return $user;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Email enviado de forma correcta',
+            'data' => $user
+        ], 200);
     }
 
     public function post(Request $request){

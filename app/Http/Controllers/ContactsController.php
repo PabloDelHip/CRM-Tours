@@ -10,7 +10,7 @@ class ContactsController extends Controller
 {
     public function getContact($id)
     {
-        $contact = Contact::where('id', $id)->get();
+        $contact = Contact::find($id);
 
         return response()->json([
             'success' => true,

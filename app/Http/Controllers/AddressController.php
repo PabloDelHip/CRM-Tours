@@ -10,7 +10,7 @@ class AddressController extends Controller
 {
     public function getAddress($id)
     {
-        $address = Address::where('id', $id)->get();
+        $address = Address::find($id);
 
         return response()->json([
             'success' => true,
@@ -37,7 +37,11 @@ class AddressController extends Controller
 
         $address->save();
         
-        return $address;
+        return response()->json([
+            'success' => true,
+            'message' => 'Dirección insertada',
+            'data' => $address,
+        ], 200);
     }
 
     public function put(Request $request, $id){
@@ -58,6 +62,10 @@ class AddressController extends Controller
 
         $address->save();
         
-        return $address;
+        return response()->json([
+            'success' => true,
+            'message' => 'Dirección actualizada',
+            'data' => $address,
+        ], 200);
     }
 }

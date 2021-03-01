@@ -28,7 +28,7 @@
                             </li>
                             </ul>
                             <router-link class="btn btn-primary btn-block" 
-                                :to="{ name:'EditUser', params: { id: this.id_user }}"
+                                :to="{ name:'EditUser', params: { id: +this.id_user }}"
                                 v-if="this.id_user == this.user.id">
                                 <b><i class="fas fa-pen"></i> Editar</b>
                             </router-link>
