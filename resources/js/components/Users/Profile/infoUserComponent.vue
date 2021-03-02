@@ -378,8 +378,8 @@
                 $('#editor').summernote()
                 //DATA-TABLE
                 $("#example1").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                "responsive": false, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print"],
                 language: {
                     "decimal": "",
                     "emptyTable": "No hay información",
@@ -404,5 +404,15 @@
             })
         }
     }
-</script> 
+</script>
+
+
+<style>
+    #settings div.dataTables_wrapper div.row div.col-sm-12.col-md-6 {
+
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 12px;
+}
+</style>
  

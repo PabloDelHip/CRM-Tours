@@ -68,4 +68,9 @@ class User extends Authenticatable implements JWTSubject
     }
     
     protected $primaryKey = 'id';
+
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
 }

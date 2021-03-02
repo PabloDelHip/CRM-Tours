@@ -1,25 +1,28 @@
-import UserProvider from '../providers/User';
+import UserProvider from "../providers/User";
 
-const UserResource = new UserProvider()
+const UserResource = new UserProvider();
 
-export const SET_CURRENT_USER = ({commit}, jwt) => {
+export const SET_CURRENT_USER = ({ commit }, jwt) => {
     return new Promise((resolve, reject) => {
-      UserResource.getCurrentUser().then((user) => {
-        let data_user = user.data;
-        commit('SET_CURRENT_USER', {
-          user: {
-            id: data_user.id,
-            name: data_user.name,
-            email: data_user.email
-          }
-        })
-        return true
-      })
-      .then(() => {
-        resolve(true)
-      })
-      .catch((err) => {
-        reject(err)
-      })
-    })
-  }
+        UserResource.getCurrentUser()
+            .then((user) => {
+                let data_user = user.data;
+                commit("SET_CURRENT_USER", {
+                    user: {
+                        id: data_user.id,
+                        full_name: data_user.profile.name + " " + data_user.profile.last_name,
+                        email: data_user.email,
+                        level: data_user.level,
+                        profile: data_user.profile,
+                    },
+                });
+                return true;
+            })
+            .then(() => {
+                resolve(true);
+            })
+            .catch((err) => {
+                reject(err);
+            });
+    });
+};

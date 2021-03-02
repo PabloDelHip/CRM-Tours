@@ -1,5 +1,4 @@
 <template>
-    <div>
       <div class="wrapper">
           <!-- Navbar -->
           <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -132,10 +131,11 @@
           <!-- Main Sidebar Container -->
           <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="/" class="brand-link">
+            <router-link class="brand-link" 
+                :to="{ path:'/'}">
               <img src="/img/LogotipoCRM.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
               <span class="brand-text font-weight-light">CRM TOURS</span>
-            </a>
+            </router-link>
         
             <!-- Sidebar -->
             <div class="sidebar">
@@ -145,7 +145,10 @@
                   <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                  <a href="#" class="d-block">{{ user.name }}</a>
+                  <router-link class="d-block" 
+                      :to="{ name:'perfilUsuario', params: { id: +user.id }}">
+                      {{ user.full_name }}
+                  </router-link>
                   <button type="button"
                           class="btn btn-outline-danger btn-block btn-sm logout mt-3"
                           @click="logout()">
@@ -175,6 +178,7 @@
                   <!-- <li class="nav-header">EXAMPLES</li> -->
                   <li class="nav-item">
                     <a href="pages/calendar.html" class="nav-link">
+                      <i class="fas fa-hand-holding-usd"></i>
                       <p>
                         Oportunidades de venta
                         <span class="badge badge-danger right">2</span>
@@ -183,6 +187,7 @@
                   </li>
                   <li class="nav-item">
                     <router-link class="nav-link" :to="{ name:'getUsers'}">
+                      <i class="fas fa-users"></i>
                       <p>
                         Usuarios
                       </p>
@@ -190,6 +195,7 @@
                   </li>
                   <li class="nav-item">
                     <a href="#" class="nav-link">
+                      <i class="fas fa-shopping-cart"></i>
                       <p>
                         Productos
                         <i class="fas fa-angle-left right"></i>
@@ -229,14 +235,16 @@
                     </ul>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link">
+                    <router-link class="nav-link" :to="{ name:'Contacts'}">
+                      <i class="fas fa-address-card"></i>
                       <p>
                         Contactos
                       </p>
-                    </a>
+                    </router-link>
                   </li>
                   <li class="nav-item">
                     <a href="pages/gallery.html" class="nav-link">
+                      <i class="fas fa-store"></i>
                       <p>
                         Agencias
                       </p>
@@ -244,6 +252,7 @@
                   </li>
                   <li class="nav-item">
                     <a href="pages/gallery.html" class="nav-link">
+                      <i class="fas fa-file-alt"></i>
                       <p>
                         Documentos
                       </p>
@@ -278,7 +287,6 @@
         </footer>
       </div>
       <!-- ./wrapper -->
-    </div>
 </template>
 
 <script>
@@ -329,7 +337,7 @@
         }
     }
 </script>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
   .logout {
     color: #fff;

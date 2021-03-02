@@ -37,7 +37,7 @@
               </thead>
               <tbody>
                 <tr v-for="user in users" :key="user.id">
-                  <td>{{user.name}} {{user.last_name}}</td>
+                  <td>{{user.profile.name}}</td>
                   <td>{{user.email}}</td>
                   <td>{{user.type}}</td>
                   <td>{{fechaFormato(user.created_at)}}</td>
@@ -102,24 +102,11 @@ export default {
       this.delete = this.permitsModuls[0]["delete"];
       console.log(this.created, this.read, this.update, this.delete);
     }
+  },
+  created() {
     this.obtenerUsuarios();
   },
-  // computed:{
-  //   deshabilitado(){
-  //     if (this.read === 0) {
-  //       return 0;
-  //     } else {
-  //       return 1;
-  //     }
-  //   }
-  // },
   methods: {
-    newUser(){
-      window.location.href = '/users/create';
-    },
-    editUser($id){
-      window.location.href = '/users/edit/'+ $id;
-    },
     async obtenerUsuarios() {
       try {
         var response = (await userResource.getUsers()).data;
@@ -139,35 +126,34 @@ export default {
     },
     async deleteUser($id) {
       if (confirm("¿Esta seguro que desea eliminarlo?")) {
-        alert('entro a eliminar');
-      //   try {
-      //     var response = (await userResource.deleteUsers($id)).data;
-      //     if (response.success){
-      //       this.message = "El usuario se ha eliminado correctamente",
-      //       this.showSuccess = true;
-      //       this.obtenerUsuarios();
-      //     }
-      //     else{
-      //       this.message = "No se pudo eliminar el usuario";
-      //       this.showError = true;
-      //     }
-      //   } catch (error) {
-      //     this.message = "No se pudo eliminar el usuario";
-      //     this.showError = true;
-      //   }
+        try {
+          var response = (await userResource.deleteUsers($id)).data;
+          if (response.success){
+            this.message = "El usuario se ha eliminado correctamente",
+            this.showSuccess = true;
+            this.obtenerUsuarios();
+          }
+          else{
+            this.message = "No se pudo eliminar el usuario";
+            this.showError = true;
+          }
+        } catch (error) {
+          this.message = "No se pudo eliminar el usuario";
+          this.showError = true;
+        }
        }
     },
-    habilitarbotones(){
-      $("#delete").on("click", function(){
-        console.log(this.delete);
-       return this.permitsModuls[0]["delete"];
-      //  if(this.delete==1) {
-      //     $(this).prop('disabled', true);
-      //  }else {
-      //     $(this).prop('disabled', false);
-      //  }
-      });
-    },
+    // habilitarbotones(){
+    //   $("#delete").on("click", function(){
+    //     console.log(this.delete);
+    //    return this.permitsModuls[0]["delete"];
+    //   //  if(this.delete==1) {
+    //   //     $(this).prop('disabled', true);
+    //   //  }else {
+    //   //     $(this).prop('disabled', false);
+    //   //  }
+    //   });
+    // },
     fechaFormato($fecha) {
       return moment($fecha).format("DD/MM/YYYY");
     },

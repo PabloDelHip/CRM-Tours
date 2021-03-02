@@ -20,6 +20,9 @@ Route::get('/login', ['as' => 'login', 'uses' => 'LoginController@index']);
 Route::get('/restablecer-contrasena', ['as' => 'restablecer-contrasena', 'uses' => 'LoginController@index']);
 Route::get('/nueva-contrasena/{token?}', ['as' => '/nueva-contrasena', 'uses' => 'LoginController@index']);
 
+// Customers
+Route::get('/contacts', ['as' => 'contacts', 'uses' => 'HomeController@index']);
+
 // Users
 Route::get('/users', ['as' => '/users', 'uses' => 'HomeController@index']);
 Route::get('/users/create', ['as' => '/users/create', 'uses' => 'HomeController@index']);
