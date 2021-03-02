@@ -14,4 +14,8 @@ export default class Permits {
         return axios.put(`/api/v1/users/permits/put`, formData);
     }
 
+    modulPermits(id) {
+        return axios.get(`/api/v1/users/${id}`);
+    }
+
 }

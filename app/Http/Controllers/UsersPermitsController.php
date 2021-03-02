@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
@@ -12,6 +13,24 @@ use Illuminate\Validation\Rules\Exists;
 
 class UsersPermitsController extends Controller
 {
+    public function modulPermits($id){
+        try {
+            $permitsModuls = User_modul::where('user_id', '=', $id)->orderBy('module_id', 'ASC')
+            ->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Permisos obtenidos correctamente',
+                'data' => $permitsModuls
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se pudo obtener los permisos',
+                'err' => $e
+            ], 500);
+        }
+    }
+
     public function permitsUsers(Request $request, $id)
     {
         $modules = User_modul::where('user_id', '=', $id)->get();

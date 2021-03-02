@@ -284,11 +284,16 @@
 <script>
     
     import Auth from '../../providers/Auth';
-
+    import getPermits from "../../providers/Permits";
     const AuthResourse = new Auth();
-
+    const permitsResource = new getPermits();
+    
     export default {
-
+        data(){
+          return{
+          usuarioActual: null,
+          };
+        },
         methods: { 
             async logout() {
                 try {
@@ -303,6 +308,15 @@
                     password: this.password
                 }
             },
+            async permisos() { 
+             try {
+              this.usuarioActual = JSON.parse(localStorage.getItem('data_user'));
+              var response = (await permitsResource.modulPermits(this.usuarioActual.user.id)).data;
+              localStorage.setItem('permits_user', JSON.stringify(response.data));
+             } catch (error) {
+               console.log(error);
+             }
+           },
         },
         computed: {
           user: function () {
@@ -311,6 +325,7 @@
         },
         mounted() {
           this.$store.dispatch('SET_CURRENT_USER')
+          this.permisos();
         }
     }
 </script>

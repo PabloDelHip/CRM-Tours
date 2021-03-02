@@ -61,7 +61,7 @@ export default new Router({
             props: true
         },
         {
-            path: 'users/permissions/:id',
+            path: '/users/permissions/:id',
             name: 'permisos',
             component: PermitsUsers,
             props: true

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Crypt;
 use App\User;
+use App\User_modul;
 use Exception;
 use GuzzleHttp\Psr7\Message;
 use PhpParser\Node\Stmt\TryCatch;
@@ -105,6 +106,40 @@ class UsersController extends Controller
                 ->where('users.status', true)
                 ->where('contacts.type', 1)
                 ->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuarios obtenidos correctamente',
+                'data' => $users
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se pudo obtener a los usuarios',
+                'err' => $e
+            ], 500);
+        }
+    }
+
+    public function getAllUsers($id)
+    {
+        try {
+            $permits = User_modul::where('user_id', '=', $id)
+                ->where('module_id', 1)
+                ->Select('created', 'read', 'update', 'delete')
+                ->get();
+            // $created = $permits->created;
+            $users = User::join('contacts', 'contacts.id', '=', 'users.contact_id')
+            ->join('profiles', 'profiles.id', '=', 'users.profile_id')
+            ->orderBy('users.id', 'asc')
+            ->where('users.status', true)
+            ->where('contacts.type', 1)
+            ->get();
+            $users->map(function ($user) {
+                $user->created = 0;
+                $user->read = 0;
+                $user->update = 0;
+                $user->delete = 0;
+            });
             return response()->json([
                 'success' => true,
                 'message' => 'Usuarios obtenidos correctamente',

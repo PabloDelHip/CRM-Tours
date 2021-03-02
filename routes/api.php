@@ -61,4 +61,6 @@ Route::group([
     Route::post('/users/restore-password', 'UsersController@restorePassword');
     Route::get('/users/get-token-password/{token?}', 'UsersController@getTokenPassword');
     Route::put('/users/update-password/{token?}', 'UsersController@updatePassword');
+    Route::get('/users/{id_user}', 'UsersPermitsController@modulPermits');
+    Route::get('/users/obtener/{id}', 'UsersController@getAllUsers');
 });

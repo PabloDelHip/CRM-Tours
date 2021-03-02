@@ -2958,6 +2958,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _providers_Auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../providers/Auth */ "./resources/js/providers/Auth.js");
+/* harmony import */ var _providers_Permits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../providers/Permits */ "./resources/js/providers/Permits.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3248,8 +3249,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 
+
 var AuthResourse = new _providers_Auth__WEBPACK_IMPORTED_MODULE_1__["default"]();
+var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["default"]();
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      usuarioActual: null
+    };
+  },
   methods: {
     logout: function logout() {
       var _this = this;
@@ -3289,6 +3297,39 @@ var AuthResourse = new _providers_Auth__WEBPACK_IMPORTED_MODULE_1__["default"]()
           }
         }, _callee, null, [[0, 8]]);
       }))();
+    },
+    permisos: function permisos() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _this2.usuarioActual = JSON.parse(localStorage.getItem('data_user'));
+                _context2.next = 4;
+                return permitsResource.modulPermits(_this2.usuarioActual.user.id);
+
+              case 4:
+                response = _context2.sent.data;
+                localStorage.setItem('permits_user', JSON.stringify(response.data));
+                _context2.next = 11;
+                break;
+
+              case 8:
+                _context2.prev = 8;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
+
+              case 11:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 8]]);
+      }))();
     }
   },
   computed: {
@@ -3298,6 +3339,7 @@ var AuthResourse = new _providers_Auth__WEBPACK_IMPORTED_MODULE_1__["default"]()
   },
   mounted: function mounted() {
     this.$store.dispatch('SET_CURRENT_USER');
+    this.permisos();
   }
 });
 
@@ -4151,10 +4193,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _providers_User__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../providers/User */ "./resources/js/providers/User.js");
-/* harmony import */ var datatables__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! datatables */ "./node_modules/datatables/media/js/jquery.dataTables.js");
-/* harmony import */ var datatables__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(datatables__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _providers_Permits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../providers/Permits */ "./resources/js/providers/Permits.js");
+/* harmony import */ var datatables__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! datatables */ "./node_modules/datatables/media/js/jquery.dataTables.js");
+/* harmony import */ var datatables__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(datatables__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -4231,21 +4274,50 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]();
+var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["default"]();
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "users-get",
+  props: {
+    event: 0
+  },
   data: function data() {
     return {
       users: "",
       message: null,
       showError: null,
       showSuccess: null,
-      showWarning: null
+      showWarning: null,
+      created: 0,
+      read: 0,
+      update: 0,
+      "delete": 0,
+      permitsModuls: ""
     };
   },
   mounted: function mounted() {
+    if (localStorage.getItem('permits_user')) {
+      this.permitsModuls = JSON.parse(localStorage.getItem('permits_user')); // el indice 0 pertenece al modulo de usuarios
+
+      this.created = this.permitsModuls[0]["created"];
+      this.read = this.permitsModuls[0]["read"];
+      this.update = this.permitsModuls[0]["update"];
+      this["delete"] = this.permitsModuls[0]["delete"];
+      console.log(this.created, this.read, this.update, this["delete"]);
+    }
+
     this.obtenerUsuarios();
   },
+  // computed:{
+  //   deshabilitado(){
+  //     if (this.read === 0) {
+  //       return 0;
+  //     } else {
+  //       return 1;
+  //     }
+  //   }
+  // },
   methods: {
     newUser: function newUser() {
       window.location.href = '/users/create';
@@ -4297,54 +4369,49 @@ var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]()
       }))();
     },
     deleteUser: function deleteUser($id) {
-      var _this2 = this;
-
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!confirm("¿Esta seguro que desea eliminarlo?")) {
-                  _context2.next = 12;
-                  break;
+                if (confirm("¿Esta seguro que desea eliminarlo?")) {
+                  alert('entro a eliminar'); //   try {
+                  //     var response = (await userResource.deleteUsers($id)).data;
+                  //     if (response.success){
+                  //       this.message = "El usuario se ha eliminado correctamente",
+                  //       this.showSuccess = true;
+                  //       this.obtenerUsuarios();
+                  //     }
+                  //     else{
+                  //       this.message = "No se pudo eliminar el usuario";
+                  //       this.showError = true;
+                  //     }
+                  //   } catch (error) {
+                  //     this.message = "No se pudo eliminar el usuario";
+                  //     this.showError = true;
+                  //   }
                 }
 
-                _context2.prev = 1;
-                _context2.next = 4;
-                return userResource.deleteUsers($id);
-
-              case 4:
-                response = _context2.sent.data;
-
-                if (response.success) {
-                  _this2.message = "El usuario se ha eliminado correctamente", _this2.showSuccess = true;
-
-                  _this2.obtenerUsuarios();
-                } else {
-                  _this2.message = "No se pudo eliminar el usuario";
-                  _this2.showError = true;
-                }
-
-                _context2.next = 12;
-                break;
-
-              case 8:
-                _context2.prev = 8;
-                _context2.t0 = _context2["catch"](1);
-                _this2.message = "No se pudo eliminar el usuario";
-                _this2.showError = true;
-
-              case 12:
+              case 1:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[1, 8]]);
+        }, _callee2);
       }))();
     },
+    habilitarbotones: function habilitarbotones() {
+      $("#delete").on("click", function () {
+        console.log(this["delete"]);
+        return this.permitsModuls[0]["delete"]; //  if(this.delete==1) {
+        //     $(this).prop('disabled', true);
+        //  }else {
+        //     $(this).prop('disabled', false);
+        //  }
+      });
+    },
     fechaFormato: function fechaFormato($fecha) {
-      return moment__WEBPACK_IMPORTED_MODULE_3___default()($fecha).format("DD/MM/YYYY");
+      return moment__WEBPACK_IMPORTED_MODULE_4___default()($fecha).format("DD/MM/YYYY");
     },
     tableusers: function tableusers() {
       this.$nextTick(function () {
@@ -97310,7 +97377,10 @@ var render = function() {
                 {
                   staticClass: "btn btn-warning",
                   staticStyle: { color: "#fff" },
-                  attrs: { to: { name: "CreateUser" } }
+                  attrs: {
+                    to: this.created == 1 ? { name: "CreateUser" } : "",
+                    name: "created"
+                  }
                 },
                 [
                   _c("i", { staticClass: "fas fa-user" }),
@@ -97384,6 +97454,7 @@ var render = function() {
                               {
                                 staticClass: "btn btn-primary btn-sm",
                                 attrs: {
+                                  name: "read",
                                   to: {
                                     name: "perfilUsuario",
                                     params: { id: user.id }
@@ -97392,7 +97463,7 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  " \n                    Ver\n                  "
+                                  "\n                    Ver\n                  "
                                 )
                               ]
                             )
@@ -97405,6 +97476,7 @@ var render = function() {
                             "button",
                             {
                               staticClass: "btn btn-danger btn-sm",
+                              attrs: { name: "delete" },
                               on: {
                                 click: function($event) {
                                   return _vm.deleteUser(user.id)
@@ -115182,6 +115254,11 @@ var Permits = /*#__PURE__*/function () {
     value: function updatePermits(formData) {
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/v1/users/permits/put", formData);
     }
+  }, {
+    key: "modulPermits",
+    value: function modulPermits(id) {
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/".concat(id));
+    }
   }]);
 
   return Permits;
@@ -115240,6 +115317,11 @@ var User = /*#__PURE__*/function () {
     key: "getUsers",
     value: function getUsers() {
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/get");
+    }
+  }, {
+    key: "getAllUsers",
+    value: function getAllUsers(id) {
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/obtener/".concat(id));
     }
   }, {
     key: "deleteUsers",
@@ -115367,7 +115449,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     component: _views_Users_profileView_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
     props: true
   }, {
-    path: 'users/permissions/:id',
+    path: '/users/permissions/:id',
     name: 'permisos',
     component: _views_Users_permitsUsers_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
     props: true

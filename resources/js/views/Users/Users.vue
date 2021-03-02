@@ -7,7 +7,7 @@
             <h3 class="card-title">Usuarios</h3>
           </div>
           <div class="card-header">
-            <router-link style="color: #fff;" class="btn btn-warning" :to="{ name:'CreateUser'}">
+            <router-link :to="this.created == 1 ? { name:'CreateUser'} : ''" name="created" style="color: #fff;" class="btn btn-warning">
               <i class="fas fa-user"></i> 
               Nuevo Usuario
             </router-link>
@@ -42,13 +42,13 @@
                   <td>{{user.type}}</td>
                   <td>{{fechaFormato(user.created_at)}}</td>
                   <td>
-                    <router-link class="btn btn-primary btn-sm" :to="{ name:'perfilUsuario', params: { id: user.id }}"> 
+                    <router-link name="read" class="btn btn-primary btn-sm" :to="{ name:'perfilUsuario', params: { id: user.id }}">  <!--:to="this.read == 1 ? { name:'perfilUsuario', params: { id: user.id }} : ''"> -->
                       Ver
                     </router-link>
                   </td>
-                  <td><button class="btn btn-danger btn-sm" @click="deleteUser(user.id)">Eliminar</button></td>
+                  <td><button name="delete"  class="btn btn-danger btn-sm" @click="deleteUser(user.id)">Eliminar</button></td>
                   <td>
-                    <router-link class="btn btn-secondary btn-sm" :to="{ name:'permisos', params: { id: user.id }}">Permisos</router-link>
+                    <router-link class="btn btn-secondary btn-sm" :to="{ name:'permisos', params: { id: user.id }}" >Permisos</router-link>
                   </td>
                 </tr>
               </tbody>
@@ -67,12 +67,17 @@
 
 <script>
 import user from "../../providers/User";
+import getPermits from "../../providers/Permits";
 import datatables from "datatables";
-import moment from "moment";
+import moment, { locales } from "moment";
 const userResource = new user();
+const permitsResource = new getPermits();
 
 export default {
   name: "users-get",
+  props: {
+    event: 0,
+  },
   data() {
     return {
       users: "",
@@ -80,11 +85,34 @@ export default {
       showError: null,
       showSuccess: null,
       showWarning: null,
+      created: 0,
+      read: 0,
+      update: 0,
+      delete: 0,
+      permitsModuls: "",
     };
   },
   mounted() {
+    if (localStorage.getItem('permits_user')) {
+      this.permitsModuls = JSON.parse(localStorage.getItem('permits_user'));
+      // el indice 0 pertenece al modulo de usuarios
+      this.created = this.permitsModuls[0]["created"];
+      this.read = this.permitsModuls[0]["read"];
+      this.update = this.permitsModuls[0]["update"];
+      this.delete = this.permitsModuls[0]["delete"];
+      console.log(this.created, this.read, this.update, this.delete);
+    }
     this.obtenerUsuarios();
   },
+  // computed:{
+  //   deshabilitado(){
+  //     if (this.read === 0) {
+  //       return 0;
+  //     } else {
+  //       return 1;
+  //     }
+  //   }
+  // },
   methods: {
     newUser(){
       window.location.href = '/users/create';
@@ -111,22 +139,34 @@ export default {
     },
     async deleteUser($id) {
       if (confirm("¿Esta seguro que desea eliminarlo?")) {
-        try {
-          var response = (await userResource.deleteUsers($id)).data;
-          if (response.success){
-            this.message = "El usuario se ha eliminado correctamente",
-            this.showSuccess = true;
-            this.obtenerUsuarios();
-          }
-          else{
-            this.message = "No se pudo eliminar el usuario";
-            this.showError = true;
-          }
-        } catch (error) {
-          this.message = "No se pudo eliminar el usuario";
-          this.showError = true;
-        }
-      }
+        alert('entro a eliminar');
+      //   try {
+      //     var response = (await userResource.deleteUsers($id)).data;
+      //     if (response.success){
+      //       this.message = "El usuario se ha eliminado correctamente",
+      //       this.showSuccess = true;
+      //       this.obtenerUsuarios();
+      //     }
+      //     else{
+      //       this.message = "No se pudo eliminar el usuario";
+      //       this.showError = true;
+      //     }
+      //   } catch (error) {
+      //     this.message = "No se pudo eliminar el usuario";
+      //     this.showError = true;
+      //   }
+       }
+    },
+    habilitarbotones(){
+      $("#delete").on("click", function(){
+        console.log(this.delete);
+       return this.permitsModuls[0]["delete"];
+      //  if(this.delete==1) {
+      //     $(this).prop('disabled', true);
+      //  }else {
+      //     $(this).prop('disabled', false);
+      //  }
+      });
     },
     fechaFormato($fecha) {
       return moment($fecha).format("DD/MM/YYYY");

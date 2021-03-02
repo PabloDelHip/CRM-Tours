@@ -21,6 +21,10 @@ export default class User {
         return axios.get(`/api/v1/users/get`)
     }
 
+    getAllUsers(id) {
+        return axios.get(`/api/v1/users/obtener/${id}`)
+    }
+
     deleteUsers(id) {
         return axios.get(`/api/v1/users/delete/${id}`)
     }
