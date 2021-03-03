@@ -2832,8 +2832,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _providers_Nation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../providers/Nation */ "./resources/js/providers/Nation.js");
-/* harmony import */ var vue_datetime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-datetime */ "./node_modules/vue-datetime/dist/vue-datetime.js");
-/* harmony import */ var vue_datetime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_datetime__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vue_datetime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-datetime */ "./node_modules/vue-datetime/dist/vue-datetime.js");
+/* harmony import */ var vue_datetime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_datetime__WEBPACK_IMPORTED_MODULE_2__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2958,7 +2958,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var nationResource = new _providers_Nation__WEBPACK_IMPORTED_MODULE_1__["default"]();
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    datetime: vue_datetime__WEBPACK_IMPORTED_MODULE_3__["Datetime"]
+    datetime: vue_datetime__WEBPACK_IMPORTED_MODULE_2__["Datetime"]
   },
   data: function data() {
     return {
@@ -6531,19 +6531,19 @@ var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["defau
       created: 0,
       read: 0,
       update: 0,
-      "delete": 0,
-      permitsModuls: ""
+      deleted: 0,
+      permitsModuls: []
     };
   },
   mounted: function mounted() {
     if (localStorage.getItem('permits_user')) {
       this.permitsModuls = JSON.parse(localStorage.getItem('permits_user')); // el indice 0 pertenece al modulo de usuarios
 
-      this.created = this.permitsModuls[0]["created"];
-      this.read = this.permitsModuls[0]["read"];
-      this.update = this.permitsModuls[0]["update"];
-      this["delete"] = this.permitsModuls[0]["delete"];
-      console.log(this.created, this.read, this.update, this["delete"]);
+      this.created = this.permitsModuls[0].created;
+      this.read = this.permitsModuls[0].read;
+      this.update = this.permitsModuls[0].update;
+      this.deleted = this.permitsModuls[0]["delete"];
+      console.log(this.created, this.read, this.update, this.deleted);
     }
   },
   created: function created() {
@@ -6652,6 +6652,10 @@ var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["defau
     //   });
     // },
     fechaFormato: function fechaFormato($fecha) {
+      if ($fecha == null || $fecha == undefined) {
+        return "-";
+      }
+
       return moment__WEBPACK_IMPORTED_MODULE_4___default()($fecha).format("DD/MM/YYYY");
     },
     tableusers: function tableusers() {
@@ -110893,21 +110897,20 @@ var render = function() {
             "div",
             { staticClass: "card-header" },
             [
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-warning",
-                  staticStyle: { color: "#fff" },
-                  attrs: {
-                    to: this.created == 1 ? { name: "CreateUser" } : "",
-                    name: "created"
-                  }
-                },
-                [
-                  _c("i", { staticClass: "fas fa-user" }),
-                  _vm._v(" \n            Nuevo Usuario\n          ")
-                ]
-              )
+              this.created == 1
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-warning",
+                      staticStyle: { color: "#fff" },
+                      attrs: { to: { name: "CreateUser" }, name: "created" }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-user" }),
+                      _vm._v(" \n            Nuevo Usuario\n          ")
+                    ]
+                  )
+                : _vm._e()
             ],
             1
           ),
@@ -110947,7 +110950,25 @@ var render = function() {
                   attrs: { id: "usersTable" }
                 },
                 [
-                  _vm._m(1),
+                  _c("thead", [
+                    _c("tr", [
+                      _c("th", [_vm._v("Nombre")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Correo")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Tipo de Usuario")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Fecha de Creacion")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Ver")]),
+                      _vm._v(" "),
+                      this.deleted == 1
+                        ? _c("th", [_vm._v("Eliminar")])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Acciones")])
+                    ])
+                  ]),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -110988,21 +111009,23 @@ var render = function() {
                           1
                         ),
                         _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-danger btn-sm",
-                              attrs: { name: "delete" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.deleteUser(user.id)
-                                }
-                              }
-                            },
-                            [_vm._v("Eliminar")]
-                          )
-                        ]),
+                        _vm.deleted == 1
+                          ? _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger btn-sm",
+                                  attrs: { name: "delete" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.deleteUser(user.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Eliminar")]
+                              )
+                            ])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c(
                           "td",
@@ -111044,28 +111067,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "card-title" }, [_vm._v("Usuarios")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Nombre")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Correo")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Tipo de Usuario")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Fecha de Creacion")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Ver")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Eliminar")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Acciones")])
-      ])
     ])
   }
 ]
@@ -128488,7 +128489,7 @@ var regionDayMap = {
 /*! exports provided: _args, _from, _id, _inBundle, _integrity, _location, _phantomChildren, _requested, _requiredBy, _resolved, _spec, _where, author, bugs, description, devDependencies, homepage, keywords, license, main, module, name, repository, scripts, types, umd:main, version, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"_args\":[[\"weekstart@1.0.1\",\"C:\\\\Users\\\\INSPIRON\\\\laragon\\\\www\\\\CRM-Tours\"]],\"_from\":\"weekstart@1.0.1\",\"_id\":\"weekstart@1.0.1\",\"_inBundle\":false,\"_integrity\":\"sha512-h6B1HSJxg7sZEXqIpDqAtwiDBp3x5y2jY8WYcUSBhLTcTCy7laQzBmamqMuQM5fpvo1pgpma0OCRpE2W8xrA9A==\",\"_location\":\"/weekstart\",\"_phantomChildren\":{},\"_requested\":{\"type\":\"version\",\"registry\":true,\"raw\":\"weekstart@1.0.1\",\"name\":\"weekstart\",\"escapedName\":\"weekstart\",\"rawSpec\":\"1.0.1\",\"saveSpec\":null,\"fetchSpec\":\"1.0.1\"},\"_requiredBy\":[\"/\"],\"_resolved\":\"https://registry.npmjs.org/weekstart/-/weekstart-1.0.1.tgz\",\"_spec\":\"1.0.1\",\"_where\":\"C:\\\\Users\\\\INSPIRON\\\\laragon\\\\www\\\\CRM-Tours\",\"author\":{\"name\":\"Denis Sikuler\"},\"bugs\":{\"url\":\"https://github.com/gamtiq/weekstart/issues\"},\"description\":\"Library to get first day of week.\",\"devDependencies\":{\"@babel/preset-env\":\"7.6.3\",\"eslint\":\"6.5.1\",\"eslint-config-guard\":\"1.0.3\",\"ink-docstrap\":\"1.3.2\",\"jest\":\"24.9.0\",\"jsdoc\":\"3.6.3\",\"microbundle\":\"0.4.4\",\"version-bump-prompt\":\"5.0.5\"},\"homepage\":\"https://github.com/gamtiq/weekstart\",\"keywords\":[\"week\",\"start\",\"first\",\"day\",\"locale\",\"country\",\"region\"],\"license\":\"MIT\",\"main\":\"dist/commonjs/main.js\",\"module\":\"dist/es-module/main.js\",\"name\":\"weekstart\",\"repository\":{\"type\":\"git\",\"url\":\"git://github.com/gamtiq/weekstart.git\"},\"scripts\":{\"all\":\"npm run check-all && npm run doc && npm run build\",\"build\":\"npm run build-umd && npm run build-commonjs && npm run build-esm && npm run build-umd-min\",\"build-commonjs\":\"microbundle build \\\"src/!(*.test).js\\\" --output dist/commonjs --format cjs --strict --no-compress\",\"build-esm\":\"microbundle build \\\"src/!(*.test).js\\\" --output dist/es-module --format es --no-compress\",\"build-umd\":\"microbundle build src/main.js src/full.js --output dist --format umd --strict --no-compress\",\"build-umd-min\":\"microbundle build src/main.js src/full.js --output dist/min --format umd --strict\",\"check\":\"npm run lint && npm test\",\"check-all\":\"npm run lint-all && npm test\",\"doc\":\"jsdoc -c jsdoc-conf.json\",\"lint\":\"eslint --cache --max-warnings 0 \\\"**/*.js\\\"\",\"lint-all\":\"eslint --max-warnings 0 \\\"**/*.js\\\"\",\"lint-all-error\":\"eslint \\\"**/*.js\\\"\",\"lint-error\":\"eslint --cache \\\"**/*.js\\\"\",\"release\":\"bump patch --commit --tag --all --push package.json package-lock.json bower.json component.json\",\"release-major\":\"bump major --commit --tag --all --push package.json package-lock.json bower.json component.json\",\"release-minor\":\"bump minor --commit --tag --all --push package.json package-lock.json bower.json component.json\",\"test\":\"jest\"},\"types\":\"./index.d.ts\",\"umd:main\":\"dist/main.js\",\"version\":\"1.0.1\"}");
+module.exports = JSON.parse("{\"_args\":[[\"weekstart@1.0.1\",\"C:\\\\Develop\\\\Personal\\\\CRM-Tours\"]],\"_from\":\"weekstart@1.0.1\",\"_id\":\"weekstart@1.0.1\",\"_inBundle\":false,\"_integrity\":\"sha512-h6B1HSJxg7sZEXqIpDqAtwiDBp3x5y2jY8WYcUSBhLTcTCy7laQzBmamqMuQM5fpvo1pgpma0OCRpE2W8xrA9A==\",\"_location\":\"/weekstart\",\"_phantomChildren\":{},\"_requested\":{\"type\":\"version\",\"registry\":true,\"raw\":\"weekstart@1.0.1\",\"name\":\"weekstart\",\"escapedName\":\"weekstart\",\"rawSpec\":\"1.0.1\",\"saveSpec\":null,\"fetchSpec\":\"1.0.1\"},\"_requiredBy\":[\"/\"],\"_resolved\":\"https://registry.npmjs.org/weekstart/-/weekstart-1.0.1.tgz\",\"_spec\":\"1.0.1\",\"_where\":\"C:\\\\Develop\\\\Personal\\\\CRM-Tours\",\"author\":{\"name\":\"Denis Sikuler\"},\"bugs\":{\"url\":\"https://github.com/gamtiq/weekstart/issues\"},\"description\":\"Library to get first day of week.\",\"devDependencies\":{\"@babel/preset-env\":\"7.6.3\",\"eslint\":\"6.5.1\",\"eslint-config-guard\":\"1.0.3\",\"ink-docstrap\":\"1.3.2\",\"jest\":\"24.9.0\",\"jsdoc\":\"3.6.3\",\"microbundle\":\"0.4.4\",\"version-bump-prompt\":\"5.0.5\"},\"homepage\":\"https://github.com/gamtiq/weekstart\",\"keywords\":[\"week\",\"start\",\"first\",\"day\",\"locale\",\"country\",\"region\"],\"license\":\"MIT\",\"main\":\"dist/commonjs/main.js\",\"module\":\"dist/es-module/main.js\",\"name\":\"weekstart\",\"repository\":{\"type\":\"git\",\"url\":\"git://github.com/gamtiq/weekstart.git\"},\"scripts\":{\"all\":\"npm run check-all && npm run doc && npm run build\",\"build\":\"npm run build-umd && npm run build-commonjs && npm run build-esm && npm run build-umd-min\",\"build-commonjs\":\"microbundle build \\\"src/!(*.test).js\\\" --output dist/commonjs --format cjs --strict --no-compress\",\"build-esm\":\"microbundle build \\\"src/!(*.test).js\\\" --output dist/es-module --format es --no-compress\",\"build-umd\":\"microbundle build src/main.js src/full.js --output dist --format umd --strict --no-compress\",\"build-umd-min\":\"microbundle build src/main.js src/full.js --output dist/min --format umd --strict\",\"check\":\"npm run lint && npm test\",\"check-all\":\"npm run lint-all && npm test\",\"doc\":\"jsdoc -c jsdoc-conf.json\",\"lint\":\"eslint --cache --max-warnings 0 \\\"**/*.js\\\"\",\"lint-all\":\"eslint --max-warnings 0 \\\"**/*.js\\\"\",\"lint-all-error\":\"eslint \\\"**/*.js\\\"\",\"lint-error\":\"eslint --cache \\\"**/*.js\\\"\",\"release\":\"bump patch --commit --tag --all --push package.json package-lock.json bower.json component.json\",\"release-major\":\"bump major --commit --tag --all --push package.json package-lock.json bower.json component.json\",\"release-minor\":\"bump minor --commit --tag --all --push package.json package-lock.json bower.json component.json\",\"test\":\"jest\"},\"types\":\"./index.d.ts\",\"umd:main\":\"dist/main.js\",\"version\":\"1.0.1\"}");
 
 /***/ }),
 
@@ -128510,12 +128511,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
 /* harmony import */ var vee_validate_dist_locale_es_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vee-validate/dist/locale/es.json */ "./node_modules/vee-validate/dist/locale/es.json");
 var vee_validate_dist_locale_es_json__WEBPACK_IMPORTED_MODULE_7___namespace = /*#__PURE__*/__webpack_require__.t(/*! vee-validate/dist/locale/es.json */ "./node_modules/vee-validate/dist/locale/es.json", 1);
-/* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! luxon */ "./node_modules/luxon/build/cjs-browser/luxon.js");
-/* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(luxon__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
-/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var vue_datetime_dist_vue_datetime_css__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vue-datetime/dist/vue-datetime.css */ "./node_modules/vue-datetime/dist/vue-datetime.css");
-/* harmony import */ var vue_datetime_dist_vue_datetime_css__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(vue_datetime_dist_vue_datetime_css__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! luxon */ "./node_modules/luxon/build/cjs-browser/luxon.js");
+/* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(luxon__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
+/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var vue_datetime_dist_vue_datetime_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-datetime/dist/vue-datetime.css */ "./node_modules/vue-datetime/dist/vue-datetime.css");
+/* harmony import */ var vue_datetime_dist_vue_datetime_css__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(vue_datetime_dist_vue_datetime_css__WEBPACK_IMPORTED_MODULE_10__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -128537,11 +128538,11 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
  // Install and Activate the Arabic locale.
 
 Object(vee_validate__WEBPACK_IMPORTED_MODULE_6__["localize"])('es', vee_validate_dist_locale_es_json__WEBPACK_IMPORTED_MODULE_7__);
-luxon__WEBPACK_IMPORTED_MODULE_9__["Settings"].defaultLocale = 'es';
+luxon__WEBPACK_IMPORTED_MODULE_8__["Settings"].defaultLocale = 'es';
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 Vue.use(v_select2_component__WEBPACK_IMPORTED_MODULE_4__["default"]);
 Vue.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_5__["default"]);
-Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_10___default.a);
+Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_9___default.a);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -130094,7 +130095,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_3196e148___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=3196e148& */ "./resources/js/views/Dashboard/index.vue?vue&type=template&id=3196e148&");
 /* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ "./resources/js/views/Dashboard/index.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css& */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css& */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _index_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=1&lang=css& */ "./resources/js/views/Dashboard/index.vue?vue&type=style&index=1&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -130726,8 +130727,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\INSPIRON\laragon\www\CRM-Tours\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\INSPIRON\laragon\www\CRM-Tours\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Develop\Personal\CRM-Tours\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Develop\Personal\CRM-Tours\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
