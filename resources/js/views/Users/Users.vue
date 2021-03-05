@@ -66,7 +66,7 @@
                     <th>Tipo de Usuario</th>
                     <th>Fecha de Creacion</th>
                     <th>Ver</th>
-                    <th v-if="this.deleted == 1">Eliminar</th>
+                    <th>Eliminar</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -86,7 +86,7 @@
                         Ver
                       </router-link>
                     </td>
-                    <td v-if="deleted == 1">
+                    <td>
                       <button
                         name="delete"
                         class="btn btn-danger btn-sm"
@@ -120,11 +120,11 @@
 
 <script>
 import user from "../../providers/User";
-import getPermits from "../../providers/Permits";
+import UserPermissions from "../../providers/UserPermission";
 import datatables from "datatables";
 import moment, { locales } from "moment";
 const userResource = new user();
-const permitsResource = new getPermits();
+const userPermissionResource = new UserPermissions();
 
 export default {
   name: "users-get",
@@ -138,22 +138,14 @@ export default {
       showError: null,
       showSuccess: null,
       showWarning: null,
-      created: 0,
-      read: 0,
-      update: 0,
-      deleted: 0,
       permitsModuls: [],
     };
   },
   mounted() {
     if (localStorage.getItem("permits_user")) {
       this.permitsModuls = JSON.parse(localStorage.getItem("permits_user"));
+      console.log(this.permitsModuls);
       // el indice 0 pertenece al modulo de usuarios
-      this.created = this.permitsModuls[0].created;
-      this.read = this.permitsModuls[0].read;
-      this.update = this.permitsModuls[0].update;
-      this.deleted = this.permitsModuls[0].delete;
-      console.log(this.created, this.read, this.update, this.deleted);
     }
   },
   created() {

@@ -15,7 +15,7 @@ import Overview from './views/Dashboard/OverviewComponent.vue'
 import Users from './views/Users/Users.vue'
 import UserComponent from './views/Users/UserComponent.vue'
 import UserProfile from './views/Users/profileView.vue'
-import PermitsUsers from './views/Users/permitsUsers.vue'
+import PermitsUsers from './views/Users/permissionUsers.vue'
 
 //Customer section
 import Customer from './views/Customers/TableView.vue'

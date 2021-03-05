@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModulsTable extends Migration
+class CreateModulesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateModulsTable extends Migration
      */
     public function up()
     {
-        Schema::create('moduls', function (Blueprint $table) {
+        Schema::create('modules', function (Blueprint $table) {
             $table->id();
-            $table->string('modul');
+            $table->string('name');
             $table->boolean('status')->default('1');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateModulsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('moduls');
+        Schema::dropIfExists('modules');
     }
 }

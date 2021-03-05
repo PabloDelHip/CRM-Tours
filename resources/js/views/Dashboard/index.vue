@@ -292,9 +292,9 @@
 <script>
     
     import Auth from '../../providers/Auth';
-    import getPermits from "../../providers/Permits";
+    import UserPermission from "../../providers/UserPermission";
     const AuthResourse = new Auth();
-    const permitsResource = new getPermits();
+    const userPermissionResource = new UserPermission();
     
     export default {
         data(){
@@ -311,15 +311,11 @@
                 } catch (error) {
                   console.log(error)
                 }
-                let formData = {
-                    email: this.email,
-                    password: this.password
-                }
             },
             async permisos() { 
              try {
               this.usuarioActual = JSON.parse(localStorage.getItem('data_user'));
-              var response = (await permitsResource.modulPermits(this.usuarioActual.user.id)).data;
+              var response = (await userPermissionResource.UserPermissions(this.usuarioActual.user.id)).data;
               localStorage.setItem('permits_user', JSON.stringify(response.data));
              } catch (error) {
                console.log(error);

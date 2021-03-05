@@ -4704,7 +4704,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _providers_Auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../providers/Auth */ "./resources/js/providers/Auth.js");
-/* harmony import */ var _providers_Permits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../providers/Permits */ "./resources/js/providers/Permits.js");
+/* harmony import */ var _providers_UserPermission__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../providers/UserPermission */ "./resources/js/providers/UserPermission.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -5005,7 +5005,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var AuthResourse = new _providers_Auth__WEBPACK_IMPORTED_MODULE_1__["default"]();
-var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["default"]();
+var userPermissionResource = new _providers_UserPermission__WEBPACK_IMPORTED_MODULE_2__["default"]();
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5017,7 +5017,6 @@ var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["defau
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var formData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -5039,12 +5038,6 @@ var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["defau
                 console.log(_context.t0);
 
               case 11:
-                formData = {
-                  email: _this.email,
-                  password: _this.password
-                };
-
-              case 12:
               case "end":
                 return _context.stop();
             }
@@ -5064,7 +5057,7 @@ var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["defau
                 _context2.prev = 0;
                 _this2.usuarioActual = JSON.parse(localStorage.getItem('data_user'));
                 _context2.next = 4;
-                return permitsResource.modulPermits(_this2.usuarioActual.user.id);
+                return userPermissionResource.UserPermissions(_this2.usuarioActual.user.id);
 
               case 4:
                 response = _context2.sent.data;
@@ -6432,7 +6425,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _providers_User__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../providers/User */ "./resources/js/providers/User.js");
-/* harmony import */ var _providers_Permits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../providers/Permits */ "./resources/js/providers/Permits.js");
+/* harmony import */ var _providers_UserPermission__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../providers/UserPermission */ "./resources/js/providers/UserPermission.js");
 /* harmony import */ var datatables__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! datatables */ "./node_modules/datatables/media/js/jquery.dataTables.js");
 /* harmony import */ var datatables__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(datatables__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
@@ -6568,7 +6561,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var userResource = new _providers_User__WEBPACK_IMPORTED_MODULE_1__["default"]();
-var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["default"]();
+var userPermissionResource = new _providers_UserPermission__WEBPACK_IMPORTED_MODULE_2__["default"]();
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "users-get",
   props: {
@@ -6581,22 +6574,13 @@ var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["defau
       showError: null,
       showSuccess: null,
       showWarning: null,
-      created: 0,
-      read: 0,
-      update: 0,
-      deleted: 0,
       permitsModuls: []
     };
   },
   mounted: function mounted() {
     if (localStorage.getItem("permits_user")) {
-      this.permitsModuls = JSON.parse(localStorage.getItem("permits_user")); // el indice 0 pertenece al modulo de usuarios
-
-      this.created = this.permitsModuls[0].created;
-      this.read = this.permitsModuls[0].read;
-      this.update = this.permitsModuls[0].update;
-      this.deleted = this.permitsModuls[0]["delete"];
-      console.log(this.created, this.read, this.update, this.deleted);
+      this.permitsModuls = JSON.parse(localStorage.getItem("permits_user"));
+      console.log(this.permitsModuls); // el indice 0 pertenece al modulo de usuarios
     }
   },
   created: function created() {
@@ -6771,10 +6755,10 @@ var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["defau
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/permitsUsers.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/permitsUsers.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/permissionUsers.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/permissionUsers.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -6782,7 +6766,7 @@ var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["defau
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _providers_Permits__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../providers/Permits */ "./resources/js/providers/Permits.js");
+/* harmony import */ var _providers_UserPermission__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../providers/UserPermission */ "./resources/js/providers/UserPermission.js");
 /* harmony import */ var datatables__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! datatables */ "./node_modules/datatables/media/js/jquery.dataTables.js");
 /* harmony import */ var datatables__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(datatables__WEBPACK_IMPORTED_MODULE_2__);
 
@@ -6843,14 +6827,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 
 
-var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_1__["default"]();
+var userPermissionResource = new _providers_UserPermission__WEBPACK_IMPORTED_MODULE_1__["default"]();
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "users-permits",
+  name: "users-permissions",
   props: ['id'],
   data: function data() {
     return {
-      permits: "",
-      formData: "",
+      permissions: "",
       value: 0
     };
   },
@@ -6862,39 +6845,49 @@ var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_1__["defau
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return permitsResource.permitsUsers(_this.id);
+                return userPermissionResource.UserPermissions(_this.id);
 
               case 3:
-                _this.permits = _context.sent;
-                _this.permits = _this.permits.data.data;
+                response = _context.sent.data;
+
+                if (response.success) {
+                  _context.next = 6;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 6:
+                _this.permissions = response.data;
                 $("#example1").DataTable().destroy();
 
                 _this.tablePermits();
 
-                _context.next = 13;
+                _context.next = 15;
                 break;
 
-              case 9:
-                _context.prev = 9;
+              case 11:
+                _context.prev = 11;
                 _context.t0 = _context["catch"](0);
                 console.log(_context.t0);
                 alert("No se pudo obtener permisos de usuarios");
 
-              case 13:
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 9]]);
+        }, _callee, null, [[0, 11]]);
       }))();
     },
-    check: function check(e, name, checked) {
+    check: function check(module_id, name, checked) {
       var _this2 = this;
 
       this.$nextTick(function () {
@@ -6905,14 +6898,14 @@ var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_1__["defau
         }
 
         var formData = {
-          module_id: e,
+          module_id: module_id,
           user_id: _this2.id,
           column: name,
           value: _this2.value
         };
 
         try {
-          _this2.modules = permitsResource.updatePermits(formData);
+          _this2.modules = userPermissionResource.updatePermits(formData);
         } catch (error) {
           console.log(error);
           alert("No se pudo actualizar permisos del usuarios");
@@ -111029,25 +111022,7 @@ var render = function() {
                     attrs: { id: "usersTable" }
                   },
                   [
-                    _c("thead", [
-                      _c("tr", [
-                        _c("th", [_vm._v("Nombre")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Correo")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Tipo de Usuario")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Fecha de Creacion")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Ver")]),
-                        _vm._v(" "),
-                        this.deleted == 1
-                          ? _c("th", [_vm._v("Eliminar")])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Acciones")])
-                      ])
-                    ]),
+                    _vm._m(2),
                     _vm._v(" "),
                     _c(
                       "tbody",
@@ -111088,27 +111063,25 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _vm.deleted == 1
-                            ? _c("td", [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-danger btn-sm",
-                                    attrs: { name: "delete" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.deleteUser(user.id)
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                      Eliminar\n                    "
-                                    )
-                                  ]
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger btn-sm",
+                                attrs: { name: "delete" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteUser(user.id)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                      Eliminar\n                    "
                                 )
-                              ])
-                            : _vm._e(),
+                              ]
+                            )
+                          ]),
                           _vm._v(" "),
                           _c(
                             "td",
@@ -111160,6 +111133,28 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "card-title" }, [_vm._v("Usuarios")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Nombre")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Correo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Tipo de Usuario")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fecha de Creacion")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Ver")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Eliminar")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -111168,10 +111163,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/permitsUsers.vue?vue&type=template&id=756ca5b6&":
-/*!****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/permitsUsers.vue?vue&type=template&id=756ca5b6& ***!
-  \****************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/permissionUsers.vue?vue&type=template&id=541ca6e3&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/permissionUsers.vue?vue&type=template&id=541ca6e3& ***!
+  \*******************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -111202,23 +111197,23 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.permits, function(permit) {
-                    return _c("tr", { key: permit.id }, [
-                      _c("td", [_vm._v(_vm._s(permit.modul))]),
+                  _vm._l(_vm.permissions, function(permission) {
+                    return _c("tr", { key: permission.id }, [
+                      _c("td", [_vm._v(_vm._s(permission.name))]),
                       _vm._v(" "),
-                      permit.created == 1
+                      permission.permission.create == 1
                         ? _c("td", { attrs: { align: "center" } }, [
                             _c("input", {
                               attrs: {
                                 type: "checkbox",
-                                name: "created",
+                                name: "create",
                                 id: "CBoxCreatedT",
                                 checked: ""
                               },
                               on: {
                                 click: function($event) {
                                   return _vm.check(
-                                    permit.id,
+                                    permission.id,
                                     $event.target.name,
                                     $event.target.checked
                                   )
@@ -111230,14 +111225,14 @@ var render = function() {
                             _c("input", {
                               attrs: {
                                 type: "checkbox",
-                                name: "created",
+                                name: "create",
                                 id: "CBoxCreatedF",
                                 value: "0"
                               },
                               on: {
                                 change: function($event) {
                                   return _vm.check(
-                                    permit.id,
+                                    permission.id,
                                     $event.target.name,
                                     $event.target.checked
                                   )
@@ -111246,7 +111241,7 @@ var render = function() {
                             })
                           ]),
                       _vm._v(" "),
-                      permit.read == 1
+                      permission.permission.read == 1
                         ? _c("td", { attrs: { align: "center" } }, [
                             _c("input", {
                               attrs: {
@@ -111259,7 +111254,7 @@ var render = function() {
                               on: {
                                 change: function($event) {
                                   return _vm.check(
-                                    permit.id,
+                                    permission.id,
                                     $event.target.name,
                                     $event.target.checked
                                   )
@@ -111278,7 +111273,7 @@ var render = function() {
                               on: {
                                 change: function($event) {
                                   return _vm.check(
-                                    permit.id,
+                                    permission.id,
                                     $event.target.name,
                                     $event.target.checked
                                   )
@@ -111287,7 +111282,7 @@ var render = function() {
                             })
                           ]),
                       _vm._v(" "),
-                      permit.update == 1
+                      permission.permission.update == 1
                         ? _c("td", { attrs: { align: "center" } }, [
                             _c("input", {
                               attrs: {
@@ -111300,7 +111295,7 @@ var render = function() {
                               on: {
                                 change: function($event) {
                                   return _vm.check(
-                                    permit.id,
+                                    permission.id,
                                     $event.target.name,
                                     $event.target.checked
                                   )
@@ -111319,7 +111314,7 @@ var render = function() {
                               on: {
                                 change: function($event) {
                                   return _vm.check(
-                                    permit.id,
+                                    permission.id,
                                     $event.target.name,
                                     $event.target.checked
                                   )
@@ -111328,7 +111323,7 @@ var render = function() {
                             })
                           ]),
                       _vm._v(" "),
-                      permit.delete == 1
+                      permission.permission.delete == 1
                         ? _c("td", { attrs: { align: "center" } }, [
                             _c("input", {
                               attrs: {
@@ -111341,7 +111336,7 @@ var render = function() {
                               on: {
                                 change: function($event) {
                                   return _vm.check(
-                                    permit.id,
+                                    permission.id,
                                     $event.target.name,
                                     $event.target.checked
                                   )
@@ -111360,7 +111355,7 @@ var render = function() {
                               on: {
                                 change: function($event) {
                                   return _vm.check(
-                                    permit.id,
+                                    permission.id,
                                     $event.target.name,
                                     $event.target.checked
                                   )
@@ -129629,60 +129624,6 @@ var Note = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./resources/js/providers/Permits.js":
-/*!*******************************************!*\
-  !*** ./resources/js/providers/Permits.js ***!
-  \*******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Permits; });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-
-
-var Permits = /*#__PURE__*/function () {
-  function Permits() {
-    _classCallCheck(this, Permits);
-  }
-
-  _createClass(Permits, [{
-    key: "permitsUsers",
-    value:
-    /**
-     * Function to Get current user
-     * @return Promise
-     */
-    function permitsUsers(id) {
-      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/permits/".concat(id));
-    }
-  }, {
-    key: "updatePermits",
-    value: function updatePermits(formData) {
-      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/v1/users/permits/put", formData);
-    }
-  }, {
-    key: "modulPermits",
-    value: function modulPermits(id) {
-      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/".concat(id));
-    }
-  }]);
-
-  return Permits;
-}();
-
-
-
-/***/ }),
-
 /***/ "./resources/js/providers/Profile.js":
 /*!*******************************************!*\
   !*** ./resources/js/providers/Profile.js ***!
@@ -129841,6 +129782,55 @@ var User = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./resources/js/providers/UserPermission.js":
+/*!**************************************************!*\
+  !*** ./resources/js/providers/UserPermission.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return UserPermission; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var UserPermission = /*#__PURE__*/function () {
+  function UserPermission() {
+    _classCallCheck(this, UserPermission);
+  }
+
+  _createClass(UserPermission, [{
+    key: "UserPermissions",
+    value:
+    /**
+     * Function to Get current user
+     * @return Promise
+     */
+    function UserPermissions(id) {
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/users/permission/".concat(id));
+    }
+  }, {
+    key: "updatePermits",
+    value: function updatePermits(formData) {
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/v1/users/permission/put", formData);
+    }
+  }]);
+
+  return UserPermission;
+}();
+
+
+
+/***/ }),
+
 /***/ "./resources/js/routes.js":
 /*!********************************!*\
   !*** ./resources/js/routes.js ***!
@@ -129860,7 +129850,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Users_Users_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/Users/Users.vue */ "./resources/js/views/Users/Users.vue");
 /* harmony import */ var _views_Users_UserComponent_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/Users/UserComponent.vue */ "./resources/js/views/Users/UserComponent.vue");
 /* harmony import */ var _views_Users_profileView_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/Users/profileView.vue */ "./resources/js/views/Users/profileView.vue");
-/* harmony import */ var _views_Users_permitsUsers_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/Users/permitsUsers.vue */ "./resources/js/views/Users/permitsUsers.vue");
+/* harmony import */ var _views_Users_permissionUsers_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/Users/permissionUsers.vue */ "./resources/js/views/Users/permissionUsers.vue");
 /* harmony import */ var _views_Customers_TableView_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/Customers/TableView.vue */ "./resources/js/views/Customers/TableView.vue");
 
 
@@ -129920,7 +129910,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   }, {
     path: '/users/permissions/:id',
     name: 'permisos',
-    component: _views_Users_permitsUsers_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
+    component: _views_Users_permissionUsers_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
     props: true
   }, {
     path: '/contacts',
@@ -130664,17 +130654,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/views/Users/permitsUsers.vue":
-/*!***************************************************!*\
-  !*** ./resources/js/views/Users/permitsUsers.vue ***!
-  \***************************************************/
+/***/ "./resources/js/views/Users/permissionUsers.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/views/Users/permissionUsers.vue ***!
+  \******************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _permitsUsers_vue_vue_type_template_id_756ca5b6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./permitsUsers.vue?vue&type=template&id=756ca5b6& */ "./resources/js/views/Users/permitsUsers.vue?vue&type=template&id=756ca5b6&");
-/* harmony import */ var _permitsUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./permitsUsers.vue?vue&type=script&lang=js& */ "./resources/js/views/Users/permitsUsers.vue?vue&type=script&lang=js&");
+/* harmony import */ var _permissionUsers_vue_vue_type_template_id_541ca6e3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./permissionUsers.vue?vue&type=template&id=541ca6e3& */ "./resources/js/views/Users/permissionUsers.vue?vue&type=template&id=541ca6e3&");
+/* harmony import */ var _permissionUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./permissionUsers.vue?vue&type=script&lang=js& */ "./resources/js/views/Users/permissionUsers.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -130684,9 +130674,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _permitsUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _permitsUsers_vue_vue_type_template_id_756ca5b6___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _permitsUsers_vue_vue_type_template_id_756ca5b6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _permissionUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _permissionUsers_vue_vue_type_template_id_541ca6e3___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _permissionUsers_vue_vue_type_template_id_541ca6e3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -130696,38 +130686,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/views/Users/permitsUsers.vue"
+component.options.__file = "resources/js/views/Users/permissionUsers.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/views/Users/permitsUsers.vue?vue&type=script&lang=js&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/views/Users/permitsUsers.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************/
+/***/ "./resources/js/views/Users/permissionUsers.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/views/Users/permissionUsers.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_permitsUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./permitsUsers.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/permitsUsers.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_permitsUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_permissionUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./permissionUsers.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/permissionUsers.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_permissionUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/views/Users/permitsUsers.vue?vue&type=template&id=756ca5b6&":
-/*!**********************************************************************************!*\
-  !*** ./resources/js/views/Users/permitsUsers.vue?vue&type=template&id=756ca5b6& ***!
-  \**********************************************************************************/
+/***/ "./resources/js/views/Users/permissionUsers.vue?vue&type=template&id=541ca6e3&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/views/Users/permissionUsers.vue?vue&type=template&id=541ca6e3& ***!
+  \*************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_permitsUsers_vue_vue_type_template_id_756ca5b6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./permitsUsers.vue?vue&type=template&id=756ca5b6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/permitsUsers.vue?vue&type=template&id=756ca5b6&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_permitsUsers_vue_vue_type_template_id_756ca5b6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_permissionUsers_vue_vue_type_template_id_541ca6e3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./permissionUsers.vue?vue&type=template&id=541ca6e3& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/permissionUsers.vue?vue&type=template&id=541ca6e3&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_permissionUsers_vue_vue_type_template_id_541ca6e3___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_permitsUsers_vue_vue_type_template_id_756ca5b6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_permissionUsers_vue_vue_type_template_id_541ca6e3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

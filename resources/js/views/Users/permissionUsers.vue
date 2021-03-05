@@ -8,7 +8,7 @@
           </div>
           <!-- /.card-header -->
           <!-- <pre>
-            {{permits}}
+            {{permissions}}
           </pre> -->
           <div class="card-body">
             <table id="example1" class="table table-bordered table-striped" style="width:100%">
@@ -23,16 +23,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="permit in permits" :key="permit.id">
-                  <td>{{permit.modul}}</td>
-                  <td v-if="permit.created == 1" align="center"><input type="checkbox" name="created" id="CBoxCreatedT" @click="check(permit.id, $event.target.name, $event.target.checked)" checked>
-                  <td v-else class="text-center"><input type="checkbox" name="created" id="CBoxCreatedF" value=0  @change="check(permit.id, $event.target.name, $event.target.checked)"></td>
-                  <td v-if="permit.read == 1" align="center"><input type="checkbox" name="read" id="CBoxReadT" value=1 checked @change="check(permit.id, $event.target.name, $event.target.checked)"></td>
-                  <td v-else class="text-center"><input type="checkbox" name="read" id="CBoxReadF" value=0  @change="check(permit.id, $event.target.name, $event.target.checked)"></td>                  
-                  <td v-if="permit.update == 1" align="center"><input type="checkbox" name="update" id="CBoxUpdateT" value=1 checked @change="check(permit.id, $event.target.name, $event.target.checked)"></td>
-                  <td v-else class="text-center"><input type="checkbox" name="update" id="CBoxUpdateF" value=0 @change="check(permit.id, $event.target.name, $event.target.checked)"></td>                  
-                  <td v-if="permit.delete == 1" align="center"><input type="checkbox" name="delete" id="CBoxDeleteT" value=1 checked @change="check(permit.id, $event.target.name, $event.target.checked)"></td>
-                  <td v-else class="text-center"><input type="checkbox" name="delete" id="CBoxDeleteF" value=0 @change="check(permit.id, $event.target.name, $event.target.checked)"></td>
+                <tr v-for="permission in permissions" :key="permission.id">
+                  <td>{{permission.name}}</td>
+                  <td v-if="permission.permission.create == 1" align="center"><input type="checkbox" name="create" id="CBoxCreatedT" @click="check(permission.id, $event.target.name, $event.target.checked)" checked>
+                  <td v-else class="text-center"><input type="checkbox" name="create" id="CBoxCreatedF" value=0  @change="check(permission.id, $event.target.name, $event.target.checked)"></td>
+                  <td v-if="permission.permission.read == 1" align="center"><input type="checkbox" name="read" id="CBoxReadT" value=1 checked @change="check(permission.id, $event.target.name, $event.target.checked)"></td>
+                  <td v-else class="text-center"><input type="checkbox" name="read" id="CBoxReadF" value=0  @change="check(permission.id, $event.target.name, $event.target.checked)"></td>                  
+                  <td v-if="permission.permission.update == 1" align="center"><input type="checkbox" name="update" id="CBoxUpdateT" value=1 checked @change="check(permission.id, $event.target.name, $event.target.checked)"></td>
+                  <td v-else class="text-center"><input type="checkbox" name="update" id="CBoxUpdateF" value=0 @change="check(permission.id, $event.target.name, $event.target.checked)"></td>                  
+                  <td v-if="permission.permission.delete == 1" align="center"><input type="checkbox" name="delete" id="CBoxDeleteT" value=1 checked @change="check(permission.id, $event.target.name, $event.target.checked)"></td>
+                  <td v-else class="text-center"><input type="checkbox" name="delete" id="CBoxDeleteF" value=0 @change="check(permission.id, $event.target.name, $event.target.checked)"></td>
                 </tr>
               </tbody>
             </table>
@@ -49,17 +49,16 @@
 </template>
 
 <script>
-import getPermits from "../../providers/Permits";
+import UserPermission from "../../providers/UserPermission";
 import datatables from "datatables";
-const permitsResource = new getPermits();
+const userPermissionResource = new UserPermission();
 
 export default {
-  name: "users-permits",
+  name: "users-permissions",
   props: ['id'],
   data() {
     return {
-      permits: "",
-      formData:"",
+      permissions: "",
       value: 0,
     };
   },
@@ -69,8 +68,11 @@ export default {
   methods: {
     async obtenerPermisos() {
       try {
-        this.permits = await permitsResource.permitsUsers(this.id);
-        this.permits = this.permits.data.data;
+        let response = (await userPermissionResource.UserPermissions(this.id)).data;
+        if (!response.success){
+          return;
+        }
+        this.permissions = response.data;
         $("#example1").DataTable().destroy();
         this.tablePermits();
       } catch (error) {
@@ -78,20 +80,20 @@ export default {
         alert("No se pudo obtener permisos de usuarios");
       }
     },
-    check (e, name, checked) {
+    check (module_id, name, checked) {
       this.$nextTick(() => {
       this.value = 0;
       if(checked){
         this.value = 1
       }
       let formData = {
-        module_id: e,
+        module_id: module_id,
         user_id: this.id,
         column: name,
         value: this.value
       } 
       try {
-        this.modules = permitsResource.updatePermits(formData);
+        this.modules = userPermissionResource.updatePermits(formData);
       } catch (error) {
         console.log(error);
         alert("No se pudo actualizar permisos del usuarios");
