@@ -46,6 +46,7 @@ export default new Router({
             path: '/users/',
             name: 'getUsers',
             component: Users,
+            children: []
         },
         {
             path: '/users/create/',

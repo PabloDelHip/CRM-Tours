@@ -6510,6 +6510,59 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6536,8 +6589,8 @@ var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["defau
     };
   },
   mounted: function mounted() {
-    if (localStorage.getItem('permits_user')) {
-      this.permitsModuls = JSON.parse(localStorage.getItem('permits_user')); // el indice 0 pertenece al modulo de usuarios
+    if (localStorage.getItem("permits_user")) {
+      this.permitsModuls = JSON.parse(localStorage.getItem("permits_user")); // el indice 0 pertenece al modulo de usuarios
 
       this.created = this.permitsModuls[0].created;
       this.read = this.permitsModuls[0].read;
@@ -6661,56 +6714,56 @@ var permitsResource = new _providers_Permits__WEBPACK_IMPORTED_MODULE_2__["defau
     tableusers: function tableusers() {
       this.$nextTick(function () {
         $("#usersTable").DataTable({
-          "lengthChange": false,
-          "searching": true,
-          "ordering": true,
-          "info": true,
-          "autoWidth": true,
-          "responsive": true,
-          "buttons": [{
-            "extend": "copyHtml5",
-            "text": "<i class='fas fa-copy'></i> Copiar",
-            "titleAttr": "Copiar",
-            "ClassName": "btn btn-secundary"
+          lengthChange: false,
+          searching: true,
+          ordering: true,
+          info: true,
+          autoWidth: true,
+          responsive: true,
+          buttons: [{
+            extend: "copyHtml5",
+            text: "<i class='fas fa-copy'></i> Copiar",
+            titleAttr: "Copiar",
+            ClassName: "btn btn-secundary"
           }, {
-            "extend": "excelHtml5",
-            "text": "<i class='fas fa-file-excel'></i> Excel",
-            "titleAttr": "Exportar a Excel",
-            "ClassName": "btn btn-success"
+            extend: "excelHtml5",
+            text: "<i class='fas fa-file-excel'></i> Excel",
+            titleAttr: "Exportar a Excel",
+            ClassName: "btn btn-success"
           }, {
-            "extend": "pdfHtml5",
-            "text": "<i class='fas fa-file-pdf'></i> PDF",
-            "titleAttr": "Exportar a PDF",
-            "ClassName": "btn btn-danger"
+            extend: "pdfHtml5",
+            text: "<i class='fas fa-file-pdf'></i> PDF",
+            titleAttr: "Exportar a PDF",
+            ClassName: "btn btn-danger"
           }, {
-            "extend": "csvHtml5",
-            "text": "<i class='fas fa-file-csv'></i> CSV",
-            "titleAttr": "Exportar a CSV",
-            "ClassName": "btn btn-info"
+            extend: "csvHtml5",
+            text: "<i class='fas fa-file-csv'></i> CSV",
+            titleAttr: "Exportar a CSV",
+            ClassName: "btn btn-info"
           }, {
-            "extend": "print",
-            "text": "<i class='fas fa-print'></i> Imprimir",
-            "titleAttr": "Imprimir",
-            "ClassName": "btn btn-secondary"
+            extend: "print",
+            text: "<i class='fas fa-print'></i> Imprimir",
+            titleAttr: "Imprimir",
+            ClassName: "btn btn-secondary"
           }, {
-            "extend": "colvis",
-            "text": "Columnas Visibles",
-            "titleAttr": "Columnas visibles",
-            "ClassName": "btn btn-info"
+            extend: "colvis",
+            text: "Columnas Visibles",
+            titleAttr: "Columnas visibles",
+            ClassName: "btn btn-info"
           }],
           oLanguage: {
-            "sSearch": "Busqueda",
-            "oPaginate": {
-              "sNext": "Siguiente",
-              "sFirst": "Primero",
-              "sLast": "Ultimo",
-              "sPrevious": "Anterior"
+            sSearch: "Busqueda",
+            oPaginate: {
+              sNext: "Siguiente",
+              sFirst: "Primero",
+              sLast: "Ultimo",
+              sPrevious: "Anterior"
             },
-            "sEmptyTable": "No hay Registros",
-            "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
-            "sInfoEmpty": "No hay entradas que mostrar"
+            sEmptyTable: "No hay Registros",
+            sInfo: "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+            sInfoEmpty: "No hay entradas que mostrar"
           }
-        }).buttons().container().appendTo('#usersTable_wrapper .col-md-6:eq(0)');
+        }).buttons().container().appendTo("#usersTable_wrapper .col-md-6:eq(0)");
       });
     }
   }
@@ -110887,180 +110940,219 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-12" }, [
-        _c("div", { staticClass: "card" }, [
+  return _c("div", [
+    _c("section", { staticClass: "content-header" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row mb-2" }, [
           _vm._m(0),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "card-header" },
-            [
-              this.created == 1
-                ? _c(
-                    "router-link",
-                    {
-                      staticClass: "btn btn-warning",
-                      staticStyle: { color: "#fff" },
-                      attrs: { to: { name: "CreateUser" }, name: "created" }
-                    },
-                    [
-                      _c("i", { staticClass: "fas fa-user" }),
-                      _vm._v(" \n            Nuevo Usuario\n          ")
-                    ]
-                  )
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "card-body" },
-            [
-              _c("transition", { attrs: { name: "fade" } }, [
-                _vm.showError || _vm.showSuccess || _vm.showWarning
-                  ? _c(
-                      "div",
-                      {
-                        staticClass: "alert alert-dismissible text-center",
-                        class: {
-                          "alert-danger": _vm.showError,
-                          "alert-warning": _vm.showWarning,
-                          "alert-success": _vm.showSuccess
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                  " +
-                            _vm._s(_vm.message) +
-                            "\n              "
-                        )
-                      ]
-                    )
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
               _c(
-                "table",
-                {
-                  staticClass: "table table-bordered table-striped",
-                  staticStyle: { width: "100%" },
-                  attrs: { id: "usersTable" }
-                },
+                "li",
+                { staticClass: "breadcrumb-item" },
                 [
-                  _c("thead", [
-                    _c("tr", [
-                      _c("th", [_vm._v("Nombre")]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Correo")]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Tipo de Usuario")]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Fecha de Creacion")]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Ver")]),
-                      _vm._v(" "),
-                      this.deleted == 1
-                        ? _c("th", [_vm._v("Eliminar")])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Acciones")])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(_vm.users, function(user) {
-                      return _c("tr", { key: user.id }, [
-                        _c("td", [_vm._v(_vm._s(user.profile.name))]),
+                  _c("router-link", { attrs: { to: { path: "/" } } }, [
+                    _vm._v("\n                Home\n              ")
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("li", { staticClass: "breadcrumb-item active" }, [
+                _vm._v("Usuarios")
+              ])
+            ])
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "container-fluid" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-12" }, [
+          _c("div", { staticClass: "card" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "card-header" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-warning",
+                    staticStyle: { color: "#fff" },
+                    attrs: { to: { name: "CreateUser" }, name: "created" }
+                  },
+                  [
+                    _c("i", { staticClass: "fas fa-user" }),
+                    _vm._v("\n              Nuevo Usuario\n            ")
+                  ]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "card-body" },
+              [
+                _c("transition", { attrs: { name: "fade" } }, [
+                  _vm.showError || _vm.showSuccess || _vm.showWarning
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "alert alert-dismissible text-center",
+                          class: {
+                            "alert-danger": _vm.showError,
+                            "alert-warning": _vm.showWarning,
+                            "alert-success": _vm.showSuccess
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(_vm.message) +
+                              "\n              "
+                          )
+                        ]
+                      )
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c(
+                  "table",
+                  {
+                    staticClass: "table table-bordered table-striped",
+                    staticStyle: { width: "100%" },
+                    attrs: { id: "usersTable" }
+                  },
+                  [
+                    _c("thead", [
+                      _c("tr", [
+                        _c("th", [_vm._v("Nombre")]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(user.email))]),
+                        _c("th", [_vm._v("Correo")]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(user.type))]),
+                        _c("th", [_vm._v("Tipo de Usuario")]),
                         _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(_vm.fechaFormato(user.created_at)))
-                        ]),
+                        _c("th", [_vm._v("Fecha de Creacion")]),
                         _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _c(
-                              "router-link",
-                              {
-                                staticClass: "btn btn-primary btn-sm",
-                                attrs: {
-                                  name: "read",
-                                  to: {
-                                    name: "perfilUsuario",
-                                    params: { id: user.id }
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                    Ver\n                  "
-                                )
-                              ]
-                            )
-                          ],
-                          1
-                        ),
+                        _c("th", [_vm._v("Ver")]),
                         _vm._v(" "),
-                        _vm.deleted == 1
-                          ? _c("td", [
+                        this.deleted == 1
+                          ? _c("th", [_vm._v("Eliminar")])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Acciones")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.users, function(user) {
+                        return _c("tr", { key: user.id }, [
+                          _c("td", [_vm._v(_vm._s(user.profile.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(user.email))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(user.type))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(_vm.fechaFormato(user.created_at)))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
                               _c(
-                                "button",
+                                "router-link",
                                 {
-                                  staticClass: "btn btn-danger btn-sm",
-                                  attrs: { name: "delete" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.deleteUser(user.id)
+                                  staticClass: "btn btn-primary btn-sm",
+                                  attrs: {
+                                    name: "read",
+                                    to: {
+                                      name: "perfilUsuario",
+                                      params: { id: user.id }
                                     }
                                   }
                                 },
-                                [_vm._v("Eliminar")]
+                                [
+                                  _vm._v(
+                                    "\n                      Ver\n                    "
+                                  )
+                                ]
                               )
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _c(
-                              "router-link",
-                              {
-                                staticClass: "btn btn-secondary btn-sm",
-                                attrs: {
-                                  to: {
-                                    name: "permisos",
-                                    params: { id: user.id }
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _vm.deleted == 1
+                            ? _c("td", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger btn-sm",
+                                    attrs: { name: "delete" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.deleteUser(user.id)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                      Eliminar\n                    "
+                                    )
+                                  ]
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  staticClass: "btn btn-secondary btn-sm",
+                                  attrs: {
+                                    to: {
+                                      name: "permisos",
+                                      params: { id: user.id }
+                                    }
                                   }
-                                }
-                              },
-                              [_vm._v("Permisos")]
-                            )
-                          ],
-                          1
-                        )
-                      ])
-                    }),
-                    0
-                  )
-                ]
-              )
-            ],
-            1
-          )
+                                },
+                                [_vm._v("Permisos")]
+                              )
+                            ],
+                            1
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              ],
+              1
+            )
+          ])
         ])
       ])
     ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm-6" }, [
+      _c("h1", [_vm._v("Usuario")])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -129809,7 +129901,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   }, {
     path: '/users/',
     name: 'getUsers',
-    component: _views_Users_Users_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    component: _views_Users_Users_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    children: []
   }, {
     path: '/users/create/',
     name: 'CreateUser',

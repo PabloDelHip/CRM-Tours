@@ -33,30 +33,54 @@ class UsersPermitsController extends Controller
 
     public function permitsUsers(Request $request, $id)
     {
-        $modules = User_modul::where('user_id', '=', $id)->get();
-        if (count($modules) >= 1) {
-            try {
-                $permits = Moduls::leftjoin('user_modul', 'moduls.id', '=', 'user_modul.module_id')
+        try {
+            $modules = Moduls::Select('id', 'modul')->get();
+            $permissions = Moduls::leftjoin('user_modul', 'moduls.id', '=', 'user_modul.module_id')
+                ->select('moduls.id', 'moduls.modul', 'user_modul.created', 'user_modul.read', 'user_modul.update', 'user_modul.delete')
+                ->orderBy('moduls.id', 'desc')
+                ->where('user_modul.user_id', $id)->get();
+                                        return $permissions;
+            $permissionsNotCreated = [];
+
+            foreach ($modules as $module){
+                $addPermission = false;
+                foreach ($permissions as $permission){
+                    if ($permission->module_id == $module->id){
+                        continue;
+                    }
+                    $addPermission = true;
+                }
+                if ($addPermission){
+                    array_push($permissionsNotCreated, $module);
+                }
+            }
+
+            if (count($permissionsNotCreated) >= 1) {
+                $permissions = Moduls::Select('id', 'modul')->where('modul', $id)->get();
+                $permissions->map(function ($permit) {
+                    $permit->created = 0;
+                    $permit->read = 0;
+                    $permit->update = 0;
+                    $permit->delete = 0;
+                });
+                return $permissions;
+            }
+            
+            return $permissionsNotCreated;
+
+            if (count($permissions) >= 1) {
+                $permissions = Moduls::leftjoin('user_modul', 'moduls.id', '=', 'user_modul.module_id')
                     ->select('moduls.id', 'moduls.modul', 'user_modul.created', 'user_modul.read', 'user_modul.update', 'user_modul.delete')
                     ->orderBy('moduls.id', 'desc')
                     ->where('user_modul.user_id', $id)->get();
                 return response()->json([
                     'success' => true,
                     'message' => 'Permisos obtenidos correctamente',
-                    'data' => $permits
+                    'data' => $permissions
                 ], 200);
-            } catch (Exception $e) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No se pudo obtener los permisos',
-                    'err' => $e
-                ], 500);
-            }
-        } else {
-            try {
-                $user_id = $id;
-                $permits = Moduls::Select('id', 'modul')->get();
-                $permits->map(function ($permit) {
+            } else {
+                $permissions = Moduls::Select('id', 'modul')->get();
+                $permissions->map(function ($permit) {
                     $permit->created = 0;
                     $permit->read = 0;
                     $permit->update = 0;
@@ -65,15 +89,16 @@ class UsersPermitsController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Permisos obtenidos correctamente',
-                    'data' => $permits
+                    'data' => $permissions
                 ], 200);
-            } catch (Exception $e) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No se pudo obtener los permisos',
-                    'err' => $e
-                ], 500);
             }
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se pudo obtener los permisos',
+                'data' => null,
+                'err' => $e
+            ], 500);
         }
     }
 
