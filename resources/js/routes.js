@@ -19,6 +19,7 @@ import PermitsUsers from './views/Users/permitsUsers.vue'
 
 //Customer section
 import Customer from './views/Customers/TableView.vue'
+import ProfileCustomer from './views/Customers/profileView.vue'
 
 export default new Router({
     linkExactActiveClass: 'active',
@@ -76,22 +77,18 @@ export default new Router({
             component: Customer,
             /*children: [
               {
-                path: 'infractions',
-                name: 'PublicInfractions',
-                component: PublicInfraction
+                path: 'profile/:id',
+                name: 'profileCustomer',
+                component: ProfileCustomer
               },
-              {
-                path: 'maintenance',
-                name: 'PublicMaintenance',
-                component: PublicMaintenance
-              },
-              {
-                path: 'contacts-km',
-                name: 'PublicContactsKms',
-                component: PublicContactsKms
-              }
             ] */
-          },
+        },
+        {
+            path: '/contacts/profile/:id',
+            name: 'profileCustomer',
+            component: ProfileCustomer,
+            props: true
+        },
         {
             path: '/overview',
             name: 'Overview',

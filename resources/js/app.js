@@ -15,6 +15,7 @@ import { localize,extend } from 'vee-validate';
 import es from 'vee-validate/dist/locale/es.json';
 import { Settings } from 'luxon'
 import Multiselect from 'vue-multiselect'
+import VModal from 'vue-js-modal'
 // You need a specific loader for CSS files
 import 'vue-datetime/dist/vue-datetime.css'
 
@@ -25,6 +26,7 @@ Settings.defaultLocale = 'es'
 window.Vue = require('vue');
 Vue.use(Select2);
 Vue.use(VueSweetalert2);
+Vue.use(VModal, { dynamicDefault: { draggable: true, resizable: true } })
 Vue.component('multiselect', Multiselect);
 
 /**

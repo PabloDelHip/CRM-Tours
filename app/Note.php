@@ -14,7 +14,7 @@ class Note extends Model
      * @var array
      */
     protected $fillable = [
-        'note', 'user_profile_id', 'user_id',
+        'note', 'user_profile_id', 'user_id', 'entity', 'customer_id'
     ];
 
     public function user()

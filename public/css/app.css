@@ -10997,3 +10997,7 @@ div.contenedor-notas {
   border-radius: 0px !important;
 }
 
+.table-actions a {
+  display: inherit;
+}
+

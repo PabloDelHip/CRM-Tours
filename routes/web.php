@@ -22,6 +22,7 @@ Route::get('/nueva-contrasena/{token?}', ['as' => '/nueva-contrasena', 'uses' =>
 
 // Customers
 Route::get('/contacts', ['as' => 'contacts', 'uses' => 'HomeController@index']);
+Route::get('/contacts/profile/{id}', ['as' => 'contacts', 'uses' => 'HomeController@index']);
 
 // Users
 Route::get('/users', ['as' => '/users', 'uses' => 'HomeController@index']);

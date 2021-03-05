@@ -46,13 +46,29 @@ Route::group([
     Route::get('/users/permits/{id_user}', 'UsersPermitsController@permitsUsers');
 
     // Notes
-    Route::get('/notes/user/get/{id_user}', 'NotesController@getNotesUser');
+    Route::get('/notes/user/get/{id_user}/{entity?}', 'NotesController@getNotesUser');
     Route::post('/notes/user/save', 'NotesController@saveNotesUser');
 
     //Countries
     Route::get('/countries/get', 'NationsController@getCountries');
     Route::get('/states/get/{id_country}', 'NationsController@getStates');
     Route::get('/citys/get/{id_state}', 'NationsController@getCitys');
+    
+});
+
+//Customers
+Route::group([
+
+    //'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/customer/'
+
+], function () {
+    
+    Route::post('create', 'CustomerController@updateOrCreateCustomer');
+    Route::put('update/{id_customer}', 'CustomerController@updateOrCreateCustomer');
+    Route::get('get/list/{id_provider}', 'CustomerController@getListCustomer');
+    Route::get('get/{id_customer}', 'CustomerController@getCustomer');
+    Route::delete('delete/{id_customer}', 'CustomerController@deleteCustomer');
 });
 
 Route::group([

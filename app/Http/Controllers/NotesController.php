@@ -8,8 +8,16 @@ use Illuminate\Database\Eloquent\MassAssignmentException;
 
 class NotesController extends Controller
 {
-    public function getNotesUser($id_user_profile)
-    {   $notes = Note::where('user_profile_id', $id_user_profile)->orderBy('id', 'DESC')->get();
+    public function getNotesUser($id_user_profile, $entity = 'users')
+    {   
+        switch ($entity) {
+            case 'users':
+                $notes = Note::where('user_profile_id', $id_user_profile)->orderBy('id', 'DESC')->get();
+                break;
+            case 'customers':
+                $notes = Note::where('customer_id', $id_user_profile)->orderBy('id', 'DESC')->get();
+                break;
+        }
         if(!$notes)
         {
             return response()->json([
