@@ -5208,14 +5208,16 @@ var AuthResourse = new _providers_Auth__WEBPACK_IMPORTED_MODULE_2__["default"]()
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _this.show_error = false;
+                _context.next = 3;
                 return _this.$refs.observer.validate();
 
-              case 2:
+              case 3:
                 isValid = _context.sent;
 
                 if (!isValid) {
-                  alert("Verifique que el formulario fue llenado de forma correcta");
+                  _this.message = "Verifique que el formulario fue llenado de forma correcta";
+                  _this.show_error = true;
                 } else {
                   formData = {
                     email: _this.email,
@@ -5224,7 +5226,7 @@ var AuthResourse = new _providers_Auth__WEBPACK_IMPORTED_MODULE_2__["default"]()
                   AuthResourse.login(formData).then(function (response) {
                     _this.show_error = false;
                     localStorage.setItem('data_user', JSON.stringify(response.data));
-                    window.location.href = '/overview'; //this.$router.push({name: 'Overview'})
+                    window.location.href = '/overview';
                   })["catch"](function (err) {
                     var error = err.response;
                     _this.message = _this.statusCode(error.status);
@@ -5232,7 +5234,7 @@ var AuthResourse = new _providers_Auth__WEBPACK_IMPORTED_MODULE_2__["default"]()
                   });
                 }
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -5627,11 +5629,9 @@ var UserResourse = new _providers_User__WEBPACK_IMPORTED_MODULE_2__["default"]()
       switch (status) {
         case 422:
           return 'El email ingresado no tiene cuenta';
-          break;
 
         case 500:
           return 'Error al enviar email';
-          break;
       }
     }
   }
@@ -105424,33 +105424,21 @@ var render = function() {
       [
         _c("transition", { attrs: { name: "fade" } }, [
           _vm.errors.length > 0
-            ? _c(
-                "div",
-                {
-                  staticClass:
-                    "alert alert-danger alert-dismissible text-center"
-                },
-                [
-                  _c(
-                    "ul",
-                    _vm._l(_vm.errors, function(e, index) {
-                      return _c("li", { key: index }, [_vm._v(" " + _vm._s(e))])
-                    }),
-                    0
-                  )
-                ]
-              )
+            ? _c("div", { staticClass: "alert alert-danger" }, [
+                _c(
+                  "ul",
+                  _vm._l(_vm.errors, function(e, index) {
+                    return _c("li", { key: index }, [_vm._v(" " + _vm._s(e))])
+                  }),
+                  0
+                )
+              ])
             : _vm._e(),
           _vm._v(" "),
           _vm.successMessage.length > 0
-            ? _c(
-                "div",
-                {
-                  staticClass:
-                    "alert alert-success alert-dismissible text-center"
-                },
-                [_vm._v("\n        " + _vm._s(_vm.successMessage) + "\n      ")]
-              )
+            ? _c("div", { staticClass: "alert alert-success" }, [
+                _vm._v("\n        " + _vm._s(_vm.successMessage) + "\n      ")
+              ])
             : _vm._e()
         ]),
         _vm._v(" "),
@@ -105834,41 +105822,27 @@ var render = function() {
           [
             _c("transition", { attrs: { name: "fade" } }, [
               _vm.errors.length > 0
-                ? _c(
-                    "div",
-                    {
-                      staticClass:
-                        "alert alert-danger alert-dismissible text-center"
-                    },
-                    [
-                      _c(
-                        "ul",
-                        _vm._l(_vm.errors, function(e, index) {
-                          return _c("li", { key: index }, [
-                            _vm._v(" " + _vm._s(e))
-                          ])
-                        }),
-                        0
-                      )
-                    ]
-                  )
+                ? _c("div", { staticClass: "alert alert-danger" }, [
+                    _c(
+                      "ul",
+                      _vm._l(_vm.errors, function(e, index) {
+                        return _c("li", { key: index }, [
+                          _vm._v(" " + _vm._s(e))
+                        ])
+                      }),
+                      0
+                    )
+                  ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.successMessage.length > 0
-                ? _c(
-                    "div",
-                    {
-                      staticClass:
-                        "alert alert-success alert-dismissible text-center"
-                    },
-                    [
-                      _vm._v(
-                        "\n            " +
-                          _vm._s(_vm.successMessage) +
-                          "\n          "
-                      )
-                    ]
-                  )
+                ? _c("div", { staticClass: "alert alert-success" }, [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(_vm.successMessage) +
+                        "\n          "
+                    )
+                  ])
                 : _vm._e()
             ]),
             _vm._v(" "),
@@ -109503,20 +109477,13 @@ var render = function() {
           _vm._v(" "),
           _c("transition", { attrs: { name: "fade" } }, [
             _vm.show_error
-              ? _c(
-                  "div",
-                  {
-                    staticClass:
-                      "alert alert-danger alert-dismissible text-center"
-                  },
-                  [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(_vm.message) +
-                        "\n            "
-                    )
-                  ]
-                )
+              ? _c("div", { staticClass: "alert alert-danger text-center" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.message) +
+                      "\n            "
+                  )
+                ])
               : _vm._e()
           ]),
           _vm._v(" "),
@@ -110455,37 +110422,27 @@ var render = function() {
               [
                 _c("transition", { attrs: { name: "fade" } }, [
                   _vm.profileErrors.length > 0
-                    ? _c(
-                        "div",
-                        {
-                          staticClass:
-                            "alert alert-danger alert-dismissible text-center"
-                        },
-                        [
-                          _c(
-                            "ul",
-                            _vm._l(_vm.profileErrors, function(e, index) {
-                              return _c("li", { key: index }, [
-                                _vm._v(
-                                  "\n                    " +
-                                    _vm._s(e) +
-                                    "\n                  "
-                                )
-                              ])
-                            }),
-                            0
-                          )
-                        ]
-                      )
+                    ? _c("div", { staticClass: "alert alert-danger" }, [
+                        _c(
+                          "ul",
+                          _vm._l(_vm.profileErrors, function(e, index) {
+                            return _c("li", { key: index }, [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(e) +
+                                  "\n                  "
+                              )
+                            ])
+                          }),
+                          0
+                        )
+                      ])
                     : _vm._e(),
                   _vm._v(" "),
                   _vm.successProfileMessage.length > 0
                     ? _c(
                         "div",
-                        {
-                          staticClass:
-                            "alert alert-success alert-dismissible text-center"
-                        },
+                        { staticClass: "alert alert-success text-center" },
                         [
                           _vm._v(
                             "\n                " +

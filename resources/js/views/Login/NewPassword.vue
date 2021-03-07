@@ -107,7 +107,7 @@
                 try {
                     const isValid = await this.$refs.observer.validate();
                     if (isValid) {
-                        await UserResourse.updatePassword(this.token,this.formData)
+                        await UserResourse.updatePassword(this.token, this.formData)
                         this.password_update = true
                         this.exist_token = false
                         this.$swal.fire({
