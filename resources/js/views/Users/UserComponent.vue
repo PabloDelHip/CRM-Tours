@@ -46,9 +46,7 @@
                   v-if="profileErrors.length > 0"
                 >
                   <ul>
-                    <li v-for="(e, index) in profileErrors" :key="index">
-                      {{ e }}
-                    </li>
+                    <li v-for="(e, index) in profileErrors" :key="index">{{ e }}</li>
                   </ul>
                 </div>
                 <div
@@ -87,7 +85,7 @@
               </div>
               <div class="form-group">
                 <label for="sex">Sexo</label>
-                <select class="custom-select" v-model.number="sex">
+                <select class="form-control" v-model.number="sex">
                   <option value="1">Masculino</option>
                   <option value="2">Femenino</option>
                   <option value="3">Otro</option>
@@ -110,9 +108,7 @@
                     v-if="userErrors.length > 0"
                   >
                     <ul>
-                      <li v-for="(e, index) in userErrors" :key="index">
-                        {{ e }}
-                      </li>
+                      <li v-for="(e, index) in userErrors" :key="index">{{ e }}</li>
                     </ul>
                   </div>
                   <div
@@ -132,7 +128,7 @@
                     placeholder="ejemplo.fulanito@ejemplo.com"
                   />
                 </div>
-                <div class="form-group" v-show="this.user == null">
+                <div class="form-group" v-if="this.user == null">
                   <label for="emailConfirm">Confirmar correo electrónico</label>
                   <input
                     type="email"
@@ -152,7 +148,7 @@
                 </div>
                 <div class="form-group">
                   <label>Estatus del usuario</label>
-                  <select class="custom-select" v-model.number="statusUser">
+                  <select class="form-control" v-model.number="statusUser">
                     <option value="0">Inactivo</option>
                     <option value="1">Activo</option>
                   </select>
@@ -397,6 +393,9 @@ export default {
     },
     isValidUserForm() {
       const errors = [];
+      if (!this.newUser){
+        this.emailConfirm = this.email;
+      }
       if (this.email != this.emailConfirm) {
         errors.push("Correos no coinciden.");
       }
