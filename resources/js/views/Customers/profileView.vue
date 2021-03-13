@@ -58,40 +58,5 @@
                 disabled: true
             }
         },
-        methods: { 
-            async login() {
-                const isValid = await this.$refs.observer.validate();
-                if (!isValid) {
-                    alert("Verifique que el formulario fue llenado de forma correcta");  
-                }
-                else {
-                    let formData = {
-                    email: this.email,
-                    password: this.password
-                    }
-                    AuthResourse.login(formData).then((response) => {
-                        //localStorage.setItem('user', JSON.stringify(miObjeto));
-                        this.show_error = false
-                        localStorage.setItem('data_user', JSON.stringify(response.data))
-                        window.location.href = '/overview';
-                        //this.$router.push({name: 'Overview'})
-                    }).catch(err => {
-                        let error = err.response;
-                        this.message = this.statusCode(error.status)
-                        this.show_error = true
-                    })
-                }
-            },
-            statusCode(status) {
-                switch (status) {
-                    case 401:
-                        return 'Usuario o contraseña incorrectos'
-                        break;
-                    case 422:
-                        return 'Favor de llenar todos los campos'
-                        break;
-                }
-            }
-        },
     }
 </script>

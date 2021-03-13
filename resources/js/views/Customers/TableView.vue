@@ -5,7 +5,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <modal-form-component ref="modalFormComponent" @onRefreshTable="getCustomers" :OpenModalEdit="modalEdit"></modal-form-component>
+            <modal-form-component ref="modalFormComponent" @onRefreshTable="getCustomers()" :OpenModalEdit="modalEdit"></modal-form-component>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -96,6 +96,7 @@
             return {
                 customers: [],
                 modalEdit: false,
+                destroyTable: false
             }
         },
         methods: {
@@ -104,6 +105,11 @@
                     //Cambiar el 1 por el idProvider
                     this.customers = await customerResource.getListCustomer(1);
                     this.customers = this.customers.data.contactos
+                    if(this.destroyTable) {
+                        $("#example1").DataTable().destroy();
+                        this.createTable();
+                    }
+                    this.destroyTable = true
                     console.log(this.customers)
                 } catch (error) {
                     console.log(error)

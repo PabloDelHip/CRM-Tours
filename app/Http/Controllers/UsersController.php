@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Crypt;
 use App\User;
+use App\User_modul;
 use Exception;
 use GuzzleHttp\Psr7\Message;
 use PhpParser\Node\Stmt\TryCatch;
@@ -16,7 +17,16 @@ class UsersController extends Controller
 {
     public function get(Request $request, $userId){
         $user = User::find($userId);
-        return $user;
+
+        if ($user){
+            $user->profile = $user->profile;
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Email enviado de forma correcta',
+            'data' => $user
+        ], 200);
     }
 
     public function post(Request $request){
@@ -24,28 +34,44 @@ class UsersController extends Controller
         $content['password'] = bcrypt($content['password']);
 
         $user = new User();
-        $user->name = $content['name'];
         $user->password = $content['password'];
         $user->email = $content['email'];
         $user->status = $content['status'];
+        $user->level = $content['level'];
+        $user->profile_id = $content['profile_id'];
+        $user->contact_id = $content['contact_id'];
         $user->save();
-        return $user;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Usuario insertado',
+            'data' => $user,
+        ], 200);
     }
 
     public function put(Request $request, $userId){
         $content = $request->all();
 
         $user = User::find($userId);
-        $user->name = $content['name'];
         $user->email = $content['email'];
         $user->status = $content['status'];
+        $user->level = $content['level'];
+        $user->profile_id = $content['profile_id'];
+        $user->contact_id = $content['contact_id'];
         $user->save();
-        return $user;
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Usuario actualizado',
+            'data' => $user,
+        ], 200);
     }
 
     public function getCurrentUser() {
         $token = JWTAuth::getToken();
-        return User::where('remember_token', $token)->get()->first();
+        $user = User::where('remember_token', $token)->get()->first();
+        $user->profile = $user->profile;
+        return $user;
     }
 
     public function getUserProfile($id_user)
@@ -101,6 +127,10 @@ class UsersController extends Controller
         try {
             $users = User::orderBy('id', 'asc')
                             ->where('status', true)->get();
+            
+            foreach ($users as $user) {
+                $user->profile = $user->profile;
+            }
             return response()->json([
                 'success' => true,
                 'message' => 'Usuarios obtenidos correctamente',

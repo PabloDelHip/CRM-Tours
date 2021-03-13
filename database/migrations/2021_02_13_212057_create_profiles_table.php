@@ -20,20 +20,7 @@ class CreateProfilesTable extends Migration
             $table->text('image')->nullable();
             $table->date('birth_date');
             $table->integer('sex')->comment('1: masculino, 2: femenino, 3: otro');
-            $table->unsignedBigInteger('country_id');
-            $table->unsignedBigInteger('city_id');
             $table->timestamps();
-        });
-
-        Schema::table('profiles', function($table) {
-            $table->foreign('country_id')
-                    ->references('id')
-                    ->on('countrys')
-                    ->onDelete('cascade');
-            $table->foreign('city_id')
-                    ->references('id')
-                    ->on('citys')
-                    ->onDelete('cascade');
         });
     }
 

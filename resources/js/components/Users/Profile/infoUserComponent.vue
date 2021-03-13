@@ -38,7 +38,10 @@
                                                 <a href="#">{{ note.user.name }}</a>
                                                 <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
                                                 </span>
-                                                <span class="description">Escribio la nota - 3 days ago</span>
+                                                <span class="description">
+                                                    <strong>{{ note.user_profile.name }} {{ note.user_profile.last_name }}</strong>
+                                                </span>
+                                                <span class="description">Escribio la nota  - {{ note.created_at | moment("LLLL") }}</span>
                                             </div>
                                             <!-- /.user-block -->
                                             <span v-html="note.note">
@@ -304,6 +307,7 @@
 
 <script>
     import Note from '../../../providers/Note';
+    import moment, { locales } from "moment";
 
     const NoteResourse = new Note();
     export default {
@@ -338,7 +342,8 @@
                     let formData = {
                         note: this.note,
                         user_profile_id: Number(this.id_user),
-                        user_id: this.user.id
+                        user_id: this.user.id,
+                        entity: 'users' 
                     };
                     try {
                         await NoteResourse.saveNoteUser(formData)

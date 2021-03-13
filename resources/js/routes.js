@@ -44,12 +44,12 @@ export default new Router({
             props: true
         },
         {
-            path: '/users',
+            path: '/users/',
             name: 'getUsers',
-            component: Users
+            component: Users,
         },
         {
-            path: '/users/create',
+            path: '/users/create/',
             name: 'CreateUser',
             component: UserComponent
         },
@@ -66,7 +66,7 @@ export default new Router({
             props: true
         },
         {
-            path: 'users/permissions/:id',
+            path: '/users/permissions/:id',
             name: 'permisos',
             component: PermitsUsers,
             props: true

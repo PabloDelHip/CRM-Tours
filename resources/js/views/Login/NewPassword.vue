@@ -7,7 +7,7 @@
             <div class="card-body">
                 <div v-if="exist_token">
                     <p class="login-box-msg">Está a solo un paso de su nueva contraseña, recupere su contraseña ahora.</p>
-                    <ValidationObserver v-slot="{ invalid, validate }" ref="observer">
+                    <ValidationObserver v-slot="{ validate }" ref="observer">
                         <form action="login.html" method="post">
                             <ValidationProvider rules="required|password:@confirm" name="password" v-slot="{ errors }">
                                 <div class="input-group mb-3">
@@ -34,7 +34,9 @@
                             </ValidationProvider>
                             <div class="row">
                             <div class="col-12">
-                                <button :disabled="invalid" @click="validate().then(updatePassword)" type="button" class="btn btn-primary btn-block">Cambiar contraseña</button>
+                                <button :disabled="disabled_button" @click="validate().then(updatePassword)" type="button" class="btn btn-primary btn-block">
+                                    Cambiar contraseña <i v-if="disabled_button" class="fas fa-sync-alt fa-spin"></i>
+                                </button>
                             </div>
                             <!-- /.col -->
                             </div>
@@ -74,7 +76,7 @@
         validate(value, { target }) {
             return value === target;
         },
-        message: 'Las contraseñas no coinciden.'
+        message: 'Las contraseñas no coinciden.',
     });
 
     const UserResourse = new User();
@@ -92,7 +94,8 @@
                 },
                 confirmation_password: null,
                 exist_token : true,
-                password_update : false
+                password_update : false,
+                disabled_button: false
             }
         },
         methods: {
@@ -107,6 +110,7 @@
                 try {
                     const isValid = await this.$refs.observer.validate();
                     if (isValid) {
+                        this.disabled_button = true
                         await UserResourse.updatePassword(this.token,this.formData)
                         this.password_update = true
                         this.exist_token = false
@@ -134,6 +138,7 @@
                         })
                     }
                 } catch (error) {
+                    this.disabled_button = false
                     this.$swal.fire({
                             icon: 'error',
                             title: 'Oops...',

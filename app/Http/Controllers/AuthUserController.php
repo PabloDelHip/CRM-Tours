@@ -41,10 +41,12 @@ class AuthUserController extends Controller
         if($token) {
             User::where('email', $credentials['email'])
             ->update(['remember_token' => $token]);
+            $user = User::where('email', $credentials['email'])->get()->first();
+            $user->profile = $user->profile;
             return response()->json([
                 'succes' => true,
                 'token' => $token,
-                'user' => User::where('email', $credentials['email'])->get()->first()
+                'user' => $user,
             ], 200);
         } else {
             return response()->json([

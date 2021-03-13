@@ -7,7 +7,7 @@
             <h3 class="card-title">Usuarios</h3>
           </div>
           <div class="card-header">
-            <router-link style="color: #fff;" class="btn btn-warning" :to="{ name:'CreateUser'}">
+            <router-link v-if="this.created == 1" :to="{ name:'CreateUser'}" name="created" style="color: #fff;" class="btn btn-warning">
               <i class="fas fa-user"></i> 
               Nuevo Usuario
             </router-link>
@@ -26,32 +26,29 @@
             <table id="usersTable" class="table table-bordered table-striped" style="width:100%">
               <thead>
                 <tr>
-                  <th>Nombre</th>
+                  <th>Nombre</th> <!--Nombre + apellido-->
                   <th>Correo</th>
-                  <th>Estatus</th>
+                  <th>Tipo de Usuario</th>
                   <th>Fecha de Creacion</th>
-                  <th>Ultima Actualización</th>
                   <th>Ver</th>
-                  <th>Eliminar</th> 
+                  <th v-if="this.deleted == 1">Eliminar</th> 
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="user in users" :key="user.id">
-                  <td>{{user.name}}</td>
+                  <td>{{user.profile.name}}</td>
                   <td>{{user.email}}</td>
-                  <td v-if="user.status == 1">Activo</td>
-                  <td v-if="user.status == 0">Inactivo</td>
-                  <td>{{user.created_at}}</td>
-                  <td>{{user.updated_at}}</td>
+                  <td>{{user.type}}</td>
+                  <td>{{fechaFormato(user.created_at)}}</td>
                   <td>
-                    <router-link class="btn btn-primary btn-sm" :to="{ name:'perfilUsuario', params: { id: user.id }}"> 
+                    <router-link name="read" class="btn btn-primary btn-sm" :to="{ name:'perfilUsuario', params: { id: user.id }}">  <!--:to="this.read == 1 ? { name:'perfilUsuario', params: { id: user.id }} : ''"> -->
                       Ver
                     </router-link>
                   </td>
-                  <td><button class="btn btn-danger btn-sm" @click="deleteUser(user.id)">Eliminar</button></td>
+                  <td v-if="deleted == 1"><button name="delete"  class="btn btn-danger btn-sm" @click="deleteUser(user.id)">Eliminar</button></td>
                   <td>
-                    <router-link class="btn btn-secondary btn-sm" :to="{ name:'permisos', params: { id: user.id }}">Permisos</router-link>
+                    <router-link class="btn btn-secondary btn-sm" :to="{ name:'permisos', params: { id: user.id }}" >Permisos</router-link>
                   </td>
                 </tr>
               </tbody>
@@ -70,11 +67,17 @@
 
 <script>
 import user from "../../providers/User";
+import getPermits from "../../providers/Permits";
 import datatables from "datatables";
+import moment, { locales } from "moment";
 const userResource = new user();
+const permitsResource = new getPermits();
 
 export default {
   name: "users-get",
+  props: {
+    event: 0,
+  },
   data() {
     return {
       users: "",
@@ -82,18 +85,28 @@ export default {
       showError: null,
       showSuccess: null,
       showWarning: null,
+      created: 0,
+      read: 0,
+      update: 0,
+      deleted: 0,
+      permitsModuls: [],
     };
   },
   mounted() {
+    if (localStorage.getItem('permits_user')) {
+      this.permitsModuls = JSON.parse(localStorage.getItem('permits_user'));
+      // el indice 0 pertenece al modulo de usuarios
+      this.created = this.permitsModuls[0].created;
+      this.read = this.permitsModuls[0].read;
+      this.update = this.permitsModuls[0].update;
+      this.deleted = this.permitsModuls[0].delete;
+      console.log(this.created, this.read, this.update, this.deleted);
+    }
+  },
+  created() {
     this.obtenerUsuarios();
   },
   methods: {
-    newUser(){
-      window.location.href = '/users/create';
-    },
-    editUser($id){
-      window.location.href = '/users/edit/'+ $id;
-    },
     async obtenerUsuarios() {
       try {
         var response = (await userResource.getUsers()).data;
@@ -128,7 +141,24 @@ export default {
           this.message = "No se pudo eliminar el usuario";
           this.showError = true;
         }
+       }
+    },
+    // habilitarbotones(){
+    //   $("#delete").on("click", function(){
+    //     console.log(this.delete);
+    //    return this.permitsModuls[0]["delete"];
+    //   //  if(this.delete==1) {
+    //   //     $(this).prop('disabled', true);
+    //   //  }else {
+    //   //     $(this).prop('disabled', false);
+    //   //  }
+    //   });
+    // },
+    fechaFormato($fecha) {
+      if ($fecha == null || $fecha == undefined) {
+        return "-";
       }
+      return moment($fecha).format("DD/MM/YYYY");
     },
     tableusers(){
       this.$nextTick(() => {

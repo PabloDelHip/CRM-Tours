@@ -18,6 +18,10 @@ import Multiselect from 'vue-multiselect'
 import VModal from 'vue-js-modal'
 // You need a specific loader for CSS files
 import 'vue-datetime/dist/vue-datetime.css'
+import VueMoment from 'vue-moment'
+import moment from 'moment-timezone'
+moment.tz.setDefault('America/Cancun')
+moment.locale('es');
 
 // Install and Activate the Arabic locale.
 localize('es', es); 
@@ -26,6 +30,9 @@ Settings.defaultLocale = 'es'
 window.Vue = require('vue');
 Vue.use(Select2);
 Vue.use(VueSweetalert2);
+Vue.use(VueMoment, {
+    moment,
+})
 Vue.use(VModal, { dynamicDefault: { draggable: true, resizable: true } })
 Vue.component('multiselect', Multiselect);
 

@@ -44,16 +44,31 @@ Route::group([
 
     // Permissions
     Route::get('/users/permits/{id_user}', 'UsersPermitsController@permitsUsers');
-
+    Route::put('/users/permits/put', 'UsersPermitsController@updatePermits');
+    
     // Notes
     Route::get('/notes/user/get/{id_user}/{entity?}', 'NotesController@getNotesUser');
     Route::post('/notes/user/save', 'NotesController@saveNotesUser');
 
-    //Countries
+    // Countries
     Route::get('/countries/get', 'NationsController@getCountries');
     Route::get('/states/get/{id_country}', 'NationsController@getStates');
     Route::get('/citys/get/{id_state}', 'NationsController@getCitys');
-    
+
+     // Profiles
+     Route::get('/profile/{id}', 'ProfilesController@getProfile');
+     Route::post('/profile/create', 'ProfilesController@post');
+     Route::put('/profile/update/{id}', 'ProfilesController@put');
+ 
+     // Contactos
+     Route::get('/contact/{id}', 'ContactsController@getContact');
+     Route::post('/contact/create', 'ContactsController@post');
+     Route::put('/contact/update/{id}', 'ContactsController@put');
+ 
+     // Dirección
+     Route::get('/address/{id}', 'AddressController@getAddress');
+     Route::post('/address/create', 'AddressController@post');
+     Route::put('/address/update/{id}', 'AddressController@put');
 });
 
 //Customers
@@ -81,4 +96,5 @@ Route::group([
     Route::post('/users/restore-password', 'UsersController@restorePassword');
     Route::get('/users/get-token-password/{token?}', 'UsersController@getTokenPassword');
     Route::put('/users/update-password/{token?}', 'UsersController@updatePassword');
+    Route::get('/users/{id_user}', 'UsersPermitsController@modulPermits');
 });

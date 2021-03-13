@@ -131,10 +131,11 @@
           <!-- Main Sidebar Container -->
           <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="/" class="brand-link">
+            <router-link class="brand-link" 
+                :to="{ path:'/'}">
               <img src="/img/LogotipoCRM.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
               <span class="brand-text font-weight-light">CRM TOURS</span>
-            </a>
+            </router-link>
         
             <!-- Sidebar -->
             <div class="sidebar">
@@ -144,7 +145,10 @@
                   <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                  <a href="#" class="d-block">{{ user.name }}</a>
+                  <router-link class="d-block" 
+                      :to="{ name:'perfilUsuario', params: { id: +user.id }}">
+                      {{ user.full_name }}
+                  </router-link>
                   <button type="button"
                           class="btn btn-outline-danger btn-block btn-sm logout mt-3"
                           @click="logout()">
@@ -288,11 +292,16 @@
 <script>
     
     import Auth from '../../providers/Auth';
-
+    import getPermits from "../../providers/Permits";
     const AuthResourse = new Auth();
-
+    const permitsResource = new getPermits();
+    
     export default {
-
+        data(){
+          return{
+          usuarioActual: null,
+          };
+        },
         methods: { 
             async logout() {
                 try {
@@ -307,6 +316,15 @@
                     password: this.password
                 }
             },
+            async permisos() { 
+             try {
+              this.usuarioActual = JSON.parse(localStorage.getItem('data_user'));
+              var response = (await permitsResource.modulPermits(this.usuarioActual.user.id)).data;
+              localStorage.setItem('permits_user', JSON.stringify(response.data));
+             } catch (error) {
+               console.log(error);
+             }
+           },
         },
         computed: {
           user: function () {
@@ -315,6 +333,7 @@
         },
         mounted() {
           this.$store.dispatch('SET_CURRENT_USER')
+          this.permisos();
         }
     }
 </script>

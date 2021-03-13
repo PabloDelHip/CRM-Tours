@@ -2,39 +2,133 @@
 
 namespace App\Http\Controllers;
 
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
-use App\User_Permits;
-use App\User_modules;
+use App\User_modul;
+use App\Moduls;
 use Exception;
-
+use Illuminate\Validation\Rules\Exists;
 
 class UsersPermitsController extends Controller
 {
-    public function permitsUsers(Request $request, $id)
-    {
+    public function modulPermits($id){
         try {
-/*             $permits = User::leftjoin('users_permits', 'users.id', '=', 'users_permits.id_user')
-                            ->leftjoin('users_modules', 'users_permits.id_module', '=', 'users_modules.id_module')
-                            ->select('users.id as id_user', 'users.name as user', 'users_permits.id_module', 'users_modules.name as module', 'users_permits.watch', 'users_permits.add', 'users_permits.edit', 'users_permits.delete')
-                            ->where('id', $id)->get(); */
-            $permits = User_modules::leftjoin('users_permits', 'users_permits.id_module', '=', 'users_modules.id_module')
-                                    ->select('users_modules.id_module', 'users_modules.name as module', 'users_permits.watch', 'users_permits.add', 'users_permits.edit', 'users_permits.delete')
-                                    ->orderBy('users_modules.id_module', 'asc')
-                                    ->get();
-                                    //->where('id', $id)->get();
+            $permitsModuls = User_modul::where('user_id', '=', $id)->orderBy('module_id', 'ASC')
+            ->get();
             return response()->json([
                 'success' => true,
-                'message' => 'Usuarios obtenidos correctamente',
-                'data' => $permits
+                'message' => 'Permisos obtenidos correctamente',
+                'data' => $permitsModuls
             ], 200);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'No se pudo obtener a los usuarios',
+                'message' => 'No se pudo obtener los permisos',
                 'err' => $e
             ], 500);
+        }
+    }
+
+    public function permitsUsers(Request $request, $id)
+    {
+        $modules = User_modul::where('user_id', '=', $id)->get();
+        if (count($modules) >= 1) {
+            try {
+                $permits = Moduls::leftjoin('user_modul', 'moduls.id', '=', 'user_modul.module_id')
+                    ->select('moduls.id', 'moduls.modul', 'user_modul.created', 'user_modul.read', 'user_modul.update', 'user_modul.delete')
+                    ->orderBy('moduls.id', 'desc')
+                    ->where('user_modul.user_id', $id)->get();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Permisos obtenidos correctamente',
+                    'data' => $permits
+                ], 200);
+            } catch (Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se pudo obtener los permisos',
+                    'err' => $e
+                ], 500);
+            }
+        } else {
+            try {
+                $user_id = $id;
+                $permits = Moduls::Select('id', 'modul')->get();
+                $permits->map(function ($permit) {
+                    $permit->created = 0;
+                    $permit->read = 0;
+                    $permit->update = 0;
+                    $permit->delete = 0;
+                });
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Permisos obtenidos correctamente',
+                    'data' => $permits
+                ], 200);
+            } catch (Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se pudo obtener los permisos',
+                    'err' => $e
+                ], 500);
+            }
+        }
+    }
+
+    public function updatePermits(Request $request)
+    {
+        $id = $request->user_id;
+        $column = $request->column;
+        $value = $request->value;
+        $id_modul = $request->module_id;
+
+        $modules = User_modul::where('user_id', '=', $id)->where('module_id', '=', $id_modul)->get();
+
+        // Si existe
+        if (count($modules) >= 1) {
+            try {
+                $modules = User_modul::where('user_id', '=', $id)
+                    ->where('module_id', '=', $id_modul)
+                    ->update([$column => $value]);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Los permisos se han actualizado correctamente',
+                    'data' => $modules
+                ], 200);
+            } catch (Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se pudieron actualizar los permisos',
+                    'err' => $e
+                ], 500);
+            }
+        } else {
+            try {
+                $modules = new User_modul();
+                $modules->user_id = $id;
+                $modules->module_id = $id_modul;
+                $modules->created = 0;
+                $modules->read = 0;
+                $modules->update = 0;
+                $modules->delete = 0;
+                $modules->save();
+                $modules = User_modul::where('user_id', '=', $id)
+                    ->where('module_id', '=', $id_modul)
+                    ->update([$column => $value]);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Los permisos se han insertado correctamente',
+                    'data' => $modules
+                ], 200);
+            } catch (Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se pudieron insertar los permisos',
+                    'err' => $e
+                ], 500);
+            }
         }
     }
 }
