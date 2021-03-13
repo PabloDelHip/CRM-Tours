@@ -90,7 +90,6 @@ export default {
     await this.getUser();
   },
   mounted() {
-    console.log("Component mounted.");
   },
   methods:{
     async getUser() {

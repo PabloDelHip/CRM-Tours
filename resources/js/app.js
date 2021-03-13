@@ -4,28 +4,28 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
-import router from './routes';
-import store from './store/index';
-import './interceptors';
-import  './middlewares';
-import Select2 from 'v-select2-component';
-import VueSweetalert2 from 'vue-sweetalert2';
-import { localize,extend } from 'vee-validate';
-import es from 'vee-validate/dist/locale/es.json';
-import { Settings } from 'luxon'
-import Multiselect from 'vue-multiselect'
+require("./bootstrap");
+import router from "./routes";
+import store from "./store/index";
+import "./interceptors";
+import "./middlewares";
+import Select2 from "v-select2-component";
+import VueSweetalert2 from "vue-sweetalert2";
+import { localize, extend } from "vee-validate";
+import es from "vee-validate/dist/locale/es.json";
+import { Settings } from "luxon";
+import Multiselect from "vue-multiselect";
 // You need a specific loader for CSS files
-import 'vue-datetime/dist/vue-datetime.css'
+import "vue-datetime/dist/vue-datetime.css";
 
 // Install and Activate the Arabic locale.
-localize('es', es); 
-Settings.defaultLocale = 'es'
+localize("es", es);
+Settings.defaultLocale = "es";
 
-window.Vue = require('vue');
+window.Vue = require("vue");
 Vue.use(Select2);
 Vue.use(VueSweetalert2);
-Vue.component('multiselect', Multiselect);
+Vue.component("multiselect", Multiselect);
 
 /**
  * The following block of code may be used to automatically register your
@@ -38,11 +38,15 @@ Vue.component('multiselect', Multiselect);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('login-component', require('./views/Login/index.vue').default);
-Vue.component('dashboard-component', require('./views/Dashboard/index.vue').default);
+Vue.component(
+    "example-component",
+    require("./components/ExampleComponent.vue").default
+);
+Vue.component("login-component", require("./views/Login/index.vue").default);
+Vue.component(
+    "dashboard-component",
+    require("./views/Dashboard/index.vue").default
+);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -51,9 +55,7 @@ Vue.component('dashboard-component', require('./views/Dashboard/index.vue').defa
  */
 
 const app = new Vue({
-    el: '#app',
+    el: "#app",
     router,
-    store
+    store,
 });
-
-

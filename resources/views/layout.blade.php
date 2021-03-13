@@ -27,7 +27,6 @@
     <link rel="stylesheet" href="{{url('/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
   </head>
 <body class="hold-transition sidebar-mini">
-
     <div>
 		  @yield('contenido')
     </div>

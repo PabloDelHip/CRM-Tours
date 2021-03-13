@@ -126,6 +126,8 @@ import moment, { locales } from "moment";
 const userResource = new user();
 const userPermissionResource = new UserPermissions();
 
+const NameModule = "Usuarios";
+
 export default {
   name: "users-get",
   props: {

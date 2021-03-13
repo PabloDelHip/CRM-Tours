@@ -1,103 +1,103 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 
-Vue.use(Router)
+Vue.use(Router);
 
 // Login section
-import Login from './views/Login/LoginComponent.vue'
-import RestablecerContrasena from './views/Login/RestorePassword.vue'
-import NuevaContrasena from './views/Login/NewPassword.vue'
+import Login from "./views/Login/LoginComponent.vue";
+import RestablecerContrasena from "./views/Login/RestorePassword.vue";
+import NuevaContrasena from "./views/Login/NewPassword.vue";
 
 //Dashboard section
-import Overview from './views/Dashboard/OverviewComponent.vue'
+import Overview from "./views/Dashboard/OverviewComponent.vue";
 
 //Users section
-import Users from './views/Users/Users.vue'
-import UserComponent from './views/Users/UserComponent.vue'
-import UserProfile from './views/Users/profileView.vue'
-import PermitsUsers from './views/Users/permissionUsers.vue'
+import Users from "./views/Users/Users.vue";
+import UserComponent from "./views/Users/UserComponent.vue";
+import UserProfile from "./views/Users/profileView.vue";
+import PermitsUsers from "./views/Users/permissionUsers.vue";
 
 //Customer section
-import Customer from './views/Customers/TableView.vue'
+import Customer from "./views/Customers/TableView.vue";
 
 export default new Router({
-    linkExactActiveClass: 'active',
+    linkExactActiveClass: "active",
     routes: [{
-            path: '*',
-            redirect: { name: 'Overview' }
+            path: "*",
+            redirect: { name: "Overview" },
         },
         {
-            path: '/login',
-            name: 'Login',
-            component: Login
+            path: "/login",
+            name: "Login",
+            component: Login,
         },
         {
-            path: '/restablecer-contrasena',
-            name: 'RestablecerContrasena',
-            component: RestablecerContrasena
+            path: "/restablecer-contrasena",
+            name: "RestablecerContrasena",
+            component: RestablecerContrasena,
         },
         {
-            path: '/nueva-contrasena/:token?',
-            name: 'NuevaContrasena',
+            path: "/nueva-contrasena/:token?",
+            name: "NuevaContrasena",
             component: NuevaContrasena,
-            props: true
+            props: true,
         },
         {
-            path: '/users/',
-            name: 'getUsers',
+            path: "/users/",
+            name: "getUsers",
             component: Users,
-            children: []
+            children: [],
         },
         {
-            path: '/users/create/',
-            name: 'CreateUser',
-            component: UserComponent
-        },
-        {
-            path: '/users/edit/:id',
-            name: 'EditUser',
+            path: "/users/create/",
+            name: "CreateUser",
             component: UserComponent,
-            props: true
         },
         {
-            path: '/users/profile/:id',
-            name: 'perfilUsuario',
+            path: "/users/edit/:id",
+            name: "EditUser",
+            component: UserComponent,
+            props: true,
+        },
+        {
+            path: "/users/profile/:id",
+            name: "perfilUsuario",
             component: UserProfile,
-            props: true
+            props: true,
         },
         {
-            path: '/users/permissions/:id',
-            name: 'permisos',
+            path: "/users/permissions/:id",
+            name: "permisos",
             component: PermitsUsers,
-            props: true
+            props: true,
         },
         {
-            path: '/contacts',
-            name: 'Contacts',
+            path: "/contacts",
+            name: "Contacts",
             component: Customer,
             /*children: [
-              {
-                path: 'infractions',
-                name: 'PublicInfractions',
-                component: PublicInfraction
-              },
-              {
-                path: 'maintenance',
-                name: 'PublicMaintenance',
-                component: PublicMaintenance
-              },
-              {
-                path: 'contacts-km',
-                name: 'PublicContactsKms',
-                component: PublicContactsKms
-              }
-            ] */
+                    {
+                      path: 'infractions',
+                      name: 'PublicInfractions',
+                      component: PublicInfraction
+                    },
+                    {
+                      path: 'maintenance',
+                      name: 'PublicMaintenance',
+                      component: PublicMaintenance
+                    },
+                    {
+                      path: 'contacts-km',
+                      name: 'PublicContactsKms',
+                      component: PublicContactsKms
+                    }
+                  ] */
         },
         {
-            path: '/overview',
-            name: 'Overview',
-            component: Overview
+            path: "/overview",
+            name: "Overview",
+            component: Overview,
         },
     ],
-    mode: "history"
-})
+    mode: "history",
+});
