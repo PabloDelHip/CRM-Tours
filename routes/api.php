@@ -32,6 +32,17 @@ Route::group([
 });
 
 Route::group([
+    // 'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/users/permission'
+], function () {
+    // Permissions
+    Route::get('/moudules', 'UsersPermisionController@getModules');
+    Route::get('/{id_user}', 'UsersPermisionController@permissionUsers');
+    Route::get('/{id_user}/{name_module}', 'UsersPermisionController@permissionUserByModule');
+    Route::put('/put', 'UsersPermisionController@updatePermission');
+});
+
+Route::group([
     'middleware' => ['jwt.auth'],
     'prefix' => 'v1'
 ], function () {
@@ -43,11 +54,6 @@ Route::group([
 
     // Profile
     Route::get('/users/get-profile/{id}', 'UsersController@getUserProfile');
-
-    // Permissions
-    Route::get('/users/moudules', 'UsersPermisionController@getModules');
-    Route::get('/users/permission/{id_user}', 'UsersPermisionController@permissionUsers');
-    Route::put('/users/permission/put', 'UsersPermisionController@updatePermits');
     
     // Notes
     Route::get('/notes/user/get/{id_user}', 'NotesController@getNotesUser');
@@ -90,10 +96,8 @@ Route::group([
 });
 
 Route::group([
-
     'middleware' => [],
     'prefix' => 'v1'
-
 ], function () {
     Route::post('/auth/login', 'AuthUserController@login');
     Route::post('/users/restore-password', 'UsersController@restorePassword');

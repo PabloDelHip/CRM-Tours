@@ -20,6 +20,12 @@ import PermitsUsers from "./views/Users/permissionUsers.vue";
 //Customer section
 import Customer from "./views/Customers/TableView.vue";
 
+// Error section
+import Error from "./views/Error/Error.vue";
+import InternalError from "./views/Error/InternalError.vue";
+import NotFound from "./views/Error/NotFound.vue";
+import NotAuthorized from "./views/Error/NotAuthorized.vue";
+
 export default new Router({
     linkExactActiveClass: "active",
     routes: [{
@@ -92,6 +98,27 @@ export default new Router({
                       component: PublicContactsKms
                     }
                   ] */
+        },
+        {
+            path: "/error",
+            name: "error",
+            component: Error,
+            children: [{
+                    path: "",
+                    name: "internalError",
+                    component: InternalError,
+                },
+                {
+                    path: "notfound",
+                    name: "notfound",
+                    component: NotFound,
+                },
+                {
+                    path: "notauthorized",
+                    name: "notauthorized",
+                    component: NotAuthorized,
+                },
+            ]
         },
         {
             path: "/overview",

@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Usuario</h1>
+            <h1>Usuarios</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -28,7 +28,7 @@
               <h3 class="card-title">Usuarios</h3>
             </div>
             <div class="card-header">
-              <router-link
+              <router-link v-if="userPermission.create"
                 :to="{ name: 'CreateUser' }"
                 name="created"
                 style="color: #fff;"
@@ -61,18 +61,19 @@
                 <thead>
                   <tr>
                     <th>Nombre</th>
-                    <!--Nombre + apellido-->
+                    <th>Apellido</th>
                     <th>Correo</th>
                     <th>Tipo de Usuario</th>
                     <th>Fecha de Creacion</th>
                     <th>Ver</th>
-                    <th>Eliminar</th>
-                    <th>Acciones</th>
+                    <th v-if="this.userPermission.delete">Eliminar</th>
+                    <th v-if="this.permissionPermission.read">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="user in users" :key="user.id">
                     <td>{{ user.profile.name }}</td>
+                    <td>{{ user.profile.last_name }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.type }}</td>
                     <td>{{ fechaFormato(user.created_at) }}</td>
@@ -86,7 +87,7 @@
                         Ver
                       </router-link>
                     </td>
-                    <td>
+                    <td v-if="userPermission.delete">
                       <button
                         name="delete"
                         class="btn btn-danger btn-sm"
@@ -95,7 +96,7 @@
                         Eliminar
                       </button>
                     </td>
-                    <td>
+                    <td v-if="permissionPermission.read">
                       <router-link
                         class="btn btn-secondary btn-sm"
                         :to="{ name: 'permisos', params: { id: user.id } }"
@@ -106,27 +107,22 @@
                 </tbody>
               </table>
             </div>
-            <!-- /.card-body -->
           </div>
-          <!-- /.card -->
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /.row -->
     </div>
-    <!-- /.container-fluid -->
   </div>
 </template>
 
 <script>
 import user from "../../providers/User";
 import UserPermissions from "../../providers/UserPermission";
-import datatables from "datatables";
 import moment, { locales } from "moment";
 const userResource = new user();
 const userPermissionResource = new UserPermissions();
 
-const NameModule = "Usuarios";
+const UserNameModule = "Usuarios";
+const PermissionNameModule = "Permisos";
 
 export default {
   name: "users-get",
@@ -140,20 +136,33 @@ export default {
       showError: null,
       showSuccess: null,
       showWarning: null,
-      permitsModuls: [],
+      userPermission: [],
+      permissionPermission: [],
     };
   },
-  mounted() {
-    if (localStorage.getItem("permits_user")) {
-      this.permitsModuls = JSON.parse(localStorage.getItem("permits_user"));
-      console.log(this.permitsModuls);
-      // el indice 0 pertenece al modulo de usuarios
+  computed: {
+    user: function () {
+      return this.$store.state.user;
     }
   },
-  created() {
+  async created() {
+    await this.setPermissions();
     this.obtenerUsuarios();
   },
   methods: {
+    async setPermissions(){
+      this.userPermission = await this.getPermission(UserNameModule);
+      this.permissionPermission = await this.getPermission(PermissionNameModule);
+    },
+    async getPermission(name) {
+      var response = (await userPermissionResource.UserPermissionsByModule(this.user.id, name)).data;
+      if (!response.success){
+        this.$router.push({
+            name: 'notauthorized',
+        });
+      }
+      return response.data.permission;
+    },
     async obtenerUsuarios() {
       try {
         var response = (await userResource.getUsers()).data;

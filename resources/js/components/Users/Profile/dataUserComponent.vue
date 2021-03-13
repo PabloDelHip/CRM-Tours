@@ -41,7 +41,7 @@
           <router-link
             class="btn btn-primary btn-block"
             :to="{ name: 'EditUser', params: { id: +this.id_user } }"
-            v-if="this.id_user == this.user.id || this.user.level == 1"
+            v-if="this.id_user == this.user.id || this.permission.update"
           >
             <b><i class="fas fa-pen"></i> Editar</b>
           </router-link>
@@ -57,8 +57,12 @@
 
 <script>
 import User from "../../../providers/User";
+import UserPermissions from "../../../providers/UserPermission";
 
 const UserResource = new User();
+const userPermissionResource = new UserPermissions();
+
+const NameModule = "Usuarios";
 
 export default {
   props: {
@@ -77,21 +81,30 @@ export default {
       },
 
       errors: [],
+      permission: [],
 
       nameProfile: null,
     };
   },
   computed: {
-    user: function() {
+    user: function () {
       return this.$store.state.user;
-    },
+    }
   },
-  async created(){
+  async mounted(){
+    await this.getPermission();
     await this.getUser();
   },
-  mounted() {
-  },
   methods:{
+    async getPermission() {
+      var response = (await userPermissionResource.UserPermissionsByModule(this.user.id, NameModule)).data;
+      if (!response.success){
+        this.$router.push({
+            path: '/',
+        });
+      }
+      this.permission = response.data.permission;
+    },
     async getUser() {
       var response = (await UserResource.getUser(this.id_user)).data;
       if (!response.success) {
