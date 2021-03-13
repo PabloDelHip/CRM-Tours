@@ -1,4 +1,5 @@
 <template>
+
     <div class="login-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
@@ -42,34 +43,43 @@
                             </div>
                         </form>
                     </ValidationObserver>
-                </div>
-                <div v-else-if="password_update">
-                    <p class="login-box-msg">La contraseña fue modificada de forma correcta.</p>
-                    <p class="mt-3 mb-1">
-                        <router-link :to="{ name:'Login'}">
-                            Login
-                        </router-link>
-                    </p>
-                </div>
-                <div v-else>
-                    <p class="login-box-msg">Parece que hizo clic en un enlace de restablecimiento de contraseña no válido. Inténtalo de nuevo.</p>
-                    <p class="mt-3 mb-1">
-                        <router-link :to="{ name:'RestablecerContrasena'}">
-                            Recuperar contraseña
-                        </router-link>
-                    </p>
-                </div>
-            </div>
-            <!-- /.login-card-body -->
         </div>
+        <div v-else-if="password_update">
+          <p class="login-box-msg">
+            La contraseña fue modificada de forma correcta.
+          </p>
+          <p class="mt-3 mb-1">
+            <router-link :to="{ name: 'Login' }">
+              Login
+            </router-link>
+          </p>
         </div>
-        <!-- /.login-box -->
+        <div v-else>
+          <p class="login-box-msg">
+            Parece que hizo clic en un enlace de restablecimiento de contraseña
+            no válido. Inténtalo de nuevo.
+          </p>
+          <p class="mt-3 mb-1">
+            <router-link :to="{ name: 'RestablecerContrasena' }">
+              Recuperar contraseña
+            </router-link>
+          </p>
+        </div>
+      </div>
+      <!-- /.login-card-body -->
+    </div>
+  </div>
+  <!-- /.login-box -->
 </template>
 
 <script>
-    import { extend, ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full';
+import {
+  extend,
+  ValidationProvider,
+  ValidationObserver,
+} from "vee-validate/dist/vee-validate.full";
 
-    import User from '../../providers/User';
+import User from "../../providers/User";
 
     extend('password', {
         params: ['target'],
@@ -79,7 +89,8 @@
         message: 'Las contraseñas no coinciden.',
     });
 
-    const UserResourse = new User();
+
+const UserResourse = new User();
 
     export default {
         props: ['token'],
@@ -154,7 +165,6 @@
         },
         mounted() {
             this.getTokenPassword()
-            console.log('Component mounted.')
-        }
-    }
+  },
+};
 </script>

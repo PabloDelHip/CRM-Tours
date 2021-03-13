@@ -8,7 +8,7 @@
             <div class="card-body">
             <p class="login-box-msg">Regístrese para iniciar su sesión</p>
             <transition name="fade">
-                <div class="alert alert-danger alert-dismissible text-center" v-if="show_error">
+                <div class="alert alert-danger text-center" v-if="show_error">
                     {{ message }}
                 </div>
             </transition>
@@ -85,25 +85,27 @@
                 password: null,
                 show_error: false,
                 message: null,
-                disabled: true
+                disabled: true,
             }
         },
         methods: { 
             async login() {
+                this.show_error = false;
+
                 const isValid = await this.$refs.observer.validate();
                 if (!isValid) {
-                    alert("Verifique que el formulario fue llenado de forma correcta");  
+                    this.message = "Verifique que el formulario fue llenado de forma correcta";
+                    this.show_error = true;
                 }
                 else {
                     let formData = {
-                    email: this.email,
-                    password: this.password
+                        email: this.email,
+                        password: this.password,
                     }
                     AuthResourse.login(formData).then((response) => {
                         this.show_error = false;
                         localStorage.setItem('data_user', JSON.stringify(response.data));
                         window.location.href = '/overview';
-                        //this.$router.push({name: 'Overview'})
                     }).catch(err => {
                         let error = err.response;
                         this.message = this.statusCode(error.status)

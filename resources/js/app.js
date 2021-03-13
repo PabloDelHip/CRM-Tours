@@ -23,11 +23,12 @@ import moment from 'moment-timezone'
 moment.tz.setDefault('America/Cancun')
 moment.locale('es');
 
-// Install and Activate the Arabic locale.
-localize('es', es); 
-Settings.defaultLocale = 'es'
 
-window.Vue = require('vue');
+// Install and Activate the Arabic locale.
+localize("es", es);
+Settings.defaultLocale = "es";
+
+window.Vue = require("vue");
 Vue.use(Select2);
 Vue.use(VueSweetalert2);
 Vue.use(VueMoment, {
@@ -47,11 +48,15 @@ Vue.component('multiselect', Multiselect);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('login-component', require('./views/Login/index.vue').default);
-Vue.component('dashboard-component', require('./views/Dashboard/index.vue').default);
+Vue.component(
+    "example-component",
+    require("./components/ExampleComponent.vue").default
+);
+Vue.component("login-component", require("./views/Login/index.vue").default);
+Vue.component(
+    "dashboard-component",
+    require("./views/Dashboard/index.vue").default
+);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -60,9 +65,7 @@ Vue.component('dashboard-component', require('./views/Dashboard/index.vue').defa
  */
 
 const app = new Vue({
-    el: '#app',
+    el: "#app",
     router,
-    store
+    store,
 });
-
-

@@ -7,15 +7,15 @@
     <div class="card-body">
       <transition name="fade">
         <div
-          class="alert alert-danger alert-dismissible text-center"
+          class="alert alert-danger"
           v-if="errors.length > 0"
         >
           <ul>
-            <li v-for="(e, index) in errors" :key="index"> {{ e }}</li>
+            <li v-for="(e, index) in errors" :key="index">{{ e }}</li>
           </ul>
         </div>
         <div
-          class="alert alert-success alert-dismissible text-center"
+          class="alert alert-success"
           v-if="successMessage.length > 0"
         >
           {{ successMessage }}
@@ -77,7 +77,8 @@
         <input
           type="number"
           name="postalCode"
-          class="form-control"
+          class="form-control no-arrow"
+          min="0"
           v-model.number="postalCode"
           placeholder=""
         />
@@ -87,7 +88,8 @@
         <input
           type="number"
           name="interiorNumber"
-          class="form-control"
+          class="form-control no-arrow"
+          min="0"
           v-model.number="interiorNumber"
           placeholder=""
         />
@@ -97,7 +99,8 @@
         <input
           type="number"
           name="exteriorNumber"
-          class="form-control"
+          class="form-control no-arrow"
+          min="0"
           v-model.number="exteriorNumber"
           placeholder=""
         />
