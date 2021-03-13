@@ -42,7 +42,7 @@
             <div class="card-body">
               <transition name="fade">
                 <div
-                  class="alert alert-danger alert-dismissible text-center"
+                  class="alert alert-danger"
                   v-if="profileErrors.length > 0"
                 >
                   <ul>
@@ -52,7 +52,7 @@
                   </ul>
                 </div>
                 <div
-                  class="alert alert-success alert-dismissible text-center"
+                  class="alert alert-success text-center"
                   v-if="successProfileMessage.length > 0"
                 >
                   {{ successProfileMessage }}

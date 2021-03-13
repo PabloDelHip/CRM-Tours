@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Moduls extends Model 
+class Modules extends Model 
 {
-  protected $table = "moduls"; // <-- El nombre personalizado
+  protected $table = "modules"; // <-- El nombre personalizado
 
   public function permits()
   {
@@ -14,6 +14,6 @@ class Moduls extends Model
   }
 
   protected $fillable = [
-    'id_module', 'name', 
+    'name', 'status'
   ];
 }

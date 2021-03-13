@@ -101,11 +101,9 @@
             statusCode(status) {
                 switch (status) {
                     case 422:
-                        return 'El email ingresado no tiene cuenta'
-                        break;
+                        return 'El email ingresado no tiene cuenta';
                     case 500:
-                        return 'Error al enviar email'
-                        break;
+                        return 'Error al enviar email';
                     
                 }
             }

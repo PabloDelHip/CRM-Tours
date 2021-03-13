@@ -9,7 +9,7 @@
         <div class="card-body">
           <transition name="fade">
             <div
-              class="alert alert-danger alert-dismissible text-center"
+              class="alert alert-danger"
               v-if="errors.length > 0"
             >
               <ul>
@@ -17,7 +17,7 @@
               </ul>
             </div>
             <div
-              class="alert alert-success alert-dismissible text-center"
+              class="alert alert-success"
               v-if="successMessage.length > 0"
             >
               {{ successMessage }}
