@@ -18,7 +18,8 @@ import UserProfile from "./views/Users/profileView.vue";
 import PermitsUsers from "./views/Users/permissionUsers.vue";
 
 //Customer section
-import Customer from "./views/Customers/TableView.vue";
+import Customer from './views/Customers/TableView.vue'
+import ProfileCustomer from './views/Customers/profileView.vue'
 
 // Error section
 import Error from "./views/Error/Error.vue";
@@ -82,22 +83,19 @@ export default new Router({
             name: "Contacts",
             component: Customer,
             /*children: [
-                    {
-                      path: 'infractions',
-                      name: 'PublicInfractions',
-                      component: PublicInfraction
-                    },
-                    {
-                      path: 'maintenance',
-                      name: 'PublicMaintenance',
-                      component: PublicMaintenance
-                    },
-                    {
-                      path: 'contacts-km',
-                      name: 'PublicContactsKms',
-                      component: PublicContactsKms
-                    }
-                  ] */
+<<<<<<< HEAD
+              {
+                path: 'profile/:id',
+                name: 'profileCustomer',
+                component: ProfileCustomer
+              },
+            ] */
+        },
+        {
+            path: '/contacts/profile/:id',
+            name: 'profileCustomer',
+            component: ProfileCustomer,
+            props: true
         },
         {
             path: "/error",

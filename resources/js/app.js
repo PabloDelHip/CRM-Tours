@@ -4,19 +4,25 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require("./bootstrap");
-import router from "./routes";
-import store from "./store/index";
-import "./interceptors";
-import "./middlewares";
-import Select2 from "v-select2-component";
-import VueSweetalert2 from "vue-sweetalert2";
-import { localize, extend } from "vee-validate";
-import es from "vee-validate/dist/locale/es.json";
-import { Settings } from "luxon";
-import Multiselect from "vue-multiselect";
+require('./bootstrap');
+import router from './routes';
+import store from './store/index';
+import './interceptors';
+import  './middlewares';
+import Select2 from 'v-select2-component';
+import VueSweetalert2 from 'vue-sweetalert2';
+import { localize,extend } from 'vee-validate';
+import es from 'vee-validate/dist/locale/es.json';
+import { Settings } from 'luxon'
+import Multiselect from 'vue-multiselect'
+import VModal from 'vue-js-modal'
 // You need a specific loader for CSS files
-import "vue-datetime/dist/vue-datetime.css";
+import 'vue-datetime/dist/vue-datetime.css'
+import VueMoment from 'vue-moment'
+import moment from 'moment-timezone'
+moment.tz.setDefault('America/Cancun')
+moment.locale('es');
+
 
 // Install and Activate the Arabic locale.
 localize("es", es);
@@ -25,7 +31,11 @@ Settings.defaultLocale = "es";
 window.Vue = require("vue");
 Vue.use(Select2);
 Vue.use(VueSweetalert2);
-Vue.component("multiselect", Multiselect);
+Vue.use(VueMoment, {
+    moment,
+})
+Vue.use(VModal, { dynamicDefault: { draggable: true, resizable: true } })
+Vue.component('multiselect', Multiselect);
 
 /**
  * The following block of code may be used to automatically register your

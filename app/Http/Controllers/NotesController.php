@@ -4,26 +4,36 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Note;
+use App\Profile;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 
 class NotesController extends Controller
 {
-    public function getNotesUser($id_user_profile)
-    {
-        $notes = Note::where('user_profile_id', $id_user_profile)->orderBy('id', 'DESC')->get();
+
+    public function getNotesUser($id_user_profile, $entity = 'users')
+    {  
+        $notes = null;
+        switch ($entity) {
+            case 'users':
+                $notes = Note::where('user_profile_id', $id_user_profile)->orderBy('id', 'DESC')->get();
+                break;
+            case 'customers':
+                $notes = Note::where('customer_id', $id_user_profile)->orderBy('id', 'DESC')->get();
+                break;
+        }
         if(!$notes)
         {
             return response()->json([
                 'succes' => false,
-                'message' => 'El usuario ingresado no tiene notas',
+                'message' => 'no tiene notas',
             ], 204);
         }
         foreach ($notes as $note) {
-            $note->user = $note->user;
+            $note->user_profile = Profile::find($note->user->id);
         }
         return response()->json([
             'succes' => true,
-            'message' => 'El usuario si tiene notas',
+            'message' => 'si tiene notas',
             'notes' => $notes
         ], 200);
     }

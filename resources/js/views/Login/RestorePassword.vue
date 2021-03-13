@@ -13,7 +13,7 @@
             
             <div v-else>
                 <p class="login-box-msg">¿Olvidaste tu contraseña? Aquí puede recuperar fácilmente una nueva contraseña.</p>
-                <ValidationObserver v-slot="{ invalid }" ref="observer">
+                <ValidationObserver v-slot="{ validate }" ref="observer">
                     <form method="post">
                         <ValidationProvider name="email" rules="required|email" v-slot="{ errors }">
                             <div class="input-group mb-3">
@@ -28,7 +28,10 @@
                         </ValidationProvider>
                         <div class="row">
                         <div class="col-12">
-                            <button type="button" :disabled="invalid" @click="restorePassword()" class="btn btn-primary btn-block">Solicitar nueva contraseña</button>
+                            <button type="button" :disabled="disabled_button" @click="validate().then(restorePassword())" class="btn btn-primary btn-block">
+                                Solicitar nueva contraseña
+                                <i v-if="disabled_button" class="fas fa-sync-alt fa-spin"></i>
+                            </button>
                         </div>
                         <!-- /.col -->
                         </div>
@@ -61,7 +64,8 @@
                     email: null,
                 },
                 message_error: '',
-                show_confirmation: false
+                show_confirmation: false,
+                disabled_button: false,
             }
         },
         components: {
@@ -70,22 +74,40 @@
         },
         methods: { 
             async restorePassword() {
-                UserResourse.restorePassword(this.formData).then((data) => {
-                    this.show_confirmation = true;
-                    console.log(data)
-                    this.$swal.fire({
-                        icon: 'success',
-                        title: 'Bien',
-                        toast: true,
-                        position: 'top',
-                        timer: 3000,
-                        showConfirmButton: false,
-                        timerProgressBar: true,
-                        text: 'Contraseña solicitada correctamente',
+                const isValid = await this.$refs.observer.validate();
+                if (isValid) {
+                    this.disabled_button = true;
+                    UserResourse.restorePassword(this.formData).then((data) => {
+                        this.show_confirmation = true;
+                        console.log(data)
+                        this.$swal.fire({
+                            icon: 'success',
+                            title: 'Bien',
+                            toast: true,
+                            position: 'top',
+                            timer: 3000,
+                            showConfirmButton: false,
+                            timerProgressBar: true,
+                            text: 'Contraseña solicitada correctamente',
+                        })
+                        this.disabled_button = false;
+                    }).catch((err) => {
+                        let error = err.response;
+                        this.message_error = this.statusCode(error.status)
+                        this.$swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            toast: true,
+                            position: 'top',
+                            timer: 3000,
+                            showConfirmButton: false,
+                            timerProgressBar: true,
+                            text: this.message_error,
+                        })
+                        this.disabled_button = false;
                     })
-                }).catch((err) => {
-                    let error = err.response;
-                    this.message_error = this.statusCode(error.status)
+                }
+                else {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -94,9 +116,9 @@
                         timer: 3000,
                         showConfirmButton: false,
                         timerProgressBar: true,
-                        text: this.message_error,
+                        text: 'El formulario no fue llenado correctamente',
                     })
-                })
+                }
             },
             statusCode(status) {
                 switch (status) {
