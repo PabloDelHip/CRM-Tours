@@ -24,14 +24,14 @@ class CreateUserModuleTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('user_modul', function($table) {
+        Schema::table('user_module', function($table) {
             $table->foreign('user_id')
                     ->references('id')
                     ->on('users')
                     ->onDelete('cascade');
             $table->foreign('module_id')
                     ->references('id')
-                    ->on('moduls')
+                    ->on('modules')
                     ->onDelete('cascade');
         });
     }
