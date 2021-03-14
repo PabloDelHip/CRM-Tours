@@ -110,15 +110,13 @@
                         this.createTable();
                     }
                     this.destroyTable = true
-                    console.log(this.customers)
                 } catch (error) {
-                    console.log(error)
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         toast: true,
                         position: 'top',
-                        timer: 3000,
+                        timer: 5000,
                         showConfirmButton: false,
                         timerProgressBar: true,
                         text: 'Disculpe tuvimos un error para cargar los contactos',
@@ -126,37 +124,52 @@
                 }
             },
             async deleteCustomer($id_customer) {
-                try {
-                    await customerResource.deleteCustomer($id_customer)
-                    await this.getCustomers()
-                    this.$swal.fire({
-                        icon: 'success',
-                        title: 'Bien',
-                        toast: true,
-                        position: 'top',
-                        timer: 3000,
-                        showConfirmButton: false,
-                        timerProgressBar: true,
-                        text: 'Contacto eliminado de forma correcta',
-                    })
-                } catch (error) {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        toast: true,
-                        position: 'top',
-                        timer: 3000,
-                        showConfirmButton: false,
-                        timerProgressBar: true,
-                        text: 'Disculpe tuvimos un error para eliminar al contactos',
-                    })
-                }
+
+                this.$swal.fire({
+                title: '¿Esta seguro que desea eliminar contacto?',
+                text: "El contacto sera eliminado de forma permanente",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, Eliminar',
+                cancelButtonText: 'Cancelar'
+                }).then( async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            await customerResource.deleteCustomer($id_customer)
+                            await this.getCustomers()
+                            this.$swal.fire({
+                                icon: 'success',
+                                title: 'Bien',
+                                toast: true,
+                                position: 'top',
+                                timer: 3000,
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                                text: 'Contacto eliminado de forma correcta',
+                            })
+                        } catch (error) {
+                            this.$swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                toast: true,
+                                position: 'top',
+                                timer: 3000,
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                                text: 'Disculpe tuvimos un error para eliminar al contactos',
+                            })
+                        }
+                    }
+                })
+
             },
             createTable() {
                 $(function () {
                     //SUMMERNOTE
                     $('#editor').summernote()
-                    //DATA-TABLE
+                    //DATA-TABLEf
                     $("#example1").DataTable({
                     "responsive": false,
                     "buttons": ["copy", "csv", "excel", "pdf", "print"],
