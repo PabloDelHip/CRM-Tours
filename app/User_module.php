@@ -18,6 +18,13 @@ class User_module extends Model
   ];
 
   protected $fillable = [
-    'id_user', 'module_id', 'create', 'read', 'update', 'delete',
+    'user_id', 'module_id', 'create', 'read', 'update', 'delete',
+  ];
+
+  protected $casts = [
+    'create' => 'boolean',
+    'read' => 'boolean',
+    'update' => 'boolean',
+    'delete' => 'boolean',
   ];
 }
