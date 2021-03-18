@@ -22,6 +22,8 @@ class User_module extends Model
   ];
 
   protected $casts = [
+    'user_id' => 'integer',
+    'module_id' => 'integer',
     'create' => 'boolean',
     'read' => 'boolean',
     'update' => 'boolean',
