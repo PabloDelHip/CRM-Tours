@@ -35,11 +35,8 @@
                                             <div class="user-block">
                                                 <img class="img-circle img-bordered-sm" src="/dist/img/user7-128x128.jpg" alt="User Image">
                                                 <span class="username">
-                                                <a href="#">{{ note.user.name }}</a>
+                                                <a href="#">{{ note.user_profile.name }} {{ note.user_profile.last_name }}</a>
                                                 <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                                </span>
-                                                <span class="description">
-                                                    <strong>{{ note.user_profile.name }} {{ note.user_profile.last_name }}</strong>
                                                 </span>
                                                 <span class="description">Escribio la nota  - {{ note.created_at | moment("LLLL") }}</span>
                                             </div>
