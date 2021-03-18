@@ -27,6 +27,10 @@ import InternalError from "./views/Error/InternalError.vue";
 import NotFound from "./views/Error/NotFound.vue";
 import NotAuthorized from "./views/Error/NotAuthorized.vue";
 
+//Vendors section
+import Vendors from './views/vendors/index.vue'
+import VendorsList from './views/vendors/listView.vue'
+
 export default new Router({
     linkExactActiveClass: "active",
     routes: [{
@@ -82,14 +86,6 @@ export default new Router({
             path: "/contacts",
             name: "Contacts",
             component: Customer,
-            /*children: [
-<<<<<<< HEAD
-              {
-                path: 'profile/:id',
-                name: 'profileCustomer',
-                component: ProfileCustomer
-              },
-            ] */
         },
         {
             path: '/contacts/profile/:id',
@@ -117,6 +113,16 @@ export default new Router({
                     component: NotAuthorized,
                 },
             ]
+        },
+        {
+            path: "/vendors",
+            name: "Vendors",
+            component: Vendors,
+            children:[{
+                path: "list",
+                name: "ListVendor",
+                component: VendorsList,
+            }]
         },
         {
             path: "/overview",

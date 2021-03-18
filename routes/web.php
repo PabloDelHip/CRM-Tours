@@ -40,5 +40,9 @@ Route::get('/error', ['as' => '/error', 'uses' => 'HomeController@index']);
 Route::get('/error/notfound', ['as' => '/error/notfound', 'uses' => 'HomeController@index']);
 Route::get('/error/notauthorized', ['as' => '/error/notauthorized', 'uses' => 'HomeController@index']);
 
+//Vendors
+Route::get('/vendors', ['as' => 'vendors', 'uses' => 'HomeController@index']);
+Route::get('/vendors/list', ['as' => 'vendors/list', 'uses' => 'HomeController@index']);
+
 //Dashboard
 Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);
