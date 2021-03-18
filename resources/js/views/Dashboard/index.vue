@@ -243,12 +243,12 @@
                     </router-link>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link">
-                      <i class="fas fa-store"></i>
-                      <p>
-                        Agencias
-                      </p>
-                    </a>
+                     <router-link class="nav-link" :to="{ name:'ListVendor'}">
+                        <i class="fas fa-store"></i>
+                        <p>
+                          Agencias
+                        </p>
+                     </router-link>
                   </li>
                   <li class="nav-item">
                     <a href="pages/gallery.html" class="nav-link">
