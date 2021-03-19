@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Note;
-use App\User;
+use App\Profile;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 
 class NotesController extends Controller
@@ -29,8 +29,7 @@ class NotesController extends Controller
             ], 204);
         }
         foreach ($notes as $note) {
-            $note->user = User::find($note->user_id);
-            $note->user->profile = $note->user->profile;
+            $note->user_profile = Profile::find($note->user->id);
         }
         return response()->json([
             'succes' => true,
@@ -40,8 +39,7 @@ class NotesController extends Controller
     }
 
     public function saveNotesUser(Request $request)
-    {   
-        try {
+    {   try {
            $noteSave = Note::create($request->all());
            return response()->json([
             'succes' => true,
