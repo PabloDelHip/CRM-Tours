@@ -25,7 +25,6 @@
                             </div>
                             <!-- /.col-->
                             <hr>
-                            <!-- /.hr-->
                             <div class="ticontenedor-notas">
                                 <transition-group  name="fade">
                                     <div v-for="note in notes" :key="note.id" class="post">

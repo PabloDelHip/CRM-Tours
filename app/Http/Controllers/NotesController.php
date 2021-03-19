@@ -28,6 +28,7 @@ class NotesController extends Controller
                 'message' => 'no tiene notas',
             ], 204);
         }
+        
         foreach ($notes as $note) {
             $note->user = User::find($note->user_id);
             $note->user->profile = $note->user->profile;
