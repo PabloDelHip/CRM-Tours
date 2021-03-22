@@ -64,7 +64,6 @@
                 {
                     this.infoCustomer.city = this.infoCustomer.city.city
                 }
-                console.log(this.infoCustomer.city)
             },
         },
         mounted() {

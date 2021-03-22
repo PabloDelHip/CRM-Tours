@@ -68,7 +68,7 @@ Route::group([
 //Customers
 Route::group([
 
-    //'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth'],
     'prefix' => 'v1/customer/'
 
 ], function () {
@@ -118,4 +118,14 @@ Route::group([
     Route::post('/users/restore-password', 'UsersController@restorePassword');
     Route::get('/users/get-token-password/{token?}', 'UsersController@getTokenPassword');
     Route::put('/users/update-password/{token?}', 'UsersController@updatePassword');
+});
+
+// Profiles
+Route::group([
+    //'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/vendors'
+], function () {
+    Route::get('/list', 'VendorsController@getList');
+    Route::get('/get/{id}', 'VendorsController@getVendor');
+    Route::delete('/delete/{id}', 'VendorsController@delete');
 });

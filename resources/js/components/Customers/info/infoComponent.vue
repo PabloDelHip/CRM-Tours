@@ -355,11 +355,6 @@
           user: function () {
             return this.$store.state.user
           },
-          computed: {
-          user: function () {
-            return this.$store.state.user
-          }
-        },
         },
         methods: {
             async saveNote() {
@@ -385,11 +380,10 @@
                         entity: 'customers'
                     };
                     try {
-                        await NoteResourse.saveNoteUser(formData)
+                        await NoteResourse.saveNote(formData)
                         this.getNote();
                         $("#editor").val('');
                         $('#editor').summernote('code', '')
-                        console.log('el valor es', $("#editor").val() )
                     } catch (error) {
                         this.$swal.fire({
                             icon: 'error',
@@ -401,7 +395,7 @@
                             timerProgressBar: true,
                             text: 'Ocurrio un problema al guardar la nota',
                         })
-                        console.log(error)
+                       
                     }
                 }
             },
@@ -409,9 +403,8 @@
                 try {
                     this.notes = await NoteResourse.getNotesUser(this.id_customer,'customers')
                     this.notes = this.notes.data.notes
-                    console.log(this.notes)
                 } catch (error) {
-                    console.log(error)
+                   
                 }
             },
         },

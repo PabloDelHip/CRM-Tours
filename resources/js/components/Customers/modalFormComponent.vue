@@ -299,22 +299,7 @@
         else {
           this.texto_boton =  'Guardar contacto';
         }
-        console.log('Estamos aqui');
-        if(this.$modal.show('my-first-modal')) {
-          console.log('Estamos aqui arribaaa');
-        }
-        else {
-          console.log('no esta abierto');
-        }
-        //this.$modal.show('my-first-modal');
-      },
-      validarAbierto() {
-        if(this.$modal.show('my-first-modal')) {
-          console.log('Estamos aqui arribaaa EDIT');
-        }
-        else {
-          console.log('Estamos no estyamos');
-        }
+        this.$modal.show('my-first-modal')
       },
       clearData() {
         this.form.name = null;

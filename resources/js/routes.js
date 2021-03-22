@@ -30,6 +30,7 @@ import NotAuthorized from "./views/Error/NotAuthorized.vue";
 //Vendors section
 import Vendors from './views/vendors/index.vue'
 import VendorsList from './views/vendors/listView.vue'
+import VendorsProfile from './views/vendors/profile.vue'
 
 export default new Router({
     linkExactActiveClass: "active",
@@ -118,11 +119,19 @@ export default new Router({
             path: "/vendors",
             name: "Vendors",
             component: Vendors,
-            children:[{
-                path: "list",
-                name: "ListVendor",
-                component: VendorsList,
-            }]
+            children:[
+                {
+                    path: "list",
+                    name: "ListVendor",
+                    component: VendorsList,
+                },
+                {
+                    path: "profile/:id",
+                    name: "profileVendor",
+                    component: VendorsProfile,
+                    props: true
+                }
+            ]
         },
         {
             path: "/overview",

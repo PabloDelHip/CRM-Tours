@@ -342,7 +342,7 @@
                         entity: 'users' 
                     };
                     try {
-                        await NoteResourse.saveNoteUser(formData)
+                        await NoteResourse.saveNote(formData)
                         this.getNote();
                         $("#editor").val('');
                         $('#editor').summernote('code', '')

@@ -23,8 +23,6 @@ class CreateVendorsTable extends Migration
             $table->string('web', 50)->nullable();
             $table->string('email', 150)->nullable();
             $table->string('phone', 25)->nullable();
-            $table->integer('iva', 25)->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('address_id')->nullable();
             $table->timestamps();
         });
@@ -34,10 +32,6 @@ class CreateVendorsTable extends Migration
                     ->references('id')
                     ->on('address')
                     ->onDelete('cascade');
-            $table->foreign('user_id')
-            ->references('id')
-            ->on('users')
-            ->onDelete('cascade');
         });
     }
 

@@ -20,6 +20,9 @@ class NotesController extends Controller
             case 'customers':
                 $notes = Note::where('customer_id', $id_user_profile)->orderBy('id', 'DESC')->get();
                 break;
+            case 'vendors':
+                    $notes = Note::where('vendor_id', $id_user_profile)->orderBy('id', 'DESC')->get();
+                    break;
         }
         if(!$notes)
         {
