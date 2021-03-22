@@ -11,7 +11,7 @@ export default class Note {
 
     }
 
-    saveNoteUser(formData) {
+    saveNote(formData) {
         return axios.post(`/api/v1/notes/user/save`, formData)
     }
 }
