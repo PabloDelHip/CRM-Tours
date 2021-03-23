@@ -5,9 +5,9 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <buttons class="btn btn-primary btn-flat">
+            <button class="btn btn-primary btn-flat">
                 <i class="fas fa-store"></i> Agregar Agencia
-            </buttons>
+            </button>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

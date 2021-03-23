@@ -119,9 +119,8 @@ export default new Router({
             path: "/vendors",
             name: "Vendors",
             component: Vendors,
-            children:[
-                {
-                    path: "list",
+            children: [{
+                    path: "",
                     name: "ListVendor",
                     component: VendorsList,
                 },

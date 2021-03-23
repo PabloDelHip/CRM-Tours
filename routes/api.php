@@ -32,7 +32,7 @@ Route::group([
 });
 
 Route::group([
-    // 'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth'],
     'prefix' => 'v1/users/permission'
 ], function () {
     // Permissions
@@ -67,10 +67,8 @@ Route::group([
 
 //Customers
 Route::group([
-
     'middleware' => ['jwt.auth'],
     'prefix' => 'v1/customer/'
-
 ], function () {
     
     Route::post('create', 'CustomerController@updateOrCreateCustomer');
