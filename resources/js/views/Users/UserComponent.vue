@@ -37,7 +37,7 @@
           <div class="card card-primary">
             <div class="card-header">
               <h3 class="card-title" v-if="newUser">Agregar nuevo perfil</h3>
-              <h3 class="card-title" v-if="!newUser">Editar perfil</h3>
+              <h3 class="card-title" v-else>Editar perfil</h3>
             </div>
             <div class="card-body">
               <transition name="fade">
@@ -238,7 +238,7 @@ export default {
     this.status = 1;
   },
   methods: {
-    async chechIdUser() {
+    chechIdUser() {
       if (this.id == undefined || this.user == null) {
         return false;
       }

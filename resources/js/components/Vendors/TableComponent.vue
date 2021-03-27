@@ -5,13 +5,22 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <button class="btn btn-primary btn-flat">
-                <i class="fas fa-store"></i> Agregar Agencia
-            </button>
+              <router-link
+                :to="{ name: 'CreateVendor' }"
+                name="created"
+                class="btn btn-warning"
+              >
+                <i class="fas fa-store"></i>
+                Nuevo Agencia
+              </router-link>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item">
+                <router-link :to="{ path: '/' }">
+                  Home
+                </router-link>
+              </li>
               <li class="breadcrumb-item active">Agencias</li>
             </ol>
           </div>

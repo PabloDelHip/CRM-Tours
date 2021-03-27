@@ -29,6 +29,7 @@ import NotAuthorized from "./views/Error/NotAuthorized.vue";
 
 //Vendors section
 import Vendors from './views/vendors/index.vue'
+import VendorComponent from './views/vendors/VendorComponent.vue'
 import VendorsList from './views/vendors/listView.vue'
 import VendorsProfile from './views/vendors/profile.vue'
 
@@ -125,11 +126,22 @@ export default new Router({
                     component: VendorsList,
                 },
                 {
+                    path: "create",
+                    name: "CreateVendor",
+                    component: VendorComponent,
+                },
+                {
+                    path: "edit/:id",
+                    name: "EditVendor",
+                    component: VendorComponent,
+                    props: true,
+                },
+                {
                     path: "profile/:id",
                     name: "profileVendor",
                     component: VendorsProfile,
                     props: true
-                }
+                },
             ]
         },
         {
