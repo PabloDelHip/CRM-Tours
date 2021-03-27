@@ -14,7 +14,7 @@
                 </router-link>
               </li>
               <li class="breadcrumb-item" v-if="id == null">
-                <router-link :to="{ name: 'getUsers' }">
+                <router-link :to="{ name: 'ListUser' }">
                 Usuarios
                 </router-link>
               </li>

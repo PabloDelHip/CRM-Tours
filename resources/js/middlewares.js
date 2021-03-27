@@ -63,7 +63,7 @@ async function hasAccess(to) {
     switch (to.name) {
         case 'Overview':
             return true;
-        case 'getUsers':
+        case 'ListUser':
         case 'CreateUser':
         case 'EditUser':
             var permission = await getPermissionModule("Usuarios");
@@ -72,7 +72,7 @@ async function hasAccess(to) {
             }
             permission = permission.data;
             switch (to.name) {
-                case 'getUsers':
+                case 'ListUser':
                     return permission.permission.read;
                 case 'CreateUser':
                     return permission.permission.create;

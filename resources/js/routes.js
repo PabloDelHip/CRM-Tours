@@ -12,6 +12,7 @@ import NuevaContrasena from "./views/Login/NewPassword.vue";
 import Overview from "./views/Dashboard/OverviewComponent.vue";
 
 //Users section
+import UsersIndex from "./views/Users/index.vue";
 import Users from "./views/Users/Users.vue";
 import UserComponent from "./views/Users/UserComponent.vue";
 import UserProfile from "./views/Users/profileView.vue";
@@ -56,33 +57,38 @@ export default new Router({
             props: true,
         },
         {
-            path: "/users/",
-            name: "getUsers",
-            component: Users,
-            children: [],
-        },
-        {
-            path: "/users/create/",
-            name: "CreateUser",
-            component: UserComponent,
-        },
-        {
-            path: "/users/edit/:id",
-            name: "EditUser",
-            component: UserComponent,
-            props: true,
-        },
-        {
-            path: "/users/profile/:id",
-            name: "perfilUsuario",
-            component: UserProfile,
-            props: true,
-        },
-        {
-            path: "/users/permissions/:id",
-            name: "permisos",
-            component: PermitsUsers,
-            props: true,
+            path: "/users",
+            name: "Users",
+            component: UsersIndex,
+            children: [{
+                    path: "",
+                    name: "ListUser",
+                    component: Users,
+                },
+                {
+                    path: "create",
+                    name: "CreateUser",
+                    component: UserComponent,
+                },
+                {
+                    path: "edit/:id",
+                    name: "EditUser",
+                    component: UserComponent,
+                    props: true,
+                },
+                {
+                    path: "profile/:id",
+                    name: "perfilUsuario",
+                    component: UserProfile,
+                    props: true,
+                },
+                {
+                    path: "permissions/:id",
+                    name: "permisos",
+                    component: PermitsUsers,
+                    props: true,
+                },
+            ],
         },
         {
             path: "/contacts",

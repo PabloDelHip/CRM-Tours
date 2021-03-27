@@ -186,7 +186,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <router-link class="nav-link" :to="{ name:'getUsers'}">
+                    <router-link class="nav-link" :to="{ name:'ListUser'}">
                       <i class="fas fa-users"></i>
                       <p>
                         Usuarios

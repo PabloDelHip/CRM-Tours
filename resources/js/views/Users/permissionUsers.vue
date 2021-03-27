@@ -13,7 +13,7 @@
                 </router-link>
               </li>
               <li class="breadcrumb-item">
-                <router-link :to="{ name: 'getUsers' }">
+                <router-link :to="{ name: 'ListUser' }">
                 Usuarios
                 </router-link>
               </li>
