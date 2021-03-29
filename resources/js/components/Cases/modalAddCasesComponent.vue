@@ -1,8 +1,7 @@
 <template>
     <div>
 
-      <modal name="my-first-modal"
-          :style="{ padding: '100px 0px 30px' }"
+      <modal name="add-cases"
           :width="'60%'"
           :height="'auto'"
           :scrollable="true">
@@ -12,7 +11,7 @@
             <div class="form-group col-12">
               <label>* Titulo</label>
               <ValidationProvider rules="required" name="nombre" v-slot="{ errors }">
-                <input type="text" v-model="form.name" class="form-control rounded-0" placeholder="Jhon">
+                <input type="text" v-model="form.name" class="form-control rounded-0" placeholder="Papeles importantes de los tours">
                 <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
               </ValidationProvider>
             </div> 
@@ -20,24 +19,23 @@
             <div class="form-group col-4">
                 <label>Agencia</label>
                 <multiselect
-                    @input="getStates()"
-                    v-model="form.country"
-                    label="country"
+                    @input="getContacts()"
+                    v-model="form.agencia"
+                    label="name"
                     track-by="id"
-                    :options="countries"
+                    :options="vendors"
                     :searchable="true"
                     :show-labels="false"
-                    placeholder="Seleccionar un pais">
+                    placeholder="Seleccionar una agencia">
                 </multiselect>
             </div>
               <div class="form-group col-4">
                 <label>Contacto(s)</label>
                 <multiselect
-                  @input="getCitys()"
                   v-model="form.state"
-                  label="name"
                   track-by="id"
-                  :options="states"
+                  :custom-label="completeName"
+                  :options="contacts"
                   :searchable="true"
                   :show-labels="false"
                   placeholder="Seleccionar un estado">
@@ -63,42 +61,42 @@
 </template>
 
 <script>
-  import Nation from '../../providers/Nation';
-  import Customer from '../../providers/Customer';
-  import { Datetime } from 'vue-datetime';
+  import Vendor from '../../providers/Vendor';
+  import User from '../../providers/User';
   import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full';
 
-  const nationResource = new Nation();
-  const customerResource = new Customer();
+  const vendorResource = new Vendor();
+  const userResource = new User();
 
   export default {
     components: {
-      datetime: Datetime,
       ValidationObserver,
       ValidationProvider
     },
     data () {
       return {
-          note: '',
-          date: null,
-          active_status: false,
-          countries: [],
-          states: [],
-          citys: [],
-          texto_boton: 'Guardar contacto',
-          form: {
-            id: 0,
-            name: null,
-            last_name: null,
-            email: null,
-            phone: null,
-            birth_date: null,
-            sex: 0,
-            additional_information: null,
-            country: null,
-            state: null,
-            city: null
-          },
+        vendors: [],
+        contacts: [],
+        note: '',
+        date: null,
+        active_status: false,
+        countries: [],
+        states: [],
+        citys: [],
+        texto_boton: 'Guardar contacto',
+        form: {
+          agencia: '',
+          name: null,
+          last_name: null,
+          email: null,
+          phone: null,
+          birth_date: null,
+          sex: 0,
+          additional_information: null,
+          country: null,
+          state: null,
+          city: null
+        },
       }
     },
     watch: { 
@@ -107,27 +105,27 @@
       }
     },
     methods: {
-      async getCountries() {
+      completeName({profile}) {
+        return `${profile.name} ${profile.last_name}`
+      },
+      async getVendors() {
         try {
-          this.countries = await nationResource.getCountries();
-          this.countries = this.countries.data.data
+          this.vendors = await vendorResource.getVendorList();
+          this.vendors = this.vendors.data.data
         } catch (error) {
           console.log('error paises', error)
         }
       },
-      async getStates() {
+      async getContacts() {
         try {
-          this.form.state = null
-          this.form.city = null
-          this.states = await nationResource.getState(this.form.country.id);
-          this.states = this.states.data.data
+          this.contacts = await userResource.getUserVendor(this.form.agencia.id);
+          this.contacts = this.contacts.data.users;
         } catch (error) {
           console.log('error estados', error)
         }
       },
       async getCitys() {
         try {
-          console.log(this.form.state)
           this.form.city = null
           this.citys = await nationResource.getCity(this.form.state.id);
           this.citys = this.citys.data.data
@@ -151,7 +149,7 @@
                 text: 'Contacto guardado de forma correcta',
             })
             this.clearData()
-            this.$modal.hide('my-first-modal');
+            this.$modal.hide('add-cases');
             this.$emit('onRefreshTable')
           }
           else {
@@ -196,7 +194,7 @@
                 text: 'Contacto modificado de forma correcta',
             })
             this.clearData()
-            this.$modal.hide('my-first-modal');
+            this.$modal.hide('add-cases');
             this.$emit('onRefreshTable')
           }
           else {
@@ -231,7 +229,6 @@
         if(id_contacto != null) {
           let infoCustomer = await customerResource.getCustomer(id_contacto);
           infoCustomer = infoCustomer.data.data;
-          console.log(infoCustomer)
           this.form.id = infoCustomer.id
           this.form.name = infoCustomer.name;
           this.form.last_name = infoCustomer.last_name;
@@ -248,10 +245,12 @@
         else {
           this.texto_boton =  'Guardar contacto';
         }
-        this.$modal.show('my-first-modal')
+        this.$modal.show('add-cases')
+        await this.getVendors();
         $(function () {
             //SUMMERNOTE
             $('#editorCase').summernote()
+            
         })
       },
       clearData() {
@@ -267,8 +266,5 @@
         this.form.city = null;
       }
     },
-    mounted() {
-        this.getCountries();
-    }
   }
 </script>

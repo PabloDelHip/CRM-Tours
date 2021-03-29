@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 }); */
 
 Route::group([
-    'middleware' => ['jwt.auth'],
+    //'middleware' => ['jwt.auth'],
     'prefix' => 'v1/users'
 ], function () {
     // User
@@ -29,6 +29,7 @@ Route::group([
     Route::post('/create', 'UsersController@post');
     Route::put('/put/{userId}', 'UsersController@put');
     Route::get('/delete/{id}', 'UsersController@deleteUsers');
+    Route::get('/vendors/{vendorId}/list', 'UsersController@getUsersVendors');
 });
 
 Route::group([

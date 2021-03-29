@@ -6,6 +6,7 @@
                         <ul class="nav nav-pills">
                             <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Notas</a></li>
                             <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Casos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Contactos</a></li>
                             <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Tours</a></li>
                             <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Reservaciones</a></li>
                             <li class="nav-item"><a class="nav-link" href="#documents" data-toggle="tab">Documentos</a></li>
