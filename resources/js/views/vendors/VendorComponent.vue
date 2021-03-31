@@ -51,6 +51,60 @@
                   {{ successVendorMessage }}
                 </div>
               </transition>
+              <div class="row">
+                <div class="form-group col-md-3">
+                  <label for="vendorCode">Código</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="vendorCode"
+                    oninput="this.value = this.value.toUpperCase()"
+                    maxlength="10"
+                  />
+                </div>
+                <div class="form-group col-md-9">
+                  <label for="name">Nombre</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="name"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="businessName">Nombre Comercial</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="businessName"
+                />
+              </div>
+              <div class="form-group">
+                <label for="web">Sitio web</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="web"
+                  placeholder="https://www.google.com/"
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Correo electrónico</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  v-model="email"
+                  :disabled="!newVendor"
+                />
+              </div>
+              <div class="form-group">
+                <label>Estatus de la agencia</label>
+                <select class="form-control" v-model.number="statusVendor">
+                  <option value="0">Inactivo</option>
+                  <option value="1">Activo</option>
+                </select>
+              </div>
+            </div>
             </div>
           </div>
         </div>
@@ -91,6 +145,14 @@ export default {
       successVendorMessage: [],
 
       ContactId: null,
+
+      vendorCode: null,
+      name: null,
+      businessName: null,
+      description: null,
+      web: null,
+      email: null,
+      statusVendor: 1,
 
       newVendor: false,
       vendor: null,
