@@ -10,12 +10,12 @@
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">
                 <router-link :to="{ path: '/' }">
-                Home
+                  Home
                 </router-link>
               </li>
               <li class="breadcrumb-item" v-if="id == null">
                 <router-link :to="{ name: 'ListVendor' }">
-                Agencias
+                  Agencias
                 </router-link>
               </li>
               <li class="breadcrumb-item active">Agencia</li>
@@ -36,12 +36,11 @@
             </div>
             <div class="card-body">
               <transition name="fade">
-                <div
-                  class="alert alert-danger"
-                  v-if="vendorErrors.length > 0"
-                >
+                <div class="alert alert-danger" v-if="vendorErrors.length > 0">
                   <ul>
-                    <li v-for="(e, index) in vendorErrors" :key="index">{{ e }}</li>
+                    <li v-for="(e, index) in vendorErrors" :key="index">
+                      {{ e }}
+                    </li>
                   </ul>
                 </div>
                 <div
@@ -59,16 +58,12 @@
                     class="form-control"
                     v-model="vendorCode"
                     oninput="this.value = this.value.toUpperCase()"
-                    maxlength="10"
+                    maxlength="5"
                   />
                 </div>
                 <div class="form-group col-md-9">
                   <label for="name">Nombre</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="name"
-                  />
+                  <input type="text" class="form-control" v-model="name" />
                 </div>
               </div>
               <div class="form-group">
@@ -105,24 +100,23 @@
                 </select>
               </div>
             </div>
-            </div>
           </div>
         </div>
-        <div class="col-md-12">
-          <contacts-component
-            :id="+this.ContactId"
-            :typeContact="2"
-            ref="contactComponent"
-          ></contacts-component>
-        </div>
-        <div class="col-md-12">
-          <button type="button" @click="saveContent()" class="btn btn-primary">
-            Guardar
-          </button>
-        </div>
       </div>
-      <!-- </ValidationObserver> -->
+      <div class="col-md-12">
+        <contacts-component
+          :id="+this.ContactId"
+          :typeContact="2"
+          ref="contactComponent"
+        ></contacts-component>
+      </div>
+      <div class="col-md-12">
+        <button type="button" @click="saveContent()" class="btn btn-primary">
+          Guardar
+        </button>
+      </div>
     </div>
+    <!-- </ValidationObserver> -->
   </div>
 </template>
 
@@ -163,14 +157,44 @@ export default {
     }
     this.newVendor = this.id == undefined || this.vendor == "" || this.vendor == null;
   },
-  methods:{
+  methods: {
     async saveContent() {
       const contactResponse = this.$refs.contactComponent.isValidContactForm();
-      const allErrors = contactResponse;
+      const vendorErrors = this.isValidVendorForm();
+      const allErrors = contactResponse.concat(vendorErrors);
       if (allErrors.length > 0) {
         return;
       }
     },
+    isValidVendorForm(){
+      const errors = [];
+      if (this.vendorCode == null || this.vendorCode == "") {
+        errors.push("Código no puede estar vacio.");
+      }
+      if (this.name == null || this.name == "") {
+        errors.push("Nombre no puede estar vacio.");
+      }
+      if (this.businessName == null || this.businessName == "") {
+        errors.push("Nombre comercial no puede estar vacio.");
+      }
+      if (this.description == null || this.description == "") {
+        errors.push("Descripción no puede estar vacio.");
+      }
+      if (this.web == null || this.web == "") {
+        errors.push("Sitio web no puede estar vacio.");
+      }
+      if (this.email == null || this.email == "") {
+        errors.push("Email no puede estar vacio.");
+      }
+      else{
+        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!re.test(this.email)){
+          errors.push("Email invalido.");
+        }
+      }
+      this.vendorErrors = errors;
+      return errors;
+    }
   },
 };
 </script>

@@ -118,12 +118,13 @@ Route::group([
     Route::put('/users/update-password/{token?}', 'UsersController@updatePassword');
 });
 
-// Profiles
+// Vendors
 Route::group([
-    //'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth'],
     'prefix' => 'v1/vendors'
 ], function () {
-    Route::get('/list', 'VendorsController@getList');
+    Route::get('/get', 'VendorsController@getList');
     Route::get('/get/{id}', 'VendorsController@getVendor');
+    Route::post('/create', 'VendorsController@post');
     Route::delete('/delete/{id}', 'VendorsController@delete');
 });
