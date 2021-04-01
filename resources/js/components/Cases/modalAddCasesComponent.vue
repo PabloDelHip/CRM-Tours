@@ -11,48 +11,54 @@
             <div class="form-group col-12">
               <label>* Titulo</label>
               <ValidationProvider rules="required" name="nombre" v-slot="{ errors }">
-                <input type="text" v-model="form.name" class="form-control rounded-0" placeholder="Papeles importantes de los tours">
+                <input type="text" v-model="form.title" class="form-control rounded-0" placeholder="Papeles importantes de los tours">
                 <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
               </ValidationProvider>
             </div> 
               
-            <div class="form-group col-4">
+            <div class="form-group col-6">
                 <label>Agencia</label>
-                <multiselect
-                    @input="getContacts()"
-                    v-model="form.agencia"
-                    label="name"
+                <ValidationProvider rules="required" name="agencia" v-slot="{ errors }">
+                  <multiselect
+                      @input="getContacts()"
+                      v-model="form.vendor"
+                      label="name"
+                      track-by="id"
+                      :options="vendors"
+                      :searchable="true"
+                      :show-labels="false"
+                      placeholder="Seleccionar una agencia">
+                  </multiselect>
+                  <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
+                </ValidationProvider>
+            </div>
+              <div class="form-group col-6">
+                <label>Contacto(s)</label>
+                <ValidationProvider rules="required" name="Contacto" v-slot="{ errors }">
+                  <multiselect
+                    v-model="form.user"
                     track-by="id"
-                    :options="vendors"
+                    :custom-label="completeName"
+                    :options="contacts"
                     :searchable="true"
                     :show-labels="false"
-                    placeholder="Seleccionar una agencia">
-                </multiselect>
-            </div>
-              <div class="form-group col-4">
-                <label>Contacto(s)</label>
-                <multiselect
-                  v-model="form.state"
-                  track-by="id"
-                  :custom-label="completeName"
-                  :options="contacts"
-                  :searchable="true"
-                  :show-labels="false"
-                  placeholder="Seleccionar un estado">
-                </multiselect>
+                    placeholder="Seleccionar un contacto">
+                  </multiselect>
+                  <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
+                </ValidationProvider>
               </div>
               <div class="col-sm-12">
                 <!-- textarea -->
                 <div class="form-group">
                   <label>¿Cual es el caso?</label>
-                  <textarea id="editorCase" v-model="note"></textarea>
+                    <textarea id="editorCase" v-model="form.case"></textarea>
                 </div>
               </div>
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button v-if="texto_boton == 'Guardar contacto'" :disabled="invalid" @click="validate().then(saveContact)" type="button" class="btn btn-primary">{{ texto_boton }}</button>
-            <button v-else :disabled="invalid" @click="validate().then(updateContact(form.id))" type="button" class="btn btn-primary">{{ texto_boton }}</button>
+            <button  @click="validate().then(saveCase)" type="button" class="btn btn-primary">Guardar Caso</button>
+            <!--:disabled="invalid"-->
           </div>
         </ValidationObserver>
           
@@ -61,13 +67,14 @@
 </template>
 
 <script>
+  import Case from '../../providers/Case';
   import Vendor from '../../providers/Vendor';
   import User from '../../providers/User';
   import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full';
 
-  const vendorResource = new Vendor();
+  const caseResource = new Case();
   const userResource = new User();
-
+  const vendorResource = new Vendor();
   export default {
     components: {
       ValidationObserver,
@@ -80,22 +87,11 @@
         note: '',
         date: null,
         active_status: false,
-        countries: [],
-        states: [],
-        citys: [],
-        texto_boton: 'Guardar contacto',
         form: {
-          agencia: '',
-          name: null,
-          last_name: null,
-          email: null,
-          phone: null,
-          birth_date: null,
-          sex: 0,
-          additional_information: null,
-          country: null,
-          state: null,
-          city: null
+          title: '',
+          case: '',
+          vendor: '',
+          user: ''
         },
       }
     },
@@ -113,31 +109,51 @@
           this.vendors = await vendorResource.getVendorList();
           this.vendors = this.vendors.data.data
         } catch (error) {
-          console.log('error paises', error)
+          
         }
       },
       async getContacts() {
         try {
-          this.contacts = await userResource.getUserVendor(this.form.agencia.id);
+          this.contacts = await userResource.getUserVendor(this.form.vendor.id);
           this.contacts = this.contacts.data.users;
+          this.form.user = '';
         } catch (error) {
-          console.log('error estados', error)
+          
         }
       },
-      async getCitys() {
-        try {
-          this.form.city = null
-          this.citys = await nationResource.getCity(this.form.state.id);
-          this.citys = this.citys.data.data
-        } catch (error) {
-          console.log('error ciudades', error)
-        }
-      },
-      async saveContact() {
+      async saveCase() {
+        this.form.case = $('#editorCase').summernote('code')
         try {
           const isValid = await this.$refs.observer.validate();
-          if (isValid) {
-            await customerResource.saveCustomer(this.form)
+          if(!isValid) {
+            this.$swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                toast: true,
+                position: 'top',
+                timer: 5000,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                text: 'Verifique que el formulario fue llenado de forma correcta',
+            })
+          }
+          else if(this.form.case == '') {
+            this.$swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                toast: true,
+                position: 'top',
+                timer: 5000,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                text: 'Favor de agregar el caso',
+            })
+          }
+          else {
+            this.form.vendor_id = this.form.vendor.id;
+            this.form.user_id = this.form.user.id;
+            console.log(this.form)
+            await caseResource.createCase(this.form)
             this.$swal.fire({
                 icon: 'success',
                 title: 'Bien',
@@ -146,25 +162,11 @@
                 timer: 3000,
                 showConfirmButton: false,
                 timerProgressBar: true,
-                text: 'Contacto guardado de forma correcta',
+                text: 'Caso guardado de forma correcta',
             })
             this.clearData()
             this.$modal.hide('add-cases');
-            this.$emit('onRefreshTable')
           }
-          else {
-            this.$swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                toast: true,
-                position: 'top',
-                timer: 3000,
-                showConfirmButton: false,
-                timerProgressBar: true,
-                text: 'Verifique que el formulario fue llenado de forma correcta',
-            })
-          }
-          
         } catch (error) {
           this.$swal.fire({
               icon: 'error',
@@ -176,94 +178,25 @@
               timerProgressBar: true,
               text: 'Disculpe tuvimos un error',
           })
-        }
-      },
-      async updateContact() {
-        try {
-          const isValid = await this.$refs.observer.validate();
-          if (isValid) {
-            await customerResource.updateCustomer(this.form)
-            this.$swal.fire({
-                icon: 'success',
-                title: 'Bien',
-                toast: true,
-                position: 'top',
-                timer: 3000,
-                showConfirmButton: false,
-                timerProgressBar: true,
-                text: 'Contacto modificado de forma correcta',
-            })
-            this.clearData()
-            this.$modal.hide('add-cases');
-            this.$emit('onRefreshTable')
-          }
-          else {
-            this.$swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                toast: true,
-                position: 'top',
-                timer: 3000,
-                showConfirmButton: false,
-                timerProgressBar: true,
-                text: 'Verifique que el formulario fue llenado de forma correcta',
-            })
-          }
-          
-        } catch (error) {
-          this.$swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              toast: true,
-              position: 'top',
-              timer: 3000,
-              showConfirmButton: false,
-              timerProgressBar: true,
-              text: 'Disculpe tuvimos un error',
-          })
-          console.log(error)
         }
       },
       async openModal(id_contacto = null) {
-        this.clearData();
-        if(id_contacto != null) {
-          let infoCustomer = await customerResource.getCustomer(id_contacto);
-          infoCustomer = infoCustomer.data.data;
-          this.form.id = infoCustomer.id
-          this.form.name = infoCustomer.name;
-          this.form.last_name = infoCustomer.last_name;
-          this.form.email = infoCustomer.email;
-          this.form.phone = infoCustomer.phone;
-          this.form.birth_date = infoCustomer.birth_date;
-          this.form.sex = infoCustomer.sex;
-          this.form.additional_information = infoCustomer.additional_information;
-          this.form.country = infoCustomer.country;
-          this.form.state = infoCustomer.state;
-          this.form.city = infoCustomer.city;
-          this.texto_boton =  'Editar contacto';
-        }
-        else {
-          this.texto_boton =  'Guardar contacto';
-        }
         this.$modal.show('add-cases')
         await this.getVendors();
         $(function () {
             //SUMMERNOTE
             $('#editorCase').summernote()
-            
+            $('#editorCase').summernote('code', '')
         })
       },
       clearData() {
-        this.form.name = null;
-        this.form.last_name = null;
-        this.form.email = null;
-        this.form.phone = null;
-        this.form.birth_date = null;
-        this.form.sex = null;
-        this.form.additional_information = null;
-        this.form.country = null;
-        this.form.state = null;
-        this.form.city = null;
+        this.form.title = '';
+        this.form.case = '';
+        this.form.user = '';
+        this.form.vendor = '';
+        this.form.user_id = '';
+        this.form.vendor_id = '';
+        $('#editorCase').summernote('code', '')
       }
     },
   }

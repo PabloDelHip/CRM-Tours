@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 }); */
 
 Route::group([
-    //'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth'],
     'prefix' => 'v1/users'
 ], function () {
     // User
@@ -69,7 +69,7 @@ Route::group([
 //Customers
 Route::group([
 
-    //'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth'],
     'prefix' => 'v1/customer/'
 
 ], function () {
@@ -79,6 +79,17 @@ Route::group([
     Route::get('get/list/{id_provider}', 'CustomerController@getListCustomer');
     Route::get('get/{id_customer}', 'CustomerController@getCustomer');
     Route::delete('delete/{id_customer}', 'CustomerController@deleteCustomer');
+});
+
+//Cases
+Route::group([
+
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/cases/'
+
+], function () {
+    
+    Route::post('create', 'CaseController@updateOrCreateCase');
 });
 
 Route::group([
