@@ -75,7 +75,7 @@ export default {
       profileErrors: [],
       successProfileMessage: "",
 
-      newProfile: false,
+      newProfile: true,
       profile: null,
 
       // Perfil

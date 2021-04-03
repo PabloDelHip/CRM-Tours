@@ -41,10 +41,6 @@ import {
 import dataVendorComponent from "../../components/Vendors/info/infoComponent";
 import infoVendorComponent from "../../components/Vendors/info/dataComponent";
 
-import Auth from "../../providers/Auth";
-
-const AuthResourse = new Auth();
-
 export default {
   props: ["id"],
   name: "login-component",

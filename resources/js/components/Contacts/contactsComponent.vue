@@ -1,6 +1,6 @@
 <template>
-  <div class="row">
-    <div class="col-md-6">
+  <div>
+    <div>
       <div class="card card-warning">
         <div class="card-header">
           <h3 class="card-title" v-if="newContact">Agregar nuevo contacto</h3>
@@ -126,18 +126,11 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <address-component
-        :id="+this.addressId"
-        ref="addressComponent"
-      ></address-component>
-    </div>
   </div>
 </template>
 
 <script>
 import Contact from "../../providers/Contact";
-import AddressComponent from "../../components/Address/addressComponent.vue";
 
 const ContactResource = new Contact();
 
@@ -151,9 +144,10 @@ export default {
       type: Number,
       required: true,
     },
-  },
-  components: {
-    AddressComponent,
+    addressId: {
+      type: Number,
+      required: false,
+    },
   },
   data() {
     return {
@@ -161,7 +155,6 @@ export default {
       // typeContact: 0,
 
       contact: null,
-      addressId: null,
       errors: [],
       successMessage: "",
 
@@ -193,7 +186,7 @@ export default {
         return;
       }
 
-      this.addressId = this.contact.address_id;
+      this.$emit('get-addressId', this.contact.address_id)
       this.typeContact = this.contact.type;
       this.rfcContact = this.contact.rfc;
       this.typePerson = this.contact.type_person;
@@ -213,14 +206,6 @@ export default {
       };
     },
     async saveContact() {
-      const saveAddressResponse = await this.$refs.addressComponent.saveAddress();
-      if (saveAddressResponse.success) {
-        this.addressId = saveAddressResponse.data.id;
-      }
-      else{
-        return saveAddressResponse;
-      }
-
       this.errors = [];
       let formData = this.getContactForm();
       console.log(formData);
@@ -249,7 +234,6 @@ export default {
       return response;
     },
     isValidContactForm() {
-      const addressResponse = this.$refs.addressComponent.isValidAddressForm();
       const errors = [];
       if (this.typeContact == null || this.typeContact == "") {
         errors.push("Tipo de contacto no puede estar vacio.");
@@ -277,7 +261,7 @@ export default {
         }
       });
       this.errors = errors;
-      return errors.concat(addressResponse);
+      return errors;
     },
   },
 };

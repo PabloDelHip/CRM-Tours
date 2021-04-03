@@ -104,12 +104,20 @@
             </form>
           </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
           <contacts-component
             :id="+this.ContactId"
+            :addressId="this.addressId"
             :typeContact="1"
+            @get-addressId="addressId = $event"
             ref="contactComponent"
           ></contacts-component>
+        </div>
+        <div class="col-md-6">
+          <address-component
+            :id="+this.addressId"
+            ref="addressComponent"
+          ></address-component>
         </div>
         <div class="col-md-12">
           <button type="button" @click="saveContent()" class="btn btn-primary">
@@ -126,6 +134,7 @@
 import User from "../../providers/User";
 import ContactsComponent from "../../components/Contacts/contactsComponent.vue";
 import ProfileComponent from "../../components/Profile/ProfileComponent.vue";
+import AddressComponent from '../../components/Address/addressComponent.vue';
 import {
   ValidationProvider,
   ValidationObserver,
@@ -146,6 +155,7 @@ export default {
     ValidationObserver,
     ValidationProvider,
     ProfileComponent,
+    AddressComponent,
   },
   data() {
     return {
@@ -154,6 +164,7 @@ export default {
 
       newUser: false,
       user: null,
+      addressId: null,
       ContactId: null,
       ProfileId: null,
 
@@ -215,13 +226,23 @@ export default {
       };
     },
     async saveContent() {
+      const addressResponse = this.$refs.addressComponent.isValidAddressForm();
       const contactResponse = this.$refs.contactComponent.isValidContactForm();
       const profileErrors = this.$refs.profileComponent.isValidProfileForm();
       const userErrors = this.isValidUserForm();
-      const allErrors = contactResponse
+      const allErrors = addressResponse
+        .concat(contactResponse)
         .concat(profileErrors)
         .concat(userErrors);
       if (allErrors.length > 0) {
+        return;
+      }
+
+      const saveAddressResponse = await this.$refs.addressComponent.saveAddress();
+      if (saveAddressResponse.success) {
+        this.addressId = saveAddressResponse.data.id;
+      }
+      else{
         return;
       }
 
