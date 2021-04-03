@@ -199,17 +199,6 @@ export default {
         }
       }
     },
-    // habilitarbotones(){
-    //   $("#delete").on("click", function(){
-    //     console.log(this.delete);
-    //    return this.permitsModuls[0]["delete"];
-    //   //  if(this.delete==1) {
-    //   //     $(this).prop('disabled', true);
-    //   //  }else {
-    //   //     $(this).prop('disabled', false);
-    //   //  }
-    //   });
-    // },
     fechaFormato($fecha) {
       if ($fecha == null || $fecha == undefined) {
         return "-";
