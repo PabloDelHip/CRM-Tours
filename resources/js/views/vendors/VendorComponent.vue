@@ -75,42 +75,73 @@
                 />
               </div>
               <div class="row">
-                <div class="form-group col-md-6">
+                <div class="col-md-6">
                   <label for="web">Sitio web</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="web"
-                    placeholder="https://www.google.com/"
-                  />
+                  <div class="input-group mb-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-link"></i></span>
+                    </div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="web"
+                      placeholder="https://www.google.com/"
+                    />
+                  </div>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="col-md-6">
                   <label for="email">Correo electrónico</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    v-model="email"
-                    :disabled="!newVendor"
-                  />
+                  <div class="input-group mb-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-at"></i></span>
+                    </div>
+                    <input
+                      type="email"
+                      name="email"
+                      class="form-control"
+                      v-model="email"
+                      :disabled="!newVendor"
+                      placeholder="john.doe@mail.com"
+                    />
+                  </div>
+                </div>
               </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Estatus de la agencia</label>
+                    <select class="form-control" v-model.number="statusVendor">
+                      <option value="0">Inactivo</option>
+                      <option value="1">Activo</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="email">Teléfono</label>
+                  <div class="input-group mb-12">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    </div>
+                    <input
+                      type="phone"
+                      name="phone"
+                      class="form-control"
+                      v-model="phone"
+                    />
+                  </div>
+                </div>
               </div>
-              <textarea class="form-control" v-model="description" rows="3" placeholder="..."></textarea>
-              <div class="form-group">
-                <label>Estatus de la agencia</label>
-                <select class="form-control" v-model.number="statusVendor">
-                  <option value="0">Inactivo</option>
-                  <option value="1">Activo</option>
-                </select>
-              </div>
+              <label for="description">Descripción</label>
+              <textarea class="form-control" name="description" v-model="description" rows="3" placeholder="..."></textarea>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <address-component
-          :id="+this.addressId"
-          ref="addressComponent"
-        ></address-component>
+        <div class="col-md-6">
+          <address-component
+            :id="+this.addressId"
+            ref="addressComponent"
+          ></address-component>
+        </div>
       </div>
       <div class="col-md-12">
         <button type="button" @click="saveContent()" class="btn btn-primary">
@@ -151,6 +182,7 @@ export default {
       description: null,
       web: null,
       email: null,
+      phone: null,
       statusVendor: 1,
 
       newVendor: false,
@@ -186,6 +218,7 @@ export default {
       this.description = this.vendor.description;
       this.web = this.vendor.web;
       this.email = this.vendor.email;
+      this.phone = this.vendor.phone;
       this.statusVendor = this.vendor.status;
 
       this.addressId = this.vendor.address_id;
@@ -200,6 +233,7 @@ export default {
         description: this.description,
         web: this.web,
         email: this.email,
+        phone: this.phone,
         address_id: +this.addressId,
         status: this.statusVendor,
       };
@@ -254,6 +288,9 @@ export default {
       }
       if (this.email == null || this.email == "") {
         errors.push("Email no puede estar vacio.");
+      }
+      if (this.phone == null || this.phone == "") {
+        errors.push("Teléfono no puede estar vacio.");
       }
       else{
         const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

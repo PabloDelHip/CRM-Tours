@@ -78,6 +78,7 @@ class VendorsController extends Controller
       $vendor->email = $content['email'];
       $vendor->address_id = $content['address_id'];
       $vendor->status = $content['status'];
+      $vendor->phone = $content['phone'];
       $vendor->save();
 
       return response()->json([
