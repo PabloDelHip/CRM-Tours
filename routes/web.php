@@ -43,7 +43,8 @@ Route::get('/error/notauthorized', ['as' => '/error/notauthorized', 'uses' => 'H
 //Vendors
 Route::get('/vendors', ['as' => 'vendors', 'uses' => 'HomeController@index']);
 Route::get('/vendors/list', ['as' => 'vendors/list', 'uses' => 'HomeController@index']);
-Route::get('/vendors/create', ['as' => 'vendors/list', 'uses' => 'HomeController@index']);
+Route::get('/vendors/create', ['as' => 'vendors/create', 'uses' => 'HomeController@index']);
+Route::get('/vendors/edit/{id}', ['as' => 'vendors/edit', 'uses' => 'HomeController@index']);
 Route::get('vendors/profile/{id}', ['as' => 'profile', 'uses' => 'HomeController@index']);
 
 //Dashboard

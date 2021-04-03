@@ -13,7 +13,7 @@
                   Home
                 </router-link>
               </li>
-              <li class="breadcrumb-item" v-if="id == null">
+              <li class="breadcrumb-item">
                 <router-link :to="{ name: 'ListVendor' }">
                   Agencias
                 </router-link>
@@ -74,24 +74,27 @@
                   v-model="businessName"
                 />
               </div>
-              <div class="form-group">
-                <label for="web">Sitio web</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="web"
-                  placeholder="https://www.google.com/"
-                />
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="web">Sitio web</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="web"
+                    placeholder="https://www.google.com/"
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="email">Correo electrónico</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    v-model="email"
+                    :disabled="!newVendor"
+                  />
               </div>
-              <div class="form-group">
-                <label for="email">Correo electrónico</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  v-model="email"
-                  :disabled="!newVendor"
-                />
               </div>
+              <textarea class="form-control" v-model="description" rows="3" placeholder="..."></textarea>
               <div class="form-group">
                 <label>Estatus de la agencia</label>
                 <select class="form-control" v-model.number="statusVendor">
@@ -103,12 +106,11 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12">
-        <contacts-component
-          :id="+this.ContactId"
-          :typeContact="2"
-          ref="contactComponent"
-        ></contacts-component>
+      <div class="col-md-6">
+        <address-component
+          :id="+this.addressId"
+          ref="addressComponent"
+        ></address-component>
       </div>
       <div class="col-md-12">
         <button type="button" @click="saveContent()" class="btn btn-primary">
@@ -121,7 +123,10 @@
 </template>
 
 <script>
-import ContactsComponent from "../../components/Contacts/contactsComponent.vue";
+import Vendor from "../../providers/Vendor";
+import AddressComponent from "../../components/Address/addressComponent.vue";
+
+const VendorResouce = new Vendor();
 
 export default {
   props: {
@@ -131,14 +136,14 @@ export default {
     },
   },
   components: {
-    ContactsComponent,
+    AddressComponent,
   },
   data() {
     return {
       vendorErrors: [],
       successVendorMessage: [],
 
-      ContactId: null,
+      addressId: null,
 
       vendorCode: null,
       name: null,
@@ -152,18 +157,82 @@ export default {
       vendor: null,
     };
   },
-  created() {
+  async created() {
     if (this.id != undefined) {
+      if (!await this.getVendor()) {
+        setTimeout(() => {
+          this.$router.push("/vendors");
+        }, 3000);
+      }
     }
     this.newVendor = this.id == undefined || this.vendor == "" || this.vendor == null;
   },
   methods: {
+    async getVendor(){
+      var response = (await VendorResouce.getVendor(this.id)).data;
+      if (!response.success) {
+        this.vendorErrors.push("Error al obtener agencia.");
+        return false;
+      }
+      this.vendor = response.data;
+      if (this.vendor == "" || this.vendor == null) {
+        this.vendorErrors.push("Agencia no existe.");
+        return false;
+      }
+
+      this.vendorCode = this.vendor.code;
+      this.name = this.vendor.name;
+      this.businessName = this.vendor.business_name;
+      this.description = this.vendor.description;
+      this.web = this.vendor.web;
+      this.email = this.vendor.email;
+      this.statusVendor = this.vendor.status;
+
+      this.addressId = this.vendor.address_id;
+
+      return true;
+    },
+    getVendorForm() {
+      return {
+        code: this.vendorCode,
+        name: this.name,
+        business_name: this.businessName,
+        description: this.description,
+        web: this.web,
+        email: this.email,
+        address_id: +this.addressId,
+        status: this.statusVendor,
+      };
+    },
     async saveContent() {
-      const contactResponse = this.$refs.contactComponent.isValidContactForm();
+      const addressResponse = this.$refs.addressComponent.isValidAddressForm();
       const vendorErrors = this.isValidVendorForm();
-      const allErrors = contactResponse.concat(vendorErrors);
+      const allErrors = addressResponse.concat(vendorErrors);
       if (allErrors.length > 0) {
         return;
+      }
+      
+      const saveAddressResponse = await this.$refs.addressComponent.saveAddress();
+      if (saveAddressResponse.success) {
+        this.addressId = saveAddressResponse.data.id;
+      }
+      else{
+        return;
+      }
+      
+      var saveVendorResponse = await this.saveVendor();
+      if (!saveVendorResponse.success) {
+        return;
+      }
+      this.successVendorMessage = "Agencia guardada correctamente.";
+
+      if (this.newVendor) {
+        setTimeout(() => {
+          this.$router.push({
+            name: "EditVendor",
+            params: { id: +saveVendorResponse.data.id },
+          });
+        }, 3000);
       }
     },
     isValidVendorForm(){
@@ -194,7 +263,30 @@ export default {
       }
       this.vendorErrors = errors;
       return errors;
-    }
+    },
+    async saveVendor() {
+      this.vendorErrors = [];
+      var response = null;
+
+      let formData = this.getVendorForm();
+      if (this.newVendor) {
+        response = await this.saveNewVendor(formData);
+      } else {
+        response = await this.saveEditVendor(formData);
+      }
+      if (!response.success) {
+        this.vendorErrors.push("Error al guardar la agencia.");
+      }
+      return response;
+    },
+    async saveNewVendor(formData) {
+      var response = (await VendorResouce.createVendor(formData)).data;
+      return response;
+    },
+    async saveEditVendor(formData) {
+      var response = (await VendorResouce.updateVendor(this.id, formData)).data;
+      return response;
+    },
   },
 };
 </script>

@@ -48,12 +48,12 @@ class VendorsController extends Controller
         return response()->json([
           'success' => true,
           'message' => 'Agencias Seleccionadas de forma correcta',
-          'data' => $vendor
+          'data' => $vendor->first(),
         ], 200);   
       }
 
       return response()->json([
-        'success' => true,
+        'success' => false,
         'message' => 'La agencia seleccionada no existe',
       ], 200); 
     } catch (MassAssignmentException $err) {
