@@ -231,10 +231,12 @@ export default {
       } else {
         response = await this.saveEditContact(formData);
       }
-      if (!response.success){
+      if (response.success){
+        this.successMessage = "Dirección guardada correctamente.";
+      }
+      else{
         this.errors.push("Error al guardar contacto.");
       }
-      this.successMessage = "Dirección guardada correctamente.";
 
       return response;
     },

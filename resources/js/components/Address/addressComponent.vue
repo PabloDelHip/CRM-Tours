@@ -285,10 +285,12 @@ export default {
       } else {
         response = await this.saveEditAddress(formData);
       }
-      if (!response.success){
+      if (response.success){
+        this.successMessage = "Contacto guardado correctamente.";
+      }
+      else{
         this.errors.push("Error al guardar la dirección.");
       }
-      this.successMessage = "Contacto guardado correctamente.";
       
       return response;
     },

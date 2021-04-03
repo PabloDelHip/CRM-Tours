@@ -75,7 +75,7 @@
                     <td>{{ user.profile.name }}</td>
                     <td>{{ user.profile.last_name }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.type }}</td>
+                    <td>{{ user.vendor_id == null ? "Sistema" : "Agencia" }}</td>
                     <td>{{ fechaFormato(user.created_at) }}</td>
                     <td>
                       <router-link

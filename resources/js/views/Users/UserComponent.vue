@@ -10,17 +10,19 @@
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">
                 <router-link :to="{ path: '/' }">
-                Home
+                  Home
                 </router-link>
               </li>
               <li class="breadcrumb-item" v-if="id == null">
                 <router-link :to="{ name: 'ListUser' }">
-                Usuarios
+                  Usuarios
                 </router-link>
               </li>
               <li class="breadcrumb-item" v-else>
-                <router-link :to="{ name: 'perfilUsuario', params: { id: +id }}">
-                Perfil de usuario
+                <router-link
+                  :to="{ name: 'perfilUsuario', params: { id: +id } }"
+                >
+                  Perfil de usuario
                 </router-link>
               </li>
               <li class="breadcrumb-item active">Usuario</li>
@@ -34,65 +36,8 @@
       <!-- <ValidationObserver v-slot="{validate }" ref="observer"> -->
       <div class="row">
         <div class="col-md-6">
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title" v-if="newUser">Agregar nuevo perfil</h3>
-              <h3 class="card-title" v-else>Editar perfil</h3>
-            </div>
-            <div class="card-body">
-              <transition name="fade">
-                <div
-                  class="alert alert-danger"
-                  v-if="profileErrors.length > 0"
-                >
-                  <ul>
-                    <li v-for="(e, index) in profileErrors" :key="index">{{ e }}</li>
-                  </ul>
-                </div>
-                <div
-                  class="alert alert-success text-center"
-                  v-if="successProfileMessage.length > 0"
-                >
-                  {{ successProfileMessage }}
-                </div>
-              </transition>
-              <div class="form-group">
-                <label for="name">Nombre</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="name"
-                  placeholder="John Doe"
-                />
-              </div>
-              <div class="form-group">
-                <label for="lastName">Apellidos</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="lastName"
-                  placeholder="John Doe"
-                />
-              </div>
-              <div class="form-group">
-                <label for="birthDate">Fecha de nacimiento</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  v-model="birthDate"
-                  placeholder="John Doe"
-                />
-              </div>
-              <div class="form-group">
-                <label for="sex">Sexo</label>
-                <select class="form-control" v-model.number="sex">
-                  <option value="1">Masculino</option>
-                  <option value="2">Femenino</option>
-                  <option value="3">Otro</option>
-                </select>
-              </div>
-            </div>
-          </div>
+          <profile-component :id="+this.ProfileId"
+            ref="profileComponent"></profile-component>
         </div>
         <div class="col-md-6">
           <div class="card card-primary">
@@ -108,7 +53,9 @@
                     v-if="userErrors.length > 0"
                   >
                     <ul>
-                      <li v-for="(e, index) in userErrors" :key="index">{{ e }}</li>
+                      <li v-for="(e, index) in userErrors" :key="index">
+                        {{ e }}
+                      </li>
                     </ul>
                   </div>
                   <div
@@ -177,12 +124,14 @@
 
 <script>
 import User from "../../providers/User";
-import Profile from "../../providers/Profile";
 import ContactsComponent from "../../components/Contacts/contactsComponent.vue";
-import { ValidationProvider, ValidationObserver, } from "vee-validate/dist/vee-validate.full";
+import ProfileComponent from "../../components/Profile/ProfileComponent.vue";
+import {
+  ValidationProvider,
+  ValidationObserver,
+} from "vee-validate/dist/vee-validate.full";
 
 const UserResource = new User();
-const ProfileResource = new Profile();
 
 export default {
   name: "create-user-component",
@@ -196,17 +145,15 @@ export default {
     ContactsComponent,
     ValidationObserver,
     ValidationProvider,
+    ProfileComponent,
   },
   data() {
     return {
-      profileErrors: [],
       userErrors: [],
-      successProfileMessage: "",
       successUserMessage: "",
 
       newUser: false,
       user: null,
-      profile: null,
       ContactId: null,
       ProfileId: null,
 
@@ -215,19 +162,11 @@ export default {
       emailConfirm: null,
       password: null,
       statusUser: 1,
-
-      // Perfil
-      name: null,
-      lastName: null,
-      birthDate: null,
-      sex: 0,
     };
   },
   async created() {
     if (this.id != undefined) {
-      if (await this.getUser()) {
-        await this.getProfile();
-      } else {
+      if (!await this.getUser()) {
         setTimeout(() => {
           this.$router.push("/users");
         }, 3000);
@@ -265,26 +204,6 @@ export default {
 
       return true;
     },
-    async getProfile() {
-      if (this.newUser) {
-        return;
-      }
-      var response = (await ProfileResource.getProfile(this.user.profile_id))
-        .data;
-      if (!response.success) {
-        this.userErrors.push("Error al obtener perfil.");
-        return;
-      }
-      this.profile = response.data;
-      if (this.profile == "") {
-        this.userErrors.push("Perfil no existe.");
-        return;
-      }
-      this.name = this.profile.name;
-      this.lastName = this.profile.last_name;
-      this.birthDate = this.profile.birth_date;
-      this.sex = this.profile.sex;
-    },
     getUserForm() {
       return {
         email: this.email,
@@ -295,17 +214,9 @@ export default {
         contact_id: this.ContactId,
       };
     },
-    getProfileForm() {
-      return {
-        name: this.name,
-        last_name: this.lastName,
-        birth_date: this.birthDate,
-        sex: +this.sex,
-      };
-    },
     async saveContent() {
       const contactResponse = this.$refs.contactComponent.isValidContactForm();
-      const profileErrors = this.isValidProfileForm();
+      const profileErrors = this.$refs.profileComponent.isValidProfileForm();
       const userErrors = this.isValidUserForm();
       const allErrors = contactResponse
         .concat(profileErrors)
@@ -321,10 +232,9 @@ export default {
         return;
       }
 
-      var saveProfileResponse = await this.saveProfile();
+      var saveProfileResponse = await this.$refs.profileComponent.saveProfile();
       if (saveProfileResponse.success) {
         this.ProfileId = saveProfileResponse.data.id;
-        this.successProfileMessage = "Perfil guardado correctamente.";
       } else {
         return;
       }
@@ -359,21 +269,6 @@ export default {
       }
       return response;
     },
-    async saveProfile() {
-      this.profileErrors = [];
-      var response = null;
-
-      let formData = this.getProfileForm();
-      if (this.newUser) {
-        response = await this.saveNewProfile(formData);
-      } else {
-        response = await this.saveEditProfile(formData);
-      }
-      if (!response.success) {
-        this.profileErrors.push("Error al guardar el perfil.");
-      }
-      return response;
-    },
     async saveNewUser(formData) {
       var response = (await UserResource.createUser(formData)).data;
       return response;
@@ -382,18 +277,9 @@ export default {
       var response = (await UserResource.updateUser(this.id, formData)).data;
       return response;
     },
-    async saveNewProfile(formData) {
-      var response = (await ProfileResource.createProfile(formData)).data;
-      return response;
-    },
-    async saveEditProfile(formData) {
-      var response = (await ProfileResource.updateProfile(this.id, formData))
-        .data;
-      return response;
-    },
     isValidUserForm() {
       const errors = [];
-      if (!this.newUser){
+      if (!this.newUser) {
         this.emailConfirm = this.email;
       }
       if (this.email != this.emailConfirm) {
@@ -403,23 +289,6 @@ export default {
         errors.push("Contraseña no puede estar vacio.");
       }
       this.userErrors = errors;
-      return errors;
-    },
-    isValidProfileForm() {
-      const errors = [];
-      if (this.name == null || this.name == "") {
-        errors.push("Nombre no puede estar vacio.");
-      }
-      if (this.lastName == null || this.lastName == "") {
-        errors.push("Apellido no puede estar vacio.");
-      }
-      if (this.birthDate == null || this.birthDate == "") {
-        errors.push("Fecha de nacimiento no puede estar vacio.");
-      }
-      if (this.sex == null || this.sex == 0) {
-        errors.push("Sexo no puede estar vacio.");
-      }
-      this.profileErrors = errors;
       return errors;
     },
   },
