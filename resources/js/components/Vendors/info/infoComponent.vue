@@ -4,8 +4,8 @@
                     <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Notas</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Casos</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#notes" data-toggle="tab">Notas</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#cases" data-toggle="tab">Casos</a></li>
                             <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Contactos</a></li>
                             <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Tours</a></li>
                             <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Reservaciones</a></li>
@@ -14,53 +14,57 @@
                     </div><!-- /.card-header -->
                     <div class="card-body">
                         <div class="tab-content">
-                        <div class="active tab-pane" id="activity">
-                            <div class="col-md-12">
-                                <textarea id="editor" v-model="note">
-                                        
-                                </textarea>
-                                <div class="col-3">
+                            <div class="active tab-pane" id="notes">
+                                <div class="col-md-12">
+                                    <textarea id="editor" v-model="note">
+                                            
+                                    </textarea>
+                                    <div class="col-3">
 
+                                    </div>
+                                </div>
+                                <div class="col-12 text-right">
+                                    <button type="submit" @click="saveNote()" class="btn btn-outline-primary btn-sm">Añadir nota</button>
+                                </div>
+                                <!-- /.col-->
+                                <hr>
+                                <div class="ticontenedor-notas">
+                                    <transition-group  name="fade">
+                                        <div v-for="note in notes" :key="note.id" class="post">
+                                            <!-- Post -->
+                                            <div class="post clearfix">
+                                                <div class="user-block">
+                                                    <img class="img-circle img-bordered-sm" src="/dist/img/user7-128x128.jpg" alt="User Image">
+                                                    <span class="username">
+                                                    <a href="#">{{ note.user.profile.name }} {{ note.user.profile.last_name }}</a>
+                                                    <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                                                    </span>
+                                                    <span class="description">Escribio la nota  - {{ note.created_at | moment("LLLL") }}</span>
+                                                </div>
+                                                <!-- /.user-block -->
+                                                <span v-html="note.note">
+
+                                                </span>
+
+                                                <!--<form class="form-horizontal">
+                                                    <div class="input-group input-group-sm mb-0">
+                                                    <input class="form-control form-control-sm" placeholder="Response">
+                                                    <div class="input-group-append">
+                                                        <button type="submit" class="btn btn-danger">Send</button>
+                                                    </div>
+                                                    </div>
+                                                </form> -->
+                                            </div>
+                                            <!-- /.post -->
+                                        </div>
+                                    </transition-group>
                                 </div>
                             </div>
-                            <div class="col-12 text-right">
-                                <button type="submit" @click="saveNote()" class="btn btn-outline-primary btn-sm">Añadir nota</button>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="cases">
+                                <table-cases ref="tableCases" :id_vendor="id_vendor"></table-cases>
                             </div>
-                            <!-- /.col-->
-                            <hr>
-                            <div class="ticontenedor-notas">
-                                <transition-group  name="fade">
-                                    <div v-for="note in notes" :key="note.id" class="post">
-                                        <!-- Post -->
-                                        <div class="post clearfix">
-                                            <div class="user-block">
-                                                <img class="img-circle img-bordered-sm" src="/dist/img/user7-128x128.jpg" alt="User Image">
-                                                <span class="username">
-                                                <a href="#">{{ note.user.profile.name }} {{ note.user.profile.last_name }}</a>
-                                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                                </span>
-                                                <span class="description">Escribio la nota  - {{ note.created_at | moment("LLLL") }}</span>
-                                            </div>
-                                            <!-- /.user-block -->
-                                            <span v-html="note.note">
-
-                                            </span>
-
-                                            <!--<form class="form-horizontal">
-                                                <div class="input-group input-group-sm mb-0">
-                                                <input class="form-control form-control-sm" placeholder="Response">
-                                                <div class="input-group-append">
-                                                    <button type="submit" class="btn btn-danger">Send</button>
-                                                </div>
-                                                </div>
-                                            </form> -->
-                                        </div>
-                                        <!-- /.post -->
-                                    </div>
-                                </transition-group>
-                            </div>
-                        </div>
-                        <!-- /.tab-pane -->
+                            <!-- /.tab-pane -->
                         <div class="tab-pane" id="timeline">
                             <!-- The timeline -->
                             <div class="timeline timeline-inverse">
@@ -158,126 +162,7 @@
                         <!-- /.tab-pane -->
 
                             <div class="tab-pane" id="settings">
-                                <div class="card-body">
-                                    <table id="example1" class="table table-bordered table-striped table-responsive">
-                                    <thead>
-                                    <tr>
-                                        <th>Codigo de reserva</th>
-                                        <th>Fecha de reserva</th>
-                                        <th>Estado</th>
-                                        <th>Total</th>
-                                        <th>Pax</th>
-                                        <th>Etiquetas</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>A-1000</td>
-                                            <td>08/01/2021</td>
-                                            <td>05 Negociacion</td>
-                                            <td>$5,000.00 mxn</td>
-                                            <td>10</td>
-                                            <td>compra</td>
-                                            <td>
-                                                <a class="btn btn-primary btn-sm" href="#">
-                                                    <i class="far fa-eye"></i>
-                                                </a>
-                                                <a class="btn btn-danger btn-sm" @click="deleteCustomer(customer.id)" href="#">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>A-1000</td>
-                                            <td>08/01/2021</td>
-                                            <td>05 Negociacion</td>
-                                            <td>$5,000.00 mxn</td>
-                                            <td>10</td>
-                                            <td>compra</td>
-                                            <td>
-                                                <a class="btn btn-primary btn-sm" href="#">
-                                                    <i class="far fa-eye"></i>
-                                                </a>
-                                                <a class="btn btn-danger btn-sm" @click="deleteCustomer(customer.id)" href="#">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>A-1000</td>
-                                            <td>08/01/2021</td>
-                                            <td>05 Negociacion</td>
-                                            <td>$5,000.00 mxn</td>
-                                            <td>10</td>
-                                            <td>compra</td>
-                                            <td>
-                                                <a class="btn btn-primary btn-sm" href="#">
-                                                    <i class="far fa-eye"></i>
-                                                </a>
-                                                <a class="btn btn-danger btn-sm" @click="deleteCustomer(customer.id)" href="#">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>A-1000</td>
-                                            <td>08/01/2021</td>
-                                            <td>05 Negociacion</td>
-                                            <td>$5,000.00 mxn</td>
-                                            <td>10</td>
-                                            <td>compra</td>
-                                            <td>
-                                                <a class="btn btn-primary btn-sm" href="#">
-                                                    <i class="far fa-eye"></i>
-                                                </a>
-                                                <a class="btn btn-danger btn-sm" @click="deleteCustomer(customer.id)" href="#">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>A-1000</td>
-                                            <td>08/01/2021</td>
-                                            <td>05 Negociacion</td>
-                                            <td>$5,000.00 mxn</td>
-                                            <td>10</td>
-                                            <td>compra</td>
-                                            <td>
-                                                <a class="btn btn-primary btn-sm" href="#">
-                                                    <i class="far fa-eye"></i>
-                                                </a>
-                                                <a class="btn btn-danger btn-sm" @click="deleteCustomer(customer.id)" href="#">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>A-1000</td>
-                                            <td>08/01/2021</td>
-                                            <td>05 Negociacion</td>
-                                            <td>$5,000.00 mxn</td>
-                                            <td>10</td>
-                                            <td>compra</td>
-                                            <td>
-                                                <a class="btn btn-primary btn-sm" href="#">
-                                                    <i class="far fa-eye"></i>
-                                                </a>
-                                                <a class="btn btn-danger btn-sm" @click="deleteCustomer(customer.id)" href="#">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.card-body -->
+                                
                             </div>
                             <!-- /.tab-pane -->
                             <div class="tab-pane" id="documents">
@@ -343,11 +228,15 @@
 </template>
 
 <script>
+    import tableCases from '../../../components/Cases/listVendorsComponent';
     import Note from '../../../providers/Note';
 
     const NoteResourse = new Note();
     export default {
         props: ['id_vendor'],
+        components: {
+            tableCases
+        },
         data () {
             return {
                 note: null,

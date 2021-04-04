@@ -9,4 +9,13 @@ export default class Case {
         return axios.post(`/api/v1/cases/create`, formData)
     }
 
+    /**
+     * Function to getCasesVendors
+     * @return Promise
+     */
+    getListCaseVendor ($id_vendor) {
+        console.log(`/api/v1/cases/get/${$id_vendor}`)
+        return axios.get(`/api/v1/cases/get/${$id_vendor}`)
+    }
+
 }

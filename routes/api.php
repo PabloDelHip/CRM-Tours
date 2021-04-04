@@ -90,6 +90,7 @@ Route::group([
 ], function () {
     
     Route::post('create', 'CaseController@updateOrCreateCase');
+    Route::get('get/{id_vendor}', 'CaseController@getListVendor');
 });
 
 Route::group([
@@ -134,7 +135,7 @@ Route::group([
 
 // Profiles
 Route::group([
-    //'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth'],
     'prefix' => 'v1/vendors'
 ], function () {
     Route::get('/list', 'VendorsController@getList');

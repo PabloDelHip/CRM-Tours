@@ -16,4 +16,9 @@ class Cases extends Model
     protected $fillable = [
         'title', 'case', 'vendor_id', 'user_id', 'status'
     ];
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
