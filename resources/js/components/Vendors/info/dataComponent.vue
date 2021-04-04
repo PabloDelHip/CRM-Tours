@@ -33,14 +33,16 @@
             </li>
             <li class="list-group-item">
               <b>Email</b>
-              <a class="float-right">{{ this.infoVendor.email }}</a>
+              <a class="float-right" :href="'mailto:' + infoVendor.email">{{ this.infoVendor.email }}</a>
             </li>
             <li class="list-group-item">
               <b>Telefono</b>
-              <a class="float-right">{{ this.infoVendor.phone }}</a>
+              <a class="float-right" :href="'tel:' + infoVendor.phone">{{ this.infoVendor.phone }}</a>
             </li>
             <li class="list-group-item">
-              <b>Web</b> <a class="float-right">{{ this.infoVendor.web }}</a>
+              <b>Web</b>
+              <a class="float-right" :href="infoVendor.web != null && infoVendor.web.includes('http') ? infoVendor.web : '//' + infoVendor.web"
+              target="_blank">{{ this.infoVendor.web }}</a>
             </li>
             <li class="list-group-item">
               <b>Descripción</b>
@@ -55,12 +57,24 @@
               </p>
             </li>
           </ul>
-          <router-link
-            class="btn btn-primary btn-block"
-            :to="{ name: 'EditVendor', params: { id: +this.id_vendor } }"
-          >
-            <b><i class="fas fa-pen"></i> Editar</b>
-          </router-link>
+          <div class="row">
+            <div class="col-6">
+              <router-link
+                class="btn btn-primary btn-block"
+                :to="{ name: 'EditVendor', params: { id: +this.id_vendor } }"
+              >
+                <b><i class="fas fa-pen"></i> Editar</b>
+              </router-link>
+            </div>
+            <div class="col">
+              <router-link
+                class="btn btn-warning btn-block"
+                :to="{ name: 'contactsVendor', params: { id: +this.id_vendor } }"
+              >
+                <b><i class="fas fa-users"></i> Contactos</b>
+              </router-link>
+            </div>
+          </div>
         </div>
         <!-- /.card-body -->
       </div>
