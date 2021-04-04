@@ -37,6 +37,7 @@
       <div class="row">
         <div class="col-md-6">
           <profile-component :id="+this.ProfileId"
+            :contactId="+this.ContactId"
             ref="profileComponent"></profile-component>
         </div>
         <div class="col-md-6">

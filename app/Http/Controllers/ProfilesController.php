@@ -27,6 +27,7 @@ class ProfilesController extends Controller
         $profile->last_name = $content['last_name'];
         $profile->birth_date = $content['birth_date'];
         $profile->sex = $content['sex'];
+        $profile->contact_id = $content['contact_id'];
 
         $profile->save();
         
@@ -45,6 +46,7 @@ class ProfilesController extends Controller
         $profile->last_name = $content['last_name'];
         $profile->birth_date = $content['birth_date'];
         $profile->sex = $content['sex'];
+        $profile->contact_id = $content['contact_id'];
 
         $profile->save();
         

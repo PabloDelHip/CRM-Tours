@@ -69,6 +69,10 @@ export default {
       type: Number,
       required: false,
     },
+    contactId: {
+      type: Number,
+      required: false,
+    },
   },
   data() {
     return {
@@ -114,6 +118,7 @@ export default {
         last_name: this.lastName,
         birth_date: this.birthDate,
         sex: +this.sex,
+        contact_id: +this.contactId,
       };
     },
     async saveProfile() {
