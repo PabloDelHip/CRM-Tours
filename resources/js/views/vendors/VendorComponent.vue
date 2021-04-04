@@ -89,7 +89,7 @@
                     />
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="form-group col-md-6">
                   <label for="email">Correo electrónico</label>
                   <div class="input-group mb-12">
                     <div class="input-group-prepend">

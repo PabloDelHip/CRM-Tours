@@ -67,22 +67,34 @@
                 </transition>
                 <div class="form-group">
                   <label for="email">Correo electrónico</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    v-model="email"
-                    :disabled="!newUser"
-                    placeholder="ejemplo.fulanito@ejemplo.com"
-                  />
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-at"></i></span>
+                    </div>
+                    <input
+                      type="email"
+                      name="email"
+                      class="form-control"
+                      v-model="email"
+                      :disabled="!newUser"
+                      placeholder="ejemplo.fulanito@ejemplo.com"
+                    />
+                  </div>
                 </div>
                 <div class="form-group" v-if="this.user == null">
                   <label for="emailConfirm">Confirmar correo electrónico</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    v-model="emailConfirm"
-                    placeholder="ejemplo.fulanito@ejemplo.com"
-                  />
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-at"></i></span>
+                    </div>
+                    <input
+                      type="email"
+                      name="emailConfirm"
+                      class="form-control"
+                      v-model="emailConfirm"
+                      placeholder="ejemplo.fulanito@ejemplo.com"
+                    />
+                  </div>
                 </div>
                 <div class="form-group" v-show="this.user == null">
                   <label for="password">Contraseña</label>
