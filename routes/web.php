@@ -47,6 +47,7 @@ Route::get('/vendors/create', ['as' => 'vendors/create', 'uses' => 'HomeControll
 Route::get('/vendors/edit/{id}', ['as' => 'vendors/edit', 'uses' => 'HomeController@index']);
 Route::get('/vendors/contacts/{id}', ['as' => 'vendors/contacts', 'uses' => 'HomeController@index']);
 Route::get('/vendors/contacts/{id}/create', ['as' => 'vendors/contacts/create', 'uses' => 'HomeController@index']);
+Route::get('/vendors/contacts/{id}/edit/{contactId}', ['as' => 'vendors/contacts/edit', 'uses' => 'HomeController@index']);
 Route::get('vendors/profile/{id}', ['as' => 'profile', 'uses' => 'HomeController@index']);
 
 //Dashboard

@@ -33,7 +33,8 @@ import Vendors from './views/vendors/index.vue'
 import VendorComponent from './views/vendors/VendorComponent.vue'
 import VendorsList from './views/vendors/listView.vue'
 import VendorsProfile from './views/vendors/profile.vue'
-import VendorsContacts from './views/vendors/Contacts/contactslist.vue'
+import VendorsContacts from './views/vendors/Contacts/index.vue'
+import VendorsContactsList from './views/vendors/Contacts/contactslist.vue'
 import VendorsCreateContacts from './views/vendors/Contacts/contactsview.vue'
 
 export default new Router({
@@ -151,15 +152,28 @@ export default new Router({
                     props: true,
                 },
                 {
-                    path: "contacts/:id",
+                    path: "contacts",
                     name: "contactsVendor",
                     component: VendorsContacts,
-                    props: true,
                     children: [{
-                        path: "create",
-                        name: "createContactsVendor",
-                        component: VendorsCreateContacts,
-                    }]
+                            path: ":id",
+                            name: "listContactsVendor",
+                            component: VendorsContactsList,
+                            props: true,
+                        },
+                        {
+                            path: ":id/create",
+                            name: "createContactsVendor",
+                            component: VendorsCreateContacts,
+                            props: true,
+                        },
+                        {
+                            path: ":id/edit/:contactId",
+                            name: "editContactsVendor",
+                            component: VendorsCreateContacts,
+                            props: true,
+                        },
+                    ]
                 },
             ]
         },

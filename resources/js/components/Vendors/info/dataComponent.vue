@@ -69,7 +69,7 @@
             <div class="col">
               <router-link
                 class="btn btn-warning btn-block"
-                :to="{ name: 'contactsVendor', params: { id: +this.id_vendor } }"
+                :to="{ name: 'listContactsVendor', params: { id: +this.id_vendor } }"
               >
                 <b><i class="fas fa-users"></i> Contactos</b>
               </router-link>

@@ -84,10 +84,6 @@ export default {
   data() {
     return {
       contacts: [],
-      message: null,
-      showError: null,
-      showSuccess: null,
-      showWarning: null,
 
       destroyTable: false,
     };
@@ -121,8 +117,6 @@ export default {
             timerProgressBar: true,
             text: 'Disculpe tuvimos un error para cargar los contactos',
         })
-        this.message = "No se pudo obtener contactos";
-        this.showError = true;
       }
     },
     tableContacts() {
