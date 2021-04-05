@@ -86,7 +86,6 @@
                       <a
                         class="btn btn-danger btn-sm"
                         @click="deleteVendor(vendor.id)"
-                        href="#"
                       >
                         <i class="fas fa-trash"> </i>
                       </a>

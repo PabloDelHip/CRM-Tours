@@ -52,8 +52,8 @@
                   href="#"
                   @click="$refs.modalDescriptionComponent.openModal(1)"
                 >
-                  <strong>...</strong></a
-                >
+                  <strong>...</strong>
+                </a>
               </p>
             </li>
           </ul>
@@ -105,10 +105,7 @@ export default {
     async getVendor() {
       this.infoVendor = await vendorResource.getVendor(this.id_vendor);
       this.infoVendor = this.infoVendor.data.data;
-      this.infoVendor.description_corta = this.infoVendor.description.substring(
-        0,
-        80
-      );
+      this.infoVendor.description_corta = this.infoVendor.description.substring(0, 80);
       if (this.infoVendor.city) {
         this.infoVendor.city = this.infoVendor.city.city;
       }

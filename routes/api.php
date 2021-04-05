@@ -86,6 +86,7 @@ Route::group([
     Route::get('/{id}', 'ProfilesController@getProfile');
     Route::post('/create', 'ProfilesController@post');
     Route::put('/update/{id}', 'ProfilesController@put');
+    Route::get('/type/{type}', 'ProfilesController@getProfiles');
 });
 
 Route::group([

@@ -147,7 +147,7 @@ export default {
   },
   async created() {
     await this.setPermissions();
-    this.obtenerUsuarios();
+    await this.obtenerUsuarios();
   },
   methods: {
     async setPermissions(){

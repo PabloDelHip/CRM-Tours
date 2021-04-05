@@ -33,7 +33,8 @@ import Vendors from './views/vendors/index.vue'
 import VendorComponent from './views/vendors/VendorComponent.vue'
 import VendorsList from './views/vendors/listView.vue'
 import VendorsProfile from './views/vendors/profile.vue'
-import VendorsContacts from './views/vendors/contactsview.vue'
+import VendorsContacts from './views/vendors/Contacts/contactslist.vue'
+import VendorsCreateContacts from './views/vendors/Contacts/contactsview.vue'
 
 export default new Router({
     linkExactActiveClass: "active",
@@ -154,6 +155,11 @@ export default new Router({
                     name: "contactsVendor",
                     component: VendorsContacts,
                     props: true,
+                    children: [{
+                        path: "create",
+                        name: "createContactsVendor",
+                        component: VendorsCreateContacts,
+                    }]
                 },
             ]
         },

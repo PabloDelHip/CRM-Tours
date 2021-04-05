@@ -8,6 +8,29 @@ use Illuminate\Database\Eloquent\MassAssignmentException;
 
 class ProfilesController extends Controller
 {
+    public function getProfiles(Request $request, $type)
+    {
+        try{
+            $profiles = Profile::select('profiles.*')
+                    ->join('contacts', 'profiles.contact_id', '=', 'contacts.id')
+                    ->where('contacts.type', $type)
+                    ->get();
+
+            return response()->json([
+            'success' => true,
+            'message' => 'Perfiles encontrados',
+            'data' => $profiles,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se pudo obtener los perfiles',
+                'data' => null,
+                'err' => $e
+            ], 500);
+        }
+    }
+
     public function getProfile($id)
     {
         $profile = Profile::find($id);
