@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contact;
+use App\User;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 
 class ContactsController extends Controller
@@ -59,5 +60,26 @@ class ContactsController extends Controller
             'message' => 'Contacto actualizado',
             'data' => $contact,
         ], 200);
+    }
+
+    public function getListContactsVendor($id_vendor) {
+        try {
+            $contacts = User::where('vendor_id', '=' ,$id_vendor)
+                            ->with('contact')
+                            ->with('profile')->get();
+
+            return response()->json([
+                'succes' => true,
+                'message' => 'Contactos encontrados de forma correcta',
+                'contacts' => $contacts
+            ], 200);
+
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'Error al obtener contactos',
+                'err' => $err->getMessage()
+            ], 500);
+        }
     }
 }

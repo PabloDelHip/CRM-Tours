@@ -6,7 +6,7 @@
                         <ul class="nav nav-pills">
                             <li class="nav-item"><a class="nav-link active" href="#notes" data-toggle="tab">Notas</a></li>
                             <li class="nav-item"><a class="nav-link" href="#cases" data-toggle="tab">Casos</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Contactos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#contacts" data-toggle="tab">Contactos</a></li>
                             <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Tours</a></li>
                             <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Reservaciones</a></li>
                             <li class="nav-item"><a class="nav-link" href="#documents" data-toggle="tab">Documentos</a></li>
@@ -63,6 +63,10 @@
                             <!-- /.tab-pane -->
                             <div class="tab-pane" id="cases">
                                 <table-cases ref="tableCases" :id_vendor="id_vendor"></table-cases>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="contacts">
+                                <table-contacts :id_vendor="id_vendor"></table-contacts>
                             </div>
                             <!-- /.tab-pane -->
                         <div class="tab-pane" id="timeline">
@@ -229,13 +233,15 @@
 
 <script>
     import tableCases from '../../../components/Cases/listVendorsComponent';
+    import tableContacts from '../../../components/Contacts/listVendorsComponents';
     import Note from '../../../providers/Note';
 
     const NoteResourse = new Note();
     export default {
         props: ['id_vendor'],
         components: {
-            tableCases
+            tableCases,
+            tableContacts
         },
         data () {
             return {

@@ -111,6 +111,7 @@ Route::group([
     Route::get('/{id}', 'ContactsController@getContact');
     Route::post('/create', 'ContactsController@post');
     Route::put('/update/{id}', 'ContactsController@put');
+    Route::get('/vendors/{id_vendor}', 'ContactsController@getListContactsVendor');
 });
 
 Route::group([

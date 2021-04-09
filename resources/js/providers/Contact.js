@@ -8,6 +8,10 @@ export default class Contact {
         return axios.get(`/api/v1/contact/${id}`)
     }
 
+    getContactVendors(id) {
+        return axios.get(`/api/v1/contact/vendors/${id}`)
+    }
+
     createContact(formData) {
         return axios.post(`/api/v1/contact/create`, formData)
     }
