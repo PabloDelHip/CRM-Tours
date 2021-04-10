@@ -111,6 +111,7 @@ export default {
       this.lastName = this.profile.last_name;
       this.birthDate = this.profile.birth_date;
       this.sex = this.profile.sex;
+      this.$emit('get-name', this.name + " " + this.lastName);
     },
     getProfileForm() {
       return {

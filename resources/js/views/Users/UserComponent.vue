@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Usuario</h1>
+            <h1>Usuario{{ this.NameUserEdit == null ? "" : " - " + this.NameUserEdit }}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -25,7 +25,7 @@
                   Perfil de usuario
                 </router-link>
               </li>
-              <li class="breadcrumb-item active">Usuario</li>
+              <li class="breadcrumb-item active">Usuario{{ this.NameUserEdit == null ? "" : " - " + this.NameUserEdit }}</li>
             </ol>
           </div>
         </div>
@@ -38,7 +38,9 @@
         <div class="col-md-6">
           <profile-component :id="+this.ProfileId"
             :contactId="+this.ContactId"
-            ref="profileComponent"></profile-component>
+            ref="profileComponent"
+            @get-name="NameUserEdit = $event"
+            ></profile-component>
         </div>
         <div class="col-md-6">
           <div class="card card-primary">
@@ -186,6 +188,8 @@ export default {
       emailConfirm: null,
       password: null,
       statusUser: 1,
+
+      NameUserEdit: null,
     };
   },
   async created() {

@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Agencia</h1>
+            <h1>Agencia{{ this.NameVendorEdit == null ? "" : " - " + this.NameVendorEdit }}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -18,7 +18,7 @@
                   Agencias
                 </router-link>
               </li>
-              <li class="breadcrumb-item active">Agencia</li>
+              <li class="breadcrumb-item active">Agencia {{ this.NameVendorEdit == null ? "" : " - " + this.NameVendorEdit }}</li>
             </ol>
           </div>
         </div>
@@ -187,6 +187,7 @@ export default {
 
       newVendor: false,
       vendor: null,
+      NameVendorEdit: null,
     };
   },
   async created() {
@@ -214,6 +215,7 @@ export default {
 
       this.vendorCode = this.vendor.code;
       this.name = this.vendor.name;
+      this.NameVendorEdit = this.name;
       this.businessName = this.vendor.business_name;
       this.description = this.vendor.description;
       this.web = this.vendor.web;

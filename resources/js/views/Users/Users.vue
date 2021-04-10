@@ -65,9 +65,7 @@
                     <th>Correo</th>
                     <th>Tipo de Usuario</th>
                     <th>Fecha de Creacion</th>
-                    <th>Ver</th>
-                    <th v-if="this.userPermission.delete">Eliminar</th>
-                    <th v-if="this.permissionPermission.read">Acciones</th>
+                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -77,31 +75,38 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.vendor_id == null ? "Sistema" : "Agencia" }}</td>
                     <td>{{ fechaFormato(user.created_at) }}</td>
-                    <td>
-                      <router-link
-                        name="read"
-                        class="btn btn-primary btn-sm"
-                        :to="{ name: 'perfilUsuario', params: { id: user.id } }"
-                      >
-                        <!--:to="this.read == 1 ? { name:'perfilUsuario', params: { id: user.id }} : ''"> -->
-                        Ver
-                      </router-link>
-                    </td>
-                    <td v-if="userPermission.delete">
-                      <button
-                        name="delete"
-                        class="btn btn-danger btn-sm"
-                        @click="deleteUser(user.id)"
-                      >
-                        Eliminar
-                      </button>
-                    </td>
-                    <td v-if="permissionPermission.read">
-                      <router-link
-                        class="btn btn-secondary btn-sm"
-                        :to="{ name: 'permisos', params: { id: user.id } }"
-                        >Permisos</router-link
-                      >
+                    <td class="table-actions">
+                      <div class="btn-group">
+                        <router-link
+                          class="btn btn-primary btn-sm"
+                          :to="{ name: 'perfilUsuario', params: { id: user.id } }"
+                        >
+                          <i class="far fa-eye"></i>
+                        </router-link>
+                        <router-link
+                          v-if="userPermission.update"
+                          class="btn btn-info btn-sm"
+                          :to="{
+                            name: 'EditUser',
+                            params: { id: +user.id },
+                          }"
+                        >
+                          <i class="fas fa-pencil-alt"> </i>
+                        </router-link>
+                        <a v-if="userPermission.delete"
+                          class="btn btn-danger btn-sm"
+                          @click="deleteUser(user.id)"
+                        >
+                          <i class="fas fa-trash"> </i>
+                        </a>
+                        <router-link
+                          v-if="permissionPermission.read"
+                          class="btn btn-secondary btn-sm"
+                          :to="{ name: 'permisos', params: { id: user.id } }"
+                        >
+                          <i class="fas fa-lock"></i>
+                        </router-link>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -182,22 +187,35 @@ export default {
       }
     },
     async deleteUser($id) {
-      if (confirm("¿Esta seguro que desea eliminarlo?")) {
-        try {
-          var response = (await userResource.deleteUsers($id)).data;
-          if (response.success) {
-            (this.message = "El usuario se ha eliminado correctamente"),
-              (this.showSuccess = true);
-            this.obtenerUsuarios();
-          } else {
-            this.message = "No se pudo eliminar el usuario";
-            this.showError = true;
+      this.$swal
+        .fire({
+          title: "¿Estas seguro?",
+          text: "El usuario se eliminara permanentemente",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Si, eliminar usuario",
+        })
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            try {
+              var response = (await userResource.deleteUsers($id)).data;
+              if (response.success) {
+                (this.message = "El usuario se ha eliminado correctamente"),
+                  (this.showSuccess = true);
+                this.obtenerUsuarios();
+              } else {
+                this.message = "No se pudo eliminar el usuario";
+                this.showError = true;
+              }
+            } catch (error) {
+              this.message = "No se pudo eliminar el usuario";
+              this.showError = true;
+            }
           }
-        } catch (error) {
-          this.message = "No se pudo eliminar el usuario";
-          this.showError = true;
-        }
-      }
+        });
     },
     fechaFormato($fecha) {
       if ($fecha == null || $fecha == undefined) {

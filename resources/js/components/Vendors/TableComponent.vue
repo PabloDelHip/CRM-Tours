@@ -65,30 +65,32 @@
                     <td>{{ vendor.address.state.name }}</td>
                     <td>{{ vendor.address.city.city }}</td>
                     <td class="table-actions">
-                      <router-link
-                        class="btn btn-primary btn-sm"
-                        :to="{
-                          name: 'profileVendor',
-                          params: { id: vendor.id },
-                        }"
-                      >
-                        <i class="far fa-eye"></i>
-                      </router-link>
-                      <router-link
-                        class="btn btn-info btn-sm"
-                        :to="{
-                          name: 'EditVendor',
-                          params: { id: +vendor.id },
-                        }"
-                      >
-                        <i class="fas fa-pencil-alt"> </i>
-                      </router-link>
-                      <a
-                        class="btn btn-danger btn-sm"
-                        @click="deleteVendor(vendor.id)"
-                      >
-                        <i class="fas fa-trash"> </i>
-                      </a>
+                      <div class="btn-group">
+                        <router-link
+                          class="btn btn-primary btn-sm"
+                          :to="{
+                            name: 'profileVendor',
+                            params: { id: vendor.id },
+                          }"
+                        >
+                          <i class="far fa-eye"></i>
+                        </router-link>
+                        <router-link
+                          class="btn btn-info btn-sm"
+                          :to="{
+                            name: 'EditVendor',
+                            params: { id: +vendor.id },
+                          }"
+                        >
+                          <i class="fas fa-pencil-alt"> </i>
+                        </router-link>
+                        <a
+                          class="btn btn-danger btn-sm"
+                          @click="deleteVendor(vendor.id)"
+                        >
+                          <i class="fas fa-trash"> </i>
+                        </a>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
