@@ -34,11 +34,21 @@ class CaseController extends Controller
                     'user_id' => $request->user_id
                 ]
             );
+
+            if($id_case == 0) {
+                return response()->json([
+                    'succes' => true,
+                    'message' => 'Caso guardada de forma correcta',
+                    'case' => $case
+                ], 200);                
+            }
+
             return response()->json([
                 'succes' => true,
-                'message' => 'Caso guardada de forma correcta',
+                'message' => 'Caso modificado de forma correcta',
                 'case' => $case
-            ], 200);
+            ], 201);
+
         } catch (MassAssignmentException $err) {
             return response()->json([
                 'succes' => false,
@@ -65,6 +75,26 @@ class CaseController extends Controller
             return response()->json([
                 'succes' => false,
                 'message' => 'Error al obtener casos',
+                'err' => $err->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateStatus($id, $status) {
+        try {
+            $status = $status === 'true' ? true: false;
+            Cases::where('id', $id)
+            ->update(['status' => $status]);
+        
+            return response()->json([
+                'succes' => true,
+                'message' => 'El status del caso fue actualizado',
+                'contact' => Cases::where('id', $id)->with('user.contact')->with('user.profile')->get()->first()
+            ], 200);
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'Error al editar el caso ',
                 'err' => $err->getMessage()
             ], 500);
         }

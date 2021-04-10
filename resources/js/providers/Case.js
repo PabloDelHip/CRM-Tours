@@ -14,8 +14,7 @@ export default class Case {
      * @return Promise
      */
     getListCaseVendor ($id_vendor) {
-        console.log(`/api/v1/cases/get/${$id_vendor}`)
-        return axios.get(`/api/v1/cases/get/${$id_vendor}`)
+        return axios.get(`/api/v1/cases/get/vendor/${$id_vendor}`)
     }
 
 }

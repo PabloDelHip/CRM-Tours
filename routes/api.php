@@ -90,7 +90,22 @@ Route::group([
 ], function () {
     
     Route::post('create', 'CaseController@updateOrCreateCase');
-    Route::get('get/{id_vendor}', 'CaseController@getListVendor');
+    Route::get('get/vendor/{id_vendor}', 'CaseController@getListVendor');
+    Route::put('update/{id_case}', 'CaseController@updateOrCreateCase');
+    Route::put('{id}/status/{status}', 'CaseController@updateStatus');
+});
+
+//Cases History
+Route::group([
+
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/cases/history/'
+
+], function () {
+    
+    Route::get('get/{id_case}', 'CasesHistoryController@getList');
+    Route::post('create', 'CasesHistoryController@updateOrCreateCase');
+    Route::put('update/{id_case_history}', 'CasesHistoryController@updateOrCreateCase');
 });
 
 Route::group([
@@ -112,6 +127,7 @@ Route::group([
     Route::post('/create', 'ContactsController@post');
     Route::put('/update/{id}', 'ContactsController@put');
     Route::get('/vendors/{id_vendor}', 'ContactsController@getListContactsVendor');
+    Route::put('/block/{id}/{status}', 'ContactsController@putBlock');
 });
 
 Route::group([

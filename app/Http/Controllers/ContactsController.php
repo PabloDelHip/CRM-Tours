@@ -82,4 +82,24 @@ class ContactsController extends Controller
             ], 500);
         }
     }
+
+    public function putBlock($id, $status) {
+        try {
+            $status = $status === 'true' ? true: false;
+            User::where('id', $id)
+            ->update(['status' => $status]);
+        
+            return response()->json([
+                'succes' => true,
+                'message' => 'El status del contacto fue actualizado',
+                'contact' => User::where('id', $id)->with('contact')->with('profile')->get()->first()
+            ], 200);
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'Error al editar contacto ',
+                'err' => $err->getMessage()
+            ], 500);
+        }
+    }
 }
