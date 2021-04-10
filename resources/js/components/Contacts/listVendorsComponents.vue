@@ -19,9 +19,25 @@
                     <td>{{ contact.contact.moviles }}</td>
                     <td>{{ contact.contact.phones }}</td>
                     <td>{{ contact.email }}</td>
-                    <td>status</td>
+                    <td v-if="contact.status" class="text-center">
+                        <span class="right badge badge-success text-center">Activo</span>
+                    </td>
+                    <td v-else>
+                        <span class="right badge badge-danger">Inactivo</span>
+                    </td>
                     <td class="table-actions">
-                        Acciones
+                        <router-link class="btn btn-primary btn-sm" :to="{ name:'profileVendor'}">
+                            <i class="far fa-eye"></i>
+                        </router-link>
+                        <a class="btn btn-info btn-sm" @click="$refs.modalFormComponent.openModal(vendor.id);" href="#">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a v-if="contact.status" href="#" class="btn btn-danger btn-sm">
+                            <i class="fas fa-ban"></i>
+                        </a>
+                        <a v-else href="#" class="btn btn-success btn-sm">
+                            <i class="fas fa-check-circle"></i>
+                        </a>
                     </td>
                 </tr>
             </tbody>

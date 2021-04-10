@@ -52,6 +52,7 @@ class CaseController extends Controller
 
         try {
             $cases = Cases::where('vendor_id', '=' ,$id_vendor)
+                            ->with('user.contact')
                             ->with('user.profile')->get();
 
             return response()->json([

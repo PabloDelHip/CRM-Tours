@@ -1,10 +1,15 @@
 <template>
     <div class="card-body">
+        <!--<pre>
+            {{ cases }}
+        </pre> -->
         <table id="tableCase" class="table table-bordered table-striped table-responsive">
             <thead>
                 <tr>
                     <th>Titulo</th>
                     <th>Usuario</th>
+                    <th>Celular</th>
+                    <th>Telefono</th>
                     <th>Email</th>
                     <th>Status</th>
                     <th>Acciones</th>
@@ -14,10 +19,28 @@
                 <tr v-for="_case in cases" :key="_case.id">
                     <td>{{ _case.title }}</td>
                     <td>{{ _case.user.profile.name }} {{ _case.user.profile.last_name }}</td>
+                    <td>{{ _case.user.contact.moviles }}</td>
+                    <td>{{ _case.user.contact.phones }}</td>
                     <td>{{ _case.user.email }}</td>
-                    <td>{{ _case.status }}</td>
+                    <td v-if="_case.status" class="text-center">
+                        <span class="right badge badge-success text-center">Abierto</span>
+                    </td>
+                    <td v-else>
+                        <span class="right badge badge-danger">Cerrado</span>
+                    </td>
                     <td class="table-actions">
-                        Acciones
+                        <router-link class="btn btn-primary btn-sm" :to="{ name:'profileVendor'}">
+                            <i class="far fa-eye"></i>
+                        </router-link>
+                        <a class="btn btn-info btn-sm" @click="$refs.modalFormComponent.openModal(vendor.id);" href="#">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a v-if="_case.status" href="#" class="btn btn-danger btn-sm">
+                            <i class="fas fa-lock"></i>
+                        </a>
+                        <a v-else href="#" class="btn btn-success btn-sm">
+                            <i class="fas fa-lock-open"></i>
+                        </a>
                     </td>
                 </tr>
             </tbody>
