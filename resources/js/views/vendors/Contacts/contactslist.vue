@@ -95,7 +95,7 @@ export default {
   methods:{
     async getVendorContacts() {
       try {
-        var response = (await profileResource.getProfileByType(1)).data;
+        var response = (await profileResource.getProfileByType(2)).data;
         if (response.success) {
           this.contacts = response.data;
           if (this.destroyTable){

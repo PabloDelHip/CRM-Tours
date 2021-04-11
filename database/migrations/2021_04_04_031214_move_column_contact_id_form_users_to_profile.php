@@ -16,12 +16,12 @@ class MoveColumnContactIdFormUsersToProfile extends Migration
         Schema::table('profiles', function (Blueprint $table) {
             $table->unsignedBigInteger('contact_id');
         });
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->foreign('contact_id')
-                    ->references('id')
-                    ->on('contacts')
-                    ->onDelete('cascade');
-        });
+        // Schema::table('profiles', function (Blueprint $table) {
+        //     $table->foreign('contact_id')
+        //             ->references('id')
+        //             ->on('contacts')
+        //             ->onDelete('cascade');
+        // });
     }
 
     /**
