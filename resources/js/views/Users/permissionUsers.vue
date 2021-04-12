@@ -27,16 +27,6 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-                <transition name="fade">
-                  <div
-                    class="alert alert-danger"
-                    v-if="errors.length > 0"
-                  >
-                    <ul>
-                      <li v-for="(e, index) in errors" :key="index"> {{ e }}</li>
-                    </ul>
-                  </div>
-                </transition>
               <table
                 id="permissionsTable"
                 class="table table-bordered table-striped"
@@ -137,12 +127,15 @@ const NameModule = "Permisos";
 
 export default {
   name: "users-permissions",
-  props: ["id"],
+  props: {
+    id: {
+      required: true,
+    },
+  },
   data() {
     return {
       permissions: "",
       permissionPermission: [],
-      errors: [],
     };
   },
   computed: {
@@ -160,7 +153,7 @@ export default {
     async getPermission() {
       var response = (await userPermissionResource.UserPermissionsByModule(this.user.id, NameModule)).data;
       if (!response.success){
-        this.errors.push("Error al obtener información.");
+        this.showError("Error al obtener información.");
         setTimeout(() => {
           this.$router.push({
             path: '/',
@@ -186,13 +179,13 @@ export default {
         this.tablePermits();
       } catch (error) {
         console.log(error);
-          this.errors.push("No se pudo obtener permisos de usuarios.");
+        this.showError("No se pudo obtener permisos de usuarios.");
       }
     },
     check(module_id, name, checked) {
       this.$nextTick(() => {
         if (!this.permissionPermission.update){
-          this.errors.push("No tienes permiso para hacer este cambio.");
+          this.showError("No tienes permiso para hacer este cambio.");
           return;
         }
 
@@ -206,11 +199,22 @@ export default {
           this.modules = userPermissionResource.updatePermits(formData);
         } catch (error) {
           console.log(error);
-          this.errors.push("No se pudo actualizar permisos del usuario.");
+          this.showError("No se pudo actualizar permisos del usuario.");
         }
       });
     },
-
+    showError(error){
+      this.$swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        toast: true,
+        position: 'top',
+        timer: 3000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        text: error,
+      })
+    },
     tablePermits() {
       this.$nextTick(() => {
         $("#permissionsTable")

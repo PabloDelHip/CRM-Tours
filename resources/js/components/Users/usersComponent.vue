@@ -97,6 +97,14 @@ export default {
       type: Number,
       required: false,
     },
+    externalEmail: {
+      type: String,
+      required: false,
+    },
+    vendorId: {
+      type: Number,
+      required: false,
+    },
   },
   data(){
     return {
@@ -112,6 +120,12 @@ export default {
 
       user: null,
     }
+  },
+  watch: {
+    externalEmail(val){
+      this.email = val;
+      this.emailConfirm = val;
+    },
   },
   async created(){
     if (this.id != undefined && (this.id + 0) > 0) {
@@ -134,6 +148,7 @@ export default {
         level: 1,
         profile_id: this.profileId,
         contact_id: this.contactId,
+        vendor_id: this.vendorId,
       };
     },
     async getUser() {

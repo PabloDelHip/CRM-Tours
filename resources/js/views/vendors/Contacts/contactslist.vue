@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div>
+      <user-modal-form-component 
+      :openModal="openModal"
+      :vendorId="+id"
+      ref="userModalFormComponent"
+      ></user-modal-form-component>
+    </div>
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -62,15 +69,20 @@
                     <td>{{ contact.name }}</td>
                     <td>{{ contact.last_name }}</td>
                     <td>
-                      <router-link
-                        class="btn btn-info btn-sm"
-                        :to="{ 
-                          name: 'editContactsVendor',
-                          params: { id: +id, contactId: +contact.contact_id },
-                        }"
-                      >
-                        <i class="fas fa-pencil-alt"> </i>
-                      </router-link>
+                      <div class="btn-group">
+                        <router-link
+                          class="btn btn-info btn-sm"
+                          :to="{ 
+                            name: 'editContactsVendor',
+                            params: { id: +id, contactId: +contact.contact_id },
+                          }"
+                        >
+                          <i class="fas fa-pencil-alt"> </i>
+                        </router-link>
+                          <a class="btn btn-warning btn-sm" @click="$refs.userModalFormComponent.openModalForm(+contact.contact_id, +contact.id);">
+                            <i class="fas fa-user"></i>
+                          </a>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -84,11 +96,13 @@
 </template>
 
 <script>
+import userModalFormComponent from '../../../components/Users/userModalFormComponent.vue';
 import contactVendor from "../../../providers/ContactVendor";
 
 const contactVendorResource = new contactVendor();
 
 export default {
+  components: { userModalFormComponent },
   props: {
     id: {
       required: true,
@@ -97,6 +111,7 @@ export default {
   data() {
     return {
       contacts: [],
+      openModal: false,
 
       destroyTable: false,
     };

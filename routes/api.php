@@ -25,6 +25,7 @@ Route::group([
     // User
     Route::get('/current', 'UsersController@getCurrentUser');
     Route::get('/get', 'UsersController@getUsers');
+    Route::get('/getByVendorId/{id}', 'UsersController@getByVendorId');
     Route::get('/get/{userId}', 'UsersController@get');
     Route::post('/create', 'UsersController@post');
     Route::put('/put/{userId}', 'UsersController@put');

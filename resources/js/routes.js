@@ -13,8 +13,8 @@ import Overview from "./views/Dashboard/OverviewComponent.vue";
 
 //Users section
 import UsersIndex from "./views/Users/index.vue";
-import Users from "./views/Users/Users.vue";
-import UserComponent from "./views/Users/UserComponent.vue";
+import Userslist from "./views/Users/Userslist.vue";
+import UserView from "./views/Users/UserView.vue";
 import UserProfile from "./views/Users/profileView.vue";
 import PermitsUsers from "./views/Users/permissionUsers.vue";
 
@@ -35,7 +35,7 @@ import VendorsList from './views/vendors/listView.vue'
 import VendorsProfile from './views/vendors/profile.vue'
 import VendorsContacts from './views/vendors/Contacts/index.vue'
 import VendorsContactsList from './views/vendors/Contacts/contactslist.vue'
-import VendorsCreateContacts from './views/vendors/Contacts/contactsview.vue'
+import VendorsContactsView from './views/vendors/Contacts/contactsview.vue'
 
 export default new Router({
     linkExactActiveClass: "active",
@@ -66,17 +66,17 @@ export default new Router({
             children: [{
                     path: "",
                     name: "ListUser",
-                    component: Users,
+                    component: Userslist,
                 },
                 {
                     path: "create",
                     name: "CreateUser",
-                    component: UserComponent,
+                    component: UserView,
                 },
                 {
                     path: "edit/:id",
                     name: "EditUser",
-                    component: UserComponent,
+                    component: UserView,
                     props: true,
                 },
                 {
@@ -87,7 +87,7 @@ export default new Router({
                 },
                 {
                     path: "permissions/:id",
-                    name: "permisos",
+                    name: "permisosUser",
                     component: PermitsUsers,
                     props: true,
                 },
@@ -164,13 +164,13 @@ export default new Router({
                         {
                             path: ":id/create",
                             name: "createContactsVendor",
-                            component: VendorsCreateContacts,
+                            component: VendorsContactsView,
                             props: true,
                         },
                         {
                             path: ":id/edit/:contactId",
                             name: "editContactsVendor",
-                            component: VendorsCreateContacts,
+                            component: VendorsContactsView,
                             props: true,
                         },
                     ]

@@ -80,7 +80,7 @@ async function hasAccess(to) {
                     return permission.permission.update || to.params.id == JSON.parse(await getUser()).user.id;
             }
             break;
-        case 'permisos':
+        case 'permisosUser':
             var permission = await getPermissionModule("Permisos");
             if (!permission.success) {
                 return false;
