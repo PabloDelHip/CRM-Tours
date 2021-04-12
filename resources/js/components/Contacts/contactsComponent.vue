@@ -150,7 +150,7 @@ export default {
   data() {
     return {
       newContact: true,
-      // typeContact: 0,
+      refTypeContact: 0,
 
       contact: null,
       errors: [],
@@ -165,9 +165,12 @@ export default {
     };
   },
   watch: {
-    id: function(val) {
+    id: async function(val) {
       this.newContact = this.id == null;
-      this.getContact();
+      await this.getContact();
+    },
+    typeContact: function(val) {
+      this.refTypeContact = val;
     },
   },
   methods: {
@@ -184,7 +187,7 @@ export default {
       }
 
       this.$emit('get-addressId', this.contact.address_id)
-      this.typeContact = this.contact.type;
+      this.refTypeContact = this.contact.type;
       this.rfcContact = this.contact.rfc;
       this.typePerson = this.contact.type_person;
       this.emailsContact = this.contact.emails.split("|");
@@ -193,7 +196,7 @@ export default {
     },
     getContactForm() {
       return {
-        type: this.typeContact,
+        type: this.refTypeContact,
         rfc: this.rfcContact,
         type_person: this.typePerson,
         emails: this.emailsContact.join("|"),
@@ -234,7 +237,7 @@ export default {
     },
     isValidContactForm() {
       const errors = [];
-      if (this.typeContact == null || this.typeContact == "") {
+      if (this.refTypeContact == null || this.refTypeContact == "") {
         errors.push("Tipo de contacto no puede estar vacio.");
       }
       if (this.rfcContact == null || this.rfcContact == "") {

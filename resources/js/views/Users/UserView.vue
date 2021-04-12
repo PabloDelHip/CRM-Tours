@@ -56,7 +56,7 @@
           <contacts-component
             :id="+this.ContactId"
             :addressId="+this.addressId"
-            :typeContact="1"
+            :typeContact="this.typeContact"
             @get-addressId="addressId = $event"
             ref="contactComponent"
           ></contacts-component>
@@ -111,6 +111,8 @@ export default {
       addressId: null,
       ContactId: null,
       ProfileId: null,
+
+      typeContact: 1,
 
       NameUserEdit: null,
     };
