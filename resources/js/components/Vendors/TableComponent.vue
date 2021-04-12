@@ -84,6 +84,15 @@
                         >
                           <i class="fas fa-pencil-alt"> </i>
                         </router-link>
+                        <router-link
+                          class="btn btn-warning btn-sm"
+                          :to="{
+                            name: 'listContactsVendor',
+                            params: { id: +vendor.id },
+                          }"
+                        >
+                          <i class="fas fa-user"> </i>
+                        </router-link>
                         <a
                           class="btn btn-danger btn-sm"
                           @click="deleteVendor(vendor.id)"

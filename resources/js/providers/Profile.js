@@ -7,6 +7,9 @@ export default class Profile {
     getProfile(id) {
         return axios.get(`/api/v1/profile/${id}`);
     }
+    getProfileByContactId(id) {
+        return axios.get(`/api/v1/profile/bycontact/${id}`);
+    }
 
     getProfileByType(type) {
         return axios.get(`/api/v1/profile/type/${type}`);

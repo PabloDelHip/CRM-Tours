@@ -14,7 +14,7 @@
                 </router-link>
               </li>
               <li class="breadcrumb-item">
-                <router-link :to="{ path: '/vendors' }">
+                <router-link :to="{ name: 'ListVendor' }">
                   Agencias
                 </router-link>
               </li>
@@ -33,7 +33,8 @@
             </div>
             <div class="card-header">
               <router-link
-                :to="{ path: this.id + '/create' }"
+                :to="{ name: 'createContactsVendor', params: { id: +this.id, } }"
+                
                 name="created"
                 style="color: #fff;"
                 class="btn btn-warning"
@@ -53,12 +54,24 @@
                   <tr>
                     <th>Nombre</th>
                     <th>Apellido</th>
+                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="contact in contacts" :key="contact.id">
+                  <tr v-for="contact in contacts" :key="contact.contact_id">
                     <td>{{ contact.name }}</td>
                     <td>{{ contact.last_name }}</td>
+                    <td>
+                      <router-link
+                        class="btn btn-info btn-sm"
+                        :to="{ 
+                          name: 'editContactsVendor',
+                          params: { id: +id, contactId: +contact.contact_id },
+                        }"
+                      >
+                        <i class="fas fa-pencil-alt"> </i>
+                      </router-link>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -71,9 +84,9 @@
 </template>
 
 <script>
-import profile from "../../../providers/Profile";
+import contactVendor from "../../../providers/ContactVendor";
 
-const profileResource = new profile();
+const contactVendorResource = new contactVendor();
 
 export default {
   props: {
@@ -95,7 +108,7 @@ export default {
   methods:{
     async getVendorContacts() {
       try {
-        var response = (await profileResource.getProfileByType(2)).data;
+        var response = (await contactVendorResource.getContactsByVendorId(this.id)).data;
         if (response.success) {
           this.contacts = response.data;
           if (this.destroyTable){

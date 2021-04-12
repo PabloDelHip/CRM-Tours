@@ -42,6 +42,17 @@ class ProfilesController extends Controller
         ], 200);
     }
 
+    public function getProfileByContactId($id)
+    {
+        $profile = Profile::where('contact_id', $id)->first();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Perfil encontrado',
+            'data' => $profile,
+        ], 200);
+    }
+
     public function post(Request $request){
         $content = $request->all();
 

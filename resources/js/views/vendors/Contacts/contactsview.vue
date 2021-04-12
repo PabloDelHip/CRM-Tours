@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Contactos</h1>
+            <h1>Contacto{{ this.NameContactEdit == null ? "" : " - " + this.NameContactEdit }}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -14,16 +14,16 @@
                 </router-link>
               </li>
               <li class="breadcrumb-item">
-                <router-link :to="{ path: '/vendors' }">
+                <router-link :to="{ name: 'ListVendor' }">
                   Agencias
                 </router-link>
               </li>
               <li class="breadcrumb-item">
-                <router-link :to="{ path: '/vendors/contacts/'+ this.id }">
+                <router-link :to="{ name: 'listContactsVendor', params: { id: +this.id, }}">
                   Contactos
                 </router-link>
               </li>
-              <li class="breadcrumb-item active">Contacto</li>
+              <li class="breadcrumb-item active">Contacto{{ this.NameContactEdit == null ? "" : " - " + this.NameContactEdit }}</li>
             </ol>
           </div>
         </div>
@@ -34,12 +34,13 @@
       <div class="row">
         <div class="col-md-6">
           <profile-component :id="+this.ProfileId"
-            :contactId="this.refContactId"
+            :contactId="+this.refContactId"
+            @get-name="NameContactEdit = $event"
             ref="profileComponent"></profile-component>
         </div>
         <div class="col-md-6">
           <contacts-component
-            :id="this.refContactId"
+            :id="+this.refContactId"
             :addressId="this.addressId"
             :typeContact="2"
             @get-addressId="addressId = $event"
@@ -64,13 +65,17 @@
 </template>
 
 <script>
+import ContactVendor from "../../../providers/ContactVendor";
+import Profile from "../../../providers/Profile";
+import Vendor from '../../../providers/Vendor';
+
 import AddressComponent from '../../../components/Address/addressComponent.vue';
 import ContactsComponent from '../../../components/Contacts/contactsComponent.vue';
 import ProfileComponent from '../../../components/Profile/ProfileComponent.vue';
 
-import Vendor from '../../../providers/Vendor';
-
 const vendorResource = new Vendor();
+const profileResource = new Profile();
+const contactVendorResource = new ContactVendor();
 
 export default {
   components: { ProfileComponent, ContactsComponent, AddressComponent },
@@ -91,6 +96,9 @@ export default {
       refContactId: 0,
       
       vendor: null,
+      profile: null,
+
+      NameContactEdit: null,
     };
   },
   watch: {
@@ -98,12 +106,15 @@ export default {
       this.newContact = this.contactId == null;
     },
   },
-  async created() {
+  async mounted() {
     this.newContact = this.contactId == undefined;
-    if (!this.newContact){
-      this.refContactId = +this.contactId;
+    if (this.newContact){
+      await this.getVendor();
     }
-    await this.getVendor();
+    else{
+      this.refContactId = +this.contactId;
+      await this.getProfile();
+    }
   },
   methods:{
     async saveContent() {
@@ -129,9 +140,52 @@ export default {
         return;
       }
 
-      setTimeout(()=>{
-        this.$refs.profileComponent.saveProfile();
-      }, 1500);
+      if (this.newContact){
+        await this.saveContactVendor();
+      }
+
+      setTimeout(async () => {
+        await this.$refs.profileComponent.saveProfile();
+        this.$router.push({
+          name: 'editContactsVendor',
+          params: { id: +this.id, contactId: +this.refContactId },
+        });
+      }, 3000);
+    },
+    getContactVendorForm() {
+      return {
+        contact_id: +this.refContactId,
+        vendor_id: +this.id,
+      };
+    },
+    async saveContactVendor(){
+      try {
+        var response = (await contactVendorResource.createContactVendor(this.getContactVendorForm())).data;
+      } catch (error) {
+        this.$swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            toast: true,
+            position: 'top',
+            timer: 5000,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            text: 'Disculpe tuvimos un error para guardar relación del contacto.',
+        })
+      }
+    },
+    async getProfile() {
+      var response = (await profileResource.getProfileByContactId(this.refContactId)).data;
+      if (!response.success) {
+        // this.error.push("Error al obtener perfil.");
+        return;
+      }
+      this.profile = response.data;
+      if (this.profile == "") {
+        // this.profileErrors.push("Perfil no existe.");
+        return;
+      }
+      this.ProfileId = this.profile.id;
     },
     async getVendor() {
       var response = (await vendorResource.getVendor(this.id)).data;

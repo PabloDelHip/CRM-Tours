@@ -166,7 +166,6 @@ export default {
       phonesContact: [ "", ],
     };
   },
-  created() {},
   watch: {
     id: function(val) {
       this.newContact = this.id == null;

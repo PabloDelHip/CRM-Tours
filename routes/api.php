@@ -84,6 +84,7 @@ Route::group([
 ], function () {
     // Profiles
     Route::get('/{id}', 'ProfilesController@getProfile');
+    Route::get('/bycontact/{id}', 'ProfilesController@getProfileByContactId');
     Route::post('/create', 'ProfilesController@post');
     Route::put('/update/{id}', 'ProfilesController@put');
     Route::get('/type/{type}', 'ProfilesController@getProfiles');
@@ -117,6 +118,15 @@ Route::group([
     Route::post('/users/restore-password', 'UsersController@restorePassword');
     Route::get('/users/get-token-password/{token?}', 'UsersController@getTokenPassword');
     Route::put('/users/update-password/{token?}', 'UsersController@updatePassword');
+});
+
+// Contacts Vendors
+Route::group([
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/contactsvendors'
+], function () {
+    Route::get('/vendorId/{id}', 'ContactsVendorsController@getContactsByVendorId');
+    Route::post('/create', 'ContactsVendorsController@post');
 });
 
 // Vendors
