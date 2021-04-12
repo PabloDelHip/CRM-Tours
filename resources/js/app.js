@@ -20,6 +20,8 @@ import VModal from 'vue-js-modal'
 import 'vue-datetime/dist/vue-datetime.css'
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
+import VueLodash from 'vue-lodash'
+import lodash from 'lodash'
 moment.tz.setDefault('America/Cancun')
 moment.locale('es');
 
@@ -36,6 +38,7 @@ Vue.use(VueMoment, {
 })
 Vue.use(VModal, { dynamicDefault: { draggable: true, resizable: true } })
 Vue.component('multiselect', Multiselect);
+Vue.use(VueLodash, { name: 'custom' , lodash: lodash })
 
 /**
  * The following block of code may be used to automatically register your

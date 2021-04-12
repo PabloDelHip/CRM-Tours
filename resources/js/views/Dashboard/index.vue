@@ -1,5 +1,6 @@
 <template>
       <div class="wrapper">
+        <modal-add-cases-component ref="modalAddCasesComponent"></modal-add-cases-component>
           <!-- Navbar -->
           <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -31,10 +32,10 @@
             <ul class="navbar-nav ml-auto">
               <!-- Messages Dropdown Menu -->
               <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                  <i class="far fa-comments"></i>
-                  <span class="badge badge-danger navbar-badge">3</span>
-                </a>
+                <button @click="$refs.modalAddCasesComponent.openModal();" type="button" class="btn btn-block btn-primary btn-sm">
+                  <i class="fas fa-tasks"></i>
+                  CASOS
+                </button>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                   <a href="#" class="dropdown-item">
                     <!-- Message Start -->
@@ -293,10 +294,15 @@
     
     import Auth from '../../providers/Auth';
     import UserPermission from "../../providers/UserPermission";
+    import modalAddCasesComponent from '../../components/Cases/modalAddCasesComponent';
+
     const AuthResourse = new Auth();
     const userPermissionResource = new UserPermission();
     
     export default {
+      components: {
+            modalAddCasesComponent
+        },
         data(){
           return{
           usuarioActual: null,

@@ -15,13 +15,16 @@ class NotesController extends Controller
         $notes = null;
         switch ($entity) {
             case 'users':
-                $notes = Note::where('user_profile_id', $id_user_profile)->orderBy('id', 'DESC')->get();
+                $notes = Note::with('user.profile')
+                            ->where('user_profile_id', $id_user_profile)->orderBy('id', 'DESC')->get();
                 break;
             case 'customers':
-                $notes = Note::where('customer_id', $id_user_profile)->orderBy('id', 'DESC')->get();
+                $notes = Note::with('user.profile')
+                            ->where('customer_id', $id_user_profile)->orderBy('id', 'DESC')->get();
                 break;
             case 'vendors':
-                    $notes = Note::where('vendor_id', $id_user_profile)->orderBy('id', 'DESC')->get();
+                    $notes = Note::with('user.profile')
+                                ->where('vendor_id', $id_user_profile)->orderBy('id', 'DESC')->get();
                     break;
         }
         if(!$notes)
@@ -32,10 +35,6 @@ class NotesController extends Controller
             ], 204);
         }
         
-        foreach ($notes as $note) {
-            $note->user = User::find($note->user_id);
-            $note->user->profile = $note->user->profile;
-        }
         return response()->json([
             'succes' => true,
             'message' => 'si tiene notas',

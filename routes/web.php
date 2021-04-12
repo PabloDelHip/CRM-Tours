@@ -45,5 +45,8 @@ Route::get('/vendors', ['as' => 'vendors', 'uses' => 'HomeController@index']);
 Route::get('/vendors/list', ['as' => 'vendors/list', 'uses' => 'HomeController@index']);
 Route::get('vendors/profile/{id}', ['as' => 'profile', 'uses' => 'HomeController@index']);
 
+//Cases
+Route::get('/cases/history/{id_case}', ['as' => 'vendors', 'uses' => 'HomeController@index']);
+
 //Dashboard
 Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);

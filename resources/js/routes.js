@@ -3,6 +3,9 @@ import Router from "vue-router";
 
 Vue.use(Router);
 
+//Index
+import Index from './views/index.vue' 
+
 // Login section
 import Login from "./views/Login/LoginComponent.vue";
 import RestablecerContrasena from "./views/Login/RestorePassword.vue";
@@ -31,6 +34,9 @@ import NotAuthorized from "./views/Error/NotAuthorized.vue";
 import Vendors from './views/vendors/index.vue'
 import VendorsList from './views/vendors/listView.vue'
 import VendorsProfile from './views/vendors/profile.vue'
+
+//Case section
+import CasesHistory from './views/Cases/timeLineView.vue'
 
 export default new Router({
     linkExactActiveClass: "active",
@@ -129,6 +135,19 @@ export default new Router({
                     path: "profile/:id",
                     name: "profileVendor",
                     component: VendorsProfile,
+                    props: true
+                }
+            ]
+        },
+        {
+            path: "/cases",
+            name: "cases",
+            component: Index,
+            children:[
+                {
+                    path: "history/:id_case",
+                    name: "caseHistory",
+                    component: CasesHistory,
                     props: true
                 }
             ]
