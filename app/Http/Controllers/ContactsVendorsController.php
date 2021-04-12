@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contact_Vendor;
+use DB;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 
 class ContactsVendorsController extends Controller
@@ -11,12 +12,12 @@ class ContactsVendorsController extends Controller
   public function getContactsByVendorId($id)
   {
     try{
-      $contacts = Contact_Vendor::select('profiles.*')
+      $contacts = Contact_Vendor::select("profiles.*", DB::raw("users.id IS NOT NULL AS WithUser"))
                 ->join('profiles', 'profiles.contact_id', '=', 'contacts_vendors.contact_id')
-                ->where('vendor_id', $id)->get();
+                ->leftjoin('users', 'users.contact_id', '=', 'contacts_vendors.contact_id')
+                ->where('contacts_vendors.vendor_id', $id)->get();
 
       foreach ($contacts as $contact) {
-        $contact->contact;
         $contact->contact;
       }
       return response()->json([

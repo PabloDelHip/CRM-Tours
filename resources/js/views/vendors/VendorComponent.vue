@@ -14,8 +14,11 @@
                 </router-link>
               </li>
               <li class="breadcrumb-item">
-                <router-link :to="{ name: 'ListVendor' }">
+                <router-link v-if="this.id == undefined" :to="{ name: 'ListVendor' }">
                   Agencias
+                </router-link>
+                <router-link v-else :to="{ name: 'profileVendor', params: { id: +this.id } }">
+                  Perfil
                 </router-link>
               </li>
               <li class="breadcrumb-item active">Agencia {{ this.NameVendorEdit == null ? "" : " - " + this.NameVendorEdit }}</li>

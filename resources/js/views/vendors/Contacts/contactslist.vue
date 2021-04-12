@@ -78,10 +78,11 @@
                           }"
                         >
                           <i class="fas fa-pencil-alt"> </i>
-                        </router-link>
-                          <a class="btn btn-warning btn-sm" @click="$refs.userModalFormComponent.openModalForm(+contact.contact_id, +contact.id);">
-                            <i class="fas fa-user"></i>
-                          </a>
+                        </router-link >
+                        <a v-if="!contact.WithUser"
+                        class="btn btn-warning btn-sm" @click="$refs.userModalFormComponent.openModalForm(+contact.contact_id, +contact.id);">
+                          <i class="fas fa-user"></i>
+                        </a>
                       </div>
                     </td>
                   </tr>

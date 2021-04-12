@@ -70,7 +70,7 @@
                           class="btn btn-primary btn-sm"
                           :to="{
                             name: 'profileVendor',
-                            params: { id: vendor.id },
+                            params: { id: +vendor.id },
                           }"
                         >
                           <i class="far fa-eye"></i>
