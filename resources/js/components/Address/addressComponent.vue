@@ -29,7 +29,7 @@
           name="street"
           class="form-control"
           v-model="street"
-          placeholder=""
+          :disabled="this.readOnly"
         />
       </div>
       <div class="form-group col-6">
@@ -39,7 +39,7 @@
           name="street1"
           class="form-control"
           v-model="street1"
-          placeholder=""
+          :disabled="this.readOnly"
         />
       </div>
       <div class="form-group col-6">
@@ -49,7 +49,7 @@
           name="street2"
           class="form-control"
           v-model="street2"
-          placeholder=""
+          :disabled="this.readOnly"
         />
       </div>
       <div class="form-group col-4">
@@ -59,7 +59,7 @@
           name="references"
           class="form-control"
           v-model="references"
-          placeholder=""
+          :disabled="this.readOnly"
         />
       </div>
       <div class="form-group col-4">
@@ -69,7 +69,7 @@
           name="suburb"
           class="form-control"
           v-model="suburb"
-          placeholder=""
+          :disabled="this.readOnly"
         />
       </div>
       <div class="form-group col-4">
@@ -80,7 +80,7 @@
           class="form-control no-arrow"
           min="0"
           v-model.number="postalCode"
-          placeholder=""
+          :disabled="this.readOnly"
         />
       </div>
       <div class="form-group col-6">
@@ -91,7 +91,7 @@
           class="form-control no-arrow"
           min="0"
           v-model.number="interiorNumber"
-          placeholder=""
+          :disabled="this.readOnly"
         />
       </div>
       <div class="form-group col-6">
@@ -102,7 +102,7 @@
           class="form-control no-arrow"
           min="0"
           v-model.number="exteriorNumber"
-          placeholder=""
+          :disabled="this.readOnly"
         />
       </div>
       <div class="form-group col-4">
@@ -116,6 +116,7 @@
           :searchable="true"
           :show-labels="false"
           placeholder="Seleccionar un pais"
+          :disabled="this.readOnly"
         >
         </multiselect>
       </div>
@@ -130,6 +131,7 @@
           :searchable="true"
           :show-labels="false"
           placeholder="Seleccionar un estado"
+          :disabled="this.readOnly"
         >
         </multiselect>
       </div>
@@ -143,6 +145,7 @@
           :searchable="true"
           :show-labels="false"
           placeholder="Seleccionar una ciudad"
+          :disabled="this.readOnly"
         >
         </multiselect>
       </div>
@@ -162,6 +165,10 @@ export default {
   props: {
     id: {
       type: Number,
+      required: false,
+    },
+    readOnly: {
+      type: Boolean,
       required: false,
     },
   },
