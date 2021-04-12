@@ -38,8 +38,8 @@
       <!-- Bootstrap -->
     <script src="{{url('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- jquery-validation -->
-    <script src="../../plugins/jquery-validation/jquery.validate.min.js"></script>
-    <script src="../../plugins/jquery-validation/additional-methods.min.js"></script>
+    <script src="{{url('/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{url('/plugins/jquery-validation/additional-methods.min.js')}}"></script>
 
       <!-- OPTIONAL SCRIPTS -->
     <script src="{{url('plugins/chart.js/Chart.min.js')}}"></script>

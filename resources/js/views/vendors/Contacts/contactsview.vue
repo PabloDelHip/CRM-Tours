@@ -50,6 +50,7 @@
         <div class="col-md-6">
           <address-component
             :id="+this.addressId"
+            :readOnly="true"
             ref="addressComponent"
           ></address-component>
         </div>
@@ -126,14 +127,14 @@ export default {
         return;
       }
       
-      const saveContactResponse = await this.$refs.contactComponent.saveContact();
+      const saveContactResponse = await this.$refs.contactComponent.saveContact(this.addressId);
       if (saveContactResponse.success) {
         this.refContactId = saveContactResponse.data.id;
       } else {
         return;
       }
       
-      var saveProfileResponse = await this.$refs.profileComponent.saveProfile();
+      var saveProfileResponse = await this.$refs.profileComponent.saveProfile(this.refContactId);
       if (saveProfileResponse.success) {
         this.ProfileId = saveProfileResponse.data.id;
       } else {
@@ -145,7 +146,6 @@ export default {
       }
 
       setTimeout(async () => {
-        await this.$refs.profileComponent.saveProfile();
         this.$router.push({
           name: 'editContactsVendor',
           params: { id: +this.id, contactId: +this.refContactId },

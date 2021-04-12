@@ -122,11 +122,14 @@ export default {
         contact_id: +this.contactId,
       };
     },
-    async saveProfile() {
+    async saveProfile(contactId) {
       this.profileErrors = [];
       var response = null;
 
       let formData = this.getProfileForm();
+      if (formData.contact_id == null || formData.contact_id == 0){
+        formData.contact_id = contactId;
+      }
       if (this.newProfile) {
         response = await this.saveNewProfile(formData);
       } else {
