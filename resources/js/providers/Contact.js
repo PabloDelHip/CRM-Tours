@@ -19,4 +19,8 @@ export default class Contact {
     updateContact(id, formData) {
         return axios.put(`/api/v1/contact/update/${id}`, formData);
     }
+
+    UpdateStatusContact(id_user, status) {
+        return axios.put(`/api/v1/contact/block/${id_user}/${status}`)
+    }
 }

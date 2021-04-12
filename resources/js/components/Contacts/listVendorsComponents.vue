@@ -22,20 +22,20 @@
                     <td v-if="contact.status" class="text-center">
                         <span class="right badge badge-success text-center">Activo</span>
                     </td>
-                    <td v-else>
+                    <td v-else class="text-center">
                         <span class="right badge badge-danger">Inactivo</span>
                     </td>
                     <td class="table-actions">
-                        <router-link class="btn btn-primary btn-sm" :to="{ name:'profileVendor'}">
+                        <router-link class="btn btn-primary btn-sm" :to="{ name: 'perfilUsuario', params: { id: contact.id } }" >
                             <i class="far fa-eye"></i>
                         </router-link>
-                        <a class="btn btn-info btn-sm" @click="$refs.modalFormComponent.openModal(vendor.id);" href="#">
-                            <i class="fas fa-pencil-alt"></i>
-                        </a>
-                        <a v-if="contact.status" href="#" class="btn btn-danger btn-sm">
+                         <router-link class="btn btn-info btn-sm" :to="{ name: 'EditUser', params: { id: contact.id } }">
+                            <i class="fas fa-pen"></i>
+                        </router-link>
+                        <a v-if="contact.status"  href="#" @click="updateStatus(contact.id, false)" class="btn btn-danger btn-sm">
                             <i class="fas fa-ban"></i>
                         </a>
-                        <a v-else href="#" class="btn btn-success btn-sm">
+                        <a v-else href="#" @click="updateStatus(contact.id, true)" class="btn btn-success btn-sm">
                             <i class="fas fa-check-circle"></i>
                         </a>
                     </td>
@@ -49,22 +49,27 @@
 <script>
     
     import Contact from '../../providers/Contact';
-
     const contactResourse = new Contact();
 
     export default {
         props: ['id_vendor'],
         data () {
             return {
-                contacts: []
+                contacts: [],
+                modalEdit: false
             }
         },
-        methods: { 
+        methods: {
+            async updateStatus(id_user,status) {
+                try {
+                    await contactResourse.UpdateStatusContact(id_user, status)
+                    this.getContactVendor();
+                } catch (error) {}
+            },
             async getContactVendor() {
                 try {
                     this.contacts = await contactResourse.getContactVendors(this.id_vendor)
                     this.contacts = this.contacts.data.contacts;
-                    this.createTable()
                 } catch (error) {}
             },
             createTable () {
@@ -97,8 +102,9 @@
             })
             }
         },
-        mounted () {
-            this.getContactVendor();
+        async mounted () {
+            await this.getContactVendor();
+            this.createTable()
         }
     }
 </script>

@@ -88,7 +88,8 @@ Route::group([
     'prefix' => 'v1/cases/'
 
 ], function () {
-    
+
+    Route::get('get/{id_case}', 'CaseController@getCase');
     Route::post('create', 'CaseController@updateOrCreateCase');
     Route::get('get/vendor/{id_vendor}', 'CaseController@getListVendor');
     Route::put('update/{id_case}', 'CaseController@updateOrCreateCase');

@@ -11001,3 +11001,9 @@ div.contenedor-notas {
   display: inherit;
 }
 
+div.contenedor-case-history {
+  background: #fff;
+  height: 500px;
+  overflow: auto;
+}
+

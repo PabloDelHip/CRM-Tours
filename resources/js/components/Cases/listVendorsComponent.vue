@@ -1,8 +1,6 @@
 <template>
     <div class="card-body">
-        <!--<pre>
-            {{ cases }}
-        </pre> -->
+        <modal-update-cases-component :_id_case="id_case" ref="modalUpdateCasesComponent" @onRefreshTable="getCasesVendor()"></modal-update-cases-component>
         <table id="tableCase" class="table table-bordered table-striped table-responsive">
             <thead>
                 <tr>
@@ -25,22 +23,22 @@
                     <td v-if="_case.status" class="text-center">
                         <span class="right badge badge-success text-center">Abierto</span>
                     </td>
-                    <td v-else>
+                    <td v-else class="text-center">
                         <span class="right badge badge-danger">Cerrado</span>
                     </td>
                     <td class="table-actions">
-                        <router-link class="btn btn-primary btn-sm" :to="{ name:'profileVendor'}">
+                        <button class="btn btn-primary btn-sm"  style="display: inline">
                             <i class="far fa-eye"></i>
-                        </router-link>
-                        <a class="btn btn-info btn-sm" @click="$refs.modalFormComponent.openModal(vendor.id);" href="#">
+                        </button>
+                        <button v-if="_case.status" class="btn btn-info btn-sm" @click=" id_case = _case.id, $refs.modalUpdateCasesComponent.openModal();">
                             <i class="fas fa-pencil-alt"></i>
-                        </a>
-                        <a v-if="_case.status" href="#" class="btn btn-danger btn-sm">
+                        </button>
+                        <button v-if="_case.status" href="#" @click="updateStatusCase(_case.id, false)" class="btn btn-danger btn-sm">
                             <i class="fas fa-lock"></i>
-                        </a>
-                        <a v-else href="#" class="btn btn-success btn-sm">
+                        </button>
+                        <button  v-else @click="updateStatusCase(_case.id, true)" class="btn btn-success btn-sm">
                             <i class="fas fa-lock-open"></i>
-                        </a>
+                        </button>
                     </td>
                 </tr>
             </tbody>
@@ -51,14 +49,19 @@
 
 <script>
     import Case from '../../providers/Case';
+    import modalUpdateCasesComponent from '../../components/Cases/modadUpdateCasesComponent';
 
     const caseResourse = new Case();
 
     export default {
         props: ['id_vendor'],
+        components: {
+            modalUpdateCasesComponent
+        },
         data () {
             return {
-                cases: []
+                cases: [],
+                id_case: ''
             }
         },
         methods: { 
@@ -66,9 +69,15 @@
                 try {
                     this.cases = await caseResourse.getListCaseVendor(this.id_vendor)
                     this.cases = this.cases.data.cases;
-                    this.createTable()
+                    
                 } catch (error) {
                 }
+            },
+            async updateStatusCase(id_case, status) {
+                try {
+                    await caseResourse.updateStatusCase(id_case, status)
+                    this.getCasesVendor();
+                } catch (error) {}
             },
             createTable () {
                 $(function () {
@@ -100,8 +109,9 @@
             })
             }
         },
-        mounted () {
-            this.getCasesVendor();
+        async mounted () {
+            await this.getCasesVendor();
+            this.createTable()
         }
     }
 </script>

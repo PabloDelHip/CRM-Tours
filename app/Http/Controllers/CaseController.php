@@ -7,6 +7,34 @@ use App\Cases;
 
 class CaseController extends Controller
 {
+
+    public function getCase($id_case) {
+        try {
+            $cases = Cases::where('id', $id_case)
+                            ->with('vendor')
+                            ->with('user.profile')->get()->first();
+            if($cases) {
+                return response()->json([
+                    'succes' => true,
+                    'message' => 'Caso seleccionado de forma correcta',
+                    'data' => $cases
+                ], 200);
+            }
+            else {
+                return response()->json([
+                    'succes' => false,
+                    'message' => 'La consulta fue correcta pero no hay datos',
+                ], 204);
+            }
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'Error al guardar el caso',
+                'err' => $err->getMessage()
+            ], 500);
+        }
+    }
+
     public function updateOrCreateCase($id_case = 0, Request $request) {
         try {
             $validator = Validator::make($request->all(), [
