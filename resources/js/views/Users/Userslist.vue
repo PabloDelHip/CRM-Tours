@@ -170,7 +170,12 @@ export default {
     },
     async obtenerUsuarios() {
       try {
-        var response = (await userResource.getUsers()).data;
+        var response = null;
+        if (this.user.vendor_id == null){
+          response = (await userResource.getUsers()).data;
+        }else{
+          response = (await userResource.getByVendorId(this.user.vendor_id)).data;
+        }
         if (response.success) {
           this.users = response.data;
           $("#usersTable")

@@ -60,6 +60,10 @@ router.beforeEach(async(to, from, next) => {
 });
 
 async function hasAccess(to) {
+    var user = null;
+    if (await existToken()) {
+        user = JSON.parse(await getUser()).user;
+    }
     switch (to.name) {
         case 'Overview':
             return true;
@@ -77,7 +81,7 @@ async function hasAccess(to) {
                 case 'CreateUser':
                     return permission.permission.create;
                 case 'EditUser':
-                    return permission.permission.update || to.params.id == JSON.parse(await getUser()).user.id;
+                    return permission.permission.update || user.id;
             }
             break;
         case 'permisosUser':
@@ -87,6 +91,40 @@ async function hasAccess(to) {
             }
             permission = permission.data;
             return permission.permission.read;
+        case 'ListVendor':
+        case 'CreateVendor':
+        case 'EditVendor':
+            var permission = await getPermissionModule("Agencias");
+            if (!permission.success) {
+                return false;
+            }
+            permission = permission.data;
+            switch (to.name) {
+                case 'ListVendor':
+                    if (user.vendor_id != null) {
+                        return false;
+                    }
+                    return permission.permission.read;
+                case 'CreateVendor':
+                    if (user.vendor_id != null) {
+                        return false;
+                    }
+                    return permission.permission.create;
+                case 'EditVendor':
+                    if (user.vendor_id != null && to.params.id != user.vendor_id) {
+                        return false;
+                    }
+                    return permission.permission.update;
+            }
+            break;
+        case 'profileVendor':
+        case 'listContactsVendor':
+        case 'createContactsVendor':
+        case 'editContactsVendor':
+            if (user.vendor_id != null && to.params.id != user.vendor_id) {
+                return false;
+            }
+            break;
         case 'error':
         case 'internalError':
         case 'notfound':

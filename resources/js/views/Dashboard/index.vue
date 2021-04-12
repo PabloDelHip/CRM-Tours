@@ -242,11 +242,21 @@
                       </p>
                     </router-link>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" v-if="user.vendor_id == null">
                      <router-link class="nav-link" :to="{ name:'ListVendor'}">
                         <i class="fas fa-store"></i>
                         <p>
                           Agencias
+                        </p>
+                     </router-link>
+                  </li>
+                  <li class="nav-item" v-else>
+                     <router-link class="nav-link" :to="{ 
+                        name: 'profileVendor',
+                        params: { id: user.vendor_id },}">
+                        <i class="fas fa-store"></i>
+                        <p>
+                          Agencia
                         </p>
                      </router-link>
                   </li>
