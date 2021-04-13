@@ -110,15 +110,13 @@ export default {
       if (!saveUserResponse.success) {
         return;
       }
-
-      if (this.newUser) {
-        await setTimeout(async () => {
-          this.$router.push({
-            name: "EditUser",
-            params: { id: +saveUserResponse.data.id },
-          });
-        }, 3000);
-      }
+      
+      setTimeout(() => {
+        this.$router.push({
+          name: "permisosUser",
+          params: { id: +saveUserResponse.data.id },
+        });
+      }, 3000);
     },
   },
 };

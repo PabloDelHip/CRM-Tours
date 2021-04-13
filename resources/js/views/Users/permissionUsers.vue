@@ -3,7 +3,7 @@
     <section class="content-header">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Permisos Usuarios</h1>
+            <h1>Permisos Usuarios{{ this.NameUserEdit == null ? "" : " - " + this.NameUserEdit }}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -17,7 +17,7 @@
                 Usuarios
                 </router-link>
               </li>
-              <li class="breadcrumb-item active">Permisos Usuarios</li>
+              <li class="breadcrumb-item active">Permisos Usuarios{{ this.NameUserEdit == null ? "" : " - " + this.NameUserEdit }}</li>
             </ol>
           </div>
         </div>
@@ -121,6 +121,9 @@
 
 <script>
 import UserPermissions from "../../providers/UserPermission";
+import User from "../../providers/User";
+
+const UserResource = new User();
 const userPermissionResource = new UserPermissions();
 
 const NameModule = "Permisos";
@@ -136,6 +139,8 @@ export default {
     return {
       permissions: "",
       permissionPermission: [],
+
+      NameUserEdit: null,
     };
   },
   computed: {
@@ -148,8 +153,25 @@ export default {
       return;
     }
     this.obtenerPermisos();
+    this.getUser();
   },
   methods: {
+    async getUser() {
+      var response = (await UserResource.getUser(this.id)).data;
+      if (!response.success) {
+        this.showError("Error al obtener usuario.");
+        return false;
+      }
+      var user = response.data;
+      if (this.user == "" || this.user == null) {
+        this.showError("Usuario no existe.");
+        return false;
+      }
+
+      this.NameUserEdit = user.profile.name + " " + user.profile.last_name;
+
+      return true;
+    },
     async getPermission() {
       var response = (await userPermissionResource.UserPermissionsByModule(this.user.id, NameModule)).data;
       if (!response.success){

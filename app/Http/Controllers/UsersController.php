@@ -24,7 +24,7 @@ class UsersController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Usuarios encontrados de forma correcta',
+            'message' => 'Usuario encontrado de forma correcta',
             'data' => $user
         ], 200);
     }

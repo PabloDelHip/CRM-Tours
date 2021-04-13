@@ -82,11 +82,12 @@
 import ContactsComponent from "../../components/Contacts/contactsComponent.vue";
 import ProfileComponent from "../../components/Profile/ProfileComponent.vue";
 import AddressComponent from '../../components/Address/addressComponent.vue';
+import UsersComponent from '../../components/Users/usersComponent.vue';
+
 import {
   ValidationProvider,
   ValidationObserver,
 } from "vee-validate/dist/vee-validate.full";
-import UsersComponent from '../../components/Users/usersComponent.vue';
 
 export default {
   name: "create-user-component",
