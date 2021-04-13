@@ -218,4 +218,23 @@ class UsersController extends Controller
             ], 500);
         }
     }
+
+    public function getUsersVendors($vendorId) {
+        try {
+            $users = User::with('profile')
+                    ->where('status', true)
+                    ->where('vendor_id', $vendorId)->get();
+            return response()->json([
+                'succes' => true,
+                'message' => 'Usuarios seleccionados de forma correcta',
+                'users' => $users
+            ], 200);
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'Error al seleccionar usuarios',
+                'err' => $err->getMessage()
+            ], 500);
+        }
+    }
 }

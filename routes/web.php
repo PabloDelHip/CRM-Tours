@@ -50,5 +50,8 @@ Route::get('/vendors/contacts/{id}/create', ['as' => 'vendors/contacts/create', 
 Route::get('/vendors/contacts/{id}/edit/{contactId}', ['as' => 'vendors/contacts/edit', 'uses' => 'HomeController@index']);
 Route::get('vendors/profile/{id}', ['as' => 'profile', 'uses' => 'HomeController@index']);
 
+//Cases
+Route::get('/cases/history/{id_case}', ['as' => 'vendors', 'uses' => 'HomeController@index']);
+
 //Dashboard
 Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);

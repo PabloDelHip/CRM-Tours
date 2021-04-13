@@ -30,6 +30,7 @@ Route::group([
     Route::post('/create', 'UsersController@post');
     Route::put('/put/{userId}', 'UsersController@put');
     Route::get('/delete/{id}', 'UsersController@deleteUsers');
+    Route::get('/vendors/{vendorId}/list', 'UsersController@getUsersVendors');
 });
 
 Route::group([
@@ -79,6 +80,34 @@ Route::group([
     Route::delete('delete/{id_customer}', 'CustomerController@deleteCustomer');
 });
 
+//Cases
+Route::group([
+
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/cases/'
+
+], function () {
+
+    Route::get('get/{id_case}', 'CaseController@getCase');
+    Route::post('create', 'CaseController@updateOrCreateCase');
+    Route::get('get/vendor/{id_vendor}', 'CaseController@getListVendor');
+    Route::put('update/{id_case}', 'CaseController@updateOrCreateCase');
+    Route::put('{id}/status/{status}', 'CaseController@updateStatus');
+});
+
+//Cases History
+Route::group([
+
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/cases/history/'
+
+], function () {
+    
+    Route::get('get/{id_case}', 'CasesHistoryController@getList');
+    Route::post('create', 'CasesHistoryController@updateOrCreateCase');
+    Route::put('update/{id_case_history}', 'CasesHistoryController@updateOrCreateCase');
+});
+
 Route::group([
     'middleware' => ['jwt.auth'],
     'prefix' => 'v1/profile'
@@ -99,6 +128,8 @@ Route::group([
     Route::get('/{id}', 'ContactsController@getContact');
     Route::post('/create', 'ContactsController@post');
     Route::put('/update/{id}', 'ContactsController@put');
+    Route::get('/vendors/{id_vendor}', 'ContactsController@getListContactsVendor');
+    Route::put('/block/{id}/{status}', 'ContactsController@putBlock');
 });
 
 Route::group([

@@ -43,6 +43,10 @@ export default class User {
         return axios.post(`/api/v1/users/restore-password`, $email);
     }
 
+    getUserVendor(id) {
+        return axios.get(`/api/v1/users/vendors/${id}/list`)
+    }
+
     /**
      * Function to Get Token Password
      * @return Promise
