@@ -13,6 +13,7 @@ export const SET_CURRENT_USER = ({ commit }, jwt) => {
                         full_name: data_user.profile.name + " " + data_user.profile.last_name,
                         email: data_user.email,
                         level: data_user.level,
+                        vendor_id: data_user.vendor_id,
                         profile: data_user.profile,
                     },
                 });
