@@ -27,9 +27,16 @@
                         <span class="right badge badge-danger">Cerrado</span>
                     </td>
                     <td class="table-actions">
-                        <button class="btn btn-primary btn-sm"  style="display: inline">
-                            <i class="far fa-eye"></i>
-                        </button>
+                        <router-link
+                            class="btn btn-primary btn-sm"
+                            style="display: inline"
+                          :to="{
+                            name: 'caseHistory',
+                            params: { id_case: _case.id },
+                          }"
+                        >
+                          <i class="far fa-eye"></i>
+                        </router-link>
                         <button v-if="_case.status" class="btn btn-info btn-sm" @click=" id_case = _case.id, $refs.modalUpdateCasesComponent.openModal();">
                             <i class="fas fa-pencil-alt"></i>
                         </button>

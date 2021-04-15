@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0dd64179dc3be123aad75f7edfa18a11
+class ComposerStaticInitff738b5f43fa1d0d4c977ea441118265
 {
     public static $files = array (
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
@@ -664,7 +664,6 @@ class ComposerStaticInit0dd64179dc3be123aad75f7edfa18a11
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
         'CasesHistorySeeder' => __DIR__ . '/../..' . '/database/seeds/CasesHistorySeeder.php',
         'CategorieVendorSeeder' => __DIR__ . '/../..' . '/database/seeds/CategorieVendorSeeder.php',
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'ContactSeeder' => __DIR__ . '/../..' . '/database/seeds/ContactSeeder.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/CronExpression.php',
@@ -4796,6 +4795,7 @@ class ComposerStaticInit0dd64179dc3be123aad75f7edfa18a11
         'Symfony\\Component\\EventDispatcher\\Debug\\TraceableEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php',
         'Symfony\\Component\\EventDispatcher\\Debug\\WrappedListener' => __DIR__ . '/..' . '/symfony/event-dispatcher/Debug/WrappedListener.php',
         'Symfony\\Component\\EventDispatcher\\DependencyInjection\\AddEventAliasesPass' => __DIR__ . '/..' . '/symfony/event-dispatcher/DependencyInjection/AddEventAliasesPass.php',
+        'Symfony\\Component\\EventDispatcher\\DependencyInjection\\ExtractingEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/DependencyInjection/RegisterListenersPass.php',
         'Symfony\\Component\\EventDispatcher\\DependencyInjection\\RegisterListenersPass' => __DIR__ . '/..' . '/symfony/event-dispatcher/DependencyInjection/RegisterListenersPass.php',
         'Symfony\\Component\\EventDispatcher\\EventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/EventDispatcher.php',
         'Symfony\\Component\\EventDispatcher\\EventDispatcherInterface' => __DIR__ . '/..' . '/symfony/event-dispatcher/EventDispatcherInterface.php',
@@ -5165,6 +5165,7 @@ class ComposerStaticInit0dd64179dc3be123aad75f7edfa18a11
         'Symfony\\Component\\Routing\\Loader\\GlobFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/GlobFileLoader.php',
         'Symfony\\Component\\Routing\\Loader\\ObjectLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/ObjectLoader.php',
         'Symfony\\Component\\Routing\\Loader\\PhpFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/PhpFileLoader.php',
+        'Symfony\\Component\\Routing\\Loader\\ProtectedPhpFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/PhpFileLoader.php',
         'Symfony\\Component\\Routing\\Loader\\XmlFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/XmlFileLoader.php',
         'Symfony\\Component\\Routing\\Loader\\YamlFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/YamlFileLoader.php',
         'Symfony\\Component\\Routing\\Matcher\\CompiledUrlMatcher' => __DIR__ . '/..' . '/symfony/routing/Matcher/CompiledUrlMatcher.php',
@@ -5567,10 +5568,10 @@ class ComposerStaticInit0dd64179dc3be123aad75f7edfa18a11
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0dd64179dc3be123aad75f7edfa18a11::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0dd64179dc3be123aad75f7edfa18a11::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit0dd64179dc3be123aad75f7edfa18a11::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit0dd64179dc3be123aad75f7edfa18a11::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitff738b5f43fa1d0d4c977ea441118265::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitff738b5f43fa1d0d4c977ea441118265::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitff738b5f43fa1d0d4c977ea441118265::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitff738b5f43fa1d0d4c977ea441118265::$classMap;
 
         }, null, ClassLoader::class);
     }

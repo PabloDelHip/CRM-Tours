@@ -15,7 +15,8 @@ class CasesHistoryController extends Controller
             $validator = Validator::make($request->all(), [
                 'information' => 'required',
                 'status' => 'required',
-                'case_id' => 'required|numeric'
+                'case_id' => 'required|numeric',
+                'user_id' => 'required|numeric'
             ]);
     
             if($validator->fails())
@@ -32,7 +33,8 @@ class CasesHistoryController extends Controller
                 [
                     'information' => $request->information,
                     'status' => $status,
-                    'case_id' => $request->case_id
+                    'case_id' => $request->case_id,
+                    'user_id' => $request->user_id
                 ]
             );
 
@@ -65,6 +67,7 @@ class CasesHistoryController extends Controller
             $caseDate = [];
             $acum = 0;
             $cases_history = CasesHistory::with('cases')
+            ->with('user.profile')
             ->where('case_id', $id_case)
             ->where('status', true)
             ->orderBy('id', 'DESC')->get();
