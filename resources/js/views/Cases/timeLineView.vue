@@ -5,7 +5,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Historial {{this.case_title}}</h1>
+                    <h1>Historial {{this.case.title}}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -20,7 +20,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <time-line-component :id_case="id_case"></time-line-component>
+                    <time-line-component :id_case="id_case" :status_case="status_case"></time-line-component>
                 </div>
             </div>
         </section>
@@ -42,14 +42,17 @@
         },
         data () {
             return {
-                case_title: '',
+                case: [],
+                status_case: ''
             }
         },
         methods: {
             async getCase() {
                 console.log(this.id_case)
-                this.case_title = await caseResourse.getCase(this.id_case)
-                this.case_title = this.case_title.data.data.title
+                this.case = await caseResourse.getCase(this.id_case)
+                console.log(this.case)
+                this.case = this.case.data.data
+                this.status_case = this.case.status
             }
         },
         mounted () {

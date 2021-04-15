@@ -14,11 +14,16 @@ class CasesHistory extends Model
      * @var array
      */
     protected $fillable = [
-        'information', 'status', 'case_id'
+        'information', 'status', 'case_id', 'user_id'
     ];
 
     public function cases()
     {
         return $this->belongsTo(Cases::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

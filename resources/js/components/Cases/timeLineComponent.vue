@@ -1,12 +1,14 @@
 <template>
-    <div>
-        <div class="col-sm-12 p-2 mb-3" style="background: #fff;">
+    <div class="col-8">
+
+                <div  class="col-sm-12 p-2 mb-3" style="background: #fff; display: block;">
             <!-- textarea -->
             <div class="form-group">
                 <label>Actualizar caso</label>
                 <textarea id="editorCase"></textarea>
             </div>
-            <button @click="saveCaseHistory()" type="button" class="btn btn-primary">Actualizar Caso</button>
+            <button v-if="status_case" @click="saveCaseHistory()" type="button" class="btn btn-primary">Actualizar Caso</button>
+            <p v-else style="color: #DC4146;">Ya no puede actualizar este caso por que ya esta cerrado</p>
         </div>
         <div class="col-md-12 p-2 contenedor-case-history">
             <!-- The time line -->
@@ -20,8 +22,8 @@
                 <div v-for="caseInfo in _case.data" :key="caseInfo.id">
                     <i class="fas fa-comments"></i>
                     <div class="timeline-item">
-                        <span class="time"><i class="fas fa-clock"></i> 12:05</span>
-                        <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+                        <span class="time"><i class="fas fa-clock"></i> {{ caseInfo.created_at | moment("LT") }} </span>
+                        <h3 class="timeline-header"><a href="#">{{ caseInfo.user.profile.name }} {{ caseInfo.user.profile.last_name }}</a></h3>
 
                         <div class="timeline-body">
                             <span v-html="caseInfo.information"></span>
@@ -43,7 +45,7 @@
     
     const caseResource = new Case();
     export default {
-        props: ['id_case'],
+        props: ['id_case', 'status_case'],
         data () {
             return {
                 cases: [],
@@ -51,8 +53,14 @@
                     information: '',
                     status: true,
                     case_id: this.id_case
+                    
                 }
             }
+        },
+        computed: {
+          user: function () {
+            return this.$store.state.user
+          }
         },
         methods: {
             async getHistoryCase() {
@@ -62,6 +70,8 @@
             async saveCaseHistory() {
                 try {
                     this.form.information = $('#editorCase').summernote('code');
+                    $('#editorCase').summernote('code', '')
+                    this.form.user_id = this.user.id
                     console.log(this.form)
                     await caseResource.createCaseHistory(this.form)
                     this.$swal.fire({
@@ -90,6 +100,7 @@
             }
         },
         mounted() {
+            
             this.getHistoryCase()
             $(function () {
                 //SUMMERNOTE

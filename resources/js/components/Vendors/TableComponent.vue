@@ -11,7 +11,7 @@
               class="btn btn-warning"
             >
               <i class="fas fa-store"></i>
-              Nuevo Agencia
+              Nueva Agencia
             </router-link>
           </div>
           <div class="col-sm-6">
