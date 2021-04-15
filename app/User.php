@@ -73,4 +73,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Profile::class);
     }
+
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
 }

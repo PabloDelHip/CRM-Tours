@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNotesTable extends Migration
+class CreateCasesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,20 @@ class CreateNotesTable extends Migration
      */
     public function up()
     {
-        Schema::create('notes', function (Blueprint $table) {
+        Schema::create('cases', function (Blueprint $table) {
             $table->id();
-            $table->longText('note');
-            $table->boolean('status')->default('1');
-            $table->unsignedBigInteger('user_profile_id');
-            $table->unsignedBigInteger('user_id');
+            $table->string('title', 150);
+            $table->longText('case');
+            $table->unsignedBigInteger('vendor_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->integer('status')->nullable()->default('1')->comment('1: abierto, 2: cerrado');
             $table->timestamps();
         });
 
-        Schema::table('notes', function($table) {
-            $table->foreign('user_profile_id')
+        Schema::table('cases', function($table) {
+            $table->foreign('vendor_id')
                     ->references('id')
-                    ->on('users')
+                    ->on('vendors')
                     ->onDelete('cascade');
             $table->foreign('user_id')
                     ->references('id')
@@ -41,6 +42,6 @@ class CreateNotesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('cases');
     }
 }

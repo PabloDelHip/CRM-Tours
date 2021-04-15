@@ -62,14 +62,13 @@ class CustomerController extends Controller
     public function getListCustomer($id_provider) 
     {
         try {
-            //echo 'este es mi ID => '. $id_provider;
-            $customers = Customer::where('status', '=', true)
+
+            $customers = Customer::with('country')
+                        ->with('state')
+                        ->with('city')
+                        ->where('status', '=', true)
                         ->orderBy('id', 'ASC')->get();
-            foreach ($customers as $customer) {
-                $customer->country = $customer->country;
-                $customer->state = $customer->state;
-                $customer->city = $customer->city;
-            }
+                        
             return response()->json([
                 'succes' => true,
                 'message' => 'contactos seleccionados de forma correcta',

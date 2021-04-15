@@ -25,10 +25,12 @@ Route::group([
     // User
     Route::get('/current', 'UsersController@getCurrentUser');
     Route::get('/get', 'UsersController@getUsers');
+    Route::get('/getByVendorId/{id}', 'UsersController@getByVendorId');
     Route::get('/get/{userId}', 'UsersController@get');
     Route::post('/create', 'UsersController@post');
     Route::put('/put/{userId}', 'UsersController@put');
     Route::get('/delete/{id}', 'UsersController@deleteUsers');
+    Route::get('/vendors/{vendorId}/list', 'UsersController@getUsersVendors');
 });
 
 Route::group([
@@ -78,14 +80,44 @@ Route::group([
     Route::delete('delete/{id_customer}', 'CustomerController@deleteCustomer');
 });
 
+//Cases
+Route::group([
+
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/cases/'
+
+], function () {
+
+    Route::get('get/{id_case}', 'CaseController@getCase');
+    Route::post('create', 'CaseController@updateOrCreateCase');
+    Route::get('get/vendor/{id_vendor}', 'CaseController@getListVendor');
+    Route::put('update/{id_case}', 'CaseController@updateOrCreateCase');
+    Route::put('{id}/status/{status}', 'CaseController@updateStatus');
+});
+
+//Cases History
+Route::group([
+
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/cases/history/'
+
+], function () {
+    
+    Route::get('get/{id_case}', 'CasesHistoryController@getList');
+    Route::post('create', 'CasesHistoryController@updateOrCreateCase');
+    Route::put('update/{id_case_history}', 'CasesHistoryController@updateOrCreateCase');
+});
+
 Route::group([
     'middleware' => ['jwt.auth'],
     'prefix' => 'v1/profile'
 ], function () {
     // Profiles
     Route::get('/{id}', 'ProfilesController@getProfile');
+    Route::get('/bycontact/{id}', 'ProfilesController@getProfileByContactId');
     Route::post('/create', 'ProfilesController@post');
     Route::put('/update/{id}', 'ProfilesController@put');
+    Route::get('/type/{type}', 'ProfilesController@getProfiles');
 });
 
 Route::group([
@@ -96,6 +128,8 @@ Route::group([
     Route::get('/{id}', 'ContactsController@getContact');
     Route::post('/create', 'ContactsController@post');
     Route::put('/update/{id}', 'ContactsController@put');
+    Route::get('/vendors/{id_vendor}', 'ContactsController@getListContactsVendor');
+    Route::put('/block/{id}/{status}', 'ContactsController@putBlock');
 });
 
 Route::group([
@@ -118,12 +152,22 @@ Route::group([
     Route::put('/users/update-password/{token?}', 'UsersController@updatePassword');
 });
 
-// Profiles
+// Contacts Vendors
 Route::group([
-    //'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/contactsvendors'
+], function () {
+    Route::get('/vendorId/{id}', 'ContactsVendorsController@getContactsByVendorId');
+    Route::post('/create', 'ContactsVendorsController@post');
+});
+
+// Vendors
+Route::group([
+    'middleware' => ['jwt.auth'],
     'prefix' => 'v1/vendors'
 ], function () {
-    Route::get('/list', 'VendorsController@getList');
+    Route::get('/get', 'VendorsController@getList');
     Route::get('/get/{id}', 'VendorsController@getVendor');
+    Route::post('/create', 'VendorsController@post');
     Route::delete('/delete/{id}', 'VendorsController@delete');
 });

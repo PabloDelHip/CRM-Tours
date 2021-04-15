@@ -86,6 +86,11 @@ export default {
       nameProfile: null,
     };
   },
+  watch:{
+    async id_user(){
+      await this.getUser();
+    },
+  },
   computed: {
     user: function () {
       return this.$store.state.user;

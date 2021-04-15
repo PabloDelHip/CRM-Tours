@@ -3,7 +3,7 @@
     <section class="content-header">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Permisos Usuarios</h1>
+            <h1>Permisos Usuarios{{ this.NameUserEdit == null ? "" : " - " + this.NameUserEdit }}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -13,11 +13,11 @@
                 </router-link>
               </li>
               <li class="breadcrumb-item">
-                <router-link :to="{ name: 'getUsers' }">
+                <router-link :to="{ name: 'ListUser' }">
                 Usuarios
                 </router-link>
               </li>
-              <li class="breadcrumb-item active">Permisos Usuarios</li>
+              <li class="breadcrumb-item active">Permisos Usuarios{{ this.NameUserEdit == null ? "" : " - " + this.NameUserEdit }}</li>
             </ol>
           </div>
         </div>
@@ -27,16 +27,6 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-                <transition name="fade">
-                  <div
-                    class="alert alert-danger"
-                    v-if="errors.length > 0"
-                  >
-                    <ul>
-                      <li v-for="(e, index) in errors" :key="index"> {{ e }}</li>
-                    </ul>
-                  </div>
-                </transition>
               <table
                 id="permissionsTable"
                 class="table table-bordered table-striped"
@@ -131,18 +121,26 @@
 
 <script>
 import UserPermissions from "../../providers/UserPermission";
+import User from "../../providers/User";
+
+const UserResource = new User();
 const userPermissionResource = new UserPermissions();
 
 const NameModule = "Permisos";
 
 export default {
   name: "users-permissions",
-  props: ["id"],
+  props: {
+    id: {
+      required: true,
+    },
+  },
   data() {
     return {
       permissions: "",
       permissionPermission: [],
-      errors: [],
+
+      NameUserEdit: null,
     };
   },
   computed: {
@@ -155,12 +153,29 @@ export default {
       return;
     }
     this.obtenerPermisos();
+    this.getUser();
   },
   methods: {
+    async getUser() {
+      var response = (await UserResource.getUser(this.id)).data;
+      if (!response.success) {
+        this.showError("Error al obtener usuario.");
+        return false;
+      }
+      var user = response.data;
+      if (this.user == "" || this.user == null) {
+        this.showError("Usuario no existe.");
+        return false;
+      }
+
+      this.NameUserEdit = user.profile.name + " " + user.profile.last_name;
+
+      return true;
+    },
     async getPermission() {
       var response = (await userPermissionResource.UserPermissionsByModule(this.user.id, NameModule)).data;
       if (!response.success){
-        this.errors.push("Error al obtener información.");
+        this.showError("Error al obtener información.");
         setTimeout(() => {
           this.$router.push({
             path: '/',
@@ -186,13 +201,13 @@ export default {
         this.tablePermits();
       } catch (error) {
         console.log(error);
-          this.errors.push("No se pudo obtener permisos de usuarios.");
+        this.showError("No se pudo obtener permisos de usuarios.");
       }
     },
     check(module_id, name, checked) {
       this.$nextTick(() => {
         if (!this.permissionPermission.update){
-          this.errors.push("No tienes permiso para hacer este cambio.");
+          this.showError("No tienes permiso para hacer este cambio.");
           return;
         }
 
@@ -206,11 +221,22 @@ export default {
           this.modules = userPermissionResource.updatePermits(formData);
         } catch (error) {
           console.log(error);
-          this.errors.push("No se pudo actualizar permisos del usuario.");
+          this.showError("No se pudo actualizar permisos del usuario.");
         }
       });
     },
-
+    showError(error){
+      this.$swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        toast: true,
+        position: 'top',
+        timer: 3000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        text: error,
+      })
+    },
     tablePermits() {
       this.$nextTick(() => {
         $("#permissionsTable")

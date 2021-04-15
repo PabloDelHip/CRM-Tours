@@ -24,8 +24,22 @@ class UsersController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Email enviado de forma correcta',
+            'message' => 'Usuario encontrado de forma correcta',
             'data' => $user
+        ], 200);
+    }
+
+    public function getByVendorId($id){
+        $users = User::where('vendor_id', $id)->get();
+
+        foreach ($users as $user) {
+            $user->profile = $user->profile;
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Usuarios encontrados de forma correcta',
+            'data' => $users
         ], 200);
     }
 
@@ -40,6 +54,7 @@ class UsersController extends Controller
         $user->level = $content['level'];
         $user->profile_id = $content['profile_id'];
         $user->contact_id = $content['contact_id'];
+        $user->vendor_id = $content['vendor_id'];
         $user->save();
 
         return response()->json([
@@ -58,6 +73,7 @@ class UsersController extends Controller
         $user->level = $content['level'];
         $user->profile_id = $content['profile_id'];
         $user->contact_id = $content['contact_id'];
+        $user->vendor_id = $content['vendor_id'];
         $user->save();
         
         return response()->json([
@@ -199,6 +215,25 @@ class UsersController extends Controller
                 'succes' => false,
                 'message' => 'Error al cambiar la contraseña',
                 'error' => $th
+            ], 500);
+        }
+    }
+
+    public function getUsersVendors($vendorId) {
+        try {
+            $users = User::with('profile')
+                    ->where('status', true)
+                    ->where('vendor_id', $vendorId)->get();
+            return response()->json([
+                'succes' => true,
+                'message' => 'Usuarios seleccionados de forma correcta',
+                'users' => $users
+            ], 200);
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'Error al seleccionar usuarios',
+                'err' => $err->getMessage()
             ], 500);
         }
     }

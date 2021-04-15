@@ -24,6 +24,10 @@ export default class User {
         return axios.get(`/api/v1/users/get`);
     }
 
+    getByVendorId(id) {
+        return axios.get(`/api/v1/users/getByVendorId/${id}`);
+    }
+
     deleteUsers(id) {
         return axios.get(`/api/v1/users/delete/${id}`);
     }
@@ -37,6 +41,10 @@ export default class User {
          */
     restorePassword($email) {
         return axios.post(`/api/v1/users/restore-password`, $email);
+    }
+
+    getUserVendor(id) {
+        return axios.get(`/api/v1/users/vendors/${id}/list`)
     }
 
     /**
