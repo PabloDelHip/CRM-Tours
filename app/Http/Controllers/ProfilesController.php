@@ -37,6 +37,8 @@ class ProfilesController extends Controller
     {
         $profile = Profile::find($id);
 
+        $profile->image = Storage::disk('images-profile')->url($profile->image);
+
         return response()->json([
             'success' => true,
             'message' => 'Perfil encontrado',
@@ -47,6 +49,7 @@ class ProfilesController extends Controller
     public function getProfileByContactId($id)
     {
         $profile = Profile::where('contact_id', $id)->first();
+        $profile->image = Storage::disk('images-profile')->url($profile->image);
 
         return response()->json([
             'success' => true,
@@ -78,41 +81,37 @@ class ProfilesController extends Controller
         $profile = Profile::find($id);
         $content = $request->all();
 
-        // $profile->name = $content['name'];
-        // $profile->last_name = $content['last_name'];
-        // $profile->birth_date = $content['birth_date'];
-        // $profile->sex = $content['sex'];
-        // $profile->contact_id = $content['contact_id'];
-
+        $profile->name = $content['name'];
+        $profile->last_name = $content['last_name'];
+        $profile->birth_date = $content['birth_date'];
+        $profile->sex = $content['sex'];
+        $profile->contact_id = $content['contact_id'];
 
         $image_64 = $content['picture']; //your base64 encoded data
 
-        $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+        $successImage = false;
+        if ($image_64){
+            $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];
+            $replace = substr($image_64, 0, strpos($image_64, ',')+1);
+            
+            $image = str_replace($replace, '', $image_64);
+            $image = str_replace(' ', '+', $image);
+            
+            $imageName = $profile->image;
+            if (!$imageName){
+                $imageName = "profile-".Str::random(20).'.'.$extension;
+                $profile->image = $imageName;
+            }
+            $successImage = Storage::disk('images-profile')->put($imageName, base64_decode($image));
+        }
       
-        $replace = substr($image_64, 0, strpos($image_64, ',')+1); 
-      
-      // find substring fro replace here eg: data:image/png;base64,
-      
-       $image = str_replace($replace, '', $image_64); 
-      
-       $image = str_replace(' ', '+', $image); 
-
-       $imageName = Str::random(10).'.'.$extension;
-       Storage::disk('public')->put($imageName, base64_decode($image));
-      
-        return response()->json([
-            'success' => true,
-            'message' => 'Perfil actualizado',
-            'data' => $profile,
-            'other' => asset('public/'.$imageName),
-        ], 200);
-
         $profile->save();
         
         return response()->json([
             'success' => true,
             'message' => 'Perfil actualizado',
             'data' => $profile,
+            'successImage' => successImage,
         ], 200);
     }
 }

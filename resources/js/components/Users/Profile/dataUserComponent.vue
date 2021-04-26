@@ -18,7 +18,7 @@
           <div class="text-center">
             <img
               class="profile-user-img img-fluid img-circle"
-              src="/dist/img/user4-128x128.jpg"
+              v-bind:src="userProfile.profile.image"
               alt="User profile picture"
             />
           </div>

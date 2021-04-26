@@ -12,6 +12,7 @@ use GuzzleHttp\Psr7\Message;
 use PhpParser\Node\Stmt\TryCatch;
 use App\Mail\RestorePassword;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
@@ -20,6 +21,7 @@ class UsersController extends Controller
 
         if ($user){
             $user->profile = $user->profile;
+            $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
         }
 
         return response()->json([
@@ -34,6 +36,7 @@ class UsersController extends Controller
 
         foreach ($users as $user) {
             $user->profile = $user->profile;
+            $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
         }
 
         return response()->json([
@@ -54,7 +57,9 @@ class UsersController extends Controller
         $user->level = $content['level'];
         $user->profile_id = $content['profile_id'];
         $user->contact_id = $content['contact_id'];
-        $user->vendor_id = $content['vendor_id'];
+        if ($content['vendor_id'] && $content['vendor_id'] > 0){
+            $user->vendor_id = $content['vendor_id'];
+        }
         $user->save();
 
         return response()->json([
@@ -87,6 +92,7 @@ class UsersController extends Controller
         $token = JWTAuth::getToken();
         $user = User::where('remember_token', $token)->get()->first();
         $user->profile = $user->profile;
+        $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
         return $user;
     }
 

@@ -153,6 +153,7 @@ export default {
       this.lastName = this.profile.last_name;
       this.birthDate = this.profile.birth_date;
       this.sex = this.profile.sex;
+      this.imagePreview = this.profile.image;
       this.$emit("get-name", this.name + " " + this.lastName);
     },
     getProfileForm() {
@@ -162,7 +163,7 @@ export default {
         birth_date: this.birthDate,
         sex: +this.sex,
         contact_id: +this.contactId,
-        picture: this.picture,
+        picture: this.imagePreview,
       };
     },
     async saveProfile(contactId) {
