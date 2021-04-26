@@ -19,6 +19,29 @@
             {{ successProfileMessage }}
           </div>
         </transition>
+        <img
+          v-bind:src="imagePreview"
+          width="100"
+          height="100"
+          v-show="showPreview"
+        />
+        <div class="form-group">
+          <label for="exampleInputFile">File input</label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="exampleInputFile"
+                @change="onFileChange"
+                accept="image/*"
+              />
+              <label class="custom-file-label" for="exampleInputFile"
+                >Choose file</label
+              >
+            </div>
+          </div>
+        </div>
         <div class="form-group">
           <label for="name">Nombre</label>
           <input
@@ -83,6 +106,10 @@ export default {
       profile: null,
 
       // Perfil
+      picture: null,
+      imagePreview: null,
+      showPreview: false,
+
       name: null,
       lastName: null,
       birthDate: null,
@@ -96,6 +123,22 @@ export default {
     },
   },
   methods: {
+    onFileChange(event) {
+      this.picture = event.target.files[0];
+      let reader = new FileReader();
+
+      reader.addEventListener("load", function() {
+          this.showPreview = true;
+          this.imagePreview = reader.result;
+        }.bind(this), false
+      );
+
+      if (this.picture) {
+        if (/\.(jpe?g|png|gif)$/i.test(this.picture.name)) {
+          reader.readAsDataURL(this.picture);
+        }
+      }
+    },
     async getProfile() {
       var response = (await ProfileResource.getProfile(this.id)).data;
       if (!response.success) {
@@ -111,7 +154,7 @@ export default {
       this.lastName = this.profile.last_name;
       this.birthDate = this.profile.birth_date;
       this.sex = this.profile.sex;
-      this.$emit('get-name', this.name + " " + this.lastName);
+      this.$emit("get-name", this.name + " " + this.lastName);
     },
     getProfileForm() {
       return {

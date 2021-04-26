@@ -47,8 +47,10 @@
             :id="+this.id"
             :contactId="+this.ContactId"
             :profileId="+this.ProfileId"
+            :vendorId="+this.VendorId"
             @get-profileId="ProfileId = $event"
             @get-contactId="ContactId = $event"
+            @get-vendorId="VendorId = $event"
             ref="userComponent"
           ></users-component>
         </div>
@@ -112,7 +114,8 @@ export default {
       addressId: null,
       ContactId: null,
       ProfileId: null,
-
+      VendorId: null,
+      
       typeContact: 1,
 
       NameUserEdit: null,

@@ -169,6 +169,7 @@ export default {
 
       this.$emit('get-profileId', this.user.profile_id);
       this.$emit('get-contactId', this.user.contact_id);
+      this.$emit('get-vendorId', this.user.vendor_id);
 
       return true;
     },
