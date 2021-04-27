@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Exception\TokenBlacklistedException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User;
+use Illuminate\Support\Facades\Storage;
 
 class AuthUserController extends Controller
 {
@@ -43,6 +44,10 @@ class AuthUserController extends Controller
             ->update(['remember_token' => $token]);
             $user = User::where('email', $credentials['email'])->get()->first();
             $user->profile = $user->profile;
+
+            if ($user->profile->image){
+                $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+            }
             return response()->json([
                 'succes' => true,
                 'token' => $token,

@@ -48,9 +48,7 @@
         },
         methods: {
             async getCase() {
-                console.log(this.id_case)
                 this.case = await caseResourse.getCase(this.id_case)
-                console.log(this.case)
                 this.case = this.case.data.data
                 this.status_case = this.case.status
             }

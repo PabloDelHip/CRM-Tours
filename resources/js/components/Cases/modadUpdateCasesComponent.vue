@@ -108,7 +108,6 @@
       async getCase() {
           let caseData = await caseResource.getCase(this._id_case)
           caseData = caseData.data.data
-          console.log(caseData)
           this.form.title = caseData.title
           this.form.vendor = caseData.vendor
           $('#editorCase').summernote('code', caseData.case)

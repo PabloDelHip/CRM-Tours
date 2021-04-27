@@ -148,7 +148,7 @@ export default {
         level: 1,
         profile_id: this.profileId,
         contact_id: this.contactId,
-        vendor_id: this.vendorId,
+        vendor_id: this.vendorId == 0 ? null : +this.vendorId,
       };
     },
     async getUser() {
@@ -169,6 +169,7 @@ export default {
 
       this.$emit('get-profileId', this.user.profile_id);
       this.$emit('get-contactId', this.user.contact_id);
+      this.$emit('get-vendorId', this.user.vendor_id);
 
       return true;
     },
