@@ -150,7 +150,7 @@ export default {
   data() {
     return {
       newContact: true,
-      refTypeContact: 0,
+      refTypeContact: null,
 
       contact: null,
       errors: [],

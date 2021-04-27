@@ -1,6 +1,6 @@
 <template>
     <div class="card-body">
-        <table id="tableContacts" class="table table-bordered table-striped table-responsive">
+        <table id="tableContacts" class="table table-bordered table-striped no-footer dataTable dtr-inline">
             <thead>
                 <tr>
                     <th>Nombre</th>

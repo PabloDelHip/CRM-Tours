@@ -1,7 +1,7 @@
 <template>
     <div class="card-body">
         <modal-update-cases-component :_id_case="id_case" ref="modalUpdateCasesComponent" @onRefreshTable="getCasesVendor()"></modal-update-cases-component>
-        <table id="tableCase" class="table table-bordered table-striped table-responsive">
+        <table id="tableCase" class="table table-bordered table-striped no-footer dataTable dtr-inline">
             <thead>
                 <tr>
                     <th>Titulo</th>

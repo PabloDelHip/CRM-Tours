@@ -116,13 +116,14 @@ export default {
       ProfileId: null,
       VendorId: null,
       
-      typeContact: 1,
+      typeContact: 0,
 
       NameUserEdit: null,
     };
   },
   mounted(){
     this.newUser = this.id == undefined;
+    this.typeContact = 1;
   },
   methods: {
     chechIdUser() {

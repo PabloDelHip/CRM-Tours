@@ -165,7 +165,7 @@ export default {
         birth_date: this.birthDate,
         sex: +this.sex,
         contact_id: +this.contactId,
-        picture: this.picture == null || this.profile.image == this.imagePreview ? null : this.imagePreview,
+        picture: this.picture == null && (this.profile == null || this.profile.image == this.imagePreview) ? null : this.imagePreview,
       };
     },
     async saveProfile(contactId) {
