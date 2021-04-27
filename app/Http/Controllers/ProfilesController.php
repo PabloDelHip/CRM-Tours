@@ -110,15 +110,15 @@ class ProfilesController extends Controller
             $extension = explode('/', explode(':', substr($fileBase64, 0, strpos($fileBase64, ';')))[1])[1];
             $replace = substr($fileBase64, 0, strpos($fileBase64, ',')+1);
             
-            $image = str_replace($replace, '', $fileBase64);
-            $image = str_replace(' ', '+', $image);
+            $file = str_replace($replace, '', $fileBase64);
+            $file = str_replace(' ', '+', $file);
             
-            $imageName = $nameFile;
-            if (!$imageName){
-                $imageName = $prefixName."-".Str::random(20).'.'.$extension;
-                $nameFile = $imageName;
+            $fileName = $nameFile;
+            if (!$fileName){
+                $fileName = $prefixName."-".Str::random(20).'.'.$extension;
+                $nameFile = $fileName;
             }
-            $successImage = Storage::disk($routeFile)->put($imageName, base64_decode($image));
+            $successFile = Storage::disk($routeFile)->put($fileName, base64_decode($file));
         }
 
         return $nameFile;
