@@ -44,7 +44,10 @@ class AuthUserController extends Controller
             ->update(['remember_token' => $token]);
             $user = User::where('email', $credentials['email'])->get()->first();
             $user->profile = $user->profile;
-            $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+
+            if ($user->profile->image){
+                $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+            }
             return response()->json([
                 'succes' => true,
                 'token' => $token,

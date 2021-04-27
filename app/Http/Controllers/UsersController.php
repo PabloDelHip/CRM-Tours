@@ -21,7 +21,10 @@ class UsersController extends Controller
 
         if ($user){
             $user->profile = $user->profile;
-            $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+
+            if ($user->profile->image){
+                $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+            }
         }
 
         return response()->json([
@@ -36,7 +39,9 @@ class UsersController extends Controller
 
         foreach ($users as $user) {
             $user->profile = $user->profile;
-            $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+            if ($user->profile->image){
+                $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+            }
         }
 
         return response()->json([
@@ -92,7 +97,9 @@ class UsersController extends Controller
         $token = JWTAuth::getToken();
         $user = User::where('remember_token', $token)->get()->first();
         $user->profile = $user->profile;
-        $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+        if ($user->profile->image){
+            $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+        }
         return $user;
     }
 

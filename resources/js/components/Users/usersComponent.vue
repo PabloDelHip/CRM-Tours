@@ -148,7 +148,7 @@ export default {
         level: 1,
         profile_id: this.profileId,
         contact_id: this.contactId,
-        vendor_id: this.vendorId,
+        vendor_id: this.vendorId == 0 ? null : +this.vendorId,
       };
     },
     async getUser() {

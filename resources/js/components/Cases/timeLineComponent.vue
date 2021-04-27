@@ -72,7 +72,6 @@
                     this.form.information = $('#editorCase').summernote('code');
                     $('#editorCase').summernote('code', '')
                     this.form.user_id = this.user.id
-                    console.log(this.form)
                     await caseResource.createCaseHistory(this.form)
                     this.$swal.fire({
                         icon: 'success',

@@ -79,7 +79,6 @@
                     this.disabled_button = true;
                     UserResourse.restorePassword(this.formData).then((data) => {
                         this.show_confirmation = true;
-                        console.log(data)
                         this.$swal.fire({
                             icon: 'success',
                             title: 'Bien',

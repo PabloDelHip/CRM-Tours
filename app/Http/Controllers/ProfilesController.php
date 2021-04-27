@@ -37,7 +37,9 @@ class ProfilesController extends Controller
     {
         $profile = Profile::find($id);
 
-        $profile->image = Storage::disk('images-profile')->url($profile->image);
+        if ($profile->image){
+            $profile->image = Storage::disk('images-profile')->url($profile->image);
+        }
 
         return response()->json([
             'success' => true,
@@ -49,7 +51,9 @@ class ProfilesController extends Controller
     public function getProfileByContactId($id)
     {
         $profile = Profile::where('contact_id', $id)->first();
-        $profile->image = Storage::disk('images-profile')->url($profile->image);
+        if ($profile->image){
+            $profile->image = Storage::disk('images-profile')->url($profile->image);
+        }
 
         return response()->json([
             'success' => true,
@@ -111,7 +115,7 @@ class ProfilesController extends Controller
             'success' => true,
             'message' => 'Perfil actualizado',
             'data' => $profile,
-            'successImage' => successImage,
+            'successImage' => $successImage,
         ], 200);
     }
 }

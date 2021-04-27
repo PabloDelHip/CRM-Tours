@@ -178,7 +178,6 @@
       },
       async getCitys() {
         try {
-          console.log(this.form.state)
           this.form.city = null
           this.citys = await nationResource.getCity(this.form.state.id);
           this.citys = this.citys.data.data
@@ -282,7 +281,6 @@
         if(id_contacto != null) {
           let infoCustomer = await customerResource.getCustomer(id_contacto);
           infoCustomer = infoCustomer.data.data;
-          console.log(infoCustomer)
           this.form.id = infoCustomer.id
           this.form.name = infoCustomer.name;
           this.form.last_name = infoCustomer.last_name;

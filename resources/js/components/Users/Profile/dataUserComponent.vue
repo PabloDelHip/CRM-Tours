@@ -18,7 +18,7 @@
           <div class="text-center">
             <img
               class="profile-user-img img-fluid img-circle"
-              v-bind:src="userProfile.profile.image"
+              v-bind:src="userProfile == null || userProfile.profile == null || userProfile.profile.image == null ? '/img/profile-icon.png' : userProfile.profile.image"
               alt="User profile picture"
             />
           </div>
@@ -77,6 +77,7 @@ export default {
         profile: {
           name: null,
           last_name: null,
+          image: null,
         }
       },
 
