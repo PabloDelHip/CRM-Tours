@@ -72,6 +72,8 @@ class ProfilesController extends Controller
         $profile->sex = $content['sex'];
         $profile->contact_id = $content['contact_id'];
 
+        $profile->image = $this->saveFileBase64($content['picture'], $profile->image, 'profile', 'images-profile');
+
         $profile->save();
         
         return response()->json([
@@ -91,31 +93,34 @@ class ProfilesController extends Controller
         $profile->sex = $content['sex'];
         $profile->contact_id = $content['contact_id'];
 
-        $image_64 = $content['picture']; //your base64 encoded data
+        $profile->image = $this->saveFileBase64($content['picture'], $profile->image, 'profile', 'images-profile');
 
-        $successImage = false;
-        if ($image_64){
-            $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];
-            $replace = substr($image_64, 0, strpos($image_64, ',')+1);
-            
-            $image = str_replace($replace, '', $image_64);
-            $image = str_replace(' ', '+', $image);
-            
-            $imageName = $profile->image;
-            if (!$imageName){
-                $imageName = "profile-".Str::random(20).'.'.$extension;
-                $profile->image = $imageName;
-            }
-            $successImage = Storage::disk('images-profile')->put($imageName, base64_decode($image));
-        }
-      
         $profile->save();
         
         return response()->json([
             'success' => true,
             'message' => 'Perfil actualizado',
             'data' => $profile,
-            'successImage' => $successImage,
         ], 200);
+    }
+
+    public function saveFileBase64($fileBase64, $nameFile, string $prefixName, string $routeFile)
+    {
+        if ($fileBase64){
+            $extension = explode('/', explode(':', substr($fileBase64, 0, strpos($fileBase64, ';')))[1])[1];
+            $replace = substr($fileBase64, 0, strpos($fileBase64, ',')+1);
+            
+            $image = str_replace($replace, '', $fileBase64);
+            $image = str_replace(' ', '+', $image);
+            
+            $imageName = $nameFile;
+            if (!$imageName){
+                $imageName = $prefixName."-".Str::random(20).'.'.$extension;
+                $nameFile = $imageName;
+            }
+            $successImage = Storage::disk($routeFile)->put($imageName, base64_decode($image));
+        }
+
+        return $nameFile;
     }
 }
