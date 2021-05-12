@@ -43,6 +43,9 @@ import VendorsContactsView from './views/vendors/Contacts/contactsview.vue'
 //Case section
 import CasesHistory from './views/Cases/timeLineView.vue'
 
+//Tours
+import ListTours from './views/Products/Tours/ListView.vue'
+
 export default new Router({
     linkExactActiveClass: "active",
     routes: [{
@@ -194,6 +197,18 @@ export default new Router({
                     component: CasesHistory,
                     props: true
                 }
+            ]
+        },
+        {
+            path: "/products",
+            name: "products",
+            component: Index,
+            children:[
+                {
+                    path: "tours",
+                    name: "ListTours",
+                    component: ListTours,
+                },
             ]
         },
         {
