@@ -171,3 +171,11 @@ Route::group([
     Route::post('/create', 'VendorsController@post');
     Route::delete('/delete/{id}', 'VendorsController@delete');
 });
+
+// Categories Tours
+Route::group([
+    //'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/categorie-tours'
+], function () {
+    Route::get('/get', 'CategorieToursController@getList');
+});
