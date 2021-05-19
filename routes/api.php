@@ -188,4 +188,5 @@ Route::group([
     'prefix' => 'v1/tours'
 ], function () {
     Route::get('/get/categorie/{id_categorie}', 'ToursController@getListCategorie');
+    Route::get('/get/images/{id_tour}', 'ToursController@getImagesTour');
 });
