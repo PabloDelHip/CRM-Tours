@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categories_Tours_Pivot;
+use App\Categorie_Tour;
 use DB;
 class CategorieToursController extends Controller
 {
@@ -44,6 +45,23 @@ class CategorieToursController extends Controller
                 'succes' => true,
                 'message' => 'Historico de Caso encontrados de forma correcta',
                 'categories' => $categories
+            ], 200);
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'error al optener categorias',
+                'err' => $err->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getListCategories() {
+        try {
+            $categorie_tours = Categorie_Tour::where('status', '=', true)->get();
+            return response()->json([
+                'succes' => true,
+                'message' => 'Historico de Caso encontrados de forma correcta',
+                'categories' => $categorie_tours
             ], 200);
         } catch (MassAssignmentException $err) {
             return response()->json([

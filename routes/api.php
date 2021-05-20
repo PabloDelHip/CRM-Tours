@@ -178,4 +178,15 @@ Route::group([
     'prefix' => 'v1/categorie-tours'
 ], function () {
     Route::get('/get', 'CategorieToursController@getList');
+    Route::get('/get/categories', 'CategorieToursController@getListCategories');
+});
+
+
+//Tours
+Route::group([
+    //'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/tours'
+], function () {
+    Route::get('/get/categorie/{id_categorie}', 'ToursController@getListCategorie');
+    Route::get('/get/images/{id_tour}', 'ToursController@getImagesTour');
 });
