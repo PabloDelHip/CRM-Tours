@@ -189,4 +189,5 @@ Route::group([
 ], function () {
     Route::get('/get/categorie/{id_categorie}', 'ToursController@getListCategorie');
     Route::get('/get/images/{id_tour}', 'ToursController@getImagesTour');
+    Route::get('/get/info/tour/{id_tour}', 'ToursController@getInfoTour');
 });

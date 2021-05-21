@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Categories_Tours_Pivot;
 use App\Image_Tours;
+use App\Tour;
+use App\Seo_Tour;
+use App\General_Information;
+use App\Operation_Tour;
 
 class ToursController extends Controller
 {
@@ -45,6 +49,43 @@ class ToursController extends Controller
             return response()->json([
                 'succes' => false,
                 'message' => 'error al optener tours',
+                'err' => $err->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getInfoTour($id_tour) {
+        try {
+            
+            $tour = Tour::where('id', '=', $id_tour)
+                ->where('status', '=', 1)
+                ->get();
+
+            $seo_tour = Seo_Tour::where('tour_id', '=', $id_tour)
+                ->get();
+
+            $general_information = General_Information::where('tour_id', '=', $id_tour)
+                ->get();
+            
+            $operation_tour = Operation_Tour::where('tour_id', '=', $id_tour)
+                ->get();
+
+            $data_tour = [
+                "tour" => $tour,
+                "seo_tour" => $seo_tour,
+                "general_information" => $general_information,
+                "operation_tour" => $operation_tour
+            ];
+        
+            return response()->json([
+                'succes' => true,
+                'message' => 'Tour encontrado de forma correcta',
+                'data' => $data_tour
+            ], 200);
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'error tours',
                 'err' => $err->getMessage()
             ], 500);
         }
