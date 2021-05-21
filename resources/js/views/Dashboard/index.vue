@@ -207,7 +207,7 @@
                     <ul class="nav nav-treeview">
                       <li class="nav-item">
                         <router-link class="nav-link" :to="{ name:'ListTours'}">
-                          <i class="far fa-circle nav-icon"></i>
+                          <i class="fas fa-walking nav-icon"></i>
                           <p>Tours</p>
                         </router-link>
                       </li>
