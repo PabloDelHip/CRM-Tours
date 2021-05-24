@@ -55,6 +55,7 @@ Route::get('/cases/history/{id_case}', ['as' => 'vendors', 'uses' => 'HomeContro
 
 //Tours
 Route::get('/products/tours', ['as' => 'tours', 'uses' => 'HomeController@index']);
+Route::get('/products/tours/{id}/create', ['as' => 'tours/create', 'uses' => 'HomeController@index']);
 
 //Dashboard
 Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);

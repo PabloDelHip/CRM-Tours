@@ -8,25 +8,20 @@
       :scrollable="true"
     >
       <div class="modal-body">
-        <base-tour-component
-          ref="baseTourComponent"
-        ></base-tour-component>
-        <router-link :to="{ name: 'createTour' }">
-                  Home
-                </router-link>
-        <!-- <button type="button" @click="saveContent()" class="btn btn-primary">
+        <base-tour-component ref="baseTourComponent"></base-tour-component>
+        <button type="button" @click="saveContent" class="btn btn-primary">
           Crear tour
-        </button> -->
+        </button>
       </div>
     </modal>
   </div>
 </template>
 
 <script>
-import baseTourComponent from '../../../components/Products/Tours/baseTourComponent.vue';
+import baseTourComponent from "../../../components/Products/Tours/baseTourComponent.vue";
 export default {
   components: { baseTourComponent },
-  props:{
+  props: {
     openModal: {
       type: Boolean,
       required: true,
@@ -39,8 +34,14 @@ export default {
   },
   methods: {
     openModalForm() {
-      this.$modal.show('tour-modal-form')
+      this.$modal.show("tour-modal-form");
     },
-  }
-}
+    saveContent() {
+      this.$router.push({
+        name: "createTour",
+        params: { id: 1 },
+      });
+    },
+  },
+};
 </script>

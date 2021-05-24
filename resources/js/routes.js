@@ -42,7 +42,9 @@ import VendorsContactsView from './views/vendors/Contacts/contactsview.vue'
 import CasesHistory from './views/Cases/timeLineView.vue'
 
 //Tours
+import IndexTours from './views/Products/Tours/index.vue'
 import ListTours from './views/Products/Tours/ListView.vue'
+import TourView from './views/Products/Tours/tourView.vue'
 
 export default new Router({
     linkExactActiveClass: "active",
@@ -201,8 +203,19 @@ export default new Router({
             component: Index,
             children: [{
                 path: "tours",
-                name: "ListTours",
-                component: ListTours,
+                name: "indexTours",
+                component: IndexTours,
+                children: [{
+                        path: "",
+                        name: "ListTours",
+                        component: ListTours,
+                    },
+                    {
+                        path: ":id/create",
+                        name: "createTour",
+                        component: TourView,
+                    },
+                ]
             }, ]
         },
         {
