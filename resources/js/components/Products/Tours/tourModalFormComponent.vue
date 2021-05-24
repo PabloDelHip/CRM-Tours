@@ -7,11 +7,18 @@
       :height="'auto'"
       :scrollable="true"
     >
-      <div class="modal-body">
-        <base-tour-component ref="baseTourComponent"></base-tour-component>
-        <button type="button" @click="saveContent" class="btn btn-primary">
-          Crear tour
-        </button>
+      <div class="modal-body" style="padding: 0px;">
+        <div class="card card-primary" style="margin: 0px;">
+          <div class="card-header">
+            <h3 class="card-title">Agregar nuevo tour</h3>
+          </div>
+          <div class="card-body">
+            <base-tour-component ref="baseTourComponent"></base-tour-component>
+            <button type="button" @click="saveContent" class="btn btn-primary">
+              Crear tour
+            </button>
+          </div>
+        </div>
       </div>
     </modal>
   </div>
@@ -38,7 +45,7 @@ export default {
     },
     saveContent() {
       this.$router.push({
-        name: "createTour",
+        name: "editTour",
         params: { id: 1 },
       });
     },

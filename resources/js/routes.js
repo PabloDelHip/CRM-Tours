@@ -211,9 +211,10 @@ export default new Router({
                         component: ListTours,
                     },
                     {
-                        path: ":id/create",
-                        name: "createTour",
+                        path: "edit/:id",
+                        name: "editTour",
                         component: TourView,
+                        props: true,
                     },
                 ]
             }, ]
