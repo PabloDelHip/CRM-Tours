@@ -18,6 +18,9 @@
                 <li class="nav-item">
                   <a class="nav-link" data-toggle="pill" href="#tours-tabs-operation" role="tab" aria-controls="tours-tabs-operation" aria-selected="false">Operación</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="pill" href="#tours-tabs-images" role="tab" aria-controls="tours-tabs-images" aria-selected="false">Imágenes</a>
+                </li>
               </ul>
             </div>
             <div class="card-body">
@@ -52,6 +55,15 @@
                     <operation-tour-component ref="operationTourComponent"></operation-tour-component>
                   </div>
                 </div>
+                <div class="tab-pane fade" id="tours-tabs-images" role="tabpanel" aria-labelledby="tours-tabs-images-tab">
+                  <div class="overlay-wrapper">
+                    <div class="overlay" v-show="false">
+                      <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                      <div class="text-bold pt-2">Loading...</div>
+                    </div>
+                    <images-tour-component ref="imagesTourComponent"></images-tour-component>
+                  </div>
+                </div>
               </div>
             </div>
             <!-- /.card -->
@@ -64,6 +76,7 @@
 <script>
 import baseTourComponent from "../../../components/Products/Tours/baseTourComponent.vue";
 import GeneralInformationComponent from '../../../components/Products/Tours/generalInformationComponent.vue';
+import ImagesTourComponent from '../../../components/Products/Tours/imagesTourComponent.vue';
 import OperationTourComponent from '../../../components/Products/Tours/operationTourComponent.vue';
 import SeoTourComponent from '../../../components/Products/Tours/seoTourComponent.vue';
 
@@ -74,6 +87,7 @@ export default {
     SeoTourComponent,
     GeneralInformationComponent,
     OperationTourComponent,
+    ImagesTourComponent,
   },
   props: {
     id: {
