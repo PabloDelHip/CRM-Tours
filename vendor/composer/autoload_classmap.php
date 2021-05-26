@@ -36,6 +36,7 @@ return array(
     'App\\Http\\Controllers\\NationsController' => $baseDir . '/app/Http/Controllers/NationsController.php',
     'App\\Http\\Controllers\\NotesController' => $baseDir . '/app/Http/Controllers/NotesController.php',
     'App\\Http\\Controllers\\ProfilesController' => $baseDir . '/app/Http/Controllers/ProfilesController.php',
+    'App\\Http\\Controllers\\ToursController' => $baseDir . '/app/Http/Controllers/ToursController.php',
     'App\\Http\\Controllers\\UsersController' => $baseDir . '/app/Http/Controllers/UsersController.php',
     'App\\Http\\Controllers\\UsersPermisionController' => $baseDir . '/app/Http/Controllers/UsersPermisionController.php',
     'App\\Http\\Controllers\\VendorsController' => $baseDir . '/app/Http/Controllers/VendorsController.php',
