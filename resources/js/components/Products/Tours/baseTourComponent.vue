@@ -23,14 +23,14 @@
         />
       </div>
     </div>
-    <div class="form-check">
+    <div class="custom-control custom-checkbox">
       <input
         type="checkbox"
-        class="form-check-input"
+        class="custom-control-input"
         id="assitedPurchace"
         v-model.number="assitedPurchace"
       />
-      <label class="form-check-label" for="assitedPurchace">
+      <label class="custom-control-label" for="assitedPurchace">
         Compra asistida
       </label>
     </div>

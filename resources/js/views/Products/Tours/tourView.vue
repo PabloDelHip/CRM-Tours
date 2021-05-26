@@ -5,39 +5,52 @@
       <div class="col-12">
           <div class="card card-primary card-outline card-tabs">
             <div class="card-header p-0 pt-1 border-bottom-0">
-              <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+              <ul class="nav nav-tabs" id="tours-tabs-tab" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Home</a>
+                  <a class="nav-link active" data-toggle="pill" href="#tours-tabs-tour-information" role="tab" aria-controls="tours-tabs-tour-information" aria-selected="true">Información del tour</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Profile</a>
+                  <a class="nav-link" data-toggle="pill" href="#tours-tabs-seo" role="tab" aria-controls="tours-tabs-seo" aria-selected="false">SEO</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">Messages</a>
+                  <a class="nav-link" data-toggle="pill" href="#tours-tabs-general-information" role="tab" aria-controls="tours-tabs-general-information" aria-selected="false">Información general</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="pill" href="#custom-tabs-three-settings" role="tab" aria-controls="custom-tabs-three-settings" aria-selected="false">Settings</a>
+                  <a class="nav-link" data-toggle="pill" href="#tours-tabs-operation" role="tab" aria-controls="tours-tabs-operation" aria-selected="false">Operación</a>
                 </li>
               </ul>
             </div>
             <div class="card-body">
-              <div class="tab-content" id="custom-tabs-three-tabContent">
-                <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+              <div class="tab-content" id="tours-tabs-tabContent">
+                <div class="tab-pane fade active show" id="tours-tabs-tour-information" role="tabpanel" aria-labelledby="tours-tabs-tour-information-tab">
                   <base-tour-component ref="baseTourComponent"></base-tour-component>
                 </div>
-                <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                <div class="tab-pane fade" id="tours-tabs-seo" role="tabpanel" aria-labelledby="tours-tabs-seo-tab">
                   <div class="overlay-wrapper">
-                    <div class="overlay">
+                    <div class="overlay" v-show="false">
                       <i class="fas fa-3x fa-sync-alt fa-spin"></i>
                       <div class="text-bold pt-2">Loading...</div>
                     </div>
-                    Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
-                </div></div>
-                <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
-                    Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+                    <seo-tour-component ref="seoTourComponent"></seo-tour-component>
+                  </div>
                 </div>
-                <div class="tab-pane fade" id="custom-tabs-three-settings" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
-                    Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
+                <div class="tab-pane fade" id="tours-tabs-general-information" role="tabpanel" aria-labelledby="tours-tabs-general-information-tab">
+                  <div class="overlay-wrapper">
+                    <div class="overlay" v-show="false">
+                      <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                      <div class="text-bold pt-2">Loading...</div>
+                    </div>
+                    <general-information-component ref="generalInformationComponent"></general-information-component>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="tours-tabs-operation" role="tabpanel" aria-labelledby="tours-tabs-operation-tab">
+                  <div class="overlay-wrapper">
+                    <div class="overlay" v-show="false">
+                      <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                      <div class="text-bold pt-2">Loading...</div>
+                    </div>
+                    <operation-tour-component ref="operationTourComponent"></operation-tour-component>
+                  </div>
                 </div>
               </div>
             </div>
@@ -50,10 +63,18 @@
 
 <script>
 import baseTourComponent from "../../../components/Products/Tours/baseTourComponent.vue";
+import GeneralInformationComponent from '../../../components/Products/Tours/generalInformationComponent.vue';
+import OperationTourComponent from '../../../components/Products/Tours/operationTourComponent.vue';
+import SeoTourComponent from '../../../components/Products/Tours/seoTourComponent.vue';
 
 export default {
   name: "tour-view",
-  components: { baseTourComponent },
+  components: { 
+    baseTourComponent, 
+    SeoTourComponent,
+    GeneralInformationComponent,
+    OperationTourComponent,
+  },
   props: {
     id: {
       required: true,
