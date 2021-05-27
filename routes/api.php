@@ -182,7 +182,7 @@ Route::group([
     // 'middleware' => ['jwt.auth'],
     'prefix' => 'v1/tours/generalinformation'
 ], function () {
-    Route::get('/getbytourid/{id}', 'GeneralInformationController@getSeoTourByTourId');
+    Route::get('/getbytourid/{id}', 'GeneralInformationController@getGeneralInformationByTourId');
     Route::post('/create', 'GeneralInformationController@post');
     Route::put('/put/{seoTourId}', 'GeneralInformationController@put');
 });

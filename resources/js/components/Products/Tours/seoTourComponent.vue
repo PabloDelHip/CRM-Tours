@@ -70,6 +70,7 @@ export default {
       seeHome: false,
 
       id: null,
+      newSeoTour: false,
       seoTour: null,
     };
   },
@@ -77,10 +78,24 @@ export default {
     await this.getSeoTour();
   },
   methods:{
+    getSeoTourForm(){
+      return {
+        keywords: this.keywords,
+        meta_description: this.metaDescription,
+        title: this.title,
+        description: this.description,
+        see_home: +this.seeHome,
+        tour_id: +this.idTour,
+      }
+    },
     async getSeoTour() {
       var response = (await SeoTourResource.getByTourId(this.idTour)).data;
-      if (!response.success || response.data == null) {
+      if (!response.success) {
         return false;
+      }
+      if (response.data == null){
+        this.newSeoTour = true;
+        return;
       }
       this.seoTour = response.data;
 
@@ -89,7 +104,27 @@ export default {
       this.metaDescription = this.seoTour.meta_description;
       this.title = this.seoTour.title;
       this.description = this.seoTour.description;
-      this.seeHome = this.seoTour.seeHome;
+      this.seeHome = this.seoTour.see_home;
+    },
+    async saveSeoTour() {
+      var response = null;
+
+      let formData = this.getSeoTourForm();
+      
+      if (this.newSeoTour) {
+        response = await this.saveNewSeoTour(formData);
+      } else {
+        response = await this.saveEditSeoTour(formData);
+      }
+      return response;
+    },
+    async saveNewSeoTour(formData) {
+      var response = (await SeoTourResource.createSeoTour(formData)).data;
+      return response;
+    },
+    async saveEditSeoTour(formData) {
+      var response = (await SeoTourResource.updateSeoTour(this.id, formData)).data;
+      return response;
     },
   },
 };

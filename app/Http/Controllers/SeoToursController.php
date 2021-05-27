@@ -9,7 +9,7 @@ class SeoToursController extends Controller
 {
     public function getSeoTourByTourId($id){
         try {
-            $seoTour = Seo_Tour::where('id', '=', $id)->first();
+            $seoTour = Seo_Tour::where('tour_id', '=', $id)->first();
         
             return response()->json([
                 'success' => true,

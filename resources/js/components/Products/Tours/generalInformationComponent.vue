@@ -67,16 +67,16 @@
   </div>
 </template>
 <script>
+import GeneralInformation from "../../../providers/products/tours/GeneralInformation"
+
+const GeneralInformationResource = new GeneralInformation();
+
 export default {
   props: {
     idTour: {
       type: Number,
-      required: false,
+      required: true,
     },
-    // idTour:{
-    //   type: Number,
-    //   required: true,
-    // }
   },
   data() {
     return {
@@ -87,7 +87,68 @@ export default {
       additionalInformation: null,
       duration: null,
       qualification: 0,
+
+      id: null,
+      newGeneralInformation: false,
+      generalInformation: null,
     };
+  },
+  async mounted(){
+    await this.getGeneralInformation();
+  },
+  methods:{
+    getGeneralInformationForm(){
+      return {
+        description: this.description,
+        recommendation: this.recommendation,
+        includes: this.includes,
+        itinerary: this.itinerary,
+        additional_information: this.additionalInformation,
+        duration: this.duration,
+        qualification: +this.qualification,
+        tour_id: +this.idTour,
+      }
+    },
+    async getGeneralInformation() {
+      var response = (await GeneralInformationResource.getByTourId(this.idTour)).data;
+      if (!response.success) {
+        return false;
+      }
+      if (response.data == null){
+        this.newGeneralInformation = true;
+        return;
+      }
+      this.generalInformation = response.data;
+
+      this.id = this.generalInformation.id;
+      this.description = this.generalInformation.description;
+      this.recommendation = this.generalInformation.recommendation;
+      this.includes = this.generalInformation.includes;
+      this.itinerary = this.generalInformation.itinerary;
+      this.additionalInformation = this.generalInformation.additional_information;
+      this.duration = this.generalInformation.duration;
+      this.qualification = this.generalInformation.qualification;
+    },
+    async saveGeneralInformation() {
+      var response = null;
+
+      let formData = this.getGeneralInformationForm();
+      
+      if (this.newGeneralInformation) {
+        response = await this.saveNewGeneralInformation(formData);
+      } else {
+        response = await this.saveEditGeneralInformation(formData);
+      }
+      return response;
+    },
+    async saveNewGeneralInformation(formData) {
+      var response = (await GeneralInformationResource.createGeneralInformation(formData)).data;
+      return response;
+    },
+    async saveEditGeneralInformation(formData) {
+      var response = (await GeneralInformationResource.updateGeneralInformation(this.id, formData)).data;
+      return response;
+    },
   },
 }
 </script>

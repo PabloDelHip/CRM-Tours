@@ -7,9 +7,9 @@ use App\General_Information;
 
 class GeneralInformationController extends Controller
 {
-    public function getSeoTourByTourId($id){
+    public function getGeneralInformationByTourId($id){
         try {
-            $generalInformation = General_Information::where('id', '=', $id)->first();
+            $generalInformation = General_Information::where('tour_id', '=', $id)->first();
         
             return response()->json([
                 'success' => true,
