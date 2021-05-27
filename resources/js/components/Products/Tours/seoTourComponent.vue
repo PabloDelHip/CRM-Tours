@@ -2,12 +2,26 @@
   <div>
     <div class="form-group">
       <label for="name">Palabras clave</label>
-      <input
-        type="text"
-        class="form-control"
-        v-model="keywords"
-        placeholder="Keywords"
-      />
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Keywords"
+          v-model="keywordTemporal"
+        />
+        <div class="input-group-append">
+          <input type="button" class="btn btn-success" @click="()=>{if (keywordTemporal.length < 1) return;keywords.push(keywordTemporal);keywordTemporal = '';}" value="+">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button type="button" class="btn btn-default btn-sm" style="margin: 10px 10px 0px 10px;"
+          v-for="(keyword, index) in keywords" :key="index + 'keyword'"
+          @click="keywords.splice(index, 1)">
+            {{ keyword }}
+          </button>
+        </div>
+      </div>
     </div>
     <div class="form-group">
       <label>Meta descripción</label>
@@ -69,6 +83,8 @@ export default {
       description: null,
       seeHome: false,
 
+      keywordTemporal: "",
+
       id: null,
       newSeoTour: false,
       seoTour: null,
@@ -80,7 +96,7 @@ export default {
   methods:{
     getSeoTourForm(){
       return {
-        keywords: this.keywords,
+        keywords: this.keywords.join("|"),
         meta_description: this.metaDescription,
         title: this.title,
         description: this.description,
@@ -100,7 +116,7 @@ export default {
       this.seoTour = response.data;
 
       this.id = this.seoTour.id;
-      this.keywords = this.seoTour.keywords;
+      this.keywords = this.seoTour.keywords.split("|");;
       this.metaDescription = this.seoTour.meta_description;
       this.title = this.seoTour.title;
       this.description = this.seoTour.description;

@@ -50,7 +50,7 @@
             <div class="card-body">
               <div class="tab-content" id="tours-tabs-tabContent">
                 <div class="tab-pane fade active show" id="tours-tabs-tour-information" role="tabpanel" aria-labelledby="tours-tabs-tour-information-tab">
-                  <tour-component ref="baseTourComponent"
+                  <tour-component ref="tourComponent"
                   @get-name="nameTourEdit = $event"
                   :id="+this.id"></tour-component>
                 </div>
@@ -98,7 +98,12 @@
             </div>
             <!-- /.card -->
           </div>
-        </div>
+      </div>
+      <div class="col-12">
+        <button type="button" @click="saveContent()" class="btn btn-primary">
+          Guardar
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -130,7 +135,53 @@ export default {
     };
   },
   methods: {
-
+    async saveContent(){
+      const saveTourResponse = await this.$refs.tourComponent.saveTour();
+      if (!saveTourResponse.success) {
+        this.showError("Error al guardar información del tour.");
+        return; 
+      }
+      const saveSeoTourResponse = await this.$refs.seoTourComponent.saveSeoTour();
+      if (!saveSeoTourResponse.success) {
+        this.showError("Error al guardar Seo.");
+        return; 
+      }
+      const saveGeneralInformationResponse = await this.$refs.generalInformationComponent.saveGeneralInformation();
+      if (!saveGeneralInformationResponse.success) {
+        this.showError("Error al guardar la información general.");
+        return; 
+      }
+      const saveOperationTourResponse = await this.$refs.operationTourComponent.saveOperationTour();
+      if (!saveOperationTourResponse.success) {
+        this.showError("Error al guardar la operación.");
+        return; 
+      }
+      this.showSuccess("Informacion guardada correctamente.");
+    },
+    showError(message){
+      this.$swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        toast: true,
+        position: 'top',
+        timer: 3000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        text: message,
+      });
+    },
+    showSuccess(message){
+      this.$swal.fire({
+        icon: 'success',
+        title: 'Bien',
+        toast: true,
+        position: 'top',
+        timer: 3000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        text: message,
+      });
+    },
   },
 }
 </script>
