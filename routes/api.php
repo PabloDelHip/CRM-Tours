@@ -179,7 +179,7 @@ Route::group([
 
 // Gerneral Information
 Route::group([
-    // 'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth'],
     'prefix' => 'v1/tours/generalinformation'
 ], function () {
     Route::get('/getbytourid/{id}', 'GeneralInformationController@getGeneralInformationByTourId');
@@ -195,6 +195,16 @@ Route::group([
     Route::get('/getbytourid/{id}', 'SeoToursController@getSeoTourByTourId');
     Route::post('/create', 'SeoToursController@post');
     Route::put('/put/{seoTourId}', 'SeoToursController@put');
+});
+
+// Operation-Tour
+Route::group([
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/tours/operationtour'
+], function () {
+    Route::get('/getbytourid/{id}', 'OperationTourController@getOperationTourByTourId');
+    Route::post('/create', 'OperationTourController@post');
+    Route::put('/put/{operationTourId}', 'OperationTourController@put');
 });
 
 // Tours
