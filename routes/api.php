@@ -177,6 +177,16 @@ Route::group([
     Route::get('/get/categories', 'CategorieToursController@getListCategories');
 });
 
+// Gerneral Information
+Route::group([
+    // 'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/tours/generalinformation'
+], function () {
+    Route::get('/getbytourid/{id}', 'GeneralInformationController@getSeoTourByTourId');
+    Route::post('/create', 'GeneralInformationController@post');
+    Route::put('/put/{seoTourId}', 'GeneralInformationController@put');
+});
+
 // Seo-Tours
 Route::group([
     'middleware' => ['jwt.auth'],
