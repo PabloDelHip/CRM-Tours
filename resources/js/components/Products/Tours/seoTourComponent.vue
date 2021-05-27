@@ -77,7 +77,7 @@ export default {
   },
   data() {
     return {
-      keywords: null,
+      keywords: [],
       metaDescription: null,
       title: null,
       description: null,
@@ -131,6 +131,9 @@ export default {
         response = await this.saveNewSeoTour(formData);
       } else {
         response = await this.saveEditSeoTour(formData);
+      }
+      if (response.success){
+        this.id = response.data.id;
       }
       return response;
     },

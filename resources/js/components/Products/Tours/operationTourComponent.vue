@@ -234,6 +234,9 @@ export default {
       } else {
         response = await this.saveEditOperationTour(formData);
       }
+      if (response.success){
+        this.id = response.data.id;
+      }
       return response;
     },
     async saveNewOperationTour(formData) {

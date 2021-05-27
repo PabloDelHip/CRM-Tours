@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="form-group">
-      <label>Descripcrión</label>
+      <label>Descripción</label>
       <textarea
         rows="5"
         class="form-control"
@@ -138,6 +138,9 @@ export default {
         response = await this.saveNewGeneralInformation(formData);
       } else {
         response = await this.saveEditGeneralInformation(formData);
+      }
+      if (response.success){
+        this.id = response.data.id;
       }
       return response;
     },
