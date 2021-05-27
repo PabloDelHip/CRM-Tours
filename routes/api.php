@@ -82,10 +82,8 @@ Route::group([
 
 //Cases
 Route::group([
-
     'middleware' => ['jwt.auth'],
     'prefix' => 'v1/cases/'
-
 ], function () {
 
     Route::get('get/{id_case}', 'CaseController@getCase');
@@ -97,12 +95,9 @@ Route::group([
 
 //Cases History
 Route::group([
-
     'middleware' => ['jwt.auth'],
     'prefix' => 'v1/cases/history/'
-
 ], function () {
-    
     Route::get('get/{id_case}', 'CasesHistoryController@getList');
     Route::post('create', 'CasesHistoryController@updateOrCreateCase');
     Route::put('update/{id_case_history}', 'CasesHistoryController@updateOrCreateCase');
@@ -168,13 +163,14 @@ Route::group([
 ], function () {
     Route::get('/get', 'VendorsController@getList');
     Route::get('/get/{id}', 'VendorsController@getVendor');
+    Route::put('/put/{vendorId}', 'VendorsController@put');
     Route::post('/create', 'VendorsController@post');
     Route::delete('/delete/{id}', 'VendorsController@delete');
 });
 
 // Categories Tours
 Route::group([
-    //'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth'],
     'prefix' => 'v1/categorie-tours'
 ], function () {
     Route::get('/get', 'CategorieToursController@getList');
