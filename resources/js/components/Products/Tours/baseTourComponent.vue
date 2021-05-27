@@ -35,6 +35,14 @@
       </label>
     </div>
     <div class="form-group">
+      <label>Agencia</label>
+      <select class="form-control" v-model.number="vendorId">
+        <option v-for="vendor in vendors" :value="vendor.id" :key="vendor.id">
+          {{ vendor.name }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group" v-show="id != null">
       <label>Estatus del tour</label>
       <select class="form-control" v-model.number="statusTour">
         <option value="0">Inactivo</option>
@@ -45,30 +53,93 @@
 </template>
 
 <script>
+import Vendor from '../../../providers/Vendor'
+import Tour from '../../../providers/products/Tour'
+
+const VendorResource = new Vendor();
+const TourResource = new Tour();
+
 export default {
   props: {
-    idTour: {
+    id: {
       type: Number,
       required: false,
     },
-    // idVendor:{
-    //   type: Number,
-    //   required: true,
-    // }
   },
   data() {
     return {
       name: null,
       assitedPurchace: false,
       url: null,
-      statusTour: null,
+      statusTour: 1,
+      vendorId: null,
+
+      tour: null,
+      newTour: false,
+      vendors: [],
     };
   },
+  async created() {
+    this.newTour = this.id == null || this.id == undefined;
+    if (!this.newTour){
+      await this.getTour();
+    }
+    await this.getVendors();
+  },
   watch: {
-    idTour: function(val) {
-      this.newTour = this.idTour == null;
+    id: function(val) {
+      this.newTour = this.id == null || this.id == undefined;
     },
   },
-  methods: {},
+  methods: {
+    getTourForm(){
+      return {
+        name: this.name,
+        assisted_purchase: this.assitedPurchace,
+        url: this.url,
+        status: +this.statusTour,
+        vendor_id: +this.vendorId,
+      }
+    },
+    async getTour(){
+      var response = (await TourResource.getTour(this.id)).data;
+      if (!response.success) {
+        return false;
+      }
+      this.tour = response.data;
+
+      this.name = this.tour.name;
+      this.assitedPurchace = this.tour.assisted_purchase;
+      this.url = this.tour.url;
+      this.statusTour = this.tour.status;
+      this.vendorId = this.tour.vendor_id;
+    },
+    async getVendors(){
+      var response = (await VendorResource.getVendorList()).data;
+      if (response.success){
+        this.vendors = response.data;
+      }
+    },
+    async saveTour() {
+      var response = null;
+
+      let formData = this.getTourForm();
+      
+      if (this.newTour) {
+        response = await this.saveNewTour(formData);
+      } else {
+        response = await this.saveEditTour(formData);
+      }
+      return response;
+    },
+    async saveNewTour(formData) {
+      var response = (await TourResource.createTour(formData)).data;
+      return response;
+    },
+    async saveEditTour(formData) {
+      var response = (await TourResource.updateTour(this.id, formData)).data;
+      return response;
+    },
+  },
 };
 </script>

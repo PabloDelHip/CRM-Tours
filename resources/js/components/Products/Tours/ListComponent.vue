@@ -53,12 +53,26 @@
                   <tr>
                     <th>Nombre</th>
                     <th>Fecha de Creacion</th>
+                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="tour in tours" :key="tour.id">
                     <td>{{ tour.name }}</td>
                     <td>{{ fechaFormato(tour.created_at) }}</td>
+                    <td class="table-actions">
+                      <div class="btn-group">
+                        <router-link
+                          class="btn btn-info btn-sm"
+                          :to="{
+                            name: 'editTour',
+                            params: { id: +tour.id },
+                          }"
+                        >
+                          <i class="fas fa-pencil-alt"> </i>
+                        </router-link>
+                      </div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -75,6 +89,10 @@
 import tourModalFormComponent from '../../../components/Products/Tours/tourModalFormComponent.vue';
 import moment, { locales } from "moment";
 
+import Tour from '../../../providers/products/Tour'
+
+const TourResource = new Tour();
+
 export default {
   components: { tourModalFormComponent },
   data(){
@@ -84,7 +102,16 @@ export default {
       openModal: false,
     };
   },
+  async created() {
+    await this.getTours();
+  },
   methods: {
+    async getTours(){
+      var response = (await TourResource.getTours()).data;
+      if (response.success){
+          this.tours = response.data;
+      }
+    },
     fechaFormato($fecha) {
       if ($fecha == null || $fecha == undefined) {
         return "-";

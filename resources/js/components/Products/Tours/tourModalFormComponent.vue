@@ -43,10 +43,14 @@ export default {
     openModalForm() {
       this.$modal.show("tour-modal-form");
     },
-    saveContent() {
+    async saveContent() {
+      var tourResponse = await this.$refs.baseTourComponent.saveTour();
+      if (!tourResponse.success) {
+        return;
+      }
       this.$router.push({
         name: "editTour",
-        params: { id: 1 },
+        params: { id: +tourResponse.data.id },
       });
     },
   },

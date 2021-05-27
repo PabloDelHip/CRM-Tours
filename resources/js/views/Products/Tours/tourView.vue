@@ -1,6 +1,30 @@
 <template>
   <div>
-    <h1>Información del tour {{ this.id }}</h1>
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Tours - </h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">
+                <router-link :to="{ path: '/' }">
+                  Home
+                </router-link>
+              </li>
+              <li class="breadcrumb-item">
+                <router-link :to="{ name: 'ListTours', }">
+                  Tours
+                </router-link>
+              </li>
+              <li class="breadcrumb-item active">Tours -</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </section>
     <div class="row">
       <div class="col-12">
           <div class="card card-primary card-outline card-tabs">
@@ -26,7 +50,8 @@
             <div class="card-body">
               <div class="tab-content" id="tours-tabs-tabContent">
                 <div class="tab-pane fade active show" id="tours-tabs-tour-information" role="tabpanel" aria-labelledby="tours-tabs-tour-information-tab">
-                  <base-tour-component ref="baseTourComponent"></base-tour-component>
+                  <base-tour-component ref="baseTourComponent"
+                  :id="+this.id"></base-tour-component>
                 </div>
                 <div class="tab-pane fade" id="tours-tabs-seo" role="tabpanel" aria-labelledby="tours-tabs-seo-tab">
                   <div class="overlay-wrapper">

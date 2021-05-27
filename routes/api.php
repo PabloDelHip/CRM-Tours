@@ -163,8 +163,8 @@ Route::group([
 ], function () {
     Route::get('/get', 'VendorsController@getList');
     Route::get('/get/{id}', 'VendorsController@getVendor');
-    Route::put('/put/{vendorId}', 'VendorsController@put');
     Route::post('/create', 'VendorsController@post');
+    Route::put('/put/{vendorId}', 'VendorsController@put');
     Route::delete('/delete/{id}', 'VendorsController@delete');
 });
 
@@ -183,6 +183,10 @@ Route::group([
     //'middleware' => ['jwt.auth'],
     'prefix' => 'v1/tours'
 ], function () {
+    Route::get('/get', 'ToursController@getTours');
+    Route::get('/get/{id}', 'ToursController@getTour');
+    Route::post('/create', 'ToursController@post');
+    Route::put('/put/{tourId}', 'ToursController@put');
     Route::get('/get/categorie/{id_categorie}', 'ToursController@getListCategorie');
     Route::get('/get/images/{id_tour}', 'ToursController@getImagesTour');
     Route::get('/get/info/tour/{id_tour}', 'ToursController@getInfoTour');
