@@ -50,16 +50,16 @@
   </div>
 </template>
 <script>
+import SeoTour from "../../../providers/products/tours/SeoTours"
+
+const SeoTourResource = new SeoTour();
+
 export default {
   props: {
     idTour: {
       type: Number,
-      required: false,
+      required: true,
     },
-    // idTour:{
-    //   type: Number,
-    //   required: true,
-    // }
   },
   data() {
     return {
@@ -68,7 +68,29 @@ export default {
       title: null,
       description: null,
       seeHome: false,
+
+      id: null,
+      seoTour: null,
     };
+  },
+  async mounted(){
+    await this.getSeoTour();
+  },
+  methods:{
+    async getSeoTour() {
+      var response = (await SeoTourResource.getByTourId(this.idTour)).data;
+      if (!response.success || response.data == null) {
+        return false;
+      }
+      this.seoTour = response.data;
+
+      this.id = this.seoTour.id;
+      this.keywords = this.seoTour.keywords;
+      this.metaDescription = this.seoTour.meta_description;
+      this.title = this.seoTour.title;
+      this.description = this.seoTour.description;
+      this.seeHome = this.seoTour.seeHome;
+    },
   },
 };
 </script>

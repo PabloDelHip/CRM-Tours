@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Tours - </h1>
+            <h1>Tour{{ nameTourEdit == null ? "" : " - "  + nameTourEdit }}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -18,7 +18,7 @@
                   Tours
                 </router-link>
               </li>
-              <li class="breadcrumb-item active">Tours -</li>
+              <li class="breadcrumb-item active">Tour{{ nameTourEdit == null ? "" : " - "  + nameTourEdit }}</li>
             </ol>
           </div>
         </div>
@@ -50,8 +50,9 @@
             <div class="card-body">
               <div class="tab-content" id="tours-tabs-tabContent">
                 <div class="tab-pane fade active show" id="tours-tabs-tour-information" role="tabpanel" aria-labelledby="tours-tabs-tour-information-tab">
-                  <base-tour-component ref="baseTourComponent"
-                  :id="+this.id"></base-tour-component>
+                  <tour-component ref="baseTourComponent"
+                  @get-name="nameTourEdit = $event"
+                  :id="+this.id"></tour-component>
                 </div>
                 <div class="tab-pane fade" id="tours-tabs-seo" role="tabpanel" aria-labelledby="tours-tabs-seo-tab">
                   <div class="overlay-wrapper">
@@ -59,7 +60,8 @@
                       <i class="fas fa-3x fa-sync-alt fa-spin"></i>
                       <div class="text-bold pt-2">Loading...</div>
                     </div>
-                    <seo-tour-component ref="seoTourComponent"></seo-tour-component>
+                    <seo-tour-component ref="seoTourComponent"
+                    :idTour="+this.id"></seo-tour-component>
                   </div>
                 </div>
                 <div class="tab-pane fade" id="tours-tabs-general-information" role="tabpanel" aria-labelledby="tours-tabs-general-information-tab">
@@ -68,7 +70,8 @@
                       <i class="fas fa-3x fa-sync-alt fa-spin"></i>
                       <div class="text-bold pt-2">Loading...</div>
                     </div>
-                    <general-information-component ref="generalInformationComponent"></general-information-component>
+                    <general-information-component ref="generalInformationComponent"
+                    :idTour="+this.id"></general-information-component>
                   </div>
                 </div>
                 <div class="tab-pane fade" id="tours-tabs-operation" role="tabpanel" aria-labelledby="tours-tabs-operation-tab">
@@ -77,7 +80,8 @@
                       <i class="fas fa-3x fa-sync-alt fa-spin"></i>
                       <div class="text-bold pt-2">Loading...</div>
                     </div>
-                    <operation-tour-component ref="operationTourComponent"></operation-tour-component>
+                    <operation-tour-component ref="operationTourComponent"
+                    :idTour="+this.id"></operation-tour-component>
                   </div>
                 </div>
                 <div class="tab-pane fade" id="tours-tabs-images" role="tabpanel" aria-labelledby="tours-tabs-images-tab">
@@ -86,7 +90,8 @@
                       <i class="fas fa-3x fa-sync-alt fa-spin"></i>
                       <div class="text-bold pt-2">Loading...</div>
                     </div>
-                    <images-tour-component ref="imagesTourComponent"></images-tour-component>
+                    <images-tour-component ref="imagesTourComponent"
+                    :idTour="+this.id"></images-tour-component>
                   </div>
                 </div>
               </div>
@@ -99,7 +104,7 @@
 </template>
 
 <script>
-import baseTourComponent from "../../../components/Products/Tours/baseTourComponent.vue";
+import TourComponent from "../../../components/Products/Tours/tourComponent.vue";
 import GeneralInformationComponent from '../../../components/Products/Tours/generalInformationComponent.vue';
 import ImagesTourComponent from '../../../components/Products/Tours/imagesTourComponent.vue';
 import OperationTourComponent from '../../../components/Products/Tours/operationTourComponent.vue';
@@ -108,7 +113,7 @@ import SeoTourComponent from '../../../components/Products/Tours/seoTourComponen
 export default {
   name: "tour-view",
   components: { 
-    baseTourComponent, 
+    TourComponent, 
     SeoTourComponent,
     GeneralInformationComponent,
     OperationTourComponent,
@@ -121,7 +126,7 @@ export default {
   },
   data(){
     return {
-
+      nameTourEdit: null,
     };
   },
   methods: {

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import baseTourComponent from "../../../components/Products/Tours/baseTourComponent.vue";
+import baseTourComponent from "./tourComponent.vue";
 export default {
   components: { baseTourComponent },
   props: {

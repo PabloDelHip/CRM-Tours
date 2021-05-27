@@ -177,10 +177,19 @@ Route::group([
     Route::get('/get/categories', 'CategorieToursController@getListCategories');
 });
 
-
-//Tours
+// Seo-Tours
 Route::group([
-    //'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/tours/seotours'
+], function () {
+    Route::get('/getbytourid/{id}', 'SeoToursController@getSeoTourByTourId');
+    Route::post('/create', 'SeoToursController@post');
+    Route::put('/put/{seoTourId}', 'SeoToursController@put');
+});
+
+// Tours
+Route::group([
+    'middleware' => ['jwt.auth'],
     'prefix' => 'v1/tours'
 ], function () {
     Route::get('/get', 'ToursController@getTours');

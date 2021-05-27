@@ -89,7 +89,7 @@
 import tourModalFormComponent from '../../../components/Products/Tours/tourModalFormComponent.vue';
 import moment, { locales } from "moment";
 
-import Tour from '../../../providers/products/Tour'
+import Tour from '../../../providers/products/tours/Tour'
 
 const TourResource = new Tour();
 
