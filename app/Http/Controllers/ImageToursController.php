@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Storage;
 
 class ImageToursController extends Controller
 {
-   public function getImagesTourByTourId($id_tour)
+   public function getImagesTourByTourId($id)
    {
       try {
-         $imagesTours = Image_Tours::where('tour_id', '=', $id_tour)
+         $imagesTours = Image_Tours::where('tour_id', '=', $id)
             ->get();
 
          foreach ($imagesTours as $imagesTour) {
