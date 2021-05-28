@@ -53,26 +53,6 @@ class ToursController extends Controller
         }
     }
 
-    public function getImagesTour($id_tour) {
-        try {
-            $images_tours = Image_Tours::where('tour_id', '=', $id_tour)
-            ->where('status', '=', 1)
-            ->get();
-        
-            return response()->json([
-                'success' => true,
-                'message' => 'Imágenes del tour encontrados de forma correcta',
-                'data' => $images_tours
-            ], 200);
-        } catch (MassAssignmentException $err) {
-            return response()->json([
-                'success' => false,
-                'message' => 'error al optener tours',
-                'err' => $err->getMessage()
-            ], 500);
-        }
-    }
-
     public function getTour($id){
         try {
             $tour = Tour::where('id', '=', $id)->first();

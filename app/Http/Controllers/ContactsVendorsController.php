@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Exception;
 use App\Contact_Vendor;
 use DB;
 use Illuminate\Database\Eloquent\MassAssignmentException;

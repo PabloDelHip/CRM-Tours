@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Profile;
+use Exception;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -12,16 +13,16 @@ class ProfilesController extends Controller
 {
     public function getProfiles(Request $request, $type)
     {
-        try{
+        try {
             $profiles = Profile::select('profiles.*')
-                    ->join('contacts', 'profiles.contact_id', '=', 'contacts.id')
-                    ->where('contacts.type', $type)
-                    ->get();
+                ->join('contacts', 'profiles.contact_id', '=', 'contacts.id')
+                ->where('contacts.type', $type)
+                ->get();
 
             return response()->json([
-            'success' => true,
-            'message' => 'Perfiles encontrados',
-            'data' => $profiles,
+                'success' => true,
+                'message' => 'Perfiles encontrados',
+                'data' => $profiles,
             ], 200);
         } catch (Exception $e) {
             return response()->json([
@@ -37,7 +38,7 @@ class ProfilesController extends Controller
     {
         $profile = Profile::find($id);
 
-        if ($profile->image){
+        if ($profile->image) {
             $profile->image = Storage::disk('images-profile')->url($profile->image);
         }
 
@@ -51,7 +52,7 @@ class ProfilesController extends Controller
     public function getProfileByContactId($id)
     {
         $profile = Profile::where('contact_id', $id)->first();
-        if ($profile->image){
+        if ($profile->image) {
             $profile->image = Storage::disk('images-profile')->url($profile->image);
         }
 
@@ -62,7 +63,8 @@ class ProfilesController extends Controller
         ], 200);
     }
 
-    public function post(Request $request){
+    public function post(Request $request)
+    {
         $content = $request->all();
 
         $profile = new Profile();
@@ -75,7 +77,7 @@ class ProfilesController extends Controller
         $profile->image = $this->saveFileBase64($content['picture'], $profile->image, 'profile', 'images-profile');
 
         $profile->save();
-        
+
         return response()->json([
             'success' => true,
             'message' => 'Perfil insertado',
@@ -83,7 +85,8 @@ class ProfilesController extends Controller
         ], 200);
     }
 
-    public function put(Request $request, $id){
+    public function put(Request $request, $id)
+    {
         $profile = Profile::find($id);
         $content = $request->all();
 
@@ -96,7 +99,7 @@ class ProfilesController extends Controller
         $profile->image = $this->saveFileBase64($content['picture'], $profile->image, 'profile', 'images-profile');
 
         $profile->save();
-        
+
         return response()->json([
             'success' => true,
             'message' => 'Perfil actualizado',
@@ -106,16 +109,16 @@ class ProfilesController extends Controller
 
     public function saveFileBase64($fileBase64, $nameFile, string $prefixName, string $routeFile)
     {
-        if ($fileBase64){
+        if ($fileBase64) {
             $extension = explode('/', explode(':', substr($fileBase64, 0, strpos($fileBase64, ';')))[1])[1];
-            $replace = substr($fileBase64, 0, strpos($fileBase64, ',')+1);
-            
+            $replace = substr($fileBase64, 0, strpos($fileBase64, ',') + 1);
+
             $file = str_replace($replace, '', $fileBase64);
             $file = str_replace(' ', '+', $file);
-            
+
             $fileName = $nameFile;
-            if (!$fileName){
-                $fileName = $prefixName."-".Str::random(20).'.'.$extension;
+            if (!$fileName) {
+                $fileName = $prefixName . "-" . Str::random(20) . '.' . $extension;
                 $nameFile = $fileName;
             }
             $successFile = Storage::disk($routeFile)->put($fileName, base64_decode($file));

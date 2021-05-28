@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\General_Information;
+use Exception;
 
 class GeneralInformationController extends Controller
 {

@@ -56,7 +56,7 @@ Route::group([
 
     // Profile
     Route::get('/users/get-profile/{id}', 'UsersController@getUserProfile');
-    
+
     // Notes
     Route::get('/notes/user/get/{id_user}/{entity?}', 'NotesController@getNotesUser');
     Route::post('/notes/user/save', 'NotesController@saveNotesUser');
@@ -72,7 +72,7 @@ Route::group([
     'middleware' => ['jwt.auth'],
     'prefix' => 'v1/customer/'
 ], function () {
-    
+
     Route::post('create', 'CustomerController@updateOrCreateCustomer');
     Route::put('update/{id_customer}', 'CustomerController@updateOrCreateCustomer');
     Route::get('get/list/{id_provider}', 'CustomerController@getListCustomer');
@@ -207,6 +207,16 @@ Route::group([
     Route::put('/put/{operationTourId}', 'OperationTourController@put');
 });
 
+// Images-Tour
+Route::group([
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/tours/images'
+], function () {
+    Route::get('/get/{id_tour}', 'ImageToursController@getImagesTourByTourId');
+    Route::post('/create', 'ImageToursController@post');
+    Route::put('/put/{imageTourId}', 'ImageToursController@put');
+});
+
 // Tours
 Route::group([
     'middleware' => ['jwt.auth'],
@@ -217,6 +227,5 @@ Route::group([
     Route::post('/create', 'ToursController@post');
     Route::put('/put/{tourId}', 'ToursController@put');
     Route::get('/get/categorie/{id_categorie}', 'ToursController@getListCategorie');
-    Route::get('/get/images/{id_tour}', 'ToursController@getImagesTour');
     Route::get('/get/info/tour/{id_tour}', 'ToursController@getInfoTour');
 });

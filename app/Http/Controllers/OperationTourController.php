@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Operation_Tour;
+use Exception;
 
 class OperationTourController extends Controller
 {
