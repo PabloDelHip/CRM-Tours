@@ -42,7 +42,7 @@ class ImageToursController extends Controller
          $content = $request->all();
 
          $imagesTour = new Image_Tours();
-         $imagesTour->url_image = $this->saveFileBase64($content['url_image'], $imagesTour->url_image, 'tour-' + $content['tour_id'], 'images-products-tours');
+         $imagesTour->url_image = $this->saveFileBase64($content['url_image'], $imagesTour->url_image, 'tour-'.$content['tour_id'], 'images-products-tours');
          $imagesTour->status = $content['status'];
          $imagesTour->tour_id = $content['tour_id'];
          $imagesTour->save();
@@ -67,7 +67,7 @@ class ImageToursController extends Controller
          $content = $request->all();
 
          $imagesTour = Image_Tours::find($imageTourId);
-         $imagesTour->url_image = $this->saveFileBase64($content['url_image'], $imagesTour->url_image, 'tour-' + $content['tour_id'], 'images-products-tours');
+         $imagesTour->url_image = $this->saveFileBase64($content['url_image'], $imagesTour->url_image, 'tour-'.$content['tour_id'], 'images-products-tours');
          $imagesTour->status = $content['status'];
          $imagesTour->tour_id = $content['tour_id'];
          $imagesTour->save();

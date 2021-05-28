@@ -212,7 +212,7 @@ Route::group([
     'middleware' => ['jwt.auth'],
     'prefix' => 'v1/tours/images'
 ], function () {
-    Route::get('/get/{id}', 'ImageToursController@getImagesTourByTourId');
+    Route::get('/getbytourid/{id}', 'ImageToursController@getImagesTourByTourId');
     Route::post('/create', 'ImageToursController@post');
     Route::put('/put/{imageTourId}', 'ImageToursController@put');
 });
