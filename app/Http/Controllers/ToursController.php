@@ -9,9 +9,30 @@ use App\Tour;
 use App\Seo_Tour;
 use App\General_Information;
 use App\Operation_Tour;
+use Exception;
 
 class ToursController extends Controller
 {
+    public function getTours(){
+        try
+        {
+            $tours = Tour::get();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Tours encontrados de forma correcta',
+                'data' => $tours
+            ], 200);
+        }
+        catch (Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener tours',
+                'err' => $ex->getMessage()
+            ], 500);
+        }
+    }
+
     public function getListCategorie($id_categorie) {
         try {
             
@@ -20,38 +41,89 @@ class ToursController extends Controller
             ->get();
         
             return response()->json([
-                'succes' => true,
+                'success' => true,
                 'message' => 'Tours encontrados de forma correcta',
                 'data' => $tours
             ], 200);
         } catch (MassAssignmentException $err) {
             return response()->json([
-                'succes' => false,
-                'message' => 'error al optener tours',
+                'success' => false,
+                'message' => 'Error al obtener tours',
                 'err' => $err->getMessage()
             ], 500);
         }
     }
 
-    public function getImagesTour($id_tour) {
+    public function getTour($id){
         try {
-            
-            $images_tours = Image_Tours::where('tour_id', '=', $id_tour)
-            ->where('status', '=', 1)
-            ->get();
+            $tour = Tour::where('id', '=', $id)->first();
         
             return response()->json([
-                'succes' => true,
-                'message' => 'Iamegens del tour encontrados de forma correcta',
-                'data' => $images_tours
+                'success' => true,
+                'message' => 'Tour encontrado de forma correcta',
+                'data' => $tour
             ], 200);
         } catch (MassAssignmentException $err) {
             return response()->json([
-                'succes' => false,
-                'message' => 'error al optener tours',
+                'success' => false,
+                'message' => 'error tours',
                 'err' => $err->getMessage()
             ], 500);
         }
+    }
+
+    public function post(Request $request){
+      try{
+        $content = $request->all();
+  
+        $tour = new Tour();
+        $tour->name = $content['name'];
+        $tour->assisted_purchase = $content['assisted_purchase'];
+        $tour->url = $content['url'];
+        $tour->status = $content['status'];
+        $tour->vendor_id = $content['vendor_id'];
+        $tour->save();
+  
+        return response()->json([
+          'success' => true,
+          'message' => 'Tour insertado',
+          'data' => $tour,
+        ], 200);
+      }
+      catch (Exception $ex){
+        return response()->json([
+          'success' => false,
+          'message' => 'Tour no insertado',
+          'err' => $ex,
+        ], 500);
+      }
+    }
+
+    public function put(Request $request, $tourId){
+      try{
+        $content = $request->all();
+  
+        $tour = Tour::find($tourId);
+        $tour->name = $content['name'];
+        $tour->assisted_purchase = $content['assisted_purchase'];
+        $tour->url = $content['url'];
+        $tour->status = $content['status'];
+        $tour->vendor_id = $content['vendor_id'];
+        $tour->save();
+  
+        return response()->json([
+          'success' => true,
+          'message' => 'Tour actualizado',
+          'data' => $tour,
+        ], 200);
+      }
+      catch (Exception $ex){
+        return response()->json([
+          'success' => false,
+          'message' => 'Tour no actualizado',
+          'err' => $ex,
+        ], 500);
+      }
     }
 
     public function getInfoTour($id_tour) {
@@ -78,13 +150,13 @@ class ToursController extends Controller
             ];
         
             return response()->json([
-                'succes' => true,
+                'success' => true,
                 'message' => 'Tour encontrado de forma correcta',
                 'data' => $data_tour
             ], 200);
         } catch (MassAssignmentException $err) {
             return response()->json([
-                'succes' => false,
+                'success' => false,
                 'message' => 'error tours',
                 'err' => $err->getMessage()
             ], 500);

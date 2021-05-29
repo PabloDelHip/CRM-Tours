@@ -4,7 +4,7 @@ import Router from "vue-router";
 Vue.use(Router);
 
 //Index
-import Index from './views/index.vue' 
+import Index from './views/index.vue'
 
 // Login section
 import Login from "./views/Login/LoginComponent.vue";
@@ -15,7 +15,6 @@ import NuevaContrasena from "./views/Login/NewPassword.vue";
 import Overview from "./views/Dashboard/OverviewComponent.vue";
 
 //Users section
-import UsersIndex from "./views/Users/index.vue";
 import Userslist from "./views/Users/Userslist.vue";
 import UserView from "./views/Users/UserView.vue";
 import UserProfile from "./views/Users/profileView.vue";
@@ -32,7 +31,6 @@ import NotFound from "./views/Error/NotFound.vue";
 import NotAuthorized from "./views/Error/NotAuthorized.vue";
 
 //Vendors section
-import Vendors from './views/vendors/index.vue'
 import VendorComponent from './views/vendors/VendorComponent.vue'
 import VendorsList from './views/vendors/listView.vue'
 import VendorsProfile from './views/vendors/profile.vue'
@@ -44,7 +42,9 @@ import VendorsContactsView from './views/vendors/Contacts/contactsview.vue'
 import CasesHistory from './views/Cases/timeLineView.vue'
 
 //Tours
+import IndexTours from './views/Products/Tours/index.vue'
 import ListTours from './views/Products/Tours/ListView.vue'
+import TourView from './views/Products/Tours/tourView.vue'
 
 export default new Router({
     linkExactActiveClass: "active",
@@ -71,7 +71,7 @@ export default new Router({
         {
             path: "/users",
             name: "Users",
-            component: UsersIndex,
+            component: Index,
             children: [{
                     path: "",
                     name: "ListUser",
@@ -137,7 +137,7 @@ export default new Router({
         {
             path: "/vendors",
             name: "Vendors",
-            component: Vendors,
+            component: Index,
             children: [{
                     path: "",
                     name: "ListVendor",
@@ -190,26 +190,34 @@ export default new Router({
             path: "/cases",
             name: "cases",
             component: Index,
-            children:[
-                {
-                    path: "history/:id_case",
-                    name: "caseHistory",
-                    component: CasesHistory,
-                    props: true
-                }
-            ]
+            children: [{
+                path: "history/:id_case",
+                name: "caseHistory",
+                component: CasesHistory,
+                props: true
+            }]
         },
         {
             path: "/products",
             name: "products",
             component: Index,
-            children:[
-                {
-                    path: "tours",
-                    name: "ListTours",
-                    component: ListTours,
-                },
-            ]
+            children: [{
+                path: "tours",
+                name: "indexTours",
+                component: IndexTours,
+                children: [{
+                        path: "",
+                        name: "ListTours",
+                        component: ListTours,
+                    },
+                    {
+                        path: "edit/:id",
+                        name: "editTour",
+                        component: TourView,
+                        props: true,
+                    },
+                ]
+            }, ]
         },
         {
             path: "/overview",

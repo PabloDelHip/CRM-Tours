@@ -56,7 +56,7 @@ Route::group([
 
     // Profile
     Route::get('/users/get-profile/{id}', 'UsersController@getUserProfile');
-    
+
     // Notes
     Route::get('/notes/user/get/{id_user}/{entity?}', 'NotesController@getNotesUser');
     Route::post('/notes/user/save', 'NotesController@saveNotesUser');
@@ -72,7 +72,7 @@ Route::group([
     'middleware' => ['jwt.auth'],
     'prefix' => 'v1/customer/'
 ], function () {
-    
+
     Route::post('create', 'CustomerController@updateOrCreateCustomer');
     Route::put('update/{id_customer}', 'CustomerController@updateOrCreateCustomer');
     Route::get('get/list/{id_provider}', 'CustomerController@getListCustomer');
@@ -82,10 +82,8 @@ Route::group([
 
 //Cases
 Route::group([
-
     'middleware' => ['jwt.auth'],
     'prefix' => 'v1/cases/'
-
 ], function () {
 
     Route::get('get/{id_case}', 'CaseController@getCase');
@@ -97,12 +95,9 @@ Route::group([
 
 //Cases History
 Route::group([
-
     'middleware' => ['jwt.auth'],
     'prefix' => 'v1/cases/history/'
-
 ], function () {
-    
     Route::get('get/{id_case}', 'CasesHistoryController@getList');
     Route::post('create', 'CasesHistoryController@updateOrCreateCase');
     Route::put('update/{id_case_history}', 'CasesHistoryController@updateOrCreateCase');
@@ -169,25 +164,68 @@ Route::group([
     Route::get('/get', 'VendorsController@getList');
     Route::get('/get/{id}', 'VendorsController@getVendor');
     Route::post('/create', 'VendorsController@post');
+    Route::put('/put/{vendorId}', 'VendorsController@put');
     Route::delete('/delete/{id}', 'VendorsController@delete');
 });
 
 // Categories Tours
 Route::group([
-    //'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth'],
     'prefix' => 'v1/categorie-tours'
 ], function () {
     Route::get('/get', 'CategorieToursController@getList');
     Route::get('/get/categories', 'CategorieToursController@getListCategories');
 });
 
-
-//Tours
+// Gerneral Information
 Route::group([
-    //'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/tours/generalinformation'
+], function () {
+    Route::get('/getbytourid/{id}', 'GeneralInformationController@getGeneralInformationByTourId');
+    Route::post('/create', 'GeneralInformationController@post');
+    Route::put('/put/{seoTourId}', 'GeneralInformationController@put');
+});
+
+// Seo-Tours
+Route::group([
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/tours/seotours'
+], function () {
+    Route::get('/getbytourid/{id}', 'SeoToursController@getSeoTourByTourId');
+    Route::post('/create', 'SeoToursController@post');
+    Route::put('/put/{seoTourId}', 'SeoToursController@put');
+});
+
+// Operation-Tour
+Route::group([
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/tours/operationtour'
+], function () {
+    Route::get('/getbytourid/{id}', 'OperationTourController@getOperationTourByTourId');
+    Route::post('/create', 'OperationTourController@post');
+    Route::put('/put/{operationTourId}', 'OperationTourController@put');
+});
+
+// Images-Tour
+Route::group([
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/tours/images'
+], function () {
+    Route::get('/getbytourid/{id}', 'ImageToursController@getImagesTourByTourId');
+    Route::post('/create', 'ImageToursController@post');
+    Route::put('/put/{imageTourId}', 'ImageToursController@put');
+});
+
+// Tours
+Route::group([
+    'middleware' => ['jwt.auth'],
     'prefix' => 'v1/tours'
 ], function () {
+    Route::get('/get', 'ToursController@getTours');
+    Route::get('/get/{id}', 'ToursController@getTour');
+    Route::post('/create', 'ToursController@post');
+    Route::put('/put/{tourId}', 'ToursController@put');
     Route::get('/get/categorie/{id_categorie}', 'ToursController@getListCategorie');
-    Route::get('/get/images/{id_tour}', 'ToursController@getImagesTour');
     Route::get('/get/info/tour/{id_tour}', 'ToursController@getInfoTour');
 });

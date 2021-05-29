@@ -197,7 +197,7 @@
                     </router-link>
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="javascript:;" class="nav-link">
                       <i class="fas fa-shopping-cart"></i>
                       <p>
                         Productos
@@ -206,10 +206,10 @@
                     </a>
                     <ul class="nav nav-treeview">
                       <li class="nav-item">
-                        <a href="pages/mailbox/mailbox.html" class="nav-link">
-                          <i class="far fa-circle nav-icon"></i>
+                        <router-link class="nav-link" :to="{ name:'ListTours'}">
+                          <i class="fas fa-walking nav-icon"></i>
                           <p>Tours</p>
-                        </a>
+                        </router-link>
                       </li>
                       <li class="nav-item">
                         <a href="pages/mailbox/compose.html" class="nav-link">

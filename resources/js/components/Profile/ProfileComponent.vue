@@ -22,23 +22,23 @@
         <div class="row">
           <div class="col-7">
             <div class="form-group">
-            <label for="name">Nombre</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="name"
-              placeholder="John Doe"
-            />
-          </div>
-          <div class="form-group">
-            <label for="lastName">Apellidos</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="lastName"
-              placeholder="John Doe"
-            />
-          </div>
+              <label for="name">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="name"
+                placeholder="John Doe"
+              />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Apellidos</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="lastName"
+                placeholder="John Doe"
+              />
+            </div>
           </div>
           <div class="form-group col-5" style="text-align:center">
             <input
@@ -106,7 +106,7 @@ export default {
 
       // Perfil
       picture: null,
-      imagePreview: '/img/profile-icon.png',
+      imagePreview: "/img/profile-icon.png",
 
       name: null,
       lastName: null,
@@ -124,18 +124,24 @@ export default {
     onFileChange(event) {
       this.picture = event.target.files[0];
 
-      if (!(this.picture) || !(/\.(jpe?g|png|gif)$/i.test(this.picture.name)) ||
-          ((this.picture.size / 1024 / 1024) > 2)) {
+      if (
+        !this.picture ||
+        !/\.(jpe?g|png|gif)$/i.test(this.picture.name) ||
+        this.picture.size / 1024 / 1024 > 2
+      ) {
         this.picture = null;
-        return;        
+        return;
       }
       let reader = new FileReader();
 
-      reader.addEventListener("load", function() {
+      reader.addEventListener(
+        "load",
+        function() {
           this.imagePreview = reader.result;
-        }.bind(this), false
+        }.bind(this),
+        false
       );
-      
+
       reader.readAsDataURL(this.picture);
     },
     async getProfile() {
@@ -153,7 +159,7 @@ export default {
       this.lastName = this.profile.last_name;
       this.birthDate = this.profile.birth_date;
       this.sex = this.profile.sex;
-      if (this.profile.image){
+      if (this.profile.image) {
         this.imagePreview = this.profile.image;
       }
       this.$emit("get-name", this.name + " " + this.lastName);
@@ -165,7 +171,11 @@ export default {
         birth_date: this.birthDate,
         sex: +this.sex,
         contact_id: +this.contactId,
-        picture: this.picture == null && (this.profile == null || this.profile.image == this.imagePreview) ? null : this.imagePreview,
+        picture:
+          this.picture == null &&
+          (this.profile == null || this.profile.image == this.imagePreview)
+            ? null
+            : this.imagePreview,
       };
     },
     async saveProfile(contactId) {

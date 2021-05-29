@@ -135,8 +135,8 @@ export default {
     async getVendorList() {
       try {
         //Cambiar el 1 por el idProvider
-        this.vendors = await vendorResource.getVendorList();
-        this.vendors = this.vendors.data.data;
+        this.vendors = (await vendorResource.getVendorList()).data;
+        this.vendors = this.vendors.data;
         if (this.destroyTable) {
           $("#example1")
             .DataTable()
