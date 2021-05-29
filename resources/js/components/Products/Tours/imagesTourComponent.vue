@@ -193,9 +193,12 @@ export default {
       if (picture.newImage) {
         return;
       }
-      picture.status = !picture.status;
-      let formData = this.getImageTourForm(null, picture.status);
-      await this.saveEditImageTour(picture.id, formData);
+      // La imagen se guarda null porque solo se actualiza status
+      let formData = this.getImageTourForm(null, !picture.status);
+      var response = await this.saveEditImageTour(picture.id, formData);
+      if (response.success){
+        picture.status = formData.status;
+      }
     },
     async uploadPictures() {
       this.picturesPercent = 0;
@@ -218,7 +221,6 @@ export default {
 
         picture.newImage = false;
         finishCount++;
-        console.log("Finish: " + finishCount);
         this.picturesPercent = (finishCount * 100) / totalCount;
       }
     },
