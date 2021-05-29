@@ -79,6 +79,8 @@
           </div>
           <div class="position-relative">
             <img
+              :style="preview.id != 0 ? 'cursor: pointer' : ''"
+              @click="chageImageTourStatus(index)"
               v-bind:src="preview.imagePreview"
               alt="Photo 1"
               class="img-fluid"
@@ -185,6 +187,15 @@ export default {
           this.pictures.splice(i, 1);
         }
       }
+    },
+    async chageImageTourStatus(index){
+      var picture = this.pictures[index];
+      if (picture.newImage) {
+        return;
+      }
+      picture.status = !picture.status;
+      let formData = this.getImageTourForm(null, picture.status);
+      await this.saveEditImageTour(picture.id, formData);
     },
     async uploadPictures() {
       this.picturesPercent = 0;
