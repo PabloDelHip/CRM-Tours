@@ -54,10 +54,10 @@ class ImageToursController extends Controller
          ], 200);
       } catch (Exception $ex) {
          return response()->json([
-            'success' => true,
+            'success' => false,
             'message' => 'Imágen del tour no insertado',
             'err' => $ex,
-         ], 200);
+         ], 500);
       }
    }
 
@@ -79,10 +79,10 @@ class ImageToursController extends Controller
          ], 200);
       } catch (Exception $ex) {
          return response()->json([
-            'success' => true,
+            'success' => false,
             'message' => 'Imágen del tour no actualizado',
             'err' => $ex,
-         ], 200);
+         ], 500);
       }
    }
 

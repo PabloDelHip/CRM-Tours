@@ -9,6 +9,7 @@ use App\Tour;
 use App\Seo_Tour;
 use App\General_Information;
 use App\Operation_Tour;
+use Exception;
 
 class ToursController extends Controller
 {
@@ -91,10 +92,10 @@ class ToursController extends Controller
       }
       catch (Exception $ex){
         return response()->json([
-          'success' => true,
+          'success' => false,
           'message' => 'Tour no insertado',
           'err' => $ex,
-        ], 200);
+        ], 500);
       }
     }
 
@@ -118,10 +119,10 @@ class ToursController extends Controller
       }
       catch (Exception $ex){
         return response()->json([
-          'success' => true,
+          'success' => false,
           'message' => 'Tour no actualizado',
           'err' => $ex,
-        ], 200);
+        ], 500);
       }
     }
 

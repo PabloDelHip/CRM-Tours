@@ -136,23 +136,50 @@ export default {
   },
   methods: {
     async saveContent(){
-      const saveTourResponse = await this.$refs.tourComponent.saveTour();
-      if (!saveTourResponse.success) {
-        this.showError("Error al guardar información del tour.");
-        return; 
+      try{
+        const saveTourResponse = await this.$refs.tourComponent.saveTour();
+        if (!saveTourResponse.success) {
+          throw saveTourResponse.err;
+        }
       }
-      const saveSeoTourResponse = await this.$refs.seoTourComponent.saveSeoTour();
-      if (!saveSeoTourResponse.success) {
+      catch (ex){
+        console.error(ex);
+        this.showError("Error al guardar información del tour.");
+        return;
+      }
+      try{
+        const saveSeoTourResponse = await this.$refs.seoTourComponent.saveSeoTour();
+        if (!saveSeoTourResponse.success) {
+          throw saveSeoTourResponse.err;
+        }
+      }
+      catch (ex)
+      {
+        console.error(ex);
         this.showError("Error al guardar Seo.");
         return; 
       }
-      const saveGeneralInformationResponse = await this.$refs.generalInformationComponent.saveGeneralInformation();
-      if (!saveGeneralInformationResponse.success) {
+      try{
+        const saveGeneralInformationResponse = await this.$refs.generalInformationComponent.saveGeneralInformation();
+        if (!saveGeneralInformationResponse.success) {
+          throw saveGeneralInformationResponse.err;
+        }
+      }
+      catch (ex)
+      {
+        console.error(ex);
         this.showError("Error al guardar la información general.");
         return; 
       }
-      const saveOperationTourResponse = await this.$refs.operationTourComponent.saveOperationTour();
-      if (!saveOperationTourResponse.success) {
+      try{
+        const saveOperationTourResponse = await this.$refs.operationTourComponent.saveOperationTour();
+        if (!saveOperationTourResponse.success) {
+          throw saveGeneralInformationResponse.err;
+        }
+      }
+      catch (ex)
+      {
+        console.error(ex);
         this.showError("Error al guardar la operación.");
         return; 
       }

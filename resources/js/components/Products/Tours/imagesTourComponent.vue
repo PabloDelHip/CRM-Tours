@@ -64,7 +64,10 @@
     <br />
     <div class="row">
       <div class="col-md-3" v-for="(preview, index) in pictures" :key="index">
-        <div class="info-box" :class="preview.newImage ? 'bg-danger' : (preview.status ? 'bg-success' : 'bg-warning')">
+        <div class="info-box" :class="preview.newImage ? 'bg-danger' : (preview.status ? 'bg-success' : 'bg-warning')"
+          :style="preview.id != 0 ? 'cursor: pointer' : ''"
+          @click="chageImageTourStatus(index)"
+        >
           <div class="alert-dismissible" style="padding: 0px;">
             <button
               type="button"
@@ -79,8 +82,6 @@
           </div>
           <div class="position-relative">
             <img
-              :style="preview.id != 0 ? 'cursor: pointer' : ''"
-              @click="chageImageTourStatus(index)"
               v-bind:src="preview.imagePreview"
               alt="Photo 1"
               class="img-fluid"
@@ -190,7 +191,7 @@ export default {
     },
     async chageImageTourStatus(index){
       var picture = this.pictures[index];
-      if (picture.newImage) {
+      if (picture == undefined || picture == null || picture.newImage) {
         return;
       }
       // La imagen se guarda null porque solo se actualiza status

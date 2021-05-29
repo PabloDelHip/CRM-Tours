@@ -93,6 +93,11 @@ export default {
   async mounted(){
     await this.getSeoTour();
   },
+  watch: {
+    id: function(val) {
+      this.newSeoTour = this.id == null;
+    },
+  },
   methods:{
     getSeoTourForm(){
       return {
@@ -116,7 +121,7 @@ export default {
       this.seoTour = response.data;
 
       this.id = this.seoTour.id;
-      this.keywords = this.seoTour.keywords.split("|");;
+      this.keywords = this.seoTour.keywords == null ? [] : this.seoTour.keywords.split("|");;
       this.metaDescription = this.seoTour.meta_description;
       this.title = this.seoTour.title;
       this.description = this.seoTour.description;

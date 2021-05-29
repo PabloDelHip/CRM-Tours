@@ -96,6 +96,11 @@ export default {
   async mounted(){
     await this.getGeneralInformation();
   },
+  watch: {
+    id: function(val) {
+      this.newGeneralInformation = this.id == null;
+    },
+  },
   methods:{
     getGeneralInformationForm(){
       return {

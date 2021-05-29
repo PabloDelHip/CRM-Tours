@@ -54,10 +54,10 @@ class OperationTourController extends Controller
       }
       catch (Exception $ex){
         return response()->json([
-          'success' => true,
+          'success' => false,
           'message' => 'OperationTour no insertado',
           'err' => $ex,
-        ], 200);
+        ], 500);
       }
     }
 
@@ -89,10 +89,10 @@ class OperationTourController extends Controller
       }
       catch (Exception $ex){
         return response()->json([
-          'success' => true,
+          'success' => false,
           'message' => 'OperationTour no actualizado',
           'err' => $ex,
-        ], 200);
+        ], 500);
       }
     }
 }

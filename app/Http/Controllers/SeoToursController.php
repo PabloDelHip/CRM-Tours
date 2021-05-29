@@ -47,10 +47,10 @@ class SeoToursController extends Controller
       }
       catch (Exception $ex){
         return response()->json([
-          'success' => true,
+          'success' => false,
           'message' => 'SeoTour no insertado',
           'err' => $ex,
-        ], 200);
+        ], 500);
       }
     }
 
@@ -75,10 +75,10 @@ class SeoToursController extends Controller
       }
       catch (Exception $ex){
         return response()->json([
-          'success' => true,
+          'success' => false,
           'message' => 'SeoTour no actualizado',
           'err' => $ex,
-        ], 200);
+        ], 500);
       }
     }
 }

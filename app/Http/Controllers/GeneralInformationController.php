@@ -49,10 +49,10 @@ class GeneralInformationController extends Controller
       }
       catch (Exception $ex){
         return response()->json([
-          'success' => true,
+          'success' => false,
           'message' => 'Información general no insertado',
           'err' => $ex,
-        ], 200);
+        ], 500);
       }
     }
 
@@ -79,10 +79,10 @@ class GeneralInformationController extends Controller
       }
       catch (Exception $ex){
         return response()->json([
-          'success' => true,
+          'success' => false,
           'message' => 'Información general no actualizado',
           'err' => $ex,
-        ], 200);
+        ], 500);
       }
     }
 }
