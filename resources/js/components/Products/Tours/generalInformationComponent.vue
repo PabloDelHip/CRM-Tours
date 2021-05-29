@@ -1,77 +1,98 @@
 <template>
   <div>
-    <div class="form-group">
-      <label>Descripción</label>
-      <textarea
-        rows="5"
-        class="form-control"
-        placeholder="Enter ..."
-        v-model="description"
-      ></textarea>
-    </div>
-    <div class="form-group">
-      <label>Recomendaciones</label>
-      <textarea
-        rows="5"
-        class="form-control"
-        placeholder="Enter ..."
-        v-model="recommendation"
-      ></textarea>
-    </div>
-    <div class="form-group">
-      <label>Incluido</label>
-      <textarea
-        rows="5"
-        class="form-control"
-        placeholder="Enter ..."
-        v-model="includes"
-      ></textarea>
-    </div>
-    <div class="form-group">
-      <label>Itinerario</label>
-      <textarea
-        rows="5"
-        class="form-control"
-        placeholder="Enter ..."
-        v-model="itinerary"
-      ></textarea>
-    </div>
-    <div class="form-group">
-      <label>Información adicional</label>
-      <textarea
-        rows="5"
-        class="form-control"
-        placeholder="Enter ..."
-        v-model="additionalInformation"
-      ></textarea>
-    </div>
-    <div class="form-group">
-      <label for="name">Duración</label>
-      <input
-        type="text"
-        class="form-control"
-        v-model="duration"
-        placeholder="Duración..."
-      />
-    </div>
-    <div class="form-group">
-      <label for="name">Calificación</label>
-      <input
-        type="number"
-        min="0"
-        class="form-control no-arrow"
-        v-model.number="qualification"
-        placeholder="Calificación..."
-      />
-    </div>
+    <ValidationObserver v-slot="{ invalid, validate }" ref="observer">
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea
+          rows="5"
+          class="form-control"
+          placeholder="Enter ..."
+          v-model="description"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label>Recomendaciones</label>
+        <textarea
+          rows="5"
+          class="form-control"
+          placeholder="Enter ..."
+          v-model="recommendation"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label>Incluido</label>
+        <textarea
+          rows="5"
+          class="form-control"
+          placeholder="Enter ..."
+          v-model="includes"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label>Itinerario</label>
+        <textarea
+          rows="5"
+          class="form-control"
+          placeholder="Enter ..."
+          v-model="itinerary"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label>Información adicional</label>
+        <textarea
+          rows="5"
+          class="form-control"
+          placeholder="Enter ..."
+          v-model="additionalInformation"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="name">Duración</label>
+        <ValidationProvider
+          rules="required"
+          name="duración"
+          v-slot="{ errors }"
+        >
+          <input
+            type="text"
+            class="form-control"
+            v-model="duration"
+            placeholder="Duración..."
+          />
+          <span
+            :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+            >{{ errors[0] }}</span
+          >
+        </ValidationProvider>
+      </div>
+      <div class="form-group">
+        <label for="name">Calificación</label>
+        <input
+          type="number"
+          min="0"
+          class="form-control no-arrow"
+          v-model.number="qualification"
+          placeholder="Calificación..."
+        />
+      </div>
+    </ValidationObserver>
   </div>
 </template>
 <script>
-import GeneralInformation from "../../../providers/products/tours/GeneralInformation"
+import GeneralInformation from "../../../providers/products/tours/GeneralInformation";
+
+import {
+  ValidationProvider,
+  ValidationObserver,
+} from "vee-validate/dist/vee-validate.full";
 
 const GeneralInformationResource = new GeneralInformation();
 
 export default {
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+  },
   props: {
     idTour: {
       type: Number,
@@ -93,7 +114,7 @@ export default {
       generalInformation: null,
     };
   },
-  async mounted(){
+  async mounted() {
     await this.getGeneralInformation();
   },
   watch: {
@@ -101,8 +122,8 @@ export default {
       this.newGeneralInformation = this.id == null;
     },
   },
-  methods:{
-    getGeneralInformationForm(){
+  methods: {
+    getGeneralInformationForm() {
       return {
         description: this.description,
         recommendation: this.recommendation,
@@ -112,14 +133,15 @@ export default {
         duration: this.duration,
         qualification: +this.qualification,
         tour_id: +this.idTour,
-      }
+      };
     },
     async getGeneralInformation() {
-      var response = (await GeneralInformationResource.getByTourId(this.idTour)).data;
+      var response = (await GeneralInformationResource.getByTourId(this.idTour))
+        .data;
       if (!response.success) {
         return false;
       }
-      if (response.data == null){
+      if (response.data == null) {
         this.newGeneralInformation = true;
         return;
       }
@@ -134,29 +156,39 @@ export default {
       this.duration = this.generalInformation.duration;
       this.qualification = this.generalInformation.qualification;
     },
+    async isValidForm() {
+      return await this.$refs.observer.validate();
+    },
     async saveGeneralInformation() {
       var response = null;
 
       let formData = this.getGeneralInformationForm();
-      
+
       if (this.newGeneralInformation) {
         response = await this.saveNewGeneralInformation(formData);
       } else {
         response = await this.saveEditGeneralInformation(formData);
       }
-      if (response.success){
+      if (response.success) {
         this.id = response.data.id;
       }
       return response;
     },
     async saveNewGeneralInformation(formData) {
-      var response = (await GeneralInformationResource.createGeneralInformation(formData)).data;
+      var response = (
+        await GeneralInformationResource.createGeneralInformation(formData)
+      ).data;
       return response;
     },
     async saveEditGeneralInformation(formData) {
-      var response = (await GeneralInformationResource.updateGeneralInformation(this.id, formData)).data;
+      var response = (
+        await GeneralInformationResource.updateGeneralInformation(
+          this.id,
+          formData
+        )
+      ).data;
       return response;
     },
   },
-}
+};
 </script>

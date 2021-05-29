@@ -13,7 +13,7 @@
             <h3 class="card-title">Agregar nuevo tour</h3>
           </div>
           <div class="card-body">
-            <base-tour-component ref="baseTourComponent"></base-tour-component>
+            <tour-component ref="tourComponent"></tour-component>
             <button type="button" @click="saveContent" class="btn btn-primary">
               Crear tour
             </button>
@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import baseTourComponent from "./tourComponent.vue";
+import tourComponent from "./tourComponent.vue";
 export default {
-  components: { baseTourComponent },
+  components: { tourComponent },
   props: {
     openModal: {
       type: Boolean,
@@ -44,13 +44,45 @@ export default {
       this.$modal.show("tour-modal-form");
     },
     async saveContent() {
-      var tourResponse = await this.$refs.baseTourComponent.saveTour();
-      if (!tourResponse.success) {
+      if (!(await this.$refs.tourComponent.isValidForm())) {
+        this.showWarning("Hay campos faltantes en el formulario.");
+        return;
+      }
+
+      try {
+        const saveTourResponse = await this.$refs.tourComponent.saveTour();
+        if (!saveTourResponse.success) {
+          throw saveTourResponse.err;
+        }
+      } catch (ex) {
+        console.error(ex);
+        this.showError("Error al guardar información del tour.");
         return;
       }
       this.$router.push({
         name: "editTour",
         params: { id: +tourResponse.data.id },
+      });
+    },
+    showWarning(message) {
+      this.showMessage(message, "warning");
+    },
+    showError(message) {
+      this.showMessage(message, "error");
+    },
+    showSuccess(message) {
+      this.showMessage(message, "success");
+    },
+    showMessage(message, type) {
+      this.$swal.fire({
+        icon: type,
+        title: "Oops...",
+        toast: true,
+        position: "top",
+        timer: 3000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        text: message,
       });
     },
   },
