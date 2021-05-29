@@ -49,8 +49,9 @@ export default {
         return;
       }
 
+      var saveTourResponse = null;
       try {
-        const saveTourResponse = await this.$refs.tourComponent.saveTour();
+        saveTourResponse = await this.$refs.tourComponent.saveTour();
         if (!saveTourResponse.success) {
           throw saveTourResponse.err;
         }
@@ -61,7 +62,7 @@ export default {
       }
       this.$router.push({
         name: "editTour",
-        params: { id: +tourResponse.data.id },
+        params: { id: +saveTourResponse.data.id },
       });
     },
     showWarning(message) {
