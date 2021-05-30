@@ -41,6 +41,9 @@ import VendorsContactsView from './views/vendors/Contacts/contactsview.vue'
 //Case section
 import CasesHistory from './views/Cases/timeLineView.vue'
 
+//Categories section
+import ListCategoriesTours from './views/Categories/Tours/ListView.vue'
+
 //Tours
 import IndexTours from './views/Products/Tours/index.vue'
 import ListTours from './views/Products/Tours/ListView.vue'
@@ -198,26 +201,33 @@ export default new Router({
             }]
         },
         {
-            path: "/products",
-            name: "products",
+            path: "/categories",
+            name: "categories",
             component: Index,
-            children: [{
-                path: "tours",
-                name: "indexTours",
-                component: IndexTours,
-                children: [{
-                        path: "",
-                        name: "ListTours",
-                        component: ListTours,
-                    },
-                    {
-                        path: "edit/:id",
-                        name: "editTour",
-                        component: TourView,
-                        props: true,
-                    },
-                ]
-            }, ]
+            children:[
+                {
+                    path: "tours",
+                    name: "ListCategoriesTours",
+                    component: ListCategoriesTours,
+                },
+                {
+                    path: "tours",
+                    name: "indexTours",
+                    component: IndexTours,
+                    children: [{
+                            path: "",
+                            name: "ListTours",
+                            component: ListTours,
+                        },
+                        {
+                            path: "edit/:id",
+                            name: "editTour",
+                            component: TourView,
+                            props: true,
+                        },
+                    ]
+                }
+            ]
         },
         {
             path: "/overview",

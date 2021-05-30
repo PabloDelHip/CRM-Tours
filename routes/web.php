@@ -59,3 +59,6 @@ Route::get('/products/tours/edit/{id}', ['as' => 'tours/create', 'uses' => 'Home
 
 //Dashboard
 Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index']);
+
+//Categories
+Route::get('/categories/tours', ['as' => 'tours', 'uses' => 'HomeController@index']);

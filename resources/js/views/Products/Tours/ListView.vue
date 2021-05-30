@@ -7,7 +7,6 @@
 
 <script>
 import ListComponent from '../../../components/Products/Tours/ListComponent.vue';
-
 export default {
   components: {
     ListComponent,
