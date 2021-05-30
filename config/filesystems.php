@@ -47,7 +47,18 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
-
+        'images-profile' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images/profile'),
+            'url' => '/storage/images/profile',
+            'visibility' => 'public',
+        ],
+        'images-products-tours' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images/products/tours'),
+            'url' => '/storage/images/products/tours',
+            'visibility' => 'public',
+        ],
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

@@ -32,7 +32,7 @@ class VendorsController extends Controller
       ], 200); 
     } catch (MassAssignmentException $err) {
       return response()->json([
-        'succes' => false,
+        'success' => false,
         'message' => 'Error al obtener la agencia',
         'err' => $err->getMessage()
       ], 500);
@@ -58,7 +58,7 @@ class VendorsController extends Controller
       ], 200); 
     } catch (MassAssignmentException $err) {
       return response()->json([
-        'succes' => false,
+        'success' => false,
         'message' => 'Error al obtener agencias',
         'err' => $err->getMessage()
       ], 500);
@@ -96,12 +96,43 @@ class VendorsController extends Controller
     }
   }
 
+  public function put(Request $request, $vendorId){
+    try{
+      $content = $request->all();
+
+      $vendor = Vendor::find($vendorId);
+      $vendor->code = $content['code'];
+      $vendor->name = $content['name'];
+      $vendor->business_name = $content['business_name'];
+      $vendor->description = $content['description'];
+      $vendor->web = $content['web'];
+      $vendor->email = $content['email'];
+      $vendor->address_id = $content['address_id'];
+      $vendor->status = $content['status'];
+      $vendor->phone = $content['phone'];
+      $vendor->save();
+
+      return response()->json([
+        'success' => true,
+        'message' => 'Agencia actualizada',
+        'data' => $vendor,
+      ], 200);
+    }
+    catch (Exception $ex){
+      return response()->json([
+        'success' => true,
+        'message' => 'Agencia no actualizada',
+        'err' => $ex,
+      ], 200);
+    }
+  }
+
   public function delete($id_vendor)
   {
     Vendor::where('id', $id_vendor)->update(['status' => false]);
     
     return response()->json([
-      'succes' => true,
+      'success' => true,
       'message' => 'Agencia eliminada de forma correcta',
       'data' => Vendor::where('id', $id_vendor)->get()->first()
     ], 200);

@@ -19,23 +19,45 @@
             {{ successProfileMessage }}
           </div>
         </transition>
-        <div class="form-group">
-          <label for="name">Nombre</label>
-          <input
-            type="text"
-            class="form-control"
-            v-model="name"
-            placeholder="John Doe"
-          />
-        </div>
-        <div class="form-group">
-          <label for="lastName">Apellidos</label>
-          <input
-            type="text"
-            class="form-control"
-            v-model="lastName"
-            placeholder="John Doe"
-          />
+        <div class="row">
+          <div class="col-7">
+            <div class="form-group">
+              <label for="name">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="name"
+                placeholder="John Doe"
+              />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Apellidos</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="lastName"
+                placeholder="John Doe"
+              />
+            </div>
+          </div>
+          <div class="form-group col-5" style="text-align:center">
+            <input
+              type="file"
+              class="custom-file-input"
+              @change="onFileChange"
+              accept="image/*"
+              style="display: none"
+              ref="imageFile"
+            />
+            <img
+              v-bind:src="imagePreview"
+              class="img-circle elevation-2"
+              alt="User Avatar"
+              @click="$refs.imageFile.click()"
+              :style="'cursor: pointer'"
+              style="width= 155px;height= auto;max-height: 155px;max-width: 155px;"
+            />
+          </div>
         </div>
         <div class="form-group">
           <label for="birthDate">Fecha de nacimiento</label>
@@ -83,6 +105,9 @@ export default {
       profile: null,
 
       // Perfil
+      picture: null,
+      imagePreview: "/img/profile-icon.png",
+
       name: null,
       lastName: null,
       birthDate: null,
@@ -96,6 +121,29 @@ export default {
     },
   },
   methods: {
+    onFileChange(event) {
+      this.picture = event.target.files[0];
+
+      if (
+        !this.picture ||
+        !/\.(jpe?g|png|gif)$/i.test(this.picture.name) ||
+        this.picture.size / 1024 / 1024 > 2
+      ) {
+        this.picture = null;
+        return;
+      }
+      let reader = new FileReader();
+
+      reader.addEventListener(
+        "load",
+        function() {
+          this.imagePreview = reader.result;
+        }.bind(this),
+        false
+      );
+
+      reader.readAsDataURL(this.picture);
+    },
     async getProfile() {
       var response = (await ProfileResource.getProfile(this.id)).data;
       if (!response.success) {
@@ -111,7 +159,10 @@ export default {
       this.lastName = this.profile.last_name;
       this.birthDate = this.profile.birth_date;
       this.sex = this.profile.sex;
-      this.$emit('get-name', this.name + " " + this.lastName);
+      if (this.profile.image) {
+        this.imagePreview = this.profile.image;
+      }
+      this.$emit("get-name", this.name + " " + this.lastName);
     },
     getProfileForm() {
       return {
@@ -120,6 +171,11 @@ export default {
         birth_date: this.birthDate,
         sex: +this.sex,
         contact_id: +this.contactId,
+        picture:
+          this.picture == null &&
+          (this.profile == null || this.profile.image == this.imagePreview)
+            ? null
+            : this.imagePreview,
       };
     },
     async saveProfile(contactId) {
@@ -127,7 +183,7 @@ export default {
       var response = null;
 
       let formData = this.getProfileForm();
-      if (formData.contact_id == null || formData.contact_id == 0){
+      if (formData.contact_id == null || formData.contact_id == 0) {
         formData.contact_id = contactId;
       }
       if (this.newProfile) {

@@ -152,7 +152,6 @@
           else {
             this.form.vendor_id = this.form.vendor.id;
             this.form.user_id = this.form.user.id;
-            console.log(this.form)
             await caseResource.createCase(this.form)
             this.$swal.fire({
                 icon: 'success',

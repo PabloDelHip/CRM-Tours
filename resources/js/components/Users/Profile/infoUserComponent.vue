@@ -140,10 +140,10 @@
                                 <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
 
                                 <div class="timeline-body">
-                                    <img src="https://placehold.it/150x100" alt="...">
-                                    <img src="https://placehold.it/150x100" alt="...">
-                                    <img src="https://placehold.it/150x100" alt="...">
-                                    <img src="https://placehold.it/150x100" alt="...">
+                                    <img src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg" alt="...">
+                                    <img src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg" alt="...">
+                                    <img src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg" alt="...">
+                                    <img src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg" alt="...">
                                 </div>
                                 </div>
                             </div>
@@ -346,7 +346,6 @@
                         this.getNote();
                         $("#editor").val('');
                         $('#editor').summernote('code', '')
-                        console.log('el valor es', $("#editor").val() )
                     } catch (error) {
                         this.$swal.fire({
                             icon: 'error',
@@ -366,7 +365,6 @@
                 try {
                     this.notes = await NoteResourse.getNotesUser(this.id_user)
                     this.notes = this.notes.data.notes
-                    console.log(this.notes)
                 } catch (error) {
                     console.log(error)
                 }
