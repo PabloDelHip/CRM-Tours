@@ -204,30 +204,33 @@ export default new Router({
             path: "/categories",
             name: "categories",
             component: Index,
-            children:[
-                {
-                    path: "tours",
-                    name: "ListCategoriesTours",
-                    component: ListCategoriesTours,
-                },
-                {
-                    path: "tours",
-                    name: "indexTours",
-                    component: IndexTours,
-                    children: [{
-                            path: "",
-                            name: "ListTours",
-                            component: ListTours,
-                        },
-                        {
-                            path: "edit/:id",
-                            name: "editTour",
-                            component: TourView,
-                            props: true,
-                        },
-                    ]
-                }
-            ]
+            children: [{
+                path: "tours",
+                name: "ListCategoriesTours",
+                component: ListCategoriesTours,
+            }, ]
+        },
+        {
+            path: "/products",
+            name: "products",
+            component: Index,
+            children: [{
+                path: "tours",
+                name: "indexTours",
+                component: IndexTours,
+                children: [{
+                        path: "",
+                        name: "ListTours",
+                        component: ListTours,
+                    },
+                    {
+                        path: "edit/:id",
+                        name: "editTour",
+                        component: TourView,
+                        props: true,
+                    },
+                ]
+            }]
         },
         {
             path: "/overview",
