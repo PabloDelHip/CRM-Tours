@@ -204,10 +204,10 @@
                     </a>
                     <ul class="nav nav-treeview">
                       <li class="nav-item">
-                        <a href="pages/mailbox/mailbox.html" class="nav-link">
+                         <router-link class="nav-link" :to="{ name:'ListTours'}">
                           <i class="far fa-circle nav-icon"></i>
                           <p>Tours</p>
-                        </a>
+                        </router-link>
                       </li>
                       <li class="nav-item">
                         <a href="pages/mailbox/compose.html" class="nav-link">
