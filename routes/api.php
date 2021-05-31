@@ -177,6 +177,25 @@ Route::group([
     Route::get('/get/categories', 'CategorieToursController@getListCategories');
 });
 
+
+// Categories Tours Private
+Route::group([
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/categorie'
+], function () {
+    Route::get('/private/get', 'CategorieToursController@getListCategoriesTours');
+    Route::put('/private/{id_categorie}/tour/', 'CategorieToursController@updateCategorieTour');
+});
+
+//Tours
+Route::group([
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/tours/private'
+], function () {
+    Route::get('/get', 'ToursController@getListTours');
+});
+
+
 // Gerneral Information
 Route::group([
     'middleware' => ['jwt.auth'],
@@ -227,5 +246,8 @@ Route::group([
     Route::post('/create', 'ToursController@post');
     Route::put('/put/{tourId}', 'ToursController@put');
     Route::get('/get/categorie/{id_categorie}', 'ToursController@getListCategorie');
+    Route::get('/get/images/{id_tour}', 'ToursController@getImagesTour');
+    Route::get('/get/info/tour/name/{name_tour}', 'ToursController@getInfoTour');
     Route::get('/get/info/tour/{id_tour}', 'ToursController@getInfoTour');
 });
+    

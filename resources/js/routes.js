@@ -41,6 +41,9 @@ import VendorsContactsView from './views/vendors/Contacts/contactsview.vue'
 //Case section
 import CasesHistory from './views/Cases/timeLineView.vue'
 
+//Categories section
+import ListCategoriesTours from './views/Categories/Tours/ListView.vue'
+
 //Tours
 import IndexTours from './views/Products/Tours/index.vue'
 import ListTours from './views/Products/Tours/ListView.vue'
@@ -198,6 +201,16 @@ export default new Router({
             }]
         },
         {
+            path: "/categories",
+            name: "categories",
+            component: Index,
+            children: [{
+                path: "tours",
+                name: "ListCategoriesTours",
+                component: ListCategoriesTours,
+            }, ]
+        },
+        {
             path: "/products",
             name: "products",
             component: Index,
@@ -217,7 +230,7 @@ export default new Router({
                         props: true,
                     },
                 ]
-            }, ]
+            }]
         },
         {
             path: "/overview",

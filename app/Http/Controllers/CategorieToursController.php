@@ -21,7 +21,6 @@ class CategorieToursController extends Controller
 
             $categories = DB::table('categories_tours_pivot')
                  ->select('categories_tours_id', DB::raw('count(*) as total'))
-
                  ->groupBy('categories_tours_id')
                  ->get();
 
@@ -62,6 +61,48 @@ class CategorieToursController extends Controller
                 'succes' => true,
                 'message' => 'Historico de Caso encontrados de forma correcta',
                 'categories' => $categorie_tours
+            ], 200);
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'error al optener categorias',
+                'err' => $err->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getListCategoriesTours() {
+        try {
+            $categorie_tours = Categorie_Tour::select('id','name', 'see_home', 'status')->get();
+            return response()->json([
+                'succes' => true,
+                'message' => 'Categorias encontradas de forma correcta',
+                'data' => $categorie_tours
+            ], 200);
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'error al optener categorias',
+                'err' => $err->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateCategorieTour(Request $request, $id_categorie) {
+        try {
+
+            $categorie = Categorie_Tour::find($id_categorie);
+            $req = $request->all();
+
+            $categorie->status = $req['status'];
+            $categorie->see_home = $req['see_home'];
+            $categorie->save();
+
+            $categorie_tours = Categorie_Tour::select('id','name', 'see_home', 'status')->get();
+            return response()->json([
+                'succes' => true,
+                'message' => 'Categorias encontradas de forma correcta',
+                'data' => $categorie
             ], 200);
         } catch (MassAssignmentException $err) {
             return response()->json([

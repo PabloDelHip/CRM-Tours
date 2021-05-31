@@ -13,3 +13,4 @@ class Tour extends Model
         return $this->belongsTo(Vendor::class);
     }
 }
+
