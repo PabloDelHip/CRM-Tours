@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ValidationObserver v-slot="{ invalid, validate }" ref="observer">
+    <ValidationObserver ref="observer">
       <div class="row">
         <div class="col-7">
           <div class="form-group">

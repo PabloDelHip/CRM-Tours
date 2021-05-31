@@ -12,6 +12,7 @@ use App\Operation_Tour;
 use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\MassAssignmentException;
 
 class ToursController extends Controller
 {
