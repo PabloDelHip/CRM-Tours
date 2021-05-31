@@ -133,7 +133,7 @@ export default {
 
       // Tour
       picture: null,
-      imagePreview: "/img/profile-icon.png",
+      imagePreview: "/img/default-image.png",
 
       tour: null,
       newTour: false,
@@ -183,6 +183,11 @@ export default {
         url: this.url,
         status: +this.statusTour,
         vendor_id: +this.vendorId,
+        url_image:
+          this.picture == null &&
+          (this.tour == null || this.tour.url_image == this.imagePreview)
+            ? null
+            : this.imagePreview,
       };
     },
     async getTour() {
@@ -197,6 +202,9 @@ export default {
       this.url = this.tour.url;
       this.statusTour = this.tour.status;
       this.vendorId = this.tour.vendor_id;
+      if (this.tour.url_image) {
+        this.imagePreview = this.tour.url_image;
+      }
 
       this.$emit("get-name", this.name);
     },
