@@ -1,34 +1,62 @@
 <template>
   <div>
     <ValidationObserver v-slot="{ invalid, validate }" ref="observer">
-      <div class="form-group">
-        <label for="name">Nombre</label>
-        <ValidationProvider rules="required" name="nombre" v-slot="{ errors }">
-          <input
-            type="text"
-            class="form-control"
-            v-model="name"
-            placeholder="Nombre del Tour"
-          />
-          <span
-            :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
-            >{{ errors[0] }}</span
-          >
-        </ValidationProvider>
-      </div>
-      <div class="form-group">
-        <label for="web">Sitio web</label>
-        <div class="input-group mb-12">
-          <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-link"></i></span>
+      <div class="row">
+        <div class="col-7">
+          <div class="form-group">
+            <label for="name">Nombre</label>
+            <ValidationProvider
+              rules="required"
+              name="nombre"
+              v-slot="{ errors }"
+            >
+              <input
+                type="text"
+                class="form-control"
+                v-model="name"
+                placeholder="Nombre del Tour"
+              />
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
           </div>
-          <input
-            type="text"
-            class="form-control"
-            v-model="url"
-            placeholder="https://www.google.com/"
-          />
+          <div class="form-group">
+            <label for="web">Sitio web</label>
+            <div class="input-group mb-12">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fas fa-link"></i
+                ></span>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                v-model="url"
+                placeholder="https://www.google.com/"
+              />
+            </div>
+          </div>
         </div>
+          <div class="form-group col-5" style="text-align:center">
+            <input
+              type="file"
+              class="custom-file-input"
+              @change="onFileChange"
+              accept="image/*"
+              style="display: none"
+              ref="imageFile"
+            />
+            <img
+              v-bind:src="imagePreview"
+              class="img-circle elevation-2"
+              alt="User Avatar"
+              @click="$refs.imageFile.click()"
+              :style="'cursor: pointer'"
+              style="width= 155px;height= auto;max-height: 155px;max-width: 155px;"
+            />
+          </div>
       </div>
       <div class="custom-control custom-checkbox">
         <input
@@ -101,6 +129,10 @@ export default {
       statusTour: 1,
       vendorId: null,
 
+      // Tour
+      picture: null,
+      imagePreview: "/img/profile-icon.png",
+
       tour: null,
       newTour: false,
       vendors: [],
@@ -119,6 +151,29 @@ export default {
     },
   },
   methods: {
+    onFileChange(event) {
+      this.picture = event.target.files[0];
+
+      if (
+        !this.picture ||
+        !/\.(jpe?g|png|gif)$/i.test(this.picture.name) ||
+        this.picture.size / 1024 / 1024 > 2
+      ) {
+        this.picture = null;
+        return;
+      }
+      let reader = new FileReader();
+
+      reader.addEventListener(
+        "load",
+        function() {
+          this.imagePreview = reader.result;
+        }.bind(this),
+        false
+      );
+
+      reader.readAsDataURL(this.picture);
+    },
     getTourForm() {
       return {
         name: this.name,
