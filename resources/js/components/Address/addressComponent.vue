@@ -5,151 +5,247 @@
       <h3 class="card-title" v-if="!newAddress">Editar dirección</h3>
     </div>
     <div class="card-body">
-      <transition name="fade">
-        <div
-          class="alert alert-danger"
-          v-if="errors.length > 0"
-        >
-          <ul>
-            <li v-for="(e, index) in errors" :key="index">{{ e }}</li>
-          </ul>
+      <ValidationObserver ref="observer">
+        <div class="row">
+          <div class="form-group col-12">
+            <label for="street">Calle</label>
+            <ValidationProvider
+              rules="required"
+              name="calle"
+              v-slot="{ errors }"
+            >
+              <input
+                type="text"
+                name="street"
+                class="form-control"
+                v-model="street"
+                :disabled="readOnly"
+              />
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
+          </div>
+          <div class="form-group col-6">
+            <label for="street1">Calle 1</label>
+            <ValidationProvider
+              rules="required"
+              name="calle 1"
+              v-slot="{ errors }"
+            >
+              <input
+                type="text"
+                name="street1"
+                class="form-control"
+                v-model="street1"
+                :disabled="readOnly"
+              />
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
+          </div>
+          <div class="form-group col-6">
+            <label for="street2">Calle 2</label>
+            <ValidationProvider
+              rules="required"
+              name="calle 2"
+              v-slot="{ errors }"
+            >
+              <input
+                type="text"
+                name="street2"
+                class="form-control"
+                v-model="street2"
+                :disabled="readOnly"
+              />
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
+          </div>
+          <div class="form-group col-4">
+            <label for="references">Referencias</label>
+            <ValidationProvider
+              rules="required"
+              name="referencias"
+              v-slot="{ errors }"
+            >
+              <input
+                type="text"
+                name="references"
+                class="form-control"
+                v-model="references"
+                :disabled="readOnly"
+              />
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
+          </div>
+          <div class="form-group col-4">
+            <label for="suburb">Suburbio/Fraccionamiento/Región</label>
+            <ValidationProvider
+              rules="required"
+              name="suburbio/fraccionamiento/región"
+              v-slot="{ errors }"
+            >
+              <input
+                type="text"
+                name="suburb"
+                class="form-control"
+                v-model="suburb"
+                :disabled="readOnly"
+              />
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
+          </div>
+          <div class="form-group col-4">
+            <label for="postalCode">Código postal</label>
+            <ValidationProvider
+              rules="required"
+              name="código postal"
+              v-slot="{ errors }"
+            >
+              <input
+                type="number"
+                name="postalCode"
+                class="form-control no-arrow"
+                min="0"
+                v-model.number="postalCode"
+                :disabled="readOnly"
+              />
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
+          </div>
+          <div class="form-group col-6">
+            <label for="interiorNumber">Número Interior</label>
+            <ValidationProvider
+              rules="required"
+              name="número interior"
+              v-slot="{ errors }"
+            >
+              <input
+                type="number"
+                name="interiorNumber"
+                class="form-control no-arrow"
+                min="0"
+                v-model.number="interiorNumber"
+                :disabled="readOnly"
+              />
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
+          </div>
+          <div class="form-group col-6">
+            <label for="exteriorNumber">Número Exterior</label>
+            <ValidationProvider
+              rules="required"
+              name="número exterior"
+              v-slot="{ errors }"
+            >
+              <input
+                type="number"
+                name="exteriorNumber"
+                class="form-control no-arrow"
+                min="0"
+                v-model.number="exteriorNumber"
+                :disabled="readOnly"
+              />
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
+          </div>
+          <div class="form-group col-4">
+            <label for="country">País</label>
+            <ValidationProvider
+              rules="required"
+              name="país"
+              v-slot="{ errors }"
+            >
+              <multiselect
+                @input="getStates()"
+                v-model="form.country"
+                label="country"
+                track-by="id"
+                :options="countries"
+                :searchable="true"
+                :show-labels="false"
+                placeholder="Seleccionar un pais"
+                :disabled="readOnly"
+              >
+              </multiselect>
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
+          </div>
+          <div class="form-group col-4">
+            <label for="state">Estado</label>
+            <ValidationProvider
+              rules="required"
+              name="estado"
+              v-slot="{ errors }"
+            >
+              <multiselect
+                @input="getCitys()"
+                v-model="form.state"
+                label="name"
+                track-by="id"
+                :options="states"
+                :searchable="true"
+                :show-labels="false"
+                placeholder="Seleccionar un estado"
+                :disabled="readOnly"
+              >
+              </multiselect>
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
+          </div>
+          <div class="form-group col-4">
+            <label for="city">Ciudad</label>
+            <ValidationProvider
+              rules="required"
+              name="ciudad"
+              v-slot="{ errors }"
+            >
+              <multiselect
+                v-model="form.city"
+                label="city"
+                track-by="id"
+                :options="cities"
+                :searchable="true"
+                :show-labels="false"
+                placeholder="Seleccionar una ciudad"
+                :disabled="readOnly"
+              >
+              </multiselect>
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
+          </div>
         </div>
-        <div
-          class="alert alert-success"
-          v-if="successMessage.length > 0"
-        >
-          {{ successMessage }}
-        </div>
-      </transition>
-      <div class="row">
-      <div class="form-group col-12">
-        <label for="street">Calle</label>
-        <input
-          type="text"
-          name="street"
-          class="form-control"
-          v-model="street"
-          :disabled="this.readOnly"
-        />
-      </div>
-      <div class="form-group col-6">
-        <label for="street1">Calle 1</label>
-        <input
-          type="text"
-          name="street1"
-          class="form-control"
-          v-model="street1"
-          :disabled="this.readOnly"
-        />
-      </div>
-      <div class="form-group col-6">
-        <label for="street2">Calle 2</label>
-        <input
-          type="text"
-          name="street2"
-          class="form-control"
-          v-model="street2"
-          :disabled="this.readOnly"
-        />
-      </div>
-      <div class="form-group col-4">
-        <label for="references">Referencias</label>
-        <input
-          type="text"
-          name="references"
-          class="form-control"
-          v-model="references"
-          :disabled="this.readOnly"
-        />
-      </div>
-      <div class="form-group col-4">
-        <label for="suburb">Suburbio/Fraccionamiento/Region</label>
-        <input
-          type="text"
-          name="suburb"
-          class="form-control"
-          v-model="suburb"
-          :disabled="this.readOnly"
-        />
-      </div>
-      <div class="form-group col-4">
-        <label for="postalCode">Código postal</label>
-        <input
-          type="number"
-          name="postalCode"
-          class="form-control no-arrow"
-          min="0"
-          v-model.number="postalCode"
-          :disabled="this.readOnly"
-        />
-      </div>
-      <div class="form-group col-6">
-        <label for="interiorNumber">Número Interior</label>
-        <input
-          type="number"
-          name="interiorNumber"
-          class="form-control no-arrow"
-          min="0"
-          v-model.number="interiorNumber"
-          :disabled="this.readOnly"
-        />
-      </div>
-      <div class="form-group col-6">
-        <label for="exteriorNumber">Número Exterior</label>
-        <input
-          type="number"
-          name="exteriorNumber"
-          class="form-control no-arrow"
-          min="0"
-          v-model.number="exteriorNumber"
-          :disabled="this.readOnly"
-        />
-      </div>
-      <div class="form-group col-4">
-        <label for="country">País</label>
-        <multiselect
-          @input="getStates()"
-          v-model="form.country"
-          label="country"
-          track-by="id"
-          :options="countries"
-          :searchable="true"
-          :show-labels="false"
-          placeholder="Seleccionar un pais"
-          :disabled="this.readOnly"
-        >
-        </multiselect>
-      </div>
-      <div class="form-group col-4">
-        <label for="state">Estado</label>
-        <multiselect
-          @input="getCitys()"
-          v-model="form.state"
-          label="name"
-          track-by="id"
-          :options="states"
-          :searchable="true"
-          :show-labels="false"
-          placeholder="Seleccionar un estado"
-          :disabled="this.readOnly"
-        >
-        </multiselect>
-      </div>
-      <div class="form-group col-4">
-        <label for="city">Ciudad</label>
-        <multiselect
-          v-model="form.city"
-          label="city"
-          track-by="id"
-          :options="cities"
-          :searchable="true"
-          :show-labels="false"
-          placeholder="Seleccionar una ciudad"
-          :disabled="this.readOnly"
-        >
-        </multiselect>
-      </div>
-      </div>
+      </ValidationObserver>
     </div>
   </div>
 </template>
@@ -158,10 +254,19 @@
 import Nation from "../../providers/Nation";
 import Address from "../../providers/Address";
 
+import {
+  ValidationProvider,
+  ValidationObserver,
+} from "vee-validate/dist/vee-validate.full";
+
 const nationResource = new Nation();
 const AddressResource = new Address();
 
 export default {
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+  },
   props: {
     id: {
       type: Number,
@@ -177,8 +282,6 @@ export default {
       newAddress: true,
 
       address: null,
-      errors: [],
-      successMessage: "",
 
       countries: [],
       states: [],
@@ -282,23 +385,15 @@ export default {
         city_id: this.form.city.id,
       };
     },
-    async saveAddress (){
-      this.errors = [];
+    async saveAddress() {
       var response = null;
-      
+
       let formData = this.getAddressForm();
       if (this.newAddress) {
         response = await this.saveNewAddress(formData);
       } else {
         response = await this.saveEditAddress(formData);
       }
-      if (response.success){
-        this.successMessage = "Contacto guardado correctamente.";
-      }
-      else{
-        this.errors.push("Error al guardar la dirección.");
-      }
-      
       return response;
     },
     async saveNewAddress(formData) {
@@ -306,37 +401,12 @@ export default {
       return response;
     },
     async saveEditAddress(formData) {
-      var response = (await AddressResource.updateAddress(this.id, formData)).data;
+      var response = (await AddressResource.updateAddress(this.id, formData))
+        .data;
       return response;
     },
-    isValidAddressForm() {
-      const errors = [];
-      if (this.street == null || this.street == "") {
-        errors.push("Calle no puede estar vacio.");
-      }
-      if (this.street1 == null || this.street1 == "") {
-        errors.push("Calle 1 no puede estar vacio.");
-      }
-      if (this.street2 == null || this.street2 == "") {
-        errors.push("Calle 2 no puede estar vacio.");
-      }
-      if (this.references == null || this.references == "") {
-        errors.push("Referencias no puede estar vacio.");
-      }
-      if (this.suburb == null || this.suburb == "") {
-        errors.push("Suburbio no puede estar vacio.");
-      }
-      if (this.postalCode == null || this.postalCode == "") {
-        errors.push("Código Postal no puede estar vacio.");
-      }
-      if (this.interiorNumber == null || this.interiorNumber == "") {
-        errors.push("Número interior no puede estar vacio.");
-      }
-      if (this.exteriorNumber == null || this.exteriorNumber == "") {
-        errors.push("Número exterior no puede estar vacio.");
-      }
-      this.errors = errors;
-      return errors;
+    async isValidAddressForm() {
+      return await this.$refs.observer.validate();
     },
   },
   mounted() {

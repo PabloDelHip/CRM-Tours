@@ -65,46 +65,62 @@ class ProfilesController extends Controller
 
     public function post(Request $request)
     {
-        $content = $request->all();
+        try {
+            $content = $request->all();
 
-        $profile = new Profile();
-        $profile->name = $content['name'];
-        $profile->last_name = $content['last_name'];
-        $profile->birth_date = $content['birth_date'];
-        $profile->sex = $content['sex'];
-        $profile->contact_id = $content['contact_id'];
+            $profile = new Profile();
+            $profile->name = $content['name'];
+            $profile->last_name = $content['last_name'];
+            $profile->birth_date = $content['birth_date'];
+            $profile->sex = $content['sex'];
+            $profile->contact_id = $content['contact_id'];
 
-        $profile->image = $this->saveFileBase64($content['picture'], $profile->image, 'profile', 'images-profile');
+            $profile->image = $this->saveFileBase64($content['picture'], $profile->image, 'profile', 'images-profile');
 
-        $profile->save();
+            $profile->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Perfil insertado',
-            'data' => $profile,
-        ], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Perfil insertado',
+                'data' => $profile,
+            ], 200);
+        } catch (Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Perfil no insertado',
+                'err' => $ex->getMessage()
+            ], 500);
+        }
     }
 
     public function put(Request $request, $id)
     {
-        $profile = Profile::find($id);
-        $content = $request->all();
+        try {
+            $profile = Profile::find($id);
+            $content = $request->all();
 
-        $profile->name = $content['name'];
-        $profile->last_name = $content['last_name'];
-        $profile->birth_date = $content['birth_date'];
-        $profile->sex = $content['sex'];
-        $profile->contact_id = $content['contact_id'];
+            $profile->name = $content['name'];
+            $profile->last_name = $content['last_name'];
+            $profile->birth_date = $content['birth_date'];
+            $profile->sex = $content['sex'];
+            $profile->contact_id = $content['contact_id'];
 
-        $profile->image = $this->saveFileBase64($content['picture'], $profile->image, 'profile', 'images-profile');
+            $profile->image = $this->saveFileBase64($content['picture'], $profile->image, 'profile', 'images-profile');
 
-        $profile->save();
+            $profile->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Perfil actualizado',
-            'data' => $profile,
-        ], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Perfil actualizado',
+                'data' => $profile,
+            ], 200);
+        } catch (Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Perfil no actualizado',
+                'err' => $ex->getMessage()
+            ], 500);
+        }
     }
 
     public function saveFileBase64($fileBase64, $nameFile, string $prefixName, string $routeFile)
