@@ -39,24 +39,26 @@
             </div>
           </div>
         </div>
-          <div class="form-group col-5" style="text-align:center">
-            <input
-              type="file"
-              class="custom-file-input"
-              @change="onFileChange"
-              accept="image/*"
-              style="display: none"
-              ref="imageFile"
-            />
+        <div class="form-group col-5 info-box" style="text-align:center">
+          <input
+            type="file"
+            class="custom-file-input"
+            @change="onFileChange"
+            accept="image/*"
+            style="display: none"
+            ref="imageFile"
+          />
+          <div class="position-relative">
             <img
               v-bind:src="imagePreview"
-              class="img-circle elevation-2"
+              class="img-fluid"
               alt="User Avatar"
               @click="$refs.imageFile.click()"
               :style="'cursor: pointer'"
               style="width= 155px;height= auto;max-height: 155px;max-width: 155px;"
             />
           </div>
+        </div>
       </div>
       <div class="custom-control custom-checkbox">
         <input
