@@ -216,7 +216,7 @@ export default {
         sex: +this.sex,
         contact_id: +this.contactId,
         picture:
-          this.picture == null &&
+          this.picture == null ||
           (this.profile == null || this.profile.image == this.imagePreview)
             ? null
             : this.imagePreview,
