@@ -64,37 +64,46 @@
                 :name="'correo electrónico ' + (index + 1)"
                 v-slot="{ errors }"
               >
-              <div class="input-group mb-3"
-                  style="margin-bottom: 8px !important;">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"
-                    ><i class="fas fa-at"></i
-                  ></span>
-                </div>
-                <input
-                  type="email"
-                  name="emailsContact"
-                  class="form-control"
-                  v-model="emailsContact[index]"
-                  placeholder="john.doe@mail.com"
-                />
-                <div class="input-group-append" v-if="emailsContact.length > 1">
+                <div
+                  class="input-group mb-3"
+                  style="margin-bottom: 8px !important;"
+                >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fas fa-at"></i
+                    ></span>
+                  </div>
                   <input
-                    type="button"
-                    class="btn btn-danger"
-                    @click="emailsContact.splice(index, 1)"
-                    value="-"
+                    type="email"
+                    name="emailsContact"
+                    class="form-control"
+                    v-model="emailsContact[index]"
+                    oninput="this.value = this.value.toLowerCase()"
+                    placeholder="john.doe@mail.com"
                   />
+                  <div
+                    class="input-group-append"
+                    v-if="emailsContact.length > 1"
+                  >
+                    <input
+                      type="button"
+                      class="btn btn-danger"
+                      @click="emailsContact.splice(index, 1)"
+                      value="-"
+                    />
+                  </div>
+                  <div
+                    class="input-group-append"
+                    v-if="emailsContact.length < 3"
+                  >
+                    <input
+                      type="button"
+                      class="btn btn-success"
+                      @click="emailsContact.push('')"
+                      value="+"
+                    />
+                  </div>
                 </div>
-                <div class="input-group-append" v-if="emailsContact.length < 3">
-                  <input
-                    type="button"
-                    class="btn btn-success"
-                    @click="emailsContact.push('')"
-                    value="+"
-                  />
-                </div>
-              </div>
                 <span
                   style="margin-top: 0 !important;margin-bottom: 4px;"
                   :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"

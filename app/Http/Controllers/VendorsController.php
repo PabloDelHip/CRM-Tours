@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use App\Vendor;
 use Illuminate\Http\Request;
+use Exception;
 
 class VendorsController extends Controller
 {
@@ -90,7 +91,7 @@ class VendorsController extends Controller
     catch (Exception $ex){
       return response()->json([
         'success' => true,
-        'message' => 'Agencia insertada',
+        'message' => 'Agencia no insertada',
         'err' => $ex,
       ], 200);
     }

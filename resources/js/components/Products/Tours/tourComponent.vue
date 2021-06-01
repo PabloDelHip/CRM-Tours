@@ -184,7 +184,7 @@ export default {
         status: +this.statusTour,
         vendor_id: +this.vendorId,
         url_image:
-          this.picture == null &&
+          this.picture == null ||
           (this.tour == null || this.tour.url_image == this.imagePreview)
             ? null
             : this.imagePreview,

@@ -273,18 +273,18 @@ export default {
       this.showSuccess("Informacion guardada correctamente.");
     },
     showWarning(message) {
-      this.showMessage(message, "warning");
+      this.showMessage("Atención!", message, "warning");
     },
     showError(message) {
-      this.showMessage(message, "error");
+      this.showMessage("Oops...", message, "error");
     },
     showSuccess(message) {
-      this.showMessage(message, "success");
+      this.showMessage("Bien!!", message, "success");
     },
-    showMessage(message, type) {
+    showMessage(title, message, type) {
       this.$swal.fire({
         icon: type,
-        title: "Oops...",
+        title: title,
         toast: true,
         position: "top",
         timer: 3000,
