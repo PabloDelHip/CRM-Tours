@@ -112,4 +112,34 @@ class CategorieToursController extends Controller
             ], 500);
         }
     }
+
+    public function saveCategories(Request $request) {
+        try{
+            
+            $categorie = new Categorie_Tour();
+            $categorie->name = $request->name;
+            $categorie->description = $request->description;
+            $categorie->image = $request->image;
+            $categorie->title = $request->title;
+            $categorie->meta_description = $request->meta_description;
+            $categorie->keywords = $request->keywords;
+            $categorie->see_home = $request->see_home;
+            $categorie->reverse_outside = $request->reverse_outside;
+            $categorie->status = $request->status;
+            $categorie->save();
+      
+            return response()->json([
+              'success' => true,
+              'message' => 'categoria guardada',
+              'data' => $categorie,
+            ], 200);
+          }
+          catch (MassAssignmentException $err){
+            return response()->json([
+              'success' => false,
+              'message' => 'Categoria no guardada',
+              'err' => $err,
+            ], 500);
+          }
+    }
 }

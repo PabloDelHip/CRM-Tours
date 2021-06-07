@@ -181,10 +181,11 @@ Route::group([
 // Categories Tours Private
 Route::group([
     'middleware' => ['jwt.auth'],
-    'prefix' => 'v1/categorie'
+    'prefix' => 'v1/categorie/private'
 ], function () {
-    Route::get('/private/get', 'CategorieToursController@getListCategoriesTours');
-    Route::put('/private/{id_categorie}/tour/', 'CategorieToursController@updateCategorieTour');
+    Route::get('/get', 'CategorieToursController@getListCategoriesTours');
+    Route::put('/{id_categorie}/tour/', 'CategorieToursController@updateCategorieTour');
+    Route::post('/save', 'CategorieToursController@saveCategories');
 });
 
 //Tours
@@ -238,7 +239,7 @@ Route::group([
 
 // Tours
 Route::group([
-    'middleware' => ['jwt.auth'],
+    //'middleware' => ['jwt.auth'],
     'prefix' => 'v1/tours'
 ], function () {
     Route::get('/get', 'ToursController@getTours');

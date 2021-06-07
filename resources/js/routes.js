@@ -43,6 +43,7 @@ import CasesHistory from './views/Cases/timeLineView.vue'
 
 //Categories section
 import ListCategoriesTours from './views/Categories/Tours/ListView.vue'
+import SaveCategoriesTours from './views/Categories/Tours/SaveView.vue'
 
 //Tours
 import IndexTours from './views/Products/Tours/index.vue'
@@ -209,6 +210,11 @@ export default new Router({
                     path: "tours",
                     name: "ListCategoriesTours",
                     component: ListCategoriesTours,
+                },
+                {
+                    path: "save",
+                    name: "SaveCategoriesTours",
+                    component: SaveCategoriesTours,
                 },
                 {
                     path: "tours",

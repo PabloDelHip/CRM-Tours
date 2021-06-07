@@ -7,4 +7,8 @@ export default class Categorie {
     updateCategorieStatus(id_categorie,formData) {
         return axios.put(`/api/v1/categorie/private/${id_categorie}/tour`, formData);
     }
+
+    saveCategorie(formData) {
+        return axios.post(`/api/v1/categorie/private/save`, formData)
+    }
 }

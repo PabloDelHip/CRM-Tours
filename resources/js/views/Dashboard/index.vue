@@ -197,6 +197,14 @@
                     </router-link>
                   </li>
                   <li class="nav-item">
+                    <router-link class="nav-link" :to="{ name:'ListCategoriesTours'}">
+                      <i class="fas fa-list-alt"></i>
+                      <p>
+                        Categorias Tours
+                      </p>
+                    </router-link>
+                  </li>
+                  <li class="nav-item">
                     <a href="javascript:;" class="nav-link">
                       <i class="fas fa-shopping-cart"></i>
                       <p>
