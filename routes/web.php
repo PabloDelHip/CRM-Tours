@@ -62,3 +62,5 @@ Route::get('/overview', ['as' => '/overview', 'uses' => 'HomeController@index'])
 
 //Categories
 Route::get('/categories/tours', ['as' => 'tours', 'uses' => 'HomeController@index']);
+//Categories
+Route::get('/categories/save', ['as' => 'tours', 'uses' => 'HomeController@index']);

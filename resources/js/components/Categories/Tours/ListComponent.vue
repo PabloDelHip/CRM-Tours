@@ -3,6 +3,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
+
+        <router-link class="btn btn-primary btn-flat" :to="{ name: 'SaveCategoriesTours' }">
+          <i class="fas fa-list-alt"></i>
+          &nbsp;Agregar categoria
+        </router-link>
         <div class="row mb-2">
           <div class="col-sm-6">
           </div>
