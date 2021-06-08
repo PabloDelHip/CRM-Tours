@@ -50,6 +50,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($this->isHttpException($exception)) {
+            switch ($exception->getStatusCode()) {
+                case 403:
+                    return redirect('/error/notauthorized');
+                case 404:
+                    return redirect('/error/notfound');
+                case 500:
+                    return redirect('/error');
+            }
+        }
+
         return parent::render($request, $exception);
     }
 }

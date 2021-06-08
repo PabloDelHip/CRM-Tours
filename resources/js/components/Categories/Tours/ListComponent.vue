@@ -19,6 +19,7 @@
                 </router-link>
               </li>
               <li class="breadcrumb-item active">Categorias</li>
+              <li class="breadcrumb-item active">Tours</li>
             </ol>
           </div>
         </div>

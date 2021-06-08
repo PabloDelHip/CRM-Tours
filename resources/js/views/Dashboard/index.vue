@@ -246,6 +246,23 @@
                     </ul>
                   </li>
                   <li class="nav-item">
+                    <a href="javascript:;" class="nav-link">
+                      <i class="fas fa-eye"></i>
+                      <p>
+                        Categorías
+                        <i class="fas fa-angle-left right"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <router-link class="nav-link" :to="{ name:'ListTours'}">
+                          <i class="fas fa-walking nav-icon"></i>
+                          <p>Tours</p>
+                        </router-link>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="nav-item">
                     <router-link class="nav-link" :to="{ name:'Contacts'}">
                       <i class="fas fa-address-card"></i>
                       <p>

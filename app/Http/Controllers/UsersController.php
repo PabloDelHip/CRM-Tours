@@ -16,88 +16,125 @@ use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
-    public function get(Request $request, $userId){
-        $user = User::find($userId);
+    public function get(Request $request, $userId)
+    {
+        try {
+            $user = User::find($userId);
 
-        if ($user){
-            $user->profile = $user->profile;
+            if ($user) {
+                $user->profile = $user->profile;
 
-            if ($user->profile->image){
-                $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+                if ($user->profile->image) {
+                    $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+                }
             }
-        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Usuario encontrado de forma correcta',
-            'data' => $user
-        ], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuario encontrado de forma correcta',
+                'data' => $user
+            ], 200);
+        } catch (Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener los usuarios',
+                'err' => $ex->getMessage()
+            ], 500);
+        }
     }
 
-    public function getByVendorId($id){
-        $users = User::where('vendor_id', $id)->get();
+    public function getByVendorId($id)
+    {
+        try {
+            $users = User::where('vendor_id', $id)->get();
 
-        foreach ($users as $user) {
-            $user->profile = $user->profile;
-            if ($user->profile->image){
-                $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+            foreach ($users as $user) {
+                $user->profile = $user->profile;
+                if ($user->profile->image) {
+                    $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
+                }
             }
-        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Usuarios encontrados de forma correcta',
-            'data' => $users
-        ], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuarios encontrados de forma correcta',
+                'data' => $users
+            ], 200);
+        } catch (Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener los usuarios',
+                'err' => $ex->getMessage()
+            ], 500);
+        }
     }
 
-    public function post(Request $request){
-        $content = $request->all();
-        $content['password'] = bcrypt($content['password']);
+    public function post(Request $request)
+    {
+        try {
+            $content = $request->all();
+            $content['password'] = bcrypt($content['password']);
 
-        $user = new User();
-        $user->password = $content['password'];
-        $user->email = $content['email'];
-        $user->status = $content['status'];
-        $user->level = $content['level'];
-        $user->profile_id = $content['profile_id'];
-        $user->contact_id = $content['contact_id'];
-        if ($content['vendor_id'] && $content['vendor_id'] > 0){
+            $user = new User();
+            $user->password = $content['password'];
+            $user->email = $content['email'];
+            $user->status = $content['status'];
+            $user->level = $content['level'];
+            $user->profile_id = $content['profile_id'];
+            $user->contact_id = $content['contact_id'];
+            if ($content['vendor_id'] && $content['vendor_id'] > 0) {
+                $user->vendor_id = $content['vendor_id'];
+            }
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuario insertado',
+                'data' => $user,
+            ], 200);
+        } catch (Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Usuario no insertado',
+                'err' => $ex->getMessage()
+            ], 500);
+        }
+    }
+
+    public function put(Request $request, $userId)
+    {
+        try {
+            $content = $request->all();
+
+            $user = User::find($userId);
+            $user->email = $content['email'];
+            $user->status = $content['status'];
+            $user->level = $content['level'];
+            $user->profile_id = $content['profile_id'];
+            $user->contact_id = $content['contact_id'];
             $user->vendor_id = $content['vendor_id'];
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuario actualizado',
+                'data' => $user,
+            ], 200);
+        } catch (Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Usuario no actualizado',
+                'err' => $ex->getMessage()
+            ], 500);
         }
-        $user->save();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Usuario insertado',
-            'data' => $user,
-        ], 200);
     }
 
-    public function put(Request $request, $userId){
-        $content = $request->all();
-
-        $user = User::find($userId);
-        $user->email = $content['email'];
-        $user->status = $content['status'];
-        $user->level = $content['level'];
-        $user->profile_id = $content['profile_id'];
-        $user->contact_id = $content['contact_id'];
-        $user->vendor_id = $content['vendor_id'];
-        $user->save();
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Usuario actualizado',
-            'data' => $user,
-        ], 200);
-    }
-
-    public function getCurrentUser() {
+    public function getCurrentUser()
+    {
         $token = JWTAuth::getToken();
         $user = User::where('remember_token', $token)->get()->first();
         $user->profile = $user->profile;
-        if ($user->profile->image){
+        if ($user->profile->image) {
             $user->profile->image = Storage::disk('images-profile')->url($user->profile->image);
         }
         return $user;
@@ -106,9 +143,8 @@ class UsersController extends Controller
     public function getUserProfile($id_user)
     {
         $user = User::where('id', $id_user)
-                    ->where('status', true)->get()->first();
-        if(!$user)
-        {
+            ->where('status', true)->get()->first();
+        if (!$user) {
             return response()->json([
                 'succes' => false,
                 'message' => 'El usuario ingresado no fue encontrado',
@@ -121,12 +157,12 @@ class UsersController extends Controller
         ], 200);
     }
 
-    public function restorePassword (Request $request) {
+    public function restorePassword(Request $request)
+    {
         try {
             $email = $request->email;
             $exists = User::where('email', $email)->get()->first();
-            if(!$exists)
-            {
+            if (!$exists) {
                 return response()->json([
                     'succes' => false,
                     'message' => 'El email ingresado no tiene cuenta',
@@ -136,7 +172,7 @@ class UsersController extends Controller
             $token_password = md5($num_random);
             Mail::to($email)->send(new RestorePassword($token_password));
             User::where('email', $email)
-            ->update(['token_password' => $token_password]);
+                ->update(['token_password' => $token_password]);
             return response()->json([
                 'succes' => true,
                 'message' => 'Email enviado de forma correcta',
@@ -155,8 +191,8 @@ class UsersController extends Controller
     {
         try {
             $users = User::orderBy('id', 'asc')
-                            ->where('status', true)->get();
-            
+                ->where('status', true)->get();
+
             foreach ($users as $user) {
                 $user->profile = $user->profile;
             }
@@ -194,17 +230,16 @@ class UsersController extends Controller
         }
     }
 
-    public function getTokenPassword($token_password){
+    public function getTokenPassword($token_password)
+    {
         $usuario = User::where('token_password', $token_password)
-                        ->where('token_password', '<>', '')->get()->first();
-        if($usuario)
-        {
+            ->where('token_password', '<>', '')->get()->first();
+        if ($usuario) {
             return response()->json([
                 'succes' => true,
                 'message' => 'El token de recuperar contraseña existe',
             ], 200);
-        }
-        else {
+        } else {
             return response()->json([
                 'succes' => false,
                 'message' => 'El token para recuperar contraseña no existe',
@@ -212,12 +247,14 @@ class UsersController extends Controller
         }
     }
 
-    public function updatePassword(Request $request, $token_password){ 
+    public function updatePassword(Request $request, $token_password)
+    {
         try {
             User::where('token_password', $token_password)
-            ->update(['password' => bcrypt($request->password),
-                        'token_password' => ''
-                    ]);
+                ->update([
+                    'password' => bcrypt($request->password),
+                    'token_password' => ''
+                ]);
             return response()->json([
                 'succes' => true,
                 'message' => 'Contraseña cambiada correctamente',
@@ -232,11 +269,12 @@ class UsersController extends Controller
         }
     }
 
-    public function getUsersVendors($vendorId) {
+    public function getUsersVendors($vendorId)
+    {
         try {
             $users = User::with('profile')
-                    ->where('status', true)
-                    ->where('vendor_id', $vendorId)->get();
+                ->where('status', true)
+                ->where('vendor_id', $vendorId)->get();
             return response()->json([
                 'succes' => true,
                 'message' => 'Usuarios seleccionados de forma correcta',

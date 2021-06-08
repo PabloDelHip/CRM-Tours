@@ -5,65 +5,86 @@
         <h3 class="card-title" v-if="newUser">Agregar nuevo usuario</h3>
         <h3 class="card-title" v-if="!newUser">Editar usuario</h3>
       </div>
-      <form method="POST" action="/user/saveContent">
+      <ValidationObserver ref="observer">
         <div class="card-body">
-          <transition name="fade">
-            <div
-              class="alert alert-danger alert-dismissible text-center"
-              v-if="userErrors.length > 0"
-            >
-              <ul>
-                <li v-for="(e, index) in userErrors" :key="index">
-                  {{ e }}
-                </li>
-              </ul>
-            </div>
-            <div
-              class="alert alert-success alert-dismissible text-center"
-              v-if="successUserMessage.length > 0"
-            >
-              {{ successUserMessage }}
-            </div>
-          </transition>
           <div class="form-group">
             <label for="email">Correo electrónico</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-at"></i></span>
+            <ValidationProvider
+              :rules="
+                'required|email' + (newUser ? '|confirmed:emailconfirm' : '')
+              "
+              name="correo electrónico"
+              v-slot="{ errors }"
+            >
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fas fa-at"></i
+                  ></span>
+                </div>
+                <input
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  v-model="email"
+                  :disabled="!newUser"
+                  oninput="this.value = this.value.toLowerCase()"
+                  placeholder="ejemplo.fulanito@ejemplo.com"
+                />
+                <span
+                  :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                  >{{ errors[0] }}</span
+                >
               </div>
-              <input
-                type="email"
-                name="email"
-                class="form-control"
-                v-model="email"
-                :disabled="!newUser"
-                placeholder="ejemplo.fulanito@ejemplo.com"
-              />
-            </div>
+            </ValidationProvider>
           </div>
-          <div class="form-group" v-if="this.user == null">
+          <div class="form-group" v-if="user == null">
             <label for="emailConfirm">Confirmar correo electrónico</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-at"></i></span>
+            <ValidationProvider
+              rules="required|email"
+              vid="emailconfirm"
+              name="confirmar correo electrónico"
+              v-slot="{ errors }"
+            >
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fas fa-at"></i
+                  ></span>
+                </div>
+                <input
+                  type="email"
+                  name="emailConfirm"
+                  class="form-control"
+                  v-model="emailConfirm"
+                  oninput="this.value = this.value.toLowerCase()"
+                  placeholder="ejemplo.fulanito@ejemplo.com"
+                />
+                <span
+                  :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                  >{{ errors[0] }}</span
+                >
               </div>
-              <input
-                type="email"
-                name="emailConfirm"
-                class="form-control"
-                v-model="emailConfirm"
-                placeholder="ejemplo.fulanito@ejemplo.com"
-              />
-            </div>
+            </ValidationProvider>
           </div>
-          <div class="form-group" v-show="this.user == null">
+          <div class="form-group" v-show="user == null">
             <label for="password">Contraseña</label>
-            <input
-              type="password"
-              class="form-control"
-              v-model="password"
-              placeholder="Contraseña"
-            />
+            <ValidationProvider
+              rules="required|min:6|max:20"
+              name="contraseña"
+              v-slot="{ errors }"
+            >
+              <input
+                type="password"
+                class="form-control"
+                v-model="password"
+                placeholder="Contraseña"
+              />
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
           </div>
           <div class="form-group">
             <label>Estatus del usuario</label>
@@ -73,7 +94,7 @@
             </select>
           </div>
         </div>
-      </form>
+      </ValidationObserver>
     </div>
   </div>
 </template>
@@ -81,9 +102,18 @@
 <script>
 import User from "../../providers/User";
 
+import {
+  ValidationProvider,
+  ValidationObserver,
+} from "vee-validate/dist/vee-validate.full";
+
 const UserResource = new User();
 
 export default {
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+  },
   props: {
     id: {
       type: Number,
@@ -106,10 +136,8 @@ export default {
       required: false,
     },
   },
-  data(){
+  data() {
     return {
-      userErrors: [],
-      successUserMessage: "",
       newUser: false,
 
       // Usuario
@@ -119,20 +147,18 @@ export default {
       statusUser: 1,
 
       user: null,
-    }
+    };
   },
   watch: {
-    externalEmail(val){
+    externalEmail(val) {
       this.email = val;
       this.emailConfirm = val;
     },
   },
-  async created(){
-    if (this.id != undefined && (this.id + 0) > 0) {
-      if (!await this.getUser()) {
-        setTimeout(() => {
-          this.$router.push("/users");
-        }, 3000);
+  async created() {
+    if (this.id != undefined && this.id + 0 > 0) {
+      if (!(await this.getUser())) {
+        this.$router.push("/users");
       }
       return;
     }
@@ -154,12 +180,12 @@ export default {
     async getUser() {
       var response = (await UserResource.getUser(this.id)).data;
       if (!response.success) {
-        this.userErrors.push("Error al obtener usuario.");
+        this.showError("Error al obtener usuario.");
         return false;
       }
       this.user = response.data;
       if (this.user == "" || this.user == null) {
-        this.userErrors.push("Usuario no existe.");
+        this.showError("Usuario no existe.");
         return false;
       }
 
@@ -167,33 +193,26 @@ export default {
       this.emailConfirm = this.user.email;
       this.statusUser = this.user.status;
 
-      this.$emit('get-profileId', this.user.profile_id);
-      this.$emit('get-contactId', this.user.contact_id);
-      this.$emit('get-vendorId', this.user.vendor_id);
+      this.$emit("get-profileId", this.user.profile_id);
+      this.$emit("get-contactId", this.user.contact_id);
+      this.$emit("get-vendorId", this.user.vendor_id);
 
       return true;
     },
     async saveUser(contactId, profileId) {
-      this.userErrors = [];
       var response = null;
 
       let formData = this.getUserForm();
-      if (formData.contact_id == null || formData.contact_id == 0){
+      if (formData.contact_id == null || formData.contact_id == 0) {
         formData.contact_id = contactId;
       }
-      if (formData.profile_id == null || formData.profile_id == 0){
+      if (formData.profile_id == null || formData.profile_id == 0) {
         formData.profile_id = profileId;
       }
       if (this.newUser) {
         response = await this.saveNewUser(formData);
       } else {
         response = await this.saveEditUser(formData);
-      }
-      if (!response.success) {
-        this.userErrors.push("Error al guardar el usuario.");
-      }
-      else{
-        this.successUserMessage = "Usuario guardado correctamente.";
       }
       return response;
     },
@@ -205,20 +224,30 @@ export default {
       var response = (await UserResource.updateUser(this.id, formData)).data;
       return response;
     },
-    isValidUserForm() {
-      const errors = [];
-      if (!this.newUser) {
-        this.emailConfirm = this.email;
-      }
-      if (this.email != this.emailConfirm) {
-        errors.push("Correos no coinciden.");
-      }
-      if (this.password == "") {
-        errors.push("Contraseña no puede estar vacio.");
-      }
-      this.userErrors = errors;
-      return errors;
+    async isValidUserForm() {
+      return await this.$refs.observer.validate();
+    },
+    showWarning(message) {
+      this.showMessage("Atención!", message, "warning");
+    },
+    showError(message) {
+      this.showMessage("Oops...", message, "error");
+    },
+    showSuccess(message) {
+      this.showMessage("Bien!!", message, "success");
+    },
+    showMessage(title, message, type) {
+      this.$swal.fire({
+        icon: type,
+        title: title,
+        toast: true,
+        position: "top",
+        timer: 3000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        text: message,
+      });
     },
   },
-}
+};
 </script>

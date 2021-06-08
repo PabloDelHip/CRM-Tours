@@ -6,76 +6,113 @@
         <h3 class="card-title" v-else>Editar perfil</h3>
       </div>
       <div class="card-body">
-        <transition name="fade">
-          <div class="alert alert-danger" v-if="profileErrors.length > 0">
-            <ul>
-              <li v-for="(e, index) in profileErrors" :key="index">{{ e }}</li>
-            </ul>
-          </div>
-          <div
-            class="alert alert-success text-center"
-            v-if="successProfileMessage.length > 0"
-          >
-            {{ successProfileMessage }}
-          </div>
-        </transition>
-        <div class="row">
-          <div class="col-7">
-            <div class="form-group">
-              <label for="name">Nombre</label>
+        <ValidationObserver ref="observer">
+          <div class="row">
+            <div class="col-7">
+              <div class="form-group">
+                <label for="name">Nombre</label>
+                <ValidationProvider
+                  rules="required"
+                  name="nombre"
+                  v-slot="{ errors }"
+                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="name"
+                    placeholder="John Doe"
+                  />
+                  <span
+                    :class="[
+                      'error',
+                      'invalid-feedback',
+                      errors[0] ? 'ver' : '',
+                    ]"
+                    >{{ errors[0] }}</span
+                  >
+                </ValidationProvider>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Apellidos</label>
+                <ValidationProvider
+                  rules="required"
+                  name="apellidos"
+                  v-slot="{ errors }"
+                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="lastName"
+                    placeholder="John Doe"
+                  />
+                  <span
+                    :class="[
+                      'error',
+                      'invalid-feedback',
+                      errors[0] ? 'ver' : '',
+                    ]"
+                    >{{ errors[0] }}</span
+                  >
+                </ValidationProvider>
+              </div>
+            </div>
+            <div class="form-group col-5" style="text-align:center">
               <input
-                type="text"
-                class="form-control"
-                v-model="name"
-                placeholder="John Doe"
+                type="file"
+                class="custom-file-input"
+                @change="onFileChange"
+                accept="image/*"
+                style="display: none"
+                ref="imageFile"
+              />
+              <img
+                v-bind:src="imagePreview"
+                class="img-circle elevation-2"
+                alt="User Avatar"
+                @click="$refs.imageFile.click()"
+                :style="'cursor: pointer'"
+                style="width= 155px;height= auto;max-height: 155px;max-width: 155px;"
               />
             </div>
-            <div class="form-group">
-              <label for="lastName">Apellidos</label>
+          </div>
+          <div class="form-group">
+            <label for="birthDate">Fecha de nacimiento</label>
+            <ValidationProvider
+              rules="required"
+              name="fecha de nacimiento"
+              v-slot="{ errors }"
+            >
               <input
-                type="text"
+                type="date"
                 class="form-control"
-                v-model="lastName"
+                v-model="birthDate"
                 placeholder="John Doe"
               />
-            </div>
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
           </div>
-          <div class="form-group col-5" style="text-align:center">
-            <input
-              type="file"
-              class="custom-file-input"
-              @change="onFileChange"
-              accept="image/*"
-              style="display: none"
-              ref="imageFile"
-            />
-            <img
-              v-bind:src="imagePreview"
-              class="img-circle elevation-2"
-              alt="User Avatar"
-              @click="$refs.imageFile.click()"
-              :style="'cursor: pointer'"
-              style="width= 155px;height= auto;max-height: 155px;max-width: 155px;"
-            />
+          <div class="form-group">
+            <label for="sex">Sexo</label>
+            <ValidationProvider
+              rules="required"
+              name="sexo"
+              v-slot="{ errors }"
+            >
+              <select class="form-control" v-model.number="sex">
+                <option value="1">Masculino</option>
+                <option value="2">Femenino</option>
+                <option value="3">Otro</option>
+              </select>
+              <span
+                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+                >{{ errors[0] }}</span
+              >
+            </ValidationProvider>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="birthDate">Fecha de nacimiento</label>
-          <input
-            type="date"
-            class="form-control"
-            v-model="birthDate"
-            placeholder="John Doe"
-          />
-        </div>
-        <div class="form-group">
-          <label for="sex">Sexo</label>
-          <select class="form-control" v-model.number="sex">
-            <option value="1">Masculino</option>
-            <option value="2">Femenino</option>
-            <option value="3">Otro</option>
-          </select>
-        </div>
+        </ValidationObserver>
       </div>
     </div>
   </div>
@@ -83,9 +120,19 @@
 
 <script>
 import Profile from "../../providers/Profile";
+
+import {
+  ValidationProvider,
+  ValidationObserver,
+} from "vee-validate/dist/vee-validate.full";
+
 const ProfileResource = new Profile();
 
 export default {
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+  },
   props: {
     id: {
       type: Number,
@@ -98,9 +145,6 @@ export default {
   },
   data() {
     return {
-      profileErrors: [],
-      successProfileMessage: "",
-
       newProfile: true,
       profile: null,
 
@@ -111,7 +155,7 @@ export default {
       name: null,
       lastName: null,
       birthDate: null,
-      sex: 0,
+      sex: null,
     };
   },
   watch: {
@@ -172,14 +216,13 @@ export default {
         sex: +this.sex,
         contact_id: +this.contactId,
         picture:
-          this.picture == null &&
+          this.picture == null ||
           (this.profile == null || this.profile.image == this.imagePreview)
             ? null
             : this.imagePreview,
       };
     },
     async saveProfile(contactId) {
-      this.profileErrors = [];
       var response = null;
 
       let formData = this.getProfileForm();
@@ -190,11 +233,6 @@ export default {
         response = await this.saveNewProfile(formData);
       } else {
         response = await this.saveEditProfile(formData);
-      }
-      if (response.success) {
-        this.successProfileMessage = "Perfil guardado correctamente.";
-      } else {
-        this.profileErrors.push("Error al guardar el perfil.");
       }
       return response;
     },
@@ -207,22 +245,8 @@ export default {
         .data;
       return response;
     },
-    isValidProfileForm() {
-      const errors = [];
-      if (this.name == null || this.name == "") {
-        errors.push("Nombre no puede estar vacio.");
-      }
-      if (this.lastName == null || this.lastName == "") {
-        errors.push("Apellido no puede estar vacio.");
-      }
-      if (this.birthDate == null || this.birthDate == "") {
-        errors.push("Fecha de nacimiento no puede estar vacio.");
-      }
-      if (this.sex == null || this.sex == 0) {
-        errors.push("Sexo no puede estar vacio.");
-      }
-      this.profileErrors = errors;
-      return errors;
+    async isValidProfileForm() {
+      return await this.$refs.observer.validate();
     },
   },
 };

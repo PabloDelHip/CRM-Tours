@@ -6,8 +6,7 @@
 </template>
 
 <script>
-
-    import ListComponent from '../../../components/Categories/Tours/ListComponent';
+import ListComponent from "../../../components/Categories/Tours/ListComponent";
 export default {
   components: {
     ListComponent,
