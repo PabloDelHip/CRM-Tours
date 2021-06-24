@@ -210,7 +210,7 @@ class ToursController extends Controller
         }
     }
 
-    public function getInfoTour($id_tour)
+    public function getInfoTour($name_tour)
     {
         try {
             $name_tour = str_replace("-", " ", $name_tour);

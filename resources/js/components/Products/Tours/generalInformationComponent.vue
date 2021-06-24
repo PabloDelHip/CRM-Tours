@@ -4,6 +4,7 @@
       <div class="form-group">
         <label>Descripción</label>
         <textarea
+          id="informacion_general"
           rows="5"
           class="form-control"
           placeholder="Enter ..."
@@ -13,6 +14,7 @@
       <div class="form-group">
         <label>Recomendaciones</label>
         <textarea
+          id="recomendaciones"
           rows="5"
           class="form-control"
           placeholder="Enter ..."
@@ -22,6 +24,7 @@
       <div class="form-group">
         <label>Incluido</label>
         <textarea
+          id="incluido"
           rows="5"
           class="form-control"
           placeholder="Enter ..."
@@ -31,6 +34,7 @@
       <div class="form-group">
         <label>Itinerario</label>
         <textarea
+          id="itinerario"
           rows="5"
           class="form-control"
           placeholder="Enter ..."
@@ -40,6 +44,7 @@
       <div class="form-group">
         <label>Información adicional</label>
         <textarea
+          id="informacion_adicional"
           rows="5"
           class="form-control"
           placeholder="Enter ..."
@@ -115,7 +120,19 @@ export default {
     };
   },
   async mounted() {
+    $("#informacion_general").summernote();
+    $("#recomendaciones").summernote();
+    $("#incluido").summernote();
+    $("#itinerario").summernote();
+    $("#informacion_adicional").summernote();
+
+    
     await this.getGeneralInformation();
+    $("#informacion_general").summernote("code", this.description);
+    $("#recomendaciones").summernote("code", this.recommendation);
+    $("#incluido").summernote("code", this.includes);
+    $("#itinerario").summernote("code", this.itinerary);
+    $("#informacion_adicional").summernote("code", this.additionalInformation);
   },
   watch: {
     id: function(val) {
@@ -125,11 +142,11 @@ export default {
   methods: {
     getGeneralInformationForm() {
       return {
-        description: this.description,
-        recommendation: this.recommendation,
-        includes: this.includes,
-        itinerary: this.itinerary,
-        additional_information: this.additionalInformation,
+        description: $("#informacion_general").summernote("code"),
+        recommendation: $("#recomendaciones").summernote("code"),
+        includes: $("#incluido").summernote("code"),
+        itinerary: $("#itinerario").summernote("code"),
+        additional_information: $("#informacion_adicional").summernote("code"),
         duration: this.duration,
         qualification: +this.qualification,
         tour_id: +this.idTour,
