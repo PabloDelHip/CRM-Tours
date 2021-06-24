@@ -170,7 +170,7 @@ Route::group([
 
 // Categories Tours
 Route::group([
-    'middleware' => ['jwt.auth'],
+    //'middleware' => ['jwt.auth'],
     'prefix' => 'v1/categorie-tours'
 ], function () {
     Route::get('/get', 'CategorieToursController@getList');
