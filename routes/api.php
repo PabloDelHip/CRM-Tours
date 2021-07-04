@@ -251,4 +251,13 @@ Route::group([
     Route::get('/get/info/tour/name/{name_tour}', 'ToursController@getInfoTour');
     Route::get('/get/info/tour/{id_tour}', 'ToursController@getInfoTour');
 });
+
+// Tours
+Route::group([
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/purchase_order'
+], function () {
+    Route::post('/create', 'PurcharseOrdersController@create');
+    Route::post('/update', 'PurcharseOrdersController@update');
+});
     
