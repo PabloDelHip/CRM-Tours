@@ -3,10 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
-class PurchaseOrdersRequest extends FormRequest
+class CustomerBookTourCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +13,7 @@ class PurchaseOrdersRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -26,12 +24,14 @@ class PurchaseOrdersRequest extends FormRequest
     public function rules()
     {
         return [
+            'reservation_date' => 'required|date',
+            'num_adults' => 'required|numeric',
+            'num_childrens' => 'required|numeric',
+            'num_infants' => 'required|numeric',
             'total' => 'required|numeric',
             'amount' => 'required|numeric',
-            'expected_date' => 'required|date',
-            'type' => 'required',
-            'user_id' => 'required|numeric',
-            'status' => 'required|max:60'
+            'tour_id' => 'required|numeric',
+            'purchase_order_id' => 'required|numeric',
         ];
     }
 
@@ -39,6 +39,4 @@ class PurchaseOrdersRequest extends FormRequest
     {
         throw new HttpResponseException(response()->json(['errors' => $validator->errors()], 422));
     }
-
-    
 }

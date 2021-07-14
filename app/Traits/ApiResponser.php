@@ -12,7 +12,14 @@ trait ApiResponser
         return response()->json(['error' => $message, 'code' => $code], $code); 
     }
 
-    protected function showAll(object $collection, $code = 200) {
+    protected function showAll($collection, $code = 200) {
+        if($collection === null) {
+            return $this->objectNull();
+        }
         return $this->successResponse(['data' => $collection], $code);
+    }
+
+    protected function objectNull() {
+        return $this->successResponse(['data' => []], 204);
     }
 }

@@ -257,7 +257,9 @@ Route::group([
     'middleware' => ['jwt.auth'],
     'prefix' => 'v1/purchase_order'
 ], function () {
+    Route::get('/find/{id}', 'PurcharseOrdersController@find');
+    Route::get('/find', 'PurcharseOrdersController@findAll');
     Route::post('/create', 'PurcharseOrdersController@create');
-    Route::post('/update', 'PurcharseOrdersController@update');
+    Route::put('/update/{id}', 'PurcharseOrdersController@update');
 });
     

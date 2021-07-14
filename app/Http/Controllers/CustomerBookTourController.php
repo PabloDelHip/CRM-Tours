@@ -3,14 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\PurchaseOrdersRequest;
-use App\Http\Requests\CustomerBookTourCreateRequest;
-use App\Repositories\PurcharseOrdersRepository;
-use App\Interfaces\GeneralInterface;
-use App\Http\Controllers\ApiController;
-use Illuminate\Database\Eloquent\MassAssignmentException;
 
-class PurcharseOrdersController extends ApiController implements GeneralInterface
+class CustomerBookTourController extends ApiController implements GeneralInterface
 {
     private $repository;
 
