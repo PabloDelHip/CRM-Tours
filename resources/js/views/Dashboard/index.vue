@@ -180,13 +180,12 @@
                       with font-awesome or any other icon font library -->
                   <!-- <li class="nav-header">EXAMPLES</li> -->
                   <li class="nav-item">
-                    <a href="pages/calendar.html" class="nav-link">
-                      <i class="fas fa-hand-holding-usd"></i>
+                    <router-link class="nav-link" :to="{ name:'PurchaseOrderList'}">
+                      <i class="fas fa-users"></i>
                       <p>
                         Oportunidades de venta
-                        <span class="badge badge-danger right">2</span>
                       </p>
-                    </a>
+                    </router-link>
                   </li>
                   <li class="nav-item">
                     <router-link class="nav-link" :to="{ name:'ListUser'}">

@@ -5,13 +5,12 @@ use Illuminate\Database\Eloquent\MassAssignmentException;
 use App\Http\Requests\PurchaseOrdersRequest;
 use App\Interfaces\GeneralInterface;
 use App\Interfaces\PurchaseOrdersInterface;
-use App\Interfaces\CustomerBookTourInterface;
 use App\Http\Controllers\ApiController;
 use App\PurchaseOrder;
 use App\CustomerPurchase;
 use App\CustomerBookTour;
 
-class PurcharseOrdersRepository implements GeneralInterface, PurchaseOrdersInterface, CustomerBookTourInterface {
+class PurcharseOrdersRepository implements GeneralInterface, PurchaseOrdersInterface {
     
     //public $fillable = []
 
@@ -43,17 +42,21 @@ class PurcharseOrdersRepository implements GeneralInterface, PurchaseOrdersInter
 
     public function findAll() {
         try {
-            return PurchaseOrder::all();
+            return CustomerPurchase::with('user.profile')
+                                    ->with('customer')
+                                    ->with('purchaseOrder')
+                                    ->get();
         } catch (MassAssignmentException $ex) {
             return $ex;
         }
     }
     
-    public function createCustomerPurchase($purchase_order_id, $user_id) {
+    public function createCustomerPurchase($purchase_order_id, $customer_id, $user_id) {
         try {
             $dataSave = [];
             $dataSave['purchase_order_id'] = $purchase_order_id;
-            $dataSave['customer_id'] = $user_id;
+            $dataSave['customer_id'] = $customer_id;
+            $dataSave['user_id'] = $user_id;
             return CustomerPurchase::create($dataSave);
         } catch (MassAssignmentException $ex) {
             return $ex;

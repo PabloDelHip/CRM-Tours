@@ -28,6 +28,10 @@ export default class Customer {
     getCustomer (id_customer) {
         return axios.get(`/api/v1/customer/get/${id_customer}`)
     }
+    
+    getCustomerByEmail (email) {
+        return axios.get(`/api/v1/customer/get/email/${email}`)
+    }
 
     deleteCustomer (id_customer) {
         return axios.delete(`/api/v1/customer/delete/${id_customer}`)

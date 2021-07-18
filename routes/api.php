@@ -77,6 +77,7 @@ Route::group([
     Route::put('update/{id_customer}', 'CustomerController@updateOrCreateCustomer');
     Route::get('get/list/{id_provider}', 'CustomerController@getListCustomer');
     Route::get('get/{id_customer}', 'CustomerController@getCustomer');
+    Route::get('get/email/{email}', 'CustomerController@getCustomerByEmail');
     Route::delete('delete/{id_customer}', 'CustomerController@deleteCustomer');
 });
 
