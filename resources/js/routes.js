@@ -50,6 +50,10 @@ import IndexTours from './views/Products/Tours/index.vue'
 import ListTours from './views/Products/Tours/ListView.vue'
 import TourView from './views/Products/Tours/tourView.vue'
 
+//OrdersPurchase
+import PurchaseOrderListView from './views/PurchaseOrder/ListView.vue'
+import PurchaseOrderFormAltaView from './views/PurchaseOrder/FormAltaView.vue'
+
 export default new Router({
     linkExactActiveClass: "active",
     routes: [{
@@ -261,6 +265,22 @@ export default new Router({
                     },
                 ]
             }]
+        },
+        {
+            path: "/purchase-order",
+            name: "PurchaseOrder",
+            component: Index,
+            children: [{
+                path: "list",
+                name: "PurchaseOrderList",
+                component: PurchaseOrderListView
+                },
+                {
+                    path: "alta",
+                    name: "PurchaseOrderFormAltaView",
+                    component: PurchaseOrderFormAltaView
+                }
+            ]
         },
         {
             path: "/overview",

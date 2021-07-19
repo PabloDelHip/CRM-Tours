@@ -11007,3 +11007,7 @@ div.contenedor-case-history {
   overflow: auto;
 }
 
+.border-line {
+  border-top: 1px solid #d2d0d0;
+}
+

@@ -65,3 +65,7 @@ Route::get('/categories/tours', ['as' => 'tours', 'uses' => 'HomeController@inde
 Route::get('/categories/tours/edit/{id_tour}', ['as' => 'tours', 'uses' => 'HomeController@index']);
 //Categories
 Route::get('/categories/save', ['as' => 'tours', 'uses' => 'HomeController@index']);
+
+//Purchase Order
+Route::get('/purchase-order/list', ['as' => 'purchase-order', 'uses' => 'HomeController@index']);
+Route::get('/purchase-order/alta', ['as' => 'purchase-order', 'uses' => 'HomeController@index']);

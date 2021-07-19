@@ -5,11 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Validator;
+use App\Http\Controllers\ApiController;
+use App\Repositories\CustomerRepository;
+use App\Repositories\CityRepository;
 use App\Customer;
 use Carbon\Carbon;
 
-class CustomerController extends Controller
+class CustomerController extends ApiController
 {
+    private $customerRepository;
+    private $cityRepository;
+
+    public function __construct(
+        CustomerRepository $customerRepository,
+        CityRepository $cityRepository) {
+        $this->customerRepository = $customerRepository;
+        $this->cityRepository = $cityRepository;
+    }
+
     public function updateOrCreateCustomer($id_customer = 0, Request $request)
     {   
         try {
@@ -125,5 +138,14 @@ class CustomerController extends Controller
             'message' => 'Contacto eliminado de forma correcta',
             'data' => Customer::where('id', $id_customer)->get()->first()
         ], 200);
+    }
+
+    public function getCustomerByEmail($email) {
+        try {
+            $customer_data = $this->customerRepository->findByEmail($email);
+            return $this->showAll($customer_data);
+        } catch (MassAssignmentException $th) {
+            return  $this->errorResponse($th, 500);
+        }
     }
 }

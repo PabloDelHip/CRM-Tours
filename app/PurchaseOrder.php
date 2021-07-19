@@ -11,4 +11,9 @@ class PurchaseOrder extends Model
     protected $fillable = [
         'total', 'amount', 'expected_date', 'type', 'labels', 'status', 'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
