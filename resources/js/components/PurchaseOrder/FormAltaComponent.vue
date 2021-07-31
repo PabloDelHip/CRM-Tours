@@ -151,14 +151,13 @@
             </div>
           </div>
           <div class="col-md-6">
-            <address-component
-              :id="+this.addressId"
-              ref="addressComponent"
-            ></address-component>
+            <!-- AQUI ESTOY PROBANDFO-->
+            <customer-book-tour-component @onAddActivities="AddActivities">
+            </customer-book-tour-component>
           </div>
         </div>
       <div class="col-md-12">
-        <button type="button" @click="saveContent()" class="btn btn-primary">
+        <button type="button" @click="saveReservations()" class="btn btn-primary">
           Guardar
         </button>
       </div>
@@ -169,7 +168,7 @@
 <script>
 import Nation from '../../providers/Nation';
 import Customer from '../../providers/Customer';
-import AddressComponent from "../../components/Address/addressComponent.vue";
+import customerBookTourComponent from "./alta/customerBookTour";
 import { Datetime } from 'vue-datetime';
 import {
   ValidationProvider,
@@ -187,7 +186,7 @@ export default {
     },
   },
   components: {
-    AddressComponent,
+    customerBookTourComponent,
     ValidationObserver,
     ValidationProvider,
     datetime: Datetime
@@ -195,7 +194,7 @@ export default {
   data() {
     return {
       addressId: null,
-
+      activities: [],
       vendorCode: null,
       name: null,
       businessName: null,
@@ -228,6 +227,13 @@ export default {
     };
   },
   methods: {
+    AddActivities(activities) {
+      this.activities = activities;
+      console.log('funciona', this.activities)
+    },
+    saveReservations(){
+      console.log(this.formCustomer);
+    },
     async getVendor() {
       var response = (await VendorResouce.getVendor(this.id)).data;
       if (!response.success) {
