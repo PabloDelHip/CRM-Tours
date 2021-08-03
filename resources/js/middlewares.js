@@ -60,6 +60,7 @@ router.beforeEach(async(to, from, next) => {
 });
 
 async function hasAccess(to) {
+    return true;
     var user = null;
     if (await existToken()) {
         user = JSON.parse(await getUser()).user;

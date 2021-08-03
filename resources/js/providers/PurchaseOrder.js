@@ -7,4 +7,9 @@ export default class PurchaseOrder {
     getList() {
         return axios.get(`/api/v1/purchase_order/find`);
     }
+
+    create(formData) {
+        return axios.post(`/api/v1/purchase_order/create`, formData);
+    }
 }
+

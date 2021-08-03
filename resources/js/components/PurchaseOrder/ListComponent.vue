@@ -69,14 +69,6 @@
                     <td class="table-actions">
                       <div class="btn-group">
                         <router-link
-                          class="btn btn-primary btn-sm"
-                          :to="{
-                            name: 'profileVendor'
-                          }"
-                        >
-                          <i class="far fa-eye"></i>
-                        </router-link>
-                        <router-link
                           class="btn btn-info btn-sm"
                           :to="{
                             name: 'EditVendor'
@@ -84,20 +76,6 @@
                         >
                           <i class="fas fa-pencil-alt"> </i>
                         </router-link>
-                        <router-link
-                          class="btn btn-warning btn-sm"
-                          :to="{
-                            name: 'listContactsVendor'
-                          }"
-                        >
-                          <i class="fas fa-user"> </i>
-                        </router-link>
-                        <a
-                          class="btn btn-danger btn-sm"
-                          @click="deleteVendor(1)"
-                        >
-                          <i class="fas fa-trash"> </i>
-                        </a>
                       </div>
                     </td>
                   </tr>

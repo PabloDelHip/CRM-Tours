@@ -53,7 +53,7 @@ import TourView from './views/Products/Tours/tourView.vue'
 //OrdersPurchase
 import PurchaseOrderListView from './views/PurchaseOrder/ListView.vue'
 import PurchaseOrderFormAltaView from './views/PurchaseOrder/FormAltaView.vue'
-
+import PurchaseOrderFormEditarView from './views/PurchaseOrder/FormEditarView.vue'
 export default new Router({
     linkExactActiveClass: "active",
     routes: [{
@@ -279,6 +279,12 @@ export default new Router({
                     path: "alta",
                     name: "PurchaseOrderFormAltaView",
                     component: PurchaseOrderFormAltaView
+                },
+                {
+                    path: "editar/:id",
+                    name: "PurchaseOrderFormEditarView",
+                    component: PurchaseOrderFormEditarView,
+                    props: true,
                 }
             ]
         },
