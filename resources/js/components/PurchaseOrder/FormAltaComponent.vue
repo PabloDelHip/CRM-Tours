@@ -99,7 +99,7 @@
                 <label>Pais</label>
                 <multiselect
                   @input="getStates()"
-                  v-model="formCustomer.country"
+                  v-model="country"
                   label="country"
                   track-by="id"
                   :options="countries"
@@ -112,7 +112,7 @@
                 <label>Estado</label>
                 <multiselect
                   @input="getCitys()"
-                  v-model="formCustomer.state"
+                  v-model="state"
                   label="name"
                   track-by="id"
                   :options="states"
@@ -124,7 +124,7 @@
               <div class="form-group col-4">
                 <label>Ciudad</label>
                 <multiselect
-                  v-model="formCustomer.city"
+                  v-model="city"
                   label="city"
                   track-by="id"
                   :options="citys"
@@ -139,6 +139,15 @@
                   <label>Comentarios adicionales</label>
                   <textarea v-model="formCustomer.additional_information" class="form-control rounded-0" rows="5" placeholder="Enter ..."></textarea>
                 </div>
+              </div>
+              <div class="col-sm-12 border-line mt-3">
+                <label>Estatus de la reserva</label>
+                <select class="form-control" v-model="status">
+                  <option value="En proceso">En proceso</option>
+                  <option value="Cotizacion">Cotización</option>
+                  <option value="Negociaciones">Negociaciones</option>
+                  <option value="Cerrado">Cerrado</option>
+                </select>
               </div>
           </div>
           <!--<div class="modal-footer justify-content-between">
@@ -168,6 +177,7 @@
 <script>
 import Nation from '../../providers/Nation';
 import Customer from '../../providers/Customer';
+import PurchaseOrder from '../../providers/PurchaseOrder';
 import customerBookTourComponent from "./alta/customerBookTour";
 import { Datetime } from 'vue-datetime';
 import {
@@ -177,6 +187,7 @@ import {
 
 const nationResource = new Nation();
 const customerResource = new Customer();
+const PurchaseOrderResource = new PurchaseOrder();
 
 export default {
   props: {
@@ -207,6 +218,10 @@ export default {
       newVendor: false,
       vendor: null,
       NameVendorEdit: null,
+      country: null,
+      state: null,
+      city: null,
+      status: '',
       countries: [],
         states: [],
         citys: [],
@@ -219,20 +234,59 @@ export default {
             birth_date: null,
             sex: 0,
             additional_information: null,
-            country: null,
-            state: null,
-            city: null
+            country_id: null,
+            state_id: null,
+            city_id: null
         },
         searchUser: false
     };
   },
+  computed: {
+    user: function () {
+      return this.$store.state.user
+    }
+  },
+  watch: {
+    country(newValue) {
+      this.formCustomer.country_id = newValue.id;
+    },
+    city(newValue) {
+      this.formCustomer.city_id = newValue.id;
+    },
+    state(newValue) {
+      this.formCustomer.state_id = newValue.id;
+    }
+  },
   methods: {
     AddActivities(activities) {
       this.activities = activities;
-      console.log('funciona', this.activities)
     },
-    saveReservations(){
-      console.log(this.formCustomer);
+    async saveReservations(){
+      console.log('usuario', this.user);
+      const infoGeneral = [];
+      infoGeneral.total = this.activities.reduce((a, b) => a.total + b.total);
+      infoGeneral.amount = this.activities.reduce((a, b) => a.amount + b.amount);
+      console.log('General',infoGeneral)
+      infoGeneral.total = Number.isInteger(infoGeneral.total) ? infoGeneral.total : infoGeneral.total.total;
+      infoGeneral.amount = Number.isInteger(infoGeneral.amount) ? infoGeneral.amount : infoGeneral.amount.amount;
+      infoGeneral.expected_date = this.activities[0].reservation_date.split('T')[0];
+      infoGeneral.type = 'tour';
+      infoGeneral.user_id = this.user.id;
+      infoGeneral.status = status;
+      console.log(infoGeneral)
+      console.log(this.activities)
+      const data = {...infoGeneral, customer: {...this.formCustomer}, tours: {...this.activities}}
+      await PurchaseOrderResource.create(data);
+      this.$swal.fire({
+          icon: 'success',
+          title: 'Bien',
+          toast: true,
+          position: 'top',
+          timer: 3000,
+          showConfirmButton: false,
+          timerProgressBar: true,
+          text: 'Reservacion Guardada de forma correcta',
+      })
     },
     async getVendor() {
       var response = (await VendorResouce.getVendor(this.id)).data;
@@ -283,10 +337,10 @@ export default {
       },
       async getStates() {
         try {
-          this.formCustomer.state = null
-          this.formCustomer.city = null
-          console.log(this.formCustomer.country);
-          this.states = await nationResource.getState(this.formCustomer.country.id);
+          this.state = null
+          this.city = null
+          console.log(this.country);
+          this.states = await nationResource.getState(this.country.id);
           this.states = this.states.data.data
         } catch (error) {
           console.log('error estados', error)
@@ -294,8 +348,8 @@ export default {
       },
       async getCitys() {
         try {
-          this.formCustomer.city = null
-          this.citys = await nationResource.getCity(this.formCustomer.state.id);
+          this.city = null
+          this.citys = await nationResource.getCity(this.state.id);
           this.citys = this.citys.data.data
         } catch (error) {
           console.log('error ciudades', error)
@@ -313,9 +367,9 @@ export default {
             this.formCustomer.birth_date = data.birth_date
             this.formCustomer.sex = data.sex
             this.formCustomer.additional_information = data.additional_information
-            this.formCustomer.country = data.country
-            this.formCustomer.state = data.state
-            this.formCustomer.city = data.city
+            this.country = data.country
+            this.state = data.state
+            this.city = data.city
         }
         this.searchUser = false
       }

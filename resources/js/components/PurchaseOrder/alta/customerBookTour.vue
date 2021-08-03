@@ -5,58 +5,77 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-                <div class="card-body row">
-                    <div class="form-group col-12">
-                        <label for="exampleInputEmail1">Tour</label>
-                        <multiselect
-                            v-model="tour"
-                            label="name"
-                            track-by="id"
-                            :options="tours"
-                            :searchable="true"
-                            :show-labels="false"
-                            placeholder="Seleccionar Tour">
-                        </multiselect>
-                    </div>
-                    <div class="form-group col-12">
-                        <label for="exampleInputEmail1">Fecha del tour</label>
-                        <datetime v-model="fecha_tour" value-zone="local" zone="local"></datetime>
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="exampleInputEmail1">Num. Adul.</label>
-                        <input v-model="num_adultos" type="number" class="form-control rounded-0">
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="exampleInputEmail1">Num. Nin.</label>
-                        <input v-model="num_ninos" type="number" class="form-control rounded-0">
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="exampleInputEmail1">Num. Infa.</label>
-                        <input v-model="num_infante" type="number" class="form-control rounded-0">
-                    </div>
-                    <div class="form-group col-12">
-                        <label for="exampleInputEmail1">Monto</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend rounded-0">
-                                <span class="input-group-text">$</span>
-                            </div>
-                            <input v-model="monto" type="text" class="form-control rounded-0">
+                <ValidationObserver v-slot="{ invalid }" ref="observer">
+                    <div class="card-body row">
+                        <div class="form-group col-12">
+                            <label for="exampleInputEmail1">Tour</label>
+                            <ValidationProvider rules="required" name="Tour" v-slot="{ errors }">
+                                <multiselect
+                                    v-model="tour"
+                                    label="name"
+                                    track-by="id"
+                                    :options="tours"
+                                    :searchable="true"
+                                    :show-labels="false"
+                                    placeholder="Seleccionar Tour">
+                                </multiselect>
+                                <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="exampleInputEmail1">Fecha del tour</label>
+                            <ValidationProvider rules="required" name="Fecha tour" v-slot="{ errors }">
+                                <datetime v-model="fecha_tour" value-zone="local" zone="local"></datetime>
+                                <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="exampleInputEmail1">Num. Adul.</label>
+                            <ValidationProvider rules="numeric" name="Num. Adultos" v-slot="{ errors }">
+                                <input v-model="num_adultos" type="number" class="form-control rounded-0">
+                                <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="exampleInputEmail1">Num. Nin.</label>
+                            <ValidationProvider rules="numeric" name="Num. Ninos" v-slot="{ errors }">
+                                <input v-model="num_ninos" type="number" class="form-control rounded-0">
+                                <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="exampleInputEmail1">Num. Infa.</label>
+                            <ValidationProvider rules="numeric|required" name="Num. Infantes" v-slot="{ errors }">
+                                <input v-model="num_infante" type="number" class="form-control rounded-0">
+                                <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                        <div class="form-group col-12">
+                            <ValidationProvider rules="numeric|required" name="monto" v-slot="{ errors }">
+                                <label for="exampleInputEmail1">Monto</label>
+                                <div class="input-group">
+                                        <div class="input-group-prepend rounded-0">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input v-model="monto" type="number" class="form-control rounded-0">
+                                        <span :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']">{{ errors[0] }}</span>
+                                </div>
+                            </ValidationProvider>
+                        </div>
+                        <div class="w-100 mt-3 mb-3 border-line"></div>
+                        <div class="col-12 total-custom">
+                            <p class="p-0 m-0">
+                                <span>Total: $</span>
+                                {{total}}
+                            </p>
                         </div>
                     </div>
-                    <div class="w-100 mt-3 mb-3 border-line"></div>
-                    <div class="col-12 total-custom">
-                        <p class="p-0 m-0">
-                            <span>Total: $</span>
-                            {{total}}
-                        </p>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                        <button @click="addActividad" :disabled="invalid" class="btn btn-primary">Agregar</button>
                     </div>
-                </div>
-                <!-- /.card-body -->
-
-                <div class="card-footer">
-                  <button @click="addActividad" class="btn btn-primary">Agregar</button>
-                </div>
-
+                </ValidationObserver>
                 <div class="row card-footer">
                     <div class="col-12">
                         <table
@@ -78,14 +97,14 @@
                             <tbody>
                             <tr v-for="actividad in actividades" :key="actividad.tour">
                                 <td>{{ actividad.actividad }}</td>
-                                <td>{{ actividad.fecha_tour | moment("L") }}</td>
-                                <td>{{ actividad.adultos }}</td>
-                                <td>{{ actividad.ninos }}</td>
-                                <td>{{ actividad.infantes }}</td>
-                                <td>{{ actividad.monto }}</td>
+                                <td>{{ actividad.reservation_date | moment("L") }}</td>
+                                <td>{{ actividad.num_adults }}</td>
+                                <td>{{ actividad.num_childrens }}</td>
+                                <td>{{ actividad.num_infants }}</td>
+                                <td>{{ actividad.amount }}</td>
                                 <td>{{ actividad.total }}</td>
                                 <td>
-                                    <button @click="eliminarActividad(actividad.actividad)" class="btn btn-danger btn-sm">
+                                    <button @click="eliminarActividad(actividad.tour_id)" class="btn btn-danger btn-sm">
                                         <i class="fas fa-trash"> </i>
                                     </button>
                                 </td>
@@ -101,12 +120,18 @@
 import Tours from '../../../providers/products/tours/Tour';
 import OperationTour from '../../../providers/products/tours/OperationTour';
 import { Datetime } from 'vue-datetime';
+import {
+  ValidationProvider,
+  ValidationObserver,
+} from "vee-validate/dist/vee-validate.full";
 
 const ToursResource = new Tours();
 const OperationTourResource = new OperationTour();
 export default {
     components: {
-      datetime: Datetime
+      datetime: Datetime,
+      ValidationObserver,
+      ValidationProvider
     },
     data() {
         return {
@@ -143,9 +168,9 @@ export default {
         }
     },
     methods : {
-        eliminarActividad(nameActividad) {
-            const pos = this.actividades.map(function(actividad) { return actividad.actividad; })
-                .indexOf(nameActividad);
+        eliminarActividad(id_tour) {
+            const pos = this.actividades.map(function(actividad) { return actividad.tour_id; })
+                .indexOf(id_tour);
             this.actividades.splice(pos, 1);
             this.$emit('onAddActivities', this.actividades)
         },
@@ -156,12 +181,13 @@ export default {
         async addActividad(actividad) {
             this.actividades.push({
                 actividad: this.actividad,
-                fecha_tour: this.fecha_tour,
-                adultos: this.num_adultos,
-                ninos: this.num_ninos,
-                infantes: this.num_infante,
-                monto: this.monto,
-                total: this.total
+                reservation_date: this.fecha_tour.split('T')[0],
+                num_adults: this.num_adultos,
+                num_childrens: this.num_ninos,
+                num_infants: this.num_infante,
+                amount: Number(this.monto),
+                total: this.total,
+                tour_id: this.form.tour
             })
             this.$emit('onAddActivities', this.actividades)
             this.tour =  '';
@@ -176,6 +202,7 @@ export default {
         },
 
         async calculateTotal(priceAdult, priceChild) {
+            this.total = 0;
             const totalAdult = priceAdult * this.num_adultos;
             const totalChild = priceChild * this.num_ninos;
             this.total = totalAdult + totalChild; 
