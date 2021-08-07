@@ -49,8 +49,44 @@ class PurcharseOrdersController extends ApiController implements GeneralInterfac
     }
 
     public function update(PurchaseOrdersRequest $request, $id) {
+        
+        // dd($request->all());
+
         try {
+            $customer= $request->customer;
+            $tours= $request->tours;
+            unset($request['customer']);
+            unset($request['tours']);
             $this->repository->update($request, $id);
+            $customerBookTours = $this->customerBookTourRepository->findById($id);
+            foreach ($customerBookTours as $customerBookTour) {
+                $tourData='';
+                foreach ($tours as $tour) {
+                    if($customerBookTour['id'] === $tour['id']) {
+                        $tourData = $tour;
+                    }
+                    // $tour['purchase_order_id'] = $purchase_order_data->id;
+                    // 
+                }
+                if($tourData !== '') {
+                    if($tourData['id'] !== null) {
+                        $this->repository->updateCustomerBookTour($tour);
+                    }
+                    else {
+                        $tourData['purchase_order_id'] = $id;
+                        $this->repository->createCustomerBookTour($tourData);
+                    }
+                }
+                else {
+                    $this->repository->deleteCustomerBookTour($customerBookTour['id']);
+                }
+            }
+            foreach ($tours as $tour) {
+                if($tour['id'] === null) {
+                    $tour['purchase_order_id'] = $id;
+                    $this->repository->createCustomerBookTour($tour);
+                }
+            }
             $purchase_order_data = $this->repository->find($id);
             return $this->showAll($purchase_order_data,201);
         } catch (MassAssignmentException $th) {

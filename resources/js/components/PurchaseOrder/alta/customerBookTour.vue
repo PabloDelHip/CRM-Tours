@@ -133,6 +133,11 @@ export default {
       ValidationObserver,
       ValidationProvider
     },
+    props: {
+        activities: {
+            default: ''
+        },
+    },
     data() {
         return {
             tour: '',
@@ -161,10 +166,20 @@ export default {
             this.actividad = newValue.name
         },
         async num_adultos() {
+            console.log('cambios');
             this.calculateTotal(this.operationTour.adult_price, this.operationTour.child_price)
         },
         async num_ninos() {
             this.calculateTotal(this.operationTour.adult_price, this.operationTour.child_price)
+        },
+        activities: {
+            inmediate: true,
+            handler(newValue) {
+                this.activities = newValue;
+                this.activities.forEach(activite => {
+                    this.addActividadEdit(activite)
+                });
+            }
         }
     },
     methods : {
@@ -180,6 +195,7 @@ export default {
         },
         async addActividad(actividad) {
             this.actividades.push({
+                id: null,
                 actividad: this.actividad,
                 reservation_date: this.fecha_tour.split('T')[0],
                 num_adults: this.num_adultos,
@@ -189,6 +205,7 @@ export default {
                 total: this.total,
                 tour_id: this.form.tour
             })
+            console.log(this.actividades);
             this.$emit('onAddActivities', this.actividades)
             this.tour =  '';
             this.operationTour =  '';
@@ -200,12 +217,25 @@ export default {
             this.monto = 0;
             this.total = 0;
         },
-
+        async addActividadEdit(actividad) {
+            this.actividades.push({
+                id: actividad.id,
+                actividad: actividad.tour.name,
+                reservation_date: actividad.reservation_date,
+                num_adults: actividad.num_adults,
+                num_childrens: actividad.num_childrens,
+                num_infants: actividad.num_infants,
+                amount: actividad.amount,
+                total: actividad.total,
+                tour_id: actividad.tour_id,
+            })
+             this.$emit('onAddActivities', this.actividades)
+        },
         async calculateTotal(priceAdult, priceChild) {
             this.total = 0;
             const totalAdult = priceAdult * this.num_adultos;
             const totalChild = priceChild * this.num_ninos;
-            this.total = totalAdult + totalChild; 
+            this.total = totalAdult + totalChild;
         }
     },
     mounted() {

@@ -270,10 +270,11 @@ export default new Router({
             path: "/purchase-order",
             name: "PurchaseOrder",
             component: Index,
-            children: [{
-                path: "list",
-                name: "PurchaseOrderList",
-                component: PurchaseOrderListView
+            children: [
+                {
+                    path: "list",
+                    name: "PurchaseOrderList",
+                    component: PurchaseOrderListView
                 },
                 {
                     path: "alta",
@@ -281,9 +282,9 @@ export default new Router({
                     component: PurchaseOrderFormAltaView
                 },
                 {
-                    path: "editar/:id",
+                    path: "editar/:id_purchase_order",
                     name: "PurchaseOrderFormEditarView",
-                    component: PurchaseOrderFormEditarView,
+                    component: PurchaseOrderFormAltaView,
                     props: true,
                 }
             ]

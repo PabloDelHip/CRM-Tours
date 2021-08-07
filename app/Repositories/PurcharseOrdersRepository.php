@@ -34,6 +34,16 @@ class PurcharseOrdersRepository implements GeneralInterface, PurchaseOrdersInter
 
     public function find($id) {
         try {
+            $customerPurchase = CustomerPurchase::where('purchase_order_id', $id)
+                                    ->with('customer')
+                                    ->with('purchaseOrder')
+                                    ->get();
+            
+            $purchase_order_id = $customerPurchase[0]["purchase_order_id"];
+            $customerPurchase[0]["book_tours"] = CustomerBookTour::where('purchase_order_id', $purchase_order_id)
+                                                ->with('tour')
+                                                ->get();
+            return $customerPurchase;
             return PurchaseOrder::where('id', $id)->get()->first();
         } catch (MassAssignmentException $ex) {
             return $ex;
@@ -71,4 +81,24 @@ class PurcharseOrdersRepository implements GeneralInterface, PurchaseOrdersInter
         }
     }
 
+    public function updateCustomerBookTour(array $tour) {
+        try {
+            unset($tour['actividad']);
+            return CustomerBookTour::where('id', $tour['id'])
+                    ->update($tour);
+            
+        } catch (MassAssignmentException $ex) {
+            return $ex;
+        }
+    }
+
+    public function deleteCustomerBookTour($id) {
+        try {
+            return CustomerBookTour::where('id', $id)
+                    ->delete();
+            
+        } catch (MassAssignmentException $ex) {
+            return $ex;
+        }
+    }
 }

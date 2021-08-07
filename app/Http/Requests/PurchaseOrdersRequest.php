@@ -31,7 +31,6 @@ class PurchaseOrdersRequest extends FormRequest
             'expected_date' => 'required|date',
             'type' => 'required',
             'user_id' => 'required|numeric',
-            'status' => 'required|max:60'
         ];
     }
 

@@ -17,4 +17,13 @@ class CustomerBookTour extends Model
         'tour_id',
         'purchase_order_id'
     ];
+
+    public function tour()
+    {
+        return $this->belongsTo(Tour::class);
+    }
+
+    public function purchase_order(){
+        return $this->belongsTo(PurchaseOrder::class);
+    }
 }
