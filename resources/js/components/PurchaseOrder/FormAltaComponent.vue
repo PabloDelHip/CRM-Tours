@@ -275,9 +275,15 @@ export default {
   methods: {
     async editReservations() {
       try {
+        console.log(this.activities)
         const infoGeneral = [];
         infoGeneral.total =  this.activities.reduce((a, b) => ( parseFloat(a.total) ||  parseFloat(a)) +  parseFloat(b.total));
-        infoGeneral.amount = this.activities.reduce((a, b) => ( parseFloat(a.amount) ||  parseFloat(a))+  parseFloat(b.amount));
+        infoGeneral.amount = 0;
+        
+        this.activities.forEach(actividad => {
+          infoGeneral.amount += parseFloat(actividad.amount);
+        });
+
         console.log('probando', infoGeneral.total);
         console.log('General',infoGeneral)
         infoGeneral.total = typeof infoGeneral.total !== 'object' ? infoGeneral.total : infoGeneral.total.total;
