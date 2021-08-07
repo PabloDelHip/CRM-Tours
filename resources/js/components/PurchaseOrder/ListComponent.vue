@@ -63,7 +63,7 @@
                     <td>{{ purchaseOrder.purchase_order.amount }}</td>
                     <td>{{ purchaseOrder.purchase_order.expected_date }}</td>
                     <td>{{ purchaseOrder.num_tours }}</td>
-                    <td>{{ purchaseOrder.purchase_order.labels }}</td>
+                    <td>{{ purchaseOrder.purchase_order.status }}</td>
                     <td>{{ purchaseOrder.user.profile.name }}</td>
                     <td>{{ purchaseOrder.customer.name }} {{ purchaseOrder.customer.last_name }}</td>
                     <td class="table-actions">
@@ -71,7 +71,8 @@
                         <router-link
                           class="btn btn-info btn-sm"
                           :to="{
-                            name: 'EditVendor'
+                            name: 'PurchaseOrderFormEditarView',
+                            params: { id_purchase_order: purchaseOrder.purchase_order.id }
                           }"
                         >
                           <i class="fas fa-pencil-alt"> </i>
