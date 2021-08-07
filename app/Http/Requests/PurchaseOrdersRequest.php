@@ -27,7 +27,7 @@ class PurchaseOrdersRequest extends FormRequest
     {
         return [
             'total' => 'required|numeric',
-            'amount' => 'required|numeric',
+            'amount' => 'numeric',
             'expected_date' => 'required|date',
             'type' => 'required',
             'user_id' => 'required|numeric',

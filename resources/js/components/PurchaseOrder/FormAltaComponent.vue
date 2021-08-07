@@ -276,11 +276,12 @@ export default {
     async editReservations() {
       try {
         const infoGeneral = [];
-        infoGeneral.total = this.activities.reduce((a, b) => (a.total || a) + b.total);
-        infoGeneral.amount = this.activities.reduce((a, b) => (a.amount || a)+ b.amount);
+        infoGeneral.total =  this.activities.reduce((a, b) => ( parseFloat(a.total) ||  parseFloat(a)) +  parseFloat(b.total));
+        infoGeneral.amount = this.activities.reduce((a, b) => ( parseFloat(a.amount) ||  parseFloat(a))+  parseFloat(b.amount));
+        console.log('probando', infoGeneral.total);
         console.log('General',infoGeneral)
-        infoGeneral.total = Number.isInteger(infoGeneral.total) ? infoGeneral.total : infoGeneral.total.total;
-        infoGeneral.amount = Number.isInteger(infoGeneral.amount) ? infoGeneral.amount : infoGeneral.amount.amount;
+        infoGeneral.total = typeof infoGeneral.total !== 'object' ? infoGeneral.total : infoGeneral.total.total;
+        infoGeneral.amount = typeof infoGeneral.amount !== 'object' ? infoGeneral.amount : infoGeneral.amount.amount;
         infoGeneral.expected_date = this.activities[0].reservation_date.split('T')[0];
         infoGeneral.type = 'tour';
         infoGeneral.user_id = this.user.id;
