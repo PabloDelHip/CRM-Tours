@@ -64,7 +64,6 @@
     <br />
     <div class="row">
       <div class="col-md-3" v-for="(preview, index) in pictures" :key="index">
-        {{preview}}
         <div class="info-box" :class="preview.newImage ? 'bg-danger' : (preview.status ? 'bg-success' : 'bg-warning')"
           :style="preview.id != 0 ? 'cursor: pointer' : ''"
           @click="chageImageTourStatus(index)"

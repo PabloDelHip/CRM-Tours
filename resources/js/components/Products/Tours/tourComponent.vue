@@ -49,8 +49,9 @@
             ref="imageFile"
           />
           <div class="position-relative">
+            <h2>Hola</h2>
             <img
-              v-bind:src="imagePreview"
+              :src="viewImage(imagePreview)"
               class="img-fluid"
               alt="User Avatar"
               @click="$refs.imageFile.click()"
@@ -153,6 +154,10 @@ export default {
     },
   },
   methods: {
+    viewImage(slug) {
+      const image = slug.split("/");
+      return `/api/v1/tours/images/${image[5]}`;
+    },
     onFileChange(event) {
       this.picture = event.target.files[0];
 
