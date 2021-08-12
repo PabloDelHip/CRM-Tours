@@ -59,7 +59,7 @@
               type="checkbox"
               class="custom-control-input"
               id="monday"
-              v-model.number="monday"
+              v-model="monday"
             />
             <label class="custom-control-label" for="monday">
               Lunes
@@ -72,7 +72,7 @@
               type="checkbox"
               class="custom-control-input"
               id="tuesday"
-              v-model.number="tuesday"
+              v-model="tuesday"
             />
             <label class="custom-control-label" for="tuesday">
               Martes
@@ -85,7 +85,7 @@
               type="checkbox"
               class="custom-control-input"
               id="wednesday"
-              v-model.number="wednesday"
+              v-model="wednesday"
             />
             <label class="custom-control-label" for="wednesday">
               Miércoles
@@ -98,7 +98,7 @@
               type="checkbox"
               class="custom-control-input"
               id="thursday"
-              v-model.number="thursday"
+              v-model="thursday"
             />
             <label class="custom-control-label" for="thursday">
               Jueves
@@ -111,7 +111,7 @@
               type="checkbox"
               class="custom-control-input"
               id="friday"
-              v-model.number="friday"
+              v-model="friday"
             />
             <label class="custom-control-label" for="friday">
               Viernes
@@ -124,7 +124,7 @@
               type="checkbox"
               class="custom-control-input"
               id="saturday"
-              v-model.number="saturday"
+              v-model="saturday"
             />
             <label class="custom-control-label" for="saturday">
               Sábado
@@ -137,7 +137,7 @@
               type="checkbox"
               class="custom-control-input"
               id="sunday"
-              v-model.number="sunday"
+              v-model="sunday"
             />
             <label class="custom-control-label" for="sunday">
               Domingo
