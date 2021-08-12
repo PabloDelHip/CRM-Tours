@@ -227,13 +227,13 @@ export default {
       this.childPrice = this.operationTour.child_price;
       this.discountRate = this.operationTour.discount_rate;
       this.ticketText = this.operationTour.ticket_text;
-      this.monday = this.operationTour.mon;
-      this.tuesday = this.operationTour.tue;
-      this.wednesday = this.operationTour.wed;
-      this.thursday = this.operationTour.thu;
-      this.friday = this.operationTour.fri;
-      this.saturday = this.operationTour.sat;
-      this.sunday = this.operationTour.sun;
+      this.monday = parseInt(this.operationTour.mon);
+      this.tuesday = parseInt(this.operationTour.tue)
+      this.wednesday = parseInt(this.operationTour.wed);
+      this.thursday = parseInt(this.operationTour.thu);
+      this.friday = parseInt(this.operationTour.fri);
+      this.saturday = parseInt(this.operationTour.sat);
+      this.sunday = parseInt(this.operationTour.sun);
       this.daysAdvanceToReserve = this.operationTour.days_advance_to_reserve;
     },
     async isValidForm() {
