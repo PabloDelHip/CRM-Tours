@@ -64,6 +64,7 @@
     <br />
     <div class="row">
       <div class="col-md-3" v-for="(preview, index) in pictures" :key="index">
+        {{preview}}
         <div class="info-box" :class="preview.newImage ? 'bg-danger' : (preview.status ? 'bg-success' : 'bg-warning')"
           :style="preview.id != 0 ? 'cursor: pointer' : ''"
           @click="chageImageTourStatus(index)"
@@ -82,7 +83,7 @@
           </div>
           <div class="position-relative">
             <img
-              v-bind:src="preview.imagePreview"
+              :src="viewImage(preview.imagePreview)"
               alt="Photo 1"
               class="img-fluid"
             />
@@ -113,6 +114,10 @@ export default {
     await this.getImagesTour();
   },
   methods: {
+    viewImage(slug) {
+      const image = slug.split("/");
+      return `/api/v1/tours/images/${image[5]}`;
+    },
     getImageTourForm(imageBase64, status) {
       return {
         url_image: imageBase64,
