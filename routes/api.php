@@ -251,6 +251,7 @@ Route::group([
     Route::get('/get/images/{id_tour}', 'ToursController@getImagesTour');
     Route::get('/get/info/tour/name/{name_tour}', 'ToursController@getInfoTour');
     Route::get('/get/info/tour/{id_tour}', 'ToursController@getInfoTour');
+    Route::get('images/{filename}', 'ToursController@imagen');
 });
 
 // Tours

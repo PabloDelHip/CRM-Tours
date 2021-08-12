@@ -13,6 +13,8 @@ use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\MassAssignmentException;
+use File;
+use Response;
 
 class ToursController extends Controller
 {
@@ -298,5 +300,21 @@ class ToursController extends Controller
         }
 
         return $nameFile;
+    }
+
+    public function imagen($slug) {
+        $path = storage_path() . '/app/public/images/products/tours/' . $slug; // Podés poner cualquier ubicacion que quieras dentro del storage
+
+        if(!File::exists($path)){
+            return 'no esta';
+        } // Si el archivo no existe
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
     }
 }
