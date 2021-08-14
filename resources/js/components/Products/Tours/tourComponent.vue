@@ -91,7 +91,7 @@
       </div>
       <div class="form-group">
         <label>Categoria</label>
-        <ValidationProvider rules="required" name="agencia" v-slot="{ errors }">
+        <ValidationProvider rules="required" name="categoria" v-slot="{ errors }">
           <select class="form-control" v-model.number="categoriaId">
             <option
               v-for="categorie in categories"
