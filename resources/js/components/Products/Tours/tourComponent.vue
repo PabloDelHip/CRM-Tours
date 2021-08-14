@@ -49,7 +49,6 @@
             ref="imageFile"
           />
           <div class="position-relative">
-            <h2>Hola</h2>
             <img
               :src="viewImage(imagePreview)"
               class="img-fluid"
@@ -90,6 +89,24 @@
           >
         </ValidationProvider>
       </div>
+      <div class="form-group">
+        <label>Categoria</label>
+        <ValidationProvider rules="required" name="agencia" v-slot="{ errors }">
+          <select class="form-control" v-model.number="categoriaId">
+            <option
+              v-for="categorie in categories"
+              :value="categorie.id"
+              :key="categorie.id"
+            >
+              {{ categorie.name }}
+            </option>
+          </select>
+          <span
+            :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
+            >{{ errors[0] }}</span
+          >
+        </ValidationProvider>
+      </div>
       <div class="form-group" v-show="id != null">
         <label>Estatus del tour</label>
         <select class="form-control" v-model.number="statusTour">
@@ -104,6 +121,7 @@
 <script>
 import Vendor from "../../../providers/Vendor";
 import Tour from "../../../providers/products/tours/Tour";
+import CategorieTours from "../../../providers/Categorie";
 
 import {
   ValidationProvider,
@@ -112,6 +130,7 @@ import {
 
 const VendorResource = new Vendor();
 const TourResource = new Tour();
+const CategorieToursResource = new CategorieTours();
 
 export default {
   components: {
@@ -131,7 +150,7 @@ export default {
       url: null,
       statusTour: 1,
       vendorId: null,
-
+      categoriaId: null,
       // Tour
       picture: null,
       imagePreview: "/img/default-image.png",
@@ -139,6 +158,7 @@ export default {
       tour: null,
       newTour: false,
       vendors: [],
+      categories: [],
     };
   },
   async created() {
@@ -147,6 +167,7 @@ export default {
       await this.getTour();
     }
     await this.getVendors();
+    await this.getCategories();
   },
   watch: {
     id: function(val) {
@@ -154,6 +175,11 @@ export default {
     },
   },
   methods: {
+    async getCategories() {
+       const { data: {data} } = await CategorieToursResource.getListCategories();
+      this.categories = data;
+      console.log(this.categories);
+    },
     viewImage(slug) {
       const image = slug.split("/");
       return `/api/v1/tours/images/${image[5]}`;
@@ -188,6 +214,7 @@ export default {
         url: this.url,
         status: +this.statusTour,
         vendor_id: +this.vendorId,
+        categoria: this.categoriaId,
         url_image:
           this.picture == null ||
           (this.tour == null || this.tour.url_image == this.imagePreview)
@@ -203,10 +230,11 @@ export default {
       this.tour = response.data;
 
       this.name = this.tour.name;
-      this.assitedPurchace = this.tour.assisted_purchase;
+      this.assitedPurchace = parseInt(this.tour.assisted_purchase);
       this.url = this.tour.url;
-      this.statusTour = this.tour.status;
-      this.vendorId = this.tour.vendor_id;
+      this.statusTour = parseInt(this.tour.status);
+      this.vendorId = parseInt(this.tour.vendor_id);
+      this.categoriaId = parseInt(this.tour.categoria);
       if (this.tour.url_image) {
         this.imagePreview = this.tour.url_image;
       }
@@ -226,7 +254,6 @@ export default {
       var response = null;
 
       let formData = this.getTourForm();
-
       if (this.newTour) {
         response = await this.saveNewTour(formData);
       } else {
