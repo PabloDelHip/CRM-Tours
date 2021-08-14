@@ -202,6 +202,8 @@ class ToursController extends Controller
             $tour->url_image = $this->saveFileBase64($content['url_image'], $tour->url_image, 'tour-main', 'images-products-tours');
 
             $tour->save();
+            Categories_Tours_Pivot::where('tour_id', $tourId)
+            ->update(['categories_tours_id' => $content['categoria']]);
 
             return response()->json([
                 'success' => true,
