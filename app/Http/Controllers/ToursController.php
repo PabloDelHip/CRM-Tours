@@ -81,12 +81,14 @@ class ToursController extends Controller
 
     public function getTour($id)
     {
+        $categoria = Categories_Tours_Pivot::where('tour_id', $id)->first();
         try {
             $tour = Tour::where('id', '=', $id)->first();
 
             if ($tour->url_image) {
                 $tour->url_image = Storage::disk('images-products-tours')->url($tour->url_image);
             }
+            $tour->categoria = $categoria['categories_tours_id'];
 
             return response()->json([
                 'success' => true,
@@ -167,7 +169,10 @@ class ToursController extends Controller
             $tour->url_image = $this->saveFileBase64($content['url_image'], $tour->url_image, 'tour-main', 'images-products-tours');
 
             $tour->save();
-
+            $categories_tours_pivot = new Categories_Tours_Pivot();
+            $categories_tours_pivot->categories_tours_id = $content['categoria'];
+            $categories_tours_pivot->tour_id = $tour['id'];
+            $categories_tours_pivot->save();
             return response()->json([
                 'success' => true,
                 'message' => 'Tour insertado',
@@ -178,7 +183,7 @@ class ToursController extends Controller
                 'success' => false,
                 'message' => 'Tour no insertado',
                 'err' => $ex,
-            ], 500);
+            ], 500); 
         }
     }
 
