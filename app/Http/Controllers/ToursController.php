@@ -202,8 +202,17 @@ class ToursController extends Controller
             $tour->url_image = $this->saveFileBase64($content['url_image'], $tour->url_image, 'tour-main', 'images-products-tours');
 
             $tour->save();
-            Categories_Tours_Pivot::where('tour_id', $tourId)
-            ->update(['categories_tours_id' => $content['categoria']]);
+            $categoria = Categories_Tours_Pivot::where('tour_id', $tourId)->first();
+            if($categoria) {
+                Categories_Tours_Pivot::where('tour_id', $tourId)
+                ->update(['categories_tours_id' => $content['categoria']]);    
+            }
+            else {
+                $categories_tours_pivot = new Categories_Tours_Pivot();
+                $categories_tours_pivot->categories_tours_id = $content['categoria'];
+                $categories_tours_pivot->tour_id = $tourId;
+                $categories_tours_pivot->save();
+            }
 
             return response()->json([
                 'success' => true,
