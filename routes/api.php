@@ -60,6 +60,11 @@ Route::group([
     // Notes
     Route::get('/notes/user/get/{id_user}/{entity?}', 'NotesController@getNotesUser');
     Route::post('/notes/user/save', 'NotesController@saveNotesUser');
+});
+
+Route::group([
+    'prefix' => 'v1'
+], function () {
 
     // Countries
     Route::get('/countries/get', 'NationsController@getCountries');
@@ -261,7 +266,14 @@ Route::group([
 ], function () {
     Route::get('/find/{id}', 'PurcharseOrdersController@find');
     Route::get('/find', 'PurcharseOrdersController@findAll');
-    Route::post('/create', 'PurcharseOrdersController@create');
     Route::put('/update/{id}', 'PurcharseOrdersController@update');
 });
+
+Route::group([
+    'prefix' => 'v1/purchase_order'
+], function () {
+    Route::post('/create', 'PurcharseOrdersController@create');
+
+});
     
+//return axios.post(`/api/v1/purchase_order/create`, formData);
