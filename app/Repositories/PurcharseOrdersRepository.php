@@ -16,7 +16,18 @@ class PurcharseOrdersRepository implements GeneralInterface, PurchaseOrdersInter
 
     public function create(PurchaseOrdersRequest $request) {
         try {
-            return PurchaseOrder::create($request->all());
+            $purchase_order = new PurchaseOrder();
+            $purchase_order->total = $request['total'];
+            $purchase_order->amount = $request['amount'];
+            $purchase_order->expected_date = $request['expected_date'];
+            $purchase_order->type = $request['type'];
+            $purchase_order->status = $request['status'];
+            $purchase_order->total = $request['total'];
+            $purchase_order->user_id = $request['user_id'];
+            $purchase_order->descuento = (int)$request['descuento'];
+            
+            $purchase_order->save();
+            return $purchase_order;
         } catch (MassAssignmentException $ex) {
             return $ex;
         }

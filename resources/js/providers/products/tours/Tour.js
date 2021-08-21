@@ -2,6 +2,7 @@ import axios from 'axios'
 export default class Tour {
 
     getTours() {
+        console.log('Buscanbdo')
         return axios.get(`/api/v1/tours/get`)
     }
 

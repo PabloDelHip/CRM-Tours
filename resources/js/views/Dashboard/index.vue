@@ -219,6 +219,12 @@
                         </router-link>
                       </li>
                       <li class="nav-item">
+                        <router-link class="nav-link" :to="{ name:'ListPackages'}">
+                          <i class="fas fa-th-large"></i>
+                          <p>Paquetes</p>
+                        </router-link>
+                      </li>
+                      <li class="nav-item">
                         <a href="pages/mailbox/compose.html" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>Catamaranes</p>
