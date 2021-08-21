@@ -157,7 +157,7 @@
           </div>
           <div class="col-md-6">
             <!-- AQUI ESTOY PROBANDFO-->
-            <customer-book-tour-component :activities="activitiesData" @onAddActivities="AddActivities">
+            <customer-book-tour-component :activities="activitiesData" :descuentoData="descuento" @onDescuento="editDescuento" @onAddActivities="AddActivities">
             </customer-book-tour-component>
           </div>
         </div>
@@ -221,6 +221,7 @@ export default {
       state: null,
       city: null,
       status: '',
+      descuento: 0,
       countries: [],
         states: [],
         citys: [],
@@ -273,6 +274,10 @@ export default {
     }
   },
   methods: {
+    editDescuento(descuento) {
+      console.log('Descuento',descuento);
+      this.descuento = descuento;
+    },
     async editReservations() {
       try {
         console.log(this.activities)
@@ -292,6 +297,7 @@ export default {
         infoGeneral.type = 'tour';
         infoGeneral.user_id = this.user.id;
         infoGeneral.status = this.status;
+        infoGeneral.descuento = this.descuento;
         const data = {...infoGeneral, customer: {...this.formCustomer}, tours: {...this.activities}}
         await PurchaseOrderResource.update(data, this.id_purchase_order);
         this.$swal.fire({
@@ -332,6 +338,7 @@ export default {
         infoGeneral.type = 'tour';
         infoGeneral.user_id = this.user.id;
         infoGeneral.status = this.status;
+        infoGeneral.descuento = this.descuento;
         console.log(infoGeneral)
         console.log(this.activities)
         const data = {...infoGeneral, customer: {...this.formCustomer}, tours: {...this.activities}}
@@ -346,7 +353,7 @@ export default {
             timerProgressBar: true,
             text: 'Reservacion Guardada de forma correcta',
         })
-        this.$router.push({ name: 'PurchaseOrderList' })
+        //this.$router.push({ name: 'PurchaseOrderList' })
       } else {
         alert('Seleccionar el status de la reserva');
       }
@@ -402,7 +409,7 @@ export default {
         this.status = data.data[0].purchase_order.status;
         const customer = data.data[0].customer;
         this.activitiesData = data.data[0].book_tours;
-        console.log('PROBANDO', this.activitiesData);
+        this.descuento = data.data[0].purchase_order.descuento;
         console.log(this.activitiesData);
         this.getCustomerByEmail(customer.email)
       },

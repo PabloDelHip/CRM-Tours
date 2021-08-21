@@ -196,10 +196,10 @@ export default {
         return;
       }
       let reader = new FileReader();
-
       reader.addEventListener(
         "load",
         function() {
+          console.log(reader.result);
           this.imagePreview = reader.result;
         }.bind(this),
         false

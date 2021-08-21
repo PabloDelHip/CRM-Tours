@@ -50,6 +50,10 @@ import IndexTours from './views/Products/Tours/index.vue'
 import ListTours from './views/Products/Tours/ListView.vue'
 import TourView from './views/Products/Tours/tourView.vue'
 
+//Paquetes
+import PackageListView from './views/Products/Packages/ListView.vue'
+import EditView from './views/Products/Packages/EditView.vue'
+
 //OrdersPurchase
 import PurchaseOrderListView from './views/PurchaseOrder/ListView.vue'
 import PurchaseOrderFormAltaView from './views/PurchaseOrder/FormAltaView.vue'
@@ -248,23 +252,42 @@ export default new Router({
             path: "/products",
             name: "products",
             component: Index,
-            children: [{
-                path: "tours",
-                name: "indexTours",
-                component: IndexTours,
-                children: [{
-                        path: "",
-                        name: "ListTours",
-                        component: ListTours,
-                    },
-                    {
-                        path: "edit/:id",
-                        name: "editTour",
-                        component: TourView,
-                        props: true,
-                    },
-                ]
-            }]
+            children: [
+                {
+                    path: "tours",
+                    name: "indexTours",
+                    component: IndexTours,
+                    children: [
+                        {
+                            path: "",
+                            name: "ListTours",
+                            component: ListTours,
+                        },
+                        {
+                            path: "edit/:id",
+                            name: "editTour",
+                            component: TourView,
+                            props: true,
+                        },
+                    ],
+                    path: "packages",
+                    name: "Packages",
+                    component: Index,
+                    children: [
+                        {
+                            path: "list",
+                            name: "ListPackages",
+                            component: PackageListView,
+                        },
+                        {
+                            path: 'edit/:id',
+                            name: 'EditPackageView',
+                            component: EditView,
+                            props: true
+                        }
+                    ]
+                }
+            ]
         },
         {
             path: "/purchase-order",

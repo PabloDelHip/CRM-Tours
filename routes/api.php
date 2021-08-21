@@ -269,6 +269,20 @@ Route::group([
     Route::put('/update/{id}', 'PurcharseOrdersController@update');
 });
 
+// Package
+Route::group([
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/package'
+], function () {
+    Route::get('/', 'PackageController@findAll');
+    Route::get('/{id}', 'PackageController@find');
+    Route::post('/', 'PackageController@create');
+    Route::put('/{id}', 'PackageController@update');
+    Route::post('/add-tour', 'PackageController@addTour');
+    Route::get('/{idPackage}/tours', 'PackageController@findPackageTour');
+    Route::delete('/tour/{idTour}/{idPackage}', 'PackageController@deleteTour');
+});
+
 Route::group([
     'prefix' => 'v1/purchase_order'
 ], function () {

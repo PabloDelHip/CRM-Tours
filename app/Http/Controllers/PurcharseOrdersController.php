@@ -34,6 +34,7 @@ class PurcharseOrdersController extends ApiController implements GeneralInterfac
                 $tour['purchase_order_id'] = $purchase_order_data->id;
                 $customer_book_tour_create = $this->repository->createCustomerBookTour($tour);
             }
+            
             //Si el suaurio no existe recuerda crearlo en la base de datos
             $customer = $this->customerRepository->findByEmail($request->customer['email']);
             if($customer === null) {
