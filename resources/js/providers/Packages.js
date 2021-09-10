@@ -27,4 +27,8 @@ export default class Packages {
   deleteTour(idTour, idPackage) { 
     return axios.delete(`/api/v1/package/tour/${idTour}/${idPackage}`);
   }
+
+  findPackageTour(id) {
+    return axios.get(`/api/v1/package/${id}/tours`);
+  }
 }

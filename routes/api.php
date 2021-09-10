@@ -284,6 +284,13 @@ Route::group([
 });
 
 Route::group([
+    'prefix' => 'v1/purcharse_order_package'
+], function () {
+    Route::get('/{id}', 'PurchaseOrderPackage@find');
+
+});
+
+Route::group([
     'prefix' => 'v1/purchase_order'
 ], function () {
     Route::post('/create', 'PurcharseOrdersController@create');

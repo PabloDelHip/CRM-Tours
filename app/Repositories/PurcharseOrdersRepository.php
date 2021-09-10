@@ -9,6 +9,7 @@ use App\Http\Controllers\ApiController;
 use App\PurchaseOrder;
 use App\CustomerPurchase;
 use App\CustomerBookTour;
+use App\Purchase_order_package;
 
 class PurcharseOrdersRepository implements GeneralInterface, PurchaseOrdersInterface {
     
@@ -54,6 +55,9 @@ class PurcharseOrdersRepository implements GeneralInterface, PurchaseOrdersInter
             $customerPurchase[0]["book_tours"] = CustomerBookTour::where('purchase_order_id', $purchase_order_id)
                                                 ->with('tour')
                                                 ->get();
+            $customerPurchase[0]["paquetes"] = Purchase_order_package::where('purchase_order_id', $purchase_order_id)
+                ->with('package')
+                ->get();
             return $customerPurchase;
             return PurchaseOrder::where('id', $id)->get()->first();
         } catch (MassAssignmentException $ex) {
@@ -92,6 +96,32 @@ class PurcharseOrdersRepository implements GeneralInterface, PurchaseOrdersInter
         }
     }
 
+    public function createPurcharseOrderPackage(array $paquete) {
+        try {
+            $purchase_order_package = new Purchase_order_package();
+            $purchase_order_package->package_id = $paquete['package_id'];
+            $purchase_order_package->purchase_order_id = $paquete['purchase_order_id'];
+            $purchase_order_package->num_adults = $paquete['num_adults'];
+            $purchase_order_package->num_childrens = $paquete['num_childrens'];
+            $purchase_order_package->num_infants = $paquete['num_infants'];
+            $purchase_order_package->total = $paquete['total'];
+            $purchase_order_package->amount = $paquete['amount'];
+            $purchase_order_package->index = $paquete['index'];
+            $purchase_order_package->save();
+            return $purchase_order_package;
+        } catch (MassAssignmentException $ex) {
+            return $ex;
+        }
+    }
+
+    public function findByIdPackagePurchase($purchase_order_id) {
+        try {
+            return Purchase_order_package::where('purchase_order_id', $purchase_order_id)->get();
+        } catch (MassAssignmentException $ex) {
+            return $ex;
+        }
+    }
+
     public function updateCustomerBookTour(array $tour) {
         try {
             unset($tour['actividad']);
@@ -103,10 +133,18 @@ class PurcharseOrdersRepository implements GeneralInterface, PurchaseOrdersInter
         }
     }
 
-    public function deleteCustomerBookTour($id) {
+    public function deletePackageOrder($id_purchase) {
         try {
-            return CustomerBookTour::where('id', $id)
-                    ->delete();
+            return Purchase_order_package::where('purchase_order_id', $id_purchase)->delete();
+            
+        } catch (MassAssignmentException $ex) {
+            return $ex;
+        }
+    }
+
+    public function deleteCustomerBookTour($id_purchase) {
+        try {
+            return CustomerBookTour::where('purchase_order_id', $id_purchase)->delete();
             
         } catch (MassAssignmentException $ex) {
             return $ex;

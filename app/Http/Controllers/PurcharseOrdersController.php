@@ -28,14 +28,33 @@ class PurcharseOrdersController extends ApiController implements GeneralInterfac
     public function create(PurchaseOrdersRequest $request) {
         try {
             $tours = $request->tours;
+            $paquetes = $request->paquetes;
             unset($request['tours']);
+            unset($request['paquetes']);
             $purchase_order_data = $this->repository->create($request);
+            $dataPurchaseOrderArray = [];
+            foreach ($paquetes as $paquete) {
+                $paquete['purchase_order_id'] = $purchase_order_data->id;
+                $dataPurchaseOrder = $this->repository->createPurcharseOrderPackage($paquete);
+                $array = array(
+                    "id" => $dataPurchaseOrder['id'],
+                    "index" => $dataPurchaseOrder['index']
+                );
+                array_push($dataPurchaseOrderArray, $array);
+            }
+
             foreach ($tours as $tour) {
+                foreach ($dataPurchaseOrderArray as $item) {
+                    if($item['index'] === $tour['index']) {
+                        $tour['idOrderPackage'] = $item['id'];        
+                    }
+                    echo 'Item:: '.$item['index'].'<br>';    
+                }
+                echo $tour['index'].'<br>';
                 $tour['purchase_order_id'] = $purchase_order_data->id;
                 $customer_book_tour_create = $this->repository->createCustomerBookTour($tour);
             }
             
-            //Si el suaurio no existe recuerda crearlo en la base de datos
             $customer = $this->customerRepository->findByEmail($request->customer['email']);
             if($customer === null) {
                $customer = $this->customerRepository->create($request->customer);
@@ -50,43 +69,37 @@ class PurcharseOrdersController extends ApiController implements GeneralInterfac
     }
 
     public function update(PurchaseOrdersRequest $request, $id) {
-        
-        // dd($request->all());
-
         try {
             $customer= $request->customer;
             $tours= $request->tours;
+            $paquetes = $request->paquetes;
             unset($request['customer']);
             unset($request['tours']);
+            unset($request['paquetes']);
             $this->repository->update($request, $id);
             $customerBookTours = $this->customerBookTourRepository->findById($id);
-            foreach ($customerBookTours as $customerBookTour) {
-                $tourData='';
-                foreach ($tours as $tour) {
-                    if($customerBookTour['id'] === $tour['id']) {
-                        $tourData = $tour;
-                    }
-                    // $tour['purchase_order_id'] = $purchase_order_data->id;
-                    // 
-                }
-                if($tourData !== '') {
-                    if($tourData['id'] !== null) {
-                        $this->repository->updateCustomerBookTour($tour);
-                    }
-                    else {
-                        $tourData['purchase_order_id'] = $id;
-                        $this->repository->createCustomerBookTour($tourData);
-                    }
-                }
-                else {
-                    $this->repository->deleteCustomerBookTour($customerBookTour['id']);
-                }
+            $this->repository->deletePackageOrder($id);
+            $this->repository->deleteCustomerBookTour($id);
+            $dataPurchaseOrderArray = [];
+            foreach ($paquetes as $paquete) {
+                $paquete['purchase_order_id'] = $id;
+                $dataPurchaseOrder = $this->repository->createPurcharseOrderPackage($paquete);
+                $array = array(
+                    "id" => $dataPurchaseOrder['id'],
+                    "index" => $dataPurchaseOrder['index']
+                );
+                array_push($dataPurchaseOrderArray, $array);
             }
             foreach ($tours as $tour) {
-                if($tour['id'] === null) {
-                    $tour['purchase_order_id'] = $id;
-                    $this->repository->createCustomerBookTour($tour);
+                foreach ($dataPurchaseOrderArray as $item) {
+                    if($item['index'] === $tour['index']) {
+                        $tour['idOrderPackage'] = $item['id'];        
+                    }
+                    echo 'Item:: '.$item['index'].'<br>';    
                 }
+                echo $tour['index'].'<br>';
+                $tour['purchase_order_id'] = $id;
+                $customer_book_tour_create = $this->repository->createCustomerBookTour($tour);
             }
             $purchase_order_data = $this->repository->find($id);
             return $this->showAll($purchase_order_data,201);

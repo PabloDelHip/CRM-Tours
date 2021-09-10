@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePackagesToursTable extends Migration
+class CreatePurcharseOrderPackageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,26 @@ class CreatePackagesToursTable extends Migration
      */
     public function up()
     {
-        Schema::create('packages_tours', function (Blueprint $table) {
+        Schema::create('purcharse_order_package', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('package_id');
-            $table->unsignedBigInteger('tour_id');
+            $table->unsignedBigInteger('purchase_order_id');
+            $table->integer('num_adults')->nullable();
+            $table->integer('num_childrens')->nullable();
+            $table->integer('num_infants')->nullable();
+            $table->float('total', 8, 2)->nullable();
+            $table->float('amount', 8, 2)->nullable();
             $table->timestamps();
         });
 
-        Schema::table('packages_tours', function($table) {
+        Schema::table('purcharse_order_package', function($table) {
             $table->foreign('package_id')
                     ->references('id')
                     ->on('packages')
                     ->onDelete('cascade');
-            $table->foreign('tour_id')
+            $table->foreign('purchase_order_id')
                     ->references('id')
-                    ->on('tours')
+                    ->on('purchase_orders')
                     ->onDelete('cascade');
         });
     }
@@ -39,6 +44,6 @@ class CreatePackagesToursTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('packages_tours');
+        Schema::dropIfExists('purcharse_order_package');
     }
 }
