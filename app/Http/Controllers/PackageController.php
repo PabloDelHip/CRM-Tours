@@ -72,6 +72,22 @@ class PackageController extends ApiController
         }
     }
 
+    public function findAllPackage() {
+        try {
+            $paquetes = $this->packagesrepository->findAll();
+
+            foreach ($paquetes as $paquete) {
+                
+                $data = $this->packagesrepository->findPackageTour($paquete['id']);
+                $paquete['info'] = $data;
+            }
+            // $packate = $this->packagesrepository->findAllPackage();
+            return $this->showAll($paquetes);
+        } catch (MassAssignmentException $th) {
+            return  $this->errorResponse($th, 500);
+        }
+    }
+
     public function deleteTour($idTour, $idPackage) {
         try {
             $package = $this->packagesrepository->deleteTour($idTour, $idPackage);

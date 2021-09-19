@@ -163,8 +163,6 @@
             </h4>
           </div>
           <div class="col-12 row">
-            <p>Total Pagar: {{totalPagar}}</p>
-            <p>Total Fijo: {{ totalFijo }}</p>
             <label for="exampleInputEmail1">Descuento en porcentaje: </label>
             <input v-model="descuento" type="number" class="form-control rounded-0" />
           </div>
