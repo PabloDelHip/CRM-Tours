@@ -11,7 +11,7 @@
               class="btn btn-warning"
             >
               <i class="fas fa-store"></i>
-              Nueva oportunidad de ventaaaaaaaa
+              Nueva oportunidad de venta
             </router-link>
           </div>
           <div class="col-sm-6">

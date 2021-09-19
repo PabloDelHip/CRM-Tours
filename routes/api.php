@@ -283,6 +283,21 @@ Route::group([
     Route::delete('/tour/{idTour}/{idPackage}', 'PackageController@deleteTour');
 });
 
+// Package
+Route::group([
+    // 'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/package-tours'
+], function () {
+    Route::get('/', 'PackageController@findAllPackage');
+});
+
+Route::group([
+    'prefix' => 'v1/purcharse_order_package'
+], function () {
+    Route::get('/{id}', 'PurchaseOrderPackage@find');
+
+});
+
 Route::group([
     'prefix' => 'v1/purchase_order'
 ], function () {

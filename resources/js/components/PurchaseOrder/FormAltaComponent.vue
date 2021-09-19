@@ -33,7 +33,7 @@
     </section>
     <div class="container-fluid">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">
@@ -155,9 +155,16 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-12">
             <!-- AQUI ESTOY PROBANDFO-->
-            <customer-book-tour-component :activities="activitiesData" :descuentoData="descuento" @onDescuento="editDescuento" @onAddActivities="AddActivities">
+            <customer-book-tour-component
+              :activities="activitiesData"
+              :descuentoData="descuento"
+              :paquetesData="paquetesData"
+              @onDescuento="editDescuento"
+              @onAddActivities="AddActivities"
+              @onAddPackage="addPackage"
+            >
             </customer-book-tour-component>
           </div>
         </div>
@@ -205,6 +212,8 @@ export default {
       addressId: null,
       activities: [],
       activitiesData: [],
+      paquetesData: [],
+      package: [],
       vendorCode: null,
       name: null,
       businessName: null,
@@ -275,30 +284,36 @@ export default {
   },
   methods: {
     editDescuento(descuento) {
-      console.log('Descuento',descuento);
       this.descuento = descuento;
     },
     async editReservations() {
       try {
-        console.log(this.activities)
         const infoGeneral = [];
-        infoGeneral.total =  this.activities.reduce((a, b) => ( parseFloat(a.total) ||  parseFloat(a)) +  parseFloat(b.total));
+        let totalPaquete = 0;
+        let amountPaquete = 0;
+        if(this.packages) {
+          totalPaquete = this.packages.reduce((a, b) => a + b.total, 0);
+          amountPaquete = this.packages.reduce((a, b) => a + b.amount, 0);
+        }
+        console.log('AQUI EST', this.activities)
+        infoGeneral.total =  this.activities.reduce((a, b) =>  a +  b.total, 0);
         infoGeneral.amount = 0;
         
         this.activities.forEach(actividad => {
           infoGeneral.amount += parseFloat(actividad.amount);
         });
 
-        console.log('probando', infoGeneral.total);
-        console.log('General',infoGeneral)
+
         infoGeneral.total = typeof infoGeneral.total !== 'object' ? infoGeneral.total : infoGeneral.total.total;
         infoGeneral.amount = typeof infoGeneral.amount !== 'object' ? infoGeneral.amount : infoGeneral.amount.amount;
+        infoGeneral.total = infoGeneral.total || 0 + totalPaquete;
+        infoGeneral.amount = infoGeneral.amount || 0 + amountPaquete;
         infoGeneral.expected_date = this.activities[0].reservation_date.split('T')[0];
         infoGeneral.type = 'tour';
         infoGeneral.user_id = this.user.id;
         infoGeneral.status = this.status;
         infoGeneral.descuento = this.descuento;
-        const data = {...infoGeneral, customer: {...this.formCustomer}, tours: {...this.activities}}
+        const data = {...infoGeneral, customer: {...this.formCustomer}, tours: {...this.activities}, paquetes: {...this.packages}}
         await PurchaseOrderResource.update(data, this.id_purchase_order);
         this.$swal.fire({
             icon: 'success',
@@ -311,6 +326,7 @@ export default {
             text: 'Reservacion Editada de forma correcta',
         })
       } catch (error) {
+        console.log(error);
         this.$swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -325,13 +341,29 @@ export default {
     },
     AddActivities(activities) {
       this.activities = activities;
+      console.log('ACTIVIDAD', this.activities);
+    },
+    addPackage(packages) {
+      this.packages = packages;
     },
     async saveReservations(){
       if(this.status !== '') {
         const infoGeneral = [];
-        infoGeneral.total = this.activities.reduce((a, b) => a.total + b.total);
-        infoGeneral.amount = this.activities.reduce((a, b) => a.amount + b.amount);
-        console.log('General',infoGeneral)
+        let totalPaquete = 0;
+        let amountPaquete = 0;
+        if(this.packages) {
+          totalPaquete = this.packages.reduce((a, b) => a + b.total, 0);
+          amountPaquete = this.packages.reduce((a, b) => a + b.amount, 0);
+        }
+
+        if(this.activities) {
+          infoGeneral.total = this.activities.reduce((a, b) => a + b.total, 0);
+          infoGeneral.amount = this.activities.reduce((a, b) => a + b.amount, 0);
+        }
+
+        infoGeneral.total = infoGeneral.total + totalPaquete;
+        infoGeneral.amount = infoGeneral.amount + amountPaquete; 
+
         infoGeneral.total = Number.isInteger(infoGeneral.total) ? infoGeneral.total : infoGeneral.total.total;
         infoGeneral.amount = Number.isInteger(infoGeneral.amount) ? infoGeneral.amount : infoGeneral.amount.amount;
         infoGeneral.expected_date = this.activities[0].reservation_date.split('T')[0];
@@ -339,9 +371,10 @@ export default {
         infoGeneral.user_id = this.user.id;
         infoGeneral.status = this.status;
         infoGeneral.descuento = this.descuento;
-        console.log(infoGeneral)
-        console.log(this.activities)
-        const data = {...infoGeneral, customer: {...this.formCustomer}, tours: {...this.activities}}
+        const data = {...infoGeneral,
+          customer: {...this.formCustomer},
+          tours: {...this.activities},
+          paquetes: {...this.packages}}
         await PurchaseOrderResource.create(data);
         this.$swal.fire({
             icon: 'success',
@@ -353,7 +386,7 @@ export default {
             timerProgressBar: true,
             text: 'Reservacion Guardada de forma correcta',
         })
-        //this.$router.push({ name: 'PurchaseOrderList' })
+        this.$router.push({ name: 'PurchaseOrderList' })
       } else {
         alert('Seleccionar el status de la reserva');
       }
@@ -405,13 +438,16 @@ export default {
         this.searchUser = false
       },
       async getpurchaseOrder() {
+        console.log('SOYOYOYYOYOY 2');
         const {data: {...data}} = await PurchaseOrderResource.getById(this.id_purchase_order);
         this.status = data.data[0].purchase_order.status;
         const customer = data.data[0].customer;
         this.activitiesData = data.data[0].book_tours;
+        this.paquetesData = data.data[0].paquetes;
         this.descuento = data.data[0].purchase_order.descuento;
-        console.log(this.activitiesData);
         this.getCustomerByEmail(customer.email)
+        this.packages = this.paquetesData;
+        console.log('SOY EL PAQUETE', this.paquetesData);
       },
   },
   mounted() {

@@ -15,7 +15,9 @@ class CustomerBookTour extends Model
         'total',
         'amount',
         'tour_id',
-        'purchase_order_id'
+        'purchase_order_id',
+        'index',
+        'idOrderPackage'
     ];
 
     public function tour()

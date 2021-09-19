@@ -39,7 +39,7 @@ class PackagesRepository implements PackagesInterface {
 
     public function findAll() {
       try {
-        return Package::all();
+        return Package::where('status', 0)->get();
       } catch (MassAssignmentException $ex) {
           return $ex;
       }
@@ -77,6 +77,16 @@ class PackagesRepository implements PackagesInterface {
         return Package_Tour::where('tour_id', $idTour)
         ->where('package_id', $idPackage)
         ->delete();
+      } catch (MassAssignmentException $ex) {
+        return $ex;
+      }
+    }
+
+    public function findAllPackage() {
+      try {
+        return Package_Tour::with('package')
+        ->with('tour')
+        ->get();
       } catch (MassAssignmentException $ex) {
         return $ex;
       }
