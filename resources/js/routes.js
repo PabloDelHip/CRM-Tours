@@ -19,6 +19,7 @@ import Userslist from "./views/Users/Userslist.vue";
 import UserView from "./views/Users/UserView.vue";
 import UserProfile from "./views/Users/profileView.vue";
 import PermitsUsers from "./views/Users/permissionUsers.vue";
+import VendedoresList from './views/vendedores/Lista.vue';
 
 //Customer section
 import Customer from './views/Customers/TableView.vue'
@@ -112,6 +113,12 @@ export default new Router({
                     component: PermitsUsers,
                     props: true,
                 },
+                {
+                    path: "vendors",
+                    name: "userVendors",
+                    component: VendedoresList,
+                    props: true,
+                }
             ],
         },
         {

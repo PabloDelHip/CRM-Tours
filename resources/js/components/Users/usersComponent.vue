@@ -100,6 +100,14 @@
               <option value="2">Vendedor</option>
             </select>
           </div>
+          <div class="form-group">
+            <label>% por venta</label>
+            <input
+                type="number"
+                class="form-control"
+                placeholder="00"
+              />
+          </div>
         </div>
       </ValidationObserver>
     </div>
