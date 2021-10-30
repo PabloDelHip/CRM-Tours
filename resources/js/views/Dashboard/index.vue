@@ -31,11 +31,22 @@
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
               <!-- Messages Dropdown Menu -->
-              <li class="nav-item dropdown">
+              <li class="nav-item">
+                <input type="text" class="form-control-sm form-control" placeholder v-model="cambio">
+              </li>
+              <li class="nav-item mr-3">
+                <button @click="actualizarCambio" type="button" class="btn btn-block btn-primary btn-sm">
+                  <i class="fas fa-dollar-sign"></i>
+                  Actualizar
+                </button>
+              </li>
+              <li class="nav-item">
                 <button @click="$refs.modalAddCasesComponent.openModal();" type="button" class="btn btn-block btn-primary btn-sm">
                   <i class="fas fa-tasks"></i>
                   CASOS
                 </button>
+              </li>
+              <li class="nav-item dropdown">
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                   <a href="#" class="dropdown-item">
                     <!-- Message Start -->
@@ -195,7 +206,7 @@
                       </p>
                     </router-link>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" v-if="this.user.level === 1">
                     <router-link class="nav-link" :to="{ name:'ListCategoriesTours'}">
                       <i class="fas fa-list-alt"></i>
                       <p>
@@ -203,7 +214,7 @@
                       </p>
                     </router-link>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" v-if="this.user.level === 1">
                     <a href="javascript:;" class="nav-link">
                       <i class="fas fa-shopping-cart"></i>
                       <p>
@@ -250,7 +261,7 @@
                       </li>
                     </ul>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" v-if="this.user.level === 1">
                     <a href="javascript:;" class="nav-link">
                       <i class="fas fa-eye"></i>
                       <p>
@@ -267,7 +278,7 @@
                       </li>
                     </ul>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" v-if="this.user.level === 1">
                     <router-link class="nav-link" :to="{ name:'Contacts'}">
                       <i class="fas fa-address-card"></i>
                       <p>
@@ -275,7 +286,7 @@
                       </p>
                     </router-link>
                   </li>
-                  <li class="nav-item" v-if="user.vendor_id == null">
+                  <li class="nav-item" v-if="user.vendor_id == null && user.level === 1">
                      <router-link class="nav-link" :to="{ name:'ListVendor'}">
                         <i class="fas fa-store"></i>
                         <p>
@@ -283,7 +294,7 @@
                         </p>
                      </router-link>
                   </li>
-                  <li class="nav-item" v-else>
+                  <li class="nav-item" v-else-if="user.level === 1">
                      <router-link class="nav-link" :to="{ 
                         name: 'profileVendor',
                         params: { id: user.vendor_id },}">
@@ -293,13 +304,58 @@
                         </p>
                      </router-link>
                   </li>
-                  <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link">
-                      <i class="fas fa-file-alt"></i>
+                  <li class="nav-item" v-if="this.user.level === 1">
+                    <a href="javascript:;" class="nav-link">
+                      <i class="fas fa-dollar-sign"></i>
                       <p>
-                        Documentos
+                        Finanzas
+                        <i class="fas fa-angle-left right"></i>
                       </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <router-link class="nav-link" :to="{ name:'ListTours'}">
+                          <i class="fas fa-walking nav-icon"></i>
+                          <p>Ventas generales</p>
+                        </router-link>
+                      </li>
+                      <li class="nav-item">
+                        <router-link class="nav-link" :to="{ name:'ListTours'}">
+                          <i class="fas fa-walking nav-icon"></i>
+                          <p>Tours</p>
+                        </router-link>
+                      </li>
+                      <li class="nav-item">
+                        <router-link class="nav-link" :to="{ name:'ListPackages'}">
+                          <i class="fas fa-th-large"></i>
+                          <p>Paquetes</p>
+                        </router-link>
+                      </li>
+                      <li class="nav-item">
+                        <a href="pages/mailbox/compose.html" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Usuarios</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="pages/mailbox/read-mail.html" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Agencias</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="pages/mailbox/read-mail.html" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Vuelos</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="pages/mailbox/read-mail.html" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Hoteles</p>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
               </nav>
@@ -335,12 +391,14 @@
 <script>
     
     import Auth from '../../providers/Auth';
+    import Finanzas from '../../providers/Finanzas';
     import UserPermission from "../../providers/UserPermission";
     import modalAddCasesComponent from '../../components/Cases/modalAddCasesComponent';
 
     const AuthResourse = new Auth();
     const userPermissionResource = new UserPermission();
-    
+    const FinanzasResource = new Finanzas();
+
     export default {
       components: {
             modalAddCasesComponent
@@ -348,9 +406,28 @@
         data(){
           return{
           usuarioActual: null,
+          cambio: 0,
           };
         },
-        methods: { 
+        methods: {
+            async actualizarCambio() {
+              try {
+                const { data: {data}} = await FinanzasResource.putTypeChange({change: this.cambio});
+                this.$swal.fire({
+                  title: 'Guardado correcto',
+                  text: 'Tipo de cambio modificado correctamente',
+                  icon: 'success',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  confirmButtonText: 'Ok',
+                }).then( async (result) => {
+                  window.location.reload();
+                })
+                console.log('soy data', data);
+              } catch (e) {
+                console.log('eer', e);
+              }
+            },
             async logout() {
                 try {
                   this.user = await AuthResourse.logout();
@@ -369,15 +446,21 @@
                console.log(error);
              }
            },
+           async getTypeChange() {
+             const { data: {data}} = await FinanzasResource.getTypeChange();
+             this.cambio = data[0].change;
+           }
         },
         computed: {
           user: function () {
             return this.$store.state.user
           }
         },
-        mounted() {
-          this.$store.dispatch('SET_CURRENT_USER')
+        async mounted() {
+          await this.$store.dispatch('SET_CURRENT_USER')
+          console.log('usuarioo0oo', this.user);
           this.permisos();
+          this.getTypeChange();
         }
     }
 </script>

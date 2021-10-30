@@ -67,7 +67,7 @@
               </div>
             </ValidationProvider>
           </div>
-          <div class="form-group" v-show="user == null">
+          <div class="form-group">
             <label for="password">Contraseña</label>
             <ValidationProvider
               rules="required|min:6|max:20"
@@ -91,6 +91,13 @@
             <select class="form-control" v-model.number="statusUser">
               <option value="0">Inactivo</option>
               <option value="1">Activo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tipo de usuario</label>
+            <select class="form-control" v-model.number="tipoUser">
+              <option value="1">Administrador</option>
+              <option value="2">Vendedor</option>
             </select>
           </div>
         </div>
@@ -145,7 +152,6 @@ export default {
       emailConfirm: null,
       password: null,
       statusUser: 1,
-
       user: null,
     };
   },
@@ -171,7 +177,7 @@ export default {
         email: this.email,
         password: this.password,
         status: +this.statusUser,
-        level: 1,
+        level: +this.tipoUser,
         profile_id: this.profileId,
         contact_id: this.contactId,
         vendor_id: this.vendorId == 0 ? null : +this.vendorId,
@@ -188,10 +194,10 @@ export default {
         this.showError("Usuario no existe.");
         return false;
       }
-
       this.email = this.user.email;
       this.emailConfirm = this.user.email;
       this.statusUser = this.user.status;
+      this.tipoUser = this.user.level;
 
       this.$emit("get-profileId", this.user.profile_id);
       this.$emit("get-contactId", this.user.contact_id);

@@ -283,6 +283,25 @@ Route::group([
     Route::delete('/tour/{idTour}/{idPackage}', 'PackageController@deleteTour');
 });
 
+// Finanzas
+Route::group([
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/finanzas'
+], function () {
+    Route::get('users', 'FinanzasController@getUsers');
+    Route::get('sales/user/{userId}', 'FinanzasController@getVentasByIdUser');
+    Route::get('sales/sold/{date_one}/{date_two}', 'FinanzasController@getToursSold');
+});
+
+// Package
+Route::group([
+    // 'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/finanzas'
+], function () {
+    Route::get('type-change/get', 'FinanzasController@getTypeChange');
+    Route::put('type-change/put', 'FinanzasController@putTypeChange');
+});
+
 // Package
 Route::group([
     // 'middleware' => ['jwt.auth'],
