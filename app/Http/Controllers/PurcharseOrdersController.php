@@ -123,7 +123,8 @@ class PurcharseOrdersController extends ApiController implements GeneralInterfac
         try {
             $purchase_order_data = $this->repository->findAll();
             foreach ($purchase_order_data as $purchase_order) {
-                $purchase_order['num_tours'] = count($this->customerBookTourRepository->findById($purchase_order->purchaseOrder['id']));
+                $purchase_order['tours'] = $this->customerBookTourRepository->findById($purchase_order->purchaseOrder['id']);
+                $purchase_order['num_tours'] = count($purchase_order['tours']);
             }
             return $this->showAll($purchase_order_data);
         } catch (MassAssignmentException $th) {

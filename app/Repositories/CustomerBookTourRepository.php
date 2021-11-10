@@ -11,7 +11,9 @@ class CustomerBookTourRepository implements CustomerBookTourInterface {
 
     public function findById($id) {
         try {
-            return CustomerBookTour::where('purchase_order_id', $id)->get();
+            return CustomerBookTour::where('purchase_order_id', $id)
+            ->with('tour.vendor')
+            ->get();
         } catch (MassAssignmentException $ex) {
             return $ex;
         }
