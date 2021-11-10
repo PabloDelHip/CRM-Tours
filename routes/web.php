@@ -56,6 +56,7 @@ Route::get('/cases/history/{id_case}', ['as' => 'vendors', 'uses' => 'HomeContro
 
 //Tours
 Route::get('/products/tours', ['as' => 'tours', 'uses' => 'HomeController@index']);
+Route::get('/products/tours/sales', ['as' => 'tours/sales', 'uses' => 'HomeController@index']);
 Route::get('/products/tours/edit/{id}', ['as' => 'tours/create', 'uses' => 'HomeController@index']);
 
 //Paquetes
@@ -74,3 +75,5 @@ Route::get('/categories/save', ['as' => 'tours', 'uses' => 'HomeController@index
 Route::get('/purchase-order/list', ['as' => 'purchase-order', 'uses' => 'HomeController@index']);
 Route::get('/purchase-order/alta', ['as' => 'purchase-order', 'uses' => 'HomeController@index']);
 Route::get('/purchase-order/editar/{id_purchase_order}', ['as' => 'purchase-order', 'uses' => 'HomeController@index']);
+
+Route::get('/pdf', ['as' => 'pdf', 'uses' => 'HomeController@pdf']);

@@ -24,7 +24,7 @@ import VueLodash from 'vue-lodash'
 import lodash from 'lodash'
 moment.tz.setDefault('America/Cancun')
 moment.locale('es');
-
+import VMdDateRangePicker from "v-md-date-range-picker";
 
 // Install and Activate the Arabic locale.
 localize("es", es);
@@ -39,7 +39,7 @@ Vue.use(VueMoment, {
 Vue.use(VModal, { dynamicDefault: { draggable: true, resizable: true } })
 Vue.component('multiselect', Multiselect);
 Vue.use(VueLodash, { name: 'custom' , lodash: lodash })
-
+Vue.use(VMdDateRangePicker);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

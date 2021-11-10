@@ -50,7 +50,7 @@ import SaveCategoriesTours from './views/Categories/Tours/SaveView.vue'
 import IndexTours from './views/Products/Tours/index.vue'
 import ListTours from './views/Products/Tours/ListView.vue'
 import TourView from './views/Products/Tours/tourView.vue'
-
+import ToursSales from './views/Products/Tours/salesView';
 //Paquetes
 import PackageListView from './views/Products/Packages/ListView.vue'
 import EditView from './views/Products/Packages/EditView.vue'
@@ -203,6 +203,8 @@ export default new Router({
                         },
                     ]
                 },
+
+                
             ]
         },
         {
@@ -276,7 +278,14 @@ export default new Router({
                             component: TourView,
                             props: true,
                         },
+                        {
+                            path: "sales",
+                            name: "salesTours",
+                            component: ToursSales,
+                        }
                     ],
+                },
+                {
                     path: "packages",
                     name: "Packages",
                     component: Index,
