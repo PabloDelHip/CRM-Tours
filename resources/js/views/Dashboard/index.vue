@@ -314,9 +314,9 @@
                     </a>
                     <ul class="nav nav-treeview">
                       <li class="nav-item">
-                        <router-link class="nav-link" :to="{ name:'ListTours'}">
+                        <router-link class="nav-link" :to="{ name:'userVendors'}">
                           <i class="fas fa-walking nav-icon"></i>
-                          <p>Ventas generales</p>
+                          <p>Vendedores</p>
                         </router-link>
                       </li>
                       <li class="nav-item">
