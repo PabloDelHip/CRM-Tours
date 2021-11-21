@@ -41,7 +41,7 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>Vendedor</th>
+                      <th>Vennndedor</th>
                       <th>Tours Vendidos</th>
                       <th>Porcentaje</th>
                       <th>Total Vendido</th>
@@ -52,7 +52,7 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Gecko</td>
+                      <td>Geckooooo</td>
                       <td>Netscape Navigator 9</td>
                       <td>Win 98+ / OSX.2+</td>
                       <td>1.8</td>
@@ -84,12 +84,24 @@
 
 <script>
 import FilterSelect from "../Generals/FilterSelect";
+import Seller from "../../providers/Seller";
+
+const SellerResource = new Seller();
 
 export default {
   components: {
     FilterSelect
   },
+  data() {
+    return {
+      sellers: [],
+    };
+  },
   methods: {
+    async getSeller() {
+      this.sellers = await SellerResource.getSeller();
+      console.log('SDJSK', this.sellers);
+    },
     createTable() {
       $(function () {
         //DATA-TABLE
@@ -129,8 +141,9 @@ export default {
       });
     },
   },
-  mounted() {
+  async mounted() {
     this.createTable();
+    await this.getSeller();
   },
 };
 </script>

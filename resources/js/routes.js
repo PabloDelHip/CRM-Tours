@@ -20,6 +20,7 @@ import UserView from "./views/Users/UserView.vue";
 import UserProfile from "./views/Users/profileView.vue";
 import PermitsUsers from "./views/Users/permissionUsers.vue";
 import VendedoresList from './views/vendedores/Lista.vue';
+import SellerList from './views/vendedores/Seller.vue';
 
 //Customer section
 import Customer from './views/Customers/TableView.vue'
@@ -117,7 +118,21 @@ export default new Router({
                     path: "vendors",
                     name: "userVendors",
                     component: VendedoresList,
-                    props: true,
+                },
+                {
+                    path: "vendors/:id",
+                    name: "SellerList",
+                    component: SellerList,
+                    props: ( route ) => {
+                        const { id } = route.params;
+                        return { id: Number(id) }
+                    },
+                    // children: [{
+                    //     path: ":id",
+                    //     name: "SellerList",
+                    //     component: SellerList,
+                    //     props: true,
+                    // }]
                 }
             ],
         },

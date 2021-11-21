@@ -267,6 +267,7 @@ Route::group([
     Route::get('/find/{id}', 'PurcharseOrdersController@find');
     Route::get('/find', 'PurcharseOrdersController@findAll');
     Route::put('/update/{id}', 'PurcharseOrdersController@update');
+    Route::get('/user/sales', 'PurcharseOrdersController@userSales');
 });
 
 // Package
@@ -302,6 +303,16 @@ Route::group([
     Route::put('type-change/put', 'FinanzasController@putTypeChange');
 });
 
+// Sellers
+Route::group([
+    'middleware' => ['jwt.auth'],
+    'prefix' => 'v1/seller'
+], function () {
+    Route::get('/{sellerId}', 'PurcharseOrdersController@getSeller');
+    Route::delete('/{idSeller}', 'PurcharseOrdersController@deletePaymentSeller');
+    Route::post('/', 'PurcharseOrdersController@save');
+});
+
 // Package
 Route::group([
     // 'middleware' => ['jwt.auth'],
@@ -323,5 +334,3 @@ Route::group([
     Route::post('/create', 'PurcharseOrdersController@create');
 
 });
-    
-//return axios.post(`/api/v1/purchase_order/create`, formData);

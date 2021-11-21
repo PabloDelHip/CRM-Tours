@@ -106,6 +106,7 @@
                 type="number"
                 class="form-control"
                 placeholder="00"
+                v-model="percentage"
               />
           </div>
         </div>
@@ -161,6 +162,7 @@ export default {
       password: null,
       statusUser: 1,
       user: null,
+      percentage: null
     };
   },
   watch: {
@@ -189,6 +191,7 @@ export default {
         profile_id: this.profileId,
         contact_id: this.contactId,
         vendor_id: this.vendorId == 0 ? null : +this.vendorId,
+        percentage: this.percentage,
       };
     },
     async getUser() {
@@ -202,10 +205,12 @@ export default {
         this.showError("Usuario no existe.");
         return false;
       }
+      console.log('EL SUAURIO XXXX', this.user);
       this.email = this.user.email;
       this.emailConfirm = this.user.email;
       this.statusUser = this.user.status;
       this.tipoUser = this.user.level;
+      this.percentage = this.user.percentage;
 
       this.$emit("get-profileId", this.user.profile_id);
       this.$emit("get-contactId", this.user.contact_id);

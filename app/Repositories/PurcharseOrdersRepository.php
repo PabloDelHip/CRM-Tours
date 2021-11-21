@@ -10,6 +10,7 @@ use App\PurchaseOrder;
 use App\CustomerPurchase;
 use App\CustomerBookTour;
 use App\Purchase_order_package;
+use DB;
 
 class PurcharseOrdersRepository implements GeneralInterface, PurchaseOrdersInterface {
     
@@ -85,6 +86,25 @@ class PurcharseOrdersRepository implements GeneralInterface, PurchaseOrdersInter
         } catch (MassAssignmentException $ex) {
             return $ex;
         }
+    }
+
+    public function userSales($month = 0, $year = 0, $date = 0) {
+        $data = PurchaseOrder::select("user_id",
+            DB::raw("count(user_id) as tours_vendidos, sum(total) as total_vendido"),)
+            ->with('user.profile');
+        if($date) {
+            $data = $data->whereDate('created_at', $date);
+        }
+        else if($year) {
+            $data = $data->whereYear('created_at',$year);
+            
+            if($month) {
+                $data = $data->whereMonth('created_at', $month);
+            }
+        }
+        $data = $data->groupBy('user_id')
+            ->get();
+        return $data;
     }
     
     public function createCustomerPurchase($purchase_order_id, $customer_id, $user_id) {

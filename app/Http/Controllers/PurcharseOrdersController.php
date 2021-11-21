@@ -8,21 +8,24 @@ use App\Http\Requests\CustomerBookTourCreateRequest;
 use App\Repositories\PurcharseOrdersRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\CustomerBookTourRepository;
+use App\Repositories\SellerPaymentRepository;
 use App\Interfaces\GeneralInterface;
 use App\Http\Controllers\ApiController;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 
 class PurcharseOrdersController extends ApiController implements GeneralInterface
 {
-    private $repository;
+    private $repository, $sellerPaymentRepository;
 
     public function __construct(PurcharseOrdersRepository $repository, 
         CustomerRepository $customerRepository,
-        CustomerBookTourRepository $customerBookTourRepository)
+        CustomerBookTourRepository $customerBookTourRepository,
+        SellerPaymentRepository $sellerPaymentRepository)
     {
         $this->repository = $repository;
         $this->customerRepository = $customerRepository;
         $this->customerBookTourRepository = $customerBookTourRepository;
+        $this->sellerPaymentRepository = $sellerPaymentRepository;
     }
 
     public function create(PurchaseOrdersRequest $request) {
@@ -131,4 +134,61 @@ class PurcharseOrdersController extends ApiController implements GeneralInterfac
             return  $this->errorResponse($th, 500);
         }
     }
+
+    public function userSales(Request $request) {
+        try {
+            $month = $request->query('month') ? $request->query('month') : 0;
+            $year = $request->query('year') ? $request->query('year') : 0;
+            $date = $request->query('date') ? $request->query('date') : 0;
+
+            $purchase_order_data = $this->repository->userSales($month, $year, $date);
+            foreach ($purchase_order_data as $value) { 
+                $porcentaje = $value['user']['percentage'] ? $value['user']['percentage'] : 0;
+                $value['total_pagar'] = ($value['total_vendido'] * $porcentaje) / 100;
+                $pagado = $this->sellerPaymentRepository->findByUserId($value['user_id'], $month, $year, $date);
+                // dd($pagado);
+                $value['user_iid'] = $pagado[0]['user_id'];
+                $value['user_id'] = $pagado[0]['user_id'];
+                $value['pagado'] = $pagado[0]['pagado'] ? $pagado[0]['pagado'] : 0;
+                $value['falta_pagar'] = $value['total_pagar'] - $value['pagado'];
+                
+            }
+            
+            return $this->showAll($purchase_order_data);
+        } catch (MassAssignmentException $th) {
+            return  $this->errorResponse($th, 500);
+        }
+    }
+
+    public function getSeller(Request $request, $sellerId) {
+        try {
+            $month = $request->query('month') ? $request->query('month') : 0;
+            $year = $request->query('year') ? $request->query('year') : 0;
+            $date = $request->query('date') ? $request->query('date') : 0;
+
+            $data = $this->sellerPaymentRepository->findPayByUserId($sellerId, $month, $year, $date);
+            return $this->showAll($data);
+        } catch (MassAssignmentException $th) {
+            return  $this->errorResponse($th, 500);
+        }
+    }
+
+    public function save(Request $request) {
+        try {
+            $data = $this->sellerPaymentRepository->savePayments($request->all());
+            return $this->showAll($data);
+        } catch (MassAssignmentException $th) {
+            return  $this->errorResponse($th, 500);
+        }
+    }
+
+    public function deletePaymentSeller($idSeller) {
+        try {
+            $data = $this->sellerPaymentRepository->deletePaymentSeller($idSeller);
+            return $this->showAll($data);
+        } catch (MassAssignmentException $th) {
+            return  $this->errorResponse($th, 500);
+        }
+    }
+
 }
