@@ -28,6 +28,7 @@ Route::get('/contacts/profile/{id}', ['as' => 'contacts', 'uses' => 'HomeControl
 Route::get('/users', ['as' => '/users', 'uses' => 'HomeController@index']);
 Route::get('/users/create', ['as' => '/users/create', 'uses' => 'HomeController@index']);
 Route::get('/users/vendors', ['as' => '/users/vendors', 'uses' => 'HomeController@index']);
+Route::get('/users/vendors/{id}', ['as' => 'users-vendors', 'uses' => 'HomeController@index']);
 Route::get('/users/edit/{id}', ['as' => '/users/edit', 'uses' => 'HomeController@index']);
 
 // Profile

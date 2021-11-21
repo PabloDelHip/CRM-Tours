@@ -82,6 +82,7 @@ class UsersController extends Controller
             $user->level = $content['level'];
             $user->profile_id = $content['profile_id'];
             $user->contact_id = $content['contact_id'];
+            $user->percentage = $content['percentage'];
             if ($content['vendor_id'] && $content['vendor_id'] > 0) {
                 $user->vendor_id = $content['vendor_id'];
             }
@@ -113,6 +114,7 @@ class UsersController extends Controller
             $user->profile_id = $content['profile_id'];
             $user->contact_id = $content['contact_id'];
             $user->vendor_id = $content['vendor_id'];
+            $user->percentage = $content['percentage'];
             $user->save();
 
             return response()->json([

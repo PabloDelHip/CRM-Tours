@@ -5,14 +5,6 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <router-link
-              :to="{ name: 'CreateVendor' }"
-              name="created"
-              class="btn btn-warning"
-            >
-              <i class="fas fa-store"></i>
-              Nueva Agencia
-            </router-link>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -31,40 +23,6 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12 row">
-            <div class="form-group col-3">
-              <label>Usuario</label>
-              <select class="form-control">
-                <option>option 1</option>
-                <option>option 2</option>
-                <option>option 3</option>
-                <option>option 4</option>
-                <option>option 5</option>
-              </select>
-            </div>
-            <div class="form-group col-3">
-              <label>Mes</label>
-              <select class="form-control">
-                <option>option 1</option>
-                <option>option 2</option>
-                <option>option 3</option>
-                <option>option 4</option>
-                <option>option 5</option>
-              </select>
-            </div>
-            <div class="form-group col-3">
-              <label>Año</label>
-              <select class="form-control">
-                <option>option 1</option>
-                <option>option 2</option>
-                <option>option 3</option>
-                <option>option 4</option>
-                <option>option 5</option>
-              </select>
-            </div>
-            <div class="w-100"></div>
-            <div class="col-3 mb-3">
-              <button type="submit" class="btn btn-primary">Buscar</button>
-            </div>
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Vendedores</h3>
@@ -80,22 +38,43 @@
                       <th>Total Vendido</th>
                       <th>Total a pagar</th>
                       <th>Pagado</th>
-                      <th>Acciones</th>
+                      <th>Pendiente a pagar</th>
+                      <th>Acciosssssnes</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Gecko</td>
-                      <td>Netscape Navigator 9</td>
-                      <td>Win 98+ / OSX.2+</td>
-                      <td>1.8</td>
-                      <td>A</td>
-                      <td>X</td>
+                    <tr v-for="(seller, i) in sellers" :key="i">
+                      <td>{{ seller.user.profile.name }} {{ seller.user.profile.last_name }}</td>
+                      <td>{{ seller.tours_vendidos }}</td>
+                      <td>{{ seller.user.percentage }}</td>
+                      <td>{{ seller.total_vendido.toLocaleString('en-US', {
+                              style: 'currency',
+                              currency: 'USD',
+                            }) 
+                          }}
+                      </td>
+                      <td>{{ seller.total_pagar.toLocaleString('en-US', {
+                              style: 'currency',
+                              currency: 'USD',
+                            })
+                          }}
+                      </td>
+                      <td>{{ seller.pagado.toLocaleString('en-US', {
+                              style: 'currency',
+                              currency: 'USD',
+                            }) 
+                          }}
+                      </td>
+                      <td>{{ seller.falta_pagar.toLocaleString('en-US', {
+                              style: 'currency',
+                              currency: 'USD',
+                            })
+                          }}
+                      </td>
                       <td>
-                        <!-- CAMBIAR POR UN ROUTER LINK -->
-                        <a href="/vendors/profile/1" class="btn btn-primary btn-sm"
-                          ><i class="far fa-eye"></i
-                        ></a>
+                        <router-link class="btn btn-primary btn-sm" :to="{ name: 'SellerList', params: { id: seller.user.id } }" >
+                            <i class="far fa-eye"></i>
+                        </router-link>
                       </td>
                     </tr>
                   </tbody>
@@ -116,8 +95,28 @@
 </template>
 
 <script>
+import FilterSelect from "../Generals/FilterSelect";
+import Seller from "../../providers/Seller";
+
+const SellerResource = new Seller();
+
 export default {
+  components: {
+    FilterSelect
+  },
+  data() {
+    return {
+      sellers: [],
+    };
+  },
   methods: {
+    async getSeller() {
+      this.sellers = await SellerResource.getSeller();
+      this.sellers = this.sellers.data.data;
+    },
+    showPayments() {
+      console.log('PROBANDO');
+    },
     createTable() {
       $(function () {
         //DATA-TABLE
@@ -157,7 +156,8 @@ export default {
       });
     },
   },
-  mounted() {
+  async mounted() {
+    await this.getSeller();
     this.createTable();
   },
 };

@@ -320,12 +320,12 @@
                         </router-link>
                       </li>
                       <li class="nav-item">
-                        <router-link class="nav-link" :to="{ name:'ListTours'}">
+                        <router-link class="nav-link" :to="{ name:'salesTours'}">
                           <i class="fas fa-walking nav-icon"></i>
                           <p>Tours</p>
                         </router-link>
                       </li>
-                      <li class="nav-item">
+                      <!-- <li class="nav-item">
                         <router-link class="nav-link" :to="{ name:'ListPackages'}">
                           <i class="fas fa-th-large"></i>
                           <p>Paquetes</p>
@@ -354,7 +354,7 @@
                           <i class="far fa-circle nav-icon"></i>
                           <p>Hoteles</p>
                         </a>
-                      </li>
+                      </li> -->
                     </ul>
                   </li>
                 </ul>
