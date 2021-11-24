@@ -311,6 +311,7 @@ Route::group([
     Route::get('/{sellerId}', 'PurcharseOrdersController@getSeller');
     Route::delete('/{idSeller}', 'PurcharseOrdersController@deletePaymentSeller');
     Route::post('/', 'PurcharseOrdersController@save');
+    Route::get('/{sellerId}/range', 'SellerController@findByRange');
 });
 
 // Package

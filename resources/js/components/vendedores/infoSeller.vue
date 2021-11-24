@@ -28,33 +28,46 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12 row">
+          <div 
+            class="col-12 row filters-date"
+          >
             <div class="col-3">
               <label for="name">Filtrar por fecha</label>
               <input
-                  type="date"
-                  class="form-control"
-                  v-model="dateFilter"
-                />
-            </div>
-            <div class="w-100 mt-3"></div>
-            <div class="col-4 mt-2">
+                type="date"
+                class="form-control mb-3"
+                v-model="dateFilter"
+              />
               <input type="radio" id="uno" value="año" v-model="tipoFiltro">
               <label for="uno">Año</label>
               <input type="radio" id="Dos" value="mes" v-model="tipoFiltro">
               <label for="Dos">Mes</label>
               <input type="radio" id="Dos" value="dia" v-model="tipoFiltro">
               <label for="Dos">Dia</label>
+              <br>
+              <button type="button" @click="filtro" class="btn btn-primary mt-3" data-dismiss="modal">Filtrar</button>
+              <button type="button" @click="filtroClear" class="btn btn-default mt-3" data-dismiss="modal">Ver todos</button>
+            </div>
+            <div
+              class="col-6"
+              style="border-left: 1px solid #cacaca; padding-left: 17px;"
+            >
+              <label>Seleccionar fechas a filtrar</label>
+              <br>
+              <v-md-date-range-picker
+                show-year-select
+                @change="handleChange"
+              ></v-md-date-range-picker>
             </div>
             <div class="w-100 mt-3"></div>
-            <div class="col-2">
-              <button type="button" @click="filtro" class="btn btn-primary" data-dismiss="modal">Filtrar</button>
+            <div class="col-4 mt-2">
+
             </div>
-            <div class="col-2">
-              <button type="button" @click="filtroClear" class="btn btn-default" data-dismiss="modal">Ver todos</button>
+            <div class="w-100 mt-3"></div>
+            <div class="col-4 text-left">
+              
             </div>
           </div>
-          <hr style="width:100%">
           <div class="col-12 row">
             <div class="card" style="width:100%;">
               <div class="card-header">
@@ -134,6 +147,18 @@ export default {
     };
   },
   methods: {
+    async handleChange(data) {
+      const from = moment(data[0]).format("YYYY/MM/DD").replaceAll('/', '-');
+      const to = moment(data[1]).format("YYYY/MM/DD").replaceAll('/', '-');
+      const query = `?date_one=${from}&date_two=${to}`;
+      this.payments = await SellerResource.getSellerPaymentRange(this.id, query);
+      console.log('dsds', this.payments);
+      this.payments = this.payments.data.data;
+      $("#example1")
+          .DataTable()
+          .destroy();
+      this.createTable();
+    },
     async eliminarPago(id) {
       this.$swal
           .fire({
@@ -150,7 +175,6 @@ export default {
             if (result.isConfirmed) {
               await SellerResource.deletePayment(id);
               this.filtroClear();
-              console.log('TODO BIEN');
             }
           });
      
@@ -166,7 +190,6 @@ export default {
       this.payments = this.payments.data.data;
     },
     async filtro() {
-      console.log(this.tipoFiltro, this.dateFilter);
       if (this.tipoFiltro === '') {
         alert('Necesita seleccionar un tipo de filtro');
       } else if(this.dateFilter === '') {
@@ -243,3 +266,14 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+  .filters-date {
+    box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+    margin-bottom: 1rem;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    background-color: #fff;
+    padding: 1.25rem;
+  }
+</style>

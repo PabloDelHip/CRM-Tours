@@ -12,6 +12,10 @@ export default class Seller {
       return axios.get(`/api/v1/seller/${id}${query}`);
     }
 
+    getSellerPaymentRange(id, query) {
+      return axios.get(`/api/v1/seller/${id}/range${query}`);
+    }
+
     savePayment(form) {
       return axios.post(`/api/v1/seller/`, form);
     }

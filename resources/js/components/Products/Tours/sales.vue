@@ -22,22 +22,6 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-            <!-- <label>Seleccionar fechas a filtrar</label>
-            <br>
-            <v-md-date-range-picker
-              show-year-select
-              @change="handleChange"
-            ></v-md-date-range-picker>
-            <div class="mt-3">
-              <div class="form-check">
-                <input class="form-check-input" type="radio">
-                <label class="form-check-label">Fecha reserva</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio">
-                <label class="form-check-label">Fecha operación</label>
-              </div>
-            </div> -->
             <!-- <div class="row">
               <hr>
               <div class="col-3 text-center">
