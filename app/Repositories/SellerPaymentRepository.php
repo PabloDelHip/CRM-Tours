@@ -3,6 +3,8 @@
 namespace App\Repositories;
 use App\SellerPayment;
 use DB;
+use Carbon\Carbon;
+
 class SellerPaymentRepository {
 
   public function findByUserId($id, $month = 0, $year = 0, $date = 0) {
@@ -80,5 +82,18 @@ class SellerPaymentRepository {
         return $ex;
     }
   }
+
+  public function findByRange($date_one, $date_two) {
+    try {
+      $from = $date_one;
+      $to = $date_two;
+      return SellerPayment::whereBetween(DB::raw('DATE(created_at)'), array($from, $to))
+        ->with('seller.profile')
+        ->with('user.profile') 
+        ->get();
+    } catch (MassAssignmentException $ex) {
+      return $ex;
+    }
+  } 
 
 }
