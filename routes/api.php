@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| API Routes probandjjjos hh
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
@@ -85,7 +85,6 @@ Route::group([
     Route::get('get/email/{email}', 'CustomerController@getCustomerByEmail');
     Route::delete('delete/{id_customer}', 'CustomerController@deleteCustomer');
 });
-
 //Cases
 Route::group([
     'middleware' => ['jwt.auth'],
