@@ -206,7 +206,7 @@
                       </p>
                     </router-link>
                   </li>
-                  <li class="nav-item" v-if="this.user.level === 1">
+                  <li class="nav-item" v-if="this.user.level == 1">
                     <router-link class="nav-link" :to="{ name:'ListCategoriesTours'}">
                       <i class="fas fa-list-alt"></i>
                       <p>
@@ -214,7 +214,7 @@
                       </p>
                     </router-link>
                   </li>
-                  <li class="nav-item" v-if="this.user.level === 1">
+                  <li class="nav-item" v-if="this.user.level == 1">
                     <a href="javascript:;" class="nav-link">
                       <i class="fas fa-shopping-cart"></i>
                       <p>
@@ -261,7 +261,7 @@
                       </li>
                     </ul>
                   </li>
-                  <li class="nav-item" v-if="this.user.level === 1">
+                  <li class="nav-item" v-if="this.user.level == 1">
                     <a href="javascript:;" class="nav-link">
                       <i class="fas fa-eye"></i>
                       <p>
@@ -278,7 +278,7 @@
                       </li>
                     </ul>
                   </li>
-                  <li class="nav-item" v-if="this.user.level === 1">
+                  <li class="nav-item" v-if="this.user.level == 1">
                     <router-link class="nav-link" :to="{ name:'Contacts'}">
                       <i class="fas fa-address-card"></i>
                       <p>
@@ -304,7 +304,7 @@
                         </p>
                      </router-link>
                   </li>
-                  <li class="nav-item" v-if="this.user.level === 1">
+                  <li class="nav-item" v-if="this.user.level == 1">
                     <a href="javascript:;" class="nav-link">
                       <i class="fas fa-dollar-sign"></i>
                       <p>
