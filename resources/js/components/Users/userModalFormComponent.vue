@@ -101,22 +101,23 @@ export default {
       this.nameUser = this.profile.name + " " + this.profile.last_name;
     },
     async saveContent() {
-      const userErrors = this.$refs.userComponent.isValidUserForm();
-      if (userErrors.length > 0) {
-        return;
-      }
+      console.log('EL USUARIO');
+      // const userErrors = this.$refs.userComponent.isValidUserForm();
+      // if (userErrors.length > 0) {
+      //   return;
+      // }
 
-      var saveUserResponse = await this.$refs.userComponent.saveUser(this.ContactId, this.ProfileId);
-      if (!saveUserResponse.success) {
-        return;
-      }
+      // var saveUserResponse = await this.$refs.userComponent.saveUser(this.ContactId, this.ProfileId);
+      // if (!saveUserResponse.success) {
+      //   return;
+      // }
       
-      setTimeout(() => {
-        this.$router.push({
-          name: "permisosUser",
-          params: { id: +saveUserResponse.data.id },
-        });
-      }, 3000);
+      // setTimeout(() => {
+      //   this.$router.push({
+      //     name: "permisosUser",
+      //     params: { id: +saveUserResponse.data.id },
+      //   });
+      // }, 3000);
     },
   },
 };
