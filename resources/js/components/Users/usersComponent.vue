@@ -68,7 +68,7 @@
             </ValidationProvider>
           </div>
           <div class="form-group">
-            <label for="password">Contraseña</label>
+            <label for="password">Contraseña de usuario</label>
               <input
                 type="password"
                 class="form-control"
