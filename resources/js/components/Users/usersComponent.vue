@@ -69,22 +69,12 @@
           </div>
           <div class="form-group">
             <label for="password">Contraseña</label>
-            <ValidationProvider
-              rules="required|min:6|max:20"
-              name="contraseña"
-              v-slot="{ errors }"
-            >
               <input
                 type="password"
                 class="form-control"
                 v-model="password"
                 placeholder="Contraseña"
               />
-              <span
-                :class="['error', 'invalid-feedback', errors[0] ? 'ver' : '']"
-                >{{ errors[0] }}</span
-              >
-            </ValidationProvider>
           </div>
           <div class="form-group">
             <label>Estatus del usuario</label>
