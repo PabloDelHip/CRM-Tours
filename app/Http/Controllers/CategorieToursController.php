@@ -113,6 +113,49 @@ class CategorieToursController extends Controller
         }
     }
 
+    public function UpdateCategorieTourAll(Request $request, $id_categorie) {
+        try {
+            $categorie = Categorie_Tour::find($id_categorie);
+            $req = $request->all();
+            $categorie->name = $req['name'];
+            $categorie->description = $req['description'];
+            $categorie->meta_description = $req['meta_description'];
+            $categorie->status = $req['status'];
+            $categorie->see_home = $req['see_home'];
+            $categorie->save();
+
+            $categorie_tours = Categorie_Tour::select('id','name', 'see_home', 'status')->get();
+            return response()->json([
+                'succes' => true,
+                'message' => 'Categorias encontradas de forma correcta',
+                'data' => $categorie
+            ], 200);
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'error al optener categorias',
+                'err' => $err->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getCategorieTour($id_categorie) {
+        try {
+            $categorie = Categorie_Tour::find($id_categorie);
+            return response()->json([
+                'succes' => true,
+                'message' => 'Categorias encontradas de forma correcta',
+                'data' => $categorie
+            ], 200);
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'error al optener categorias',
+                'err' => $err->getMessage()
+            ], 500);
+        }
+    }
+
     public function saveCategories(Request $request) {
         try{
             

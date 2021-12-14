@@ -190,7 +190,9 @@ Route::group([
     'prefix' => 'v1/categorie/private'
 ], function () {
     Route::get('/get', 'CategorieToursController@getListCategoriesTours');
+    Route::get('/{id_categorie}', 'CategorieToursController@getCategorieTour');
     Route::put('/{id_categorie}/tour/', 'CategorieToursController@updateCategorieTour');
+    Route::put('/{id_categorie}/tour/all', 'CategorieToursController@UpdateCategorieTourAll');
     Route::post('/save', 'CategorieToursController@saveCategories');
 });
 

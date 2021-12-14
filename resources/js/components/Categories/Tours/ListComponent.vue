@@ -70,7 +70,7 @@
                         <router-link
                           class="btn btn-primary btn-sm"
                           :to="{
-                            name: 'profileVendor',
+                            name: 'EditCategoriesTours',
                             params: { id: categorie.id },
                           }"
                         >

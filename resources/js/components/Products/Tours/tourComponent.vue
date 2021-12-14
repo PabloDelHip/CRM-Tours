@@ -181,12 +181,17 @@ export default {
       console.log(this.categories);
     },
     viewImage(slug) {
+      
+      if(slug.includes('data:image/png;base64') || this.imagePreview === '/img/default-image.png') {
+        return slug;
+      }
       const image = slug.split("/");
       return `/api/v1/tours/images/${image[5]}`;
+      
     },
     onFileChange(event) {
       this.picture = event.target.files[0];
-
+      console.log('CAMBIANDO IMAGen');
       if (
         !this.picture ||
         !/\.(jpe?g|png|gif)$/i.test(this.picture.name) ||
@@ -208,6 +213,12 @@ export default {
       reader.readAsDataURL(this.picture);
     },
     getTourForm() {
+      let url_image = this.imagePreview;
+      if(url_image == null) {
+          (this.tour == null || this.tour.url_image == this.imagePreview)
+            ? null
+            : this.imagePreview
+      }
       return {
         name: this.name,
         assisted_purchase: this.assitedPurchace,
@@ -215,11 +226,7 @@ export default {
         status: +this.statusTour,
         vendor_id: +this.vendorId,
         categoria: this.categoriaId,
-        url_image:
-          this.picture == null ||
-          (this.tour == null || this.tour.url_image == this.imagePreview)
-            ? null
-            : this.imagePreview,
+        url_image,
       };
     },
     async getTour() {
@@ -254,6 +261,7 @@ export default {
       var response = null;
 
       let formData = this.getTourForm();
+      console.log('EL GORM', formData);
       if (this.newTour) {
         response = await this.saveNewTour(formData);
       } else {
