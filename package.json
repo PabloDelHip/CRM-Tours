@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "datatables": "^1.10.18",
+        "dropzone-vue": "^0.1.11",
         "luxon": "^1.26.0",
         "moment": "^2.29.1",
         "moment-timezone": "^0.5.33",

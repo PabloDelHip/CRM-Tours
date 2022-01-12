@@ -46,6 +46,7 @@ import CasesHistory from './views/Cases/timeLineView.vue'
 //Categories section
 import ListCategoriesTours from './views/Categories/Tours/ListView.vue'
 import SaveCategoriesTours from './views/Categories/Tours/SaveView.vue'
+import EditCategoriesTours from './views/Categories/Tours/editView.vue'
 
 //Tours
 import IndexTours from './views/Products/Tours/index.vue'
@@ -232,6 +233,11 @@ export default new Router({
                 component: CasesHistory,
                 props: true
             }]
+        },
+        {
+            path: "/categories/edit/:id",
+            name: "EditCategoriesTours",
+            component: EditCategoriesTours,
         },
         {
             path: "/categories",

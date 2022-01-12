@@ -2,7 +2,6 @@ import axios from 'axios'
 export default class Tour {
 
     getTours() {
-        console.log('Buscanbdo')
         return axios.get(`/api/v1/tours/get`)
     }
 
@@ -16,5 +15,9 @@ export default class Tour {
 
     updateTour(id, formData) {
         return axios.put(`/api/v1/tours/put/${id}`, formData);
+    }
+
+    deleteTour(id) {
+        return axios.delete(`/api/v1/tours/delete/${id}`);
     }
 }
