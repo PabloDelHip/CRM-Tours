@@ -21,7 +21,7 @@ class ToursController extends Controller
     public function getTours()
     {
         try {
-            $tours = Tour::get();
+            $tours = Tour::where('status', true)->get();
 
             foreach ($tours as $tour) {
                 if ($tour->url_image) {
@@ -224,6 +224,23 @@ class ToursController extends Controller
                 'success' => false,
                 'message' => 'Tour no actualizado',
                 'err' => $ex,
+            ], 500);
+        }
+    }
+
+    public function delete($tourId) {
+        try {
+            $res=Tour::where('id',$tourId)->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Tour encontrado de forma correcta',
+                'data' => $res
+            ], 200);
+        } catch (MassAssignmentException $err) {
+            return response()->json([
+                'success' => false,
+                'message' => 'error tours',
+                'err' => $err->getMessage()
             ], 500);
         }
     }

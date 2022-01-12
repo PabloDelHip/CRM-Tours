@@ -254,6 +254,7 @@ Route::group([
     Route::get('/get/{id}', 'ToursController@getTour');
     Route::post('/create', 'ToursController@post');
     Route::put('/put/{tourId}', 'ToursController@put');
+    Route::delete('/delete/{tourId}', 'ToursController@delete');
     Route::get('/get/categorie/{id_categorie}', 'ToursController@getListCategorie');
     Route::get('/get/images/{id_tour}', 'ToursController@getImagesTour');
     Route::get('/get/info/tour/name/{name_tour}', 'ToursController@getInfoTour');

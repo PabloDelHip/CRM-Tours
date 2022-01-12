@@ -71,6 +71,9 @@
                         >
                           <i class="fas fa-pencil-alt"> </i>
                         </router-link>
+                        <button  @click="eliminarTour(tour.id)" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"> </i>
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -118,6 +121,46 @@ export default {
       }
       return moment($fecha).format("DD/MM/YYYY");
     },
+    async eliminarTour(idTour) {
+      this.$swal.fire({
+        title: '¿Esta seguro que desea eliminar el tour?',
+        text: "El tour sera eliminado de forma permanente",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar',
+        cancelButtonText: 'Cancelar'
+        }).then( async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await TourResource.deleteTour(idTour);
+                    await this.getTours();
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Bien',
+                        toast: true,
+                        position: 'top',
+                        timer: 3000,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                        text: 'Tour eliminado de forma correcta',
+                    })
+                } catch (error) {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        toast: true,
+                        position: 'top',
+                        timer: 3000,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                        text: 'Disculpe tuvimos un error para eliminar el tour',
+                    })
+                }
+            }
+        })
+    }
   }
 }
 </script>
