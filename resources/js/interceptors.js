@@ -9,7 +9,9 @@ axios.interceptors.request.use((req) => {
     if (data_user) {
         token = data_user.token;
     }
-    req.headers.Authorization = `Bearer ${token}`;
+    if(req.url !== 'https://api.cloudinary.com/v1_1/xiknal/image/upload') {
+        req.headers.Authorization = `Bearer ${token}`;
+    }
     return req;
 });
 

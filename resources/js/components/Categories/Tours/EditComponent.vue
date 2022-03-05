@@ -45,6 +45,26 @@
                 <label>Meta description</label>
                 <textarea class="form-control rounded-0" id="editorCase" v-model="form.meta_description"></textarea>
             </div>
+            <div class="form-group col-5 info-box" style="text-align:center">
+              <input
+                type="file"
+                class="custom-file-input"
+                @change="onFileChange"
+                accept="image/*"
+                style="display: none"
+                ref="imageFile"
+              />
+              <div class="position-relative">
+                <img
+                  :src="imagePreview"
+                  class="img-fluid"
+                  alt="User Avatar"
+                  @click="$refs.imageFile.click()"
+                  :style="'cursor: pointer'"
+                  style="width= 155px;height= auto;max-height: 155px;max-width: 155px;"
+                />
+              </div>
+            </div>
             <div class="col-6">
                 <div class="custom-control custom-checkbox">
                     <input
@@ -69,6 +89,7 @@
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full';
 import Categorie from '../../../providers/Categorie'
+import uploadImage from '../../../helpers/uploadImage'
 
 const CategorieResource = new Categorie();
 export default {
@@ -100,15 +121,39 @@ export default {
             reverse_outside: false,
             status: true
           },
+        imagePreview: "https://res.cloudinary.com/de9alxrij/image/upload/v1645489675/cgg8kgfmjr8uq8432rfl.jpg",
       }
     },
     methods: {
+      async onFileChange(event) {
+        this.picture = event.target.files[0];
+        if (
+          !this.picture ||
+          !/\.(jpe?g|png|gif)$/i.test(this.picture.name) ||
+          this.picture.size / 1024 / 1024 > 2
+        ) {
+          this.picture = null;
+          return;
+        }
+        let reader = new FileReader();
+        reader.addEventListener(
+          "load",
+          function() {
+            this.imagePreview = reader.result;
+          }.bind(this),
+          false
+        );
+
+        reader.readAsDataURL(this.picture);
+      },
       async saveCategoria() {
         try {
           const isValid = await this.$refs.observer.validate();
           if (isValid) {
-            await CategorieResource.updateCategorieAll(this.id,this.form)
+            this.form.image = await uploadImage(this.picture);
 
+            await CategorieResource.updateCategorieAll(this.id,this.form)
+            
             this.$swal.fire({
                 title: 'Guardado correcto',
                 text: 'Contacto guardada de forma correcta',
@@ -150,6 +195,7 @@ export default {
       async getCategorie() {
         const {data: {data}} = await CategorieResource.getCategorie(this.id);
         this.form = data;
+        this.imagePreview = data.image;
       }
     },
     async mounted() {

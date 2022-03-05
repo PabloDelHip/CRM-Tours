@@ -23,7 +23,7 @@
             </ValidationProvider>
           </div>
           <div class="form-group">
-            <label for="web">Sitio web</label>
+            <label for="web">Sitiiio web</label>
             <div class="input-group mb-12">
               <div class="input-group-prepend">
                 <span class="input-group-text"
