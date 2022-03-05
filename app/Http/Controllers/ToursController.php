@@ -248,12 +248,19 @@ class ToursController extends Controller
     public function getInfoTour($name_tour)
     {
         try {
-            // $name_tour = str_replace("-", " ", $name_tour);
             $id_tour = Tour::select('id')
                 ->where('name', '=', $name_tour)
                 ->where('status', '=', 1)
                 ->get();
+            if(!count($id_tour)) {
+                $name_tour = str_replace("-", " ", $name_tour);
+                $id_tour = Tour::select('id')
+                ->where('name', '=', $name_tour)
+                ->where('status', '=', 1)
+                ->get();
+            }
             $id_tour = $id_tour[0]['id'];
+
             $tour = Tour::where('id', '=', $id_tour)
                 ->where('status', '=', 1)
                 ->get();

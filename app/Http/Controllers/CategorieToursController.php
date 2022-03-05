@@ -122,6 +122,7 @@ class CategorieToursController extends Controller
             $categorie->meta_description = $req['meta_description'];
             $categorie->status = $req['status'];
             $categorie->see_home = $req['see_home'];
+            $categorie->image = $req['image'];
             $categorie->save();
 
             $categorie_tours = Categorie_Tour::select('id','name', 'see_home', 'status')->get();
