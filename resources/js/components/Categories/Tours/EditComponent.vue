@@ -95,7 +95,7 @@ const CategorieResource = new Categorie();
 export default {
     props: {
       id: {
-        type: String
+        type: [String, Number]
       }
     },
     components: {
@@ -150,8 +150,15 @@ export default {
         try {
           const isValid = await this.$refs.observer.validate();
           if (isValid) {
-            this.form.image = await uploadImage(this.picture);
-
+            console.log('mi picture', this.picture);
+            if(this.picture !== undefined) {
+              console.log('aqui estamos');
+              this.form.image = await uploadImage(this.picture);
+            } else {
+              console.log('aqui estamos 2');
+              this.form.image = this.imagePreview;
+            }
+            console.log(this.form.image);
             await CategorieResource.updateCategorieAll(this.id,this.form)
             
             this.$swal.fire({
@@ -195,6 +202,7 @@ export default {
       async getCategorie() {
         const {data: {data}} = await CategorieResource.getCategorie(this.id);
         this.form = data;
+        this.form.image = data.image;
         this.imagePreview = data.image;
       }
     },
