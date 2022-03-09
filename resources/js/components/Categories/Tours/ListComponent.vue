@@ -52,7 +52,7 @@
                 <tbody>
                   <tr v-for="categorie in categories" :key="categorie.id">
                     <td>{{ categorie.name }}</td>
-                    <td v-if="categorie.see_home" class="text-center">
+                    <td v-if="categorie.see_home == 1" class="text-center">
                         <span class="right badge badge-success text-center">Si</span>
                     </td>
                     <td v-else class="text-center">
